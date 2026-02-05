@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="DVLD.Api/DVLD.Api.csproj" />
+  <Project Path="DVLD.Application/DVLD.Application.csproj" />
+  <Project Path="DVLD.Domain/DVLD.Domain.csproj" />
+  <Project Path="DVLD.Infrastructure/DVLD.Infrastructure.csproj" />
+</Solution>
