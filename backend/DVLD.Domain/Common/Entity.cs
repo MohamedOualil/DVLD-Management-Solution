@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Common
 {
-    public class Entity<TId>
+    public abstract class Entity<TId>
     {
         public TId Id { get; protected set; }
 
@@ -19,8 +19,6 @@ namespace DVLD.Domain.Common
         {
             if (IsDeactivated) return;
             IsDeactivated = true;
-            // Record that this changed
-            // AddDomainEvent(new EntityDeactivatedEvent(this.Id));
         }
 
         public override bool Equals(object? obj)
