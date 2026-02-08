@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DVLD.Domain.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,10 +13,9 @@ namespace DVLD.Domain.Entities
         Male = 1,
         Female = 2,
     }
-    public class Person
+    public class Person : Entity<int>
     {
 
-        public int PersonID { get; private set; }
         public string FirstName { get; private set; }
         public string SecondName { get; private set; }
         public string ThirdName { get; private set; }
@@ -32,8 +32,16 @@ namespace DVLD.Domain.Entities
 
 
         private Person() {  }
-        
-        
+
+        public static Person CreatePerson(string firstName, string secondName, string thirdName, string LastName,
+            string nationlNo,DateTime dateOfbirth, Gender gendor, string address, string phone, 
+            string email, string nationalityCountryId, string imagePath)
+        {
+
+
+
+
+        }
 
 
     }
