@@ -47,6 +47,13 @@ namespace DVLD.Domain.ValueObjects
 
             var address = new Address(street,city, ZipCode, country);
 
+            return Result<Address>.Success(address);
+
+        }
+
+        public override string ToString()
+        {
+            return Street + "-" + City + "-" + ZipCode + "-" + Country;
         }
     }
 }
