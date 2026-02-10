@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DVLD.Domain.Common
+namespace DVLD.Domain.Enums
 {
-    internal class ValueObject
+    public enum Gender : short
     {
+        Male = 1,
+        Female = 2,
     }
 }

@@ -42,7 +42,7 @@ namespace DVLD.Domain.ValueObjects
                 return Result<Address>.Failure("ZipCode Should Be 5 Characters");
 
 
-            if (string.IsNullOrWhiteSpace(city))
+            if (string.IsNullOrWhiteSpace(country))
                 return Result<Address>.Failure("country is Requeied");
 
             var address = new Address(street,city, ZipCode, country);
