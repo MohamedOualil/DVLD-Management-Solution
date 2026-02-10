@@ -20,19 +20,23 @@ namespace DVLD.Domain.ValueObjects
             
         }
 
-        private Address(string street, string city, string zipCode, string country)
+        private Address(string street, string city,string state, string zipCode, string country)
         {
             Street = street;
+            State = state;
             City = city;
             ZipCode = zipCode;
             Country = country;
 
             
         }
-        public static Result<Address> Create(string street,string city,string ZipCode,string country)
+        public static Result<Address> Create(string street,string state,string city,string ZipCode,string country)
         {
             if (string.IsNullOrWhiteSpace(street))
                 return Result<Address>.Failure("Street is Requeied");
+
+            if (string.IsNullOrWhiteSpace(state))
+                return Result<Address>.Failure("state is Requeied");
 
             if (string.IsNullOrWhiteSpace(city))
                 return Result<Address>.Failure("city is Requeied");
@@ -45,7 +49,7 @@ namespace DVLD.Domain.ValueObjects
             if (string.IsNullOrWhiteSpace(country))
                 return Result<Address>.Failure("country is Requeied");
 
-            var address = new Address(street,city, ZipCode, country);
+            var address = new Address(street, state, city, ZipCode, country);
 
             return Result<Address>.Success(address);
 
@@ -53,7 +57,7 @@ namespace DVLD.Domain.ValueObjects
 
         public override string ToString()
         {
-            return Street + "-" + City + "-" + ZipCode + "-" + Country;
+            return Street + "-" + State + "-"+ City + "-" + ZipCode + "-" + Country;
         }
     }
 }

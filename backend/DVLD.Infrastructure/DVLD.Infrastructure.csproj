@@ -1,6 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.23" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DVLD.Application\DVLD.Application.csproj" />
     <ProjectReference Include="..\DVLD.Domain\DVLD.Domain.csproj" />
   </ItemGroup>
