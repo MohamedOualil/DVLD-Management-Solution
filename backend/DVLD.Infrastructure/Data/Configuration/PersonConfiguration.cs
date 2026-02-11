@@ -9,11 +9,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DVLD.Infrastructure.Data.Configuration
 {
-    public class PersonConfiguration : IEntityTypeConfiguration<Person>
+    public class PersonConfiguration : BaseEntityConfiguration<Person,int>
     {
-        public void Configure(EntityTypeBuilder<Person> builder)
+        public override void Configure(EntityTypeBuilder<Person> builder)
         {
-            builder.HasKey(s => s.Id);
+            base.Configure(builder);
+
 
             builder.Property(s => s.FirstName).IsRequired()
                 .HasMaxLength(20);
