@@ -1,6 +1,8 @@
 ﻿using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
 using DVLD.Infrastructure.Repositorys;
+using DVLD.Infrastructure.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -8,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace DVLD.Infrastructure.DependencyInjection
@@ -23,6 +24,7 @@ namespace DVLD.Infrastructure.DependencyInjection
                 options.UseSqlServer(connectionString));
 
             services.AddScoped<IPersonRepository, PersonRepository>();
+            services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 
             return services;
 
