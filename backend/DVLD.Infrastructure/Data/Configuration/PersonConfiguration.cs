@@ -28,10 +28,14 @@ namespace DVLD.Infrastructure.Data.Configuration
             builder.OwnsOne(p => p.NationalNo, nationalNo =>
             {
                 nationalNo.Property(v => v.Number).IsRequired().HasMaxLength(20);
-                nationalNo.Property(v => v.CountryID).IsRequired();
 
-                builder.HasOne<Counties>().WithMany()
-                .HasForeignKey("NationalNo_CountryID");
+                nationalNo.Property(v => v.CountryID).IsRequired()
+                        .HasColumnName("NationalNo_CountryID"); ;
+
+                nationalNo.HasOne<Counties>()
+                    .WithMany()
+                    .HasForeignKey(v => v.CountryID)
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 nationalNo.HasIndex(v => v.Number).IsUnique();
             });
@@ -51,22 +55,30 @@ namespace DVLD.Infrastructure.Data.Configuration
                                         .HasColumnName("City");
                 a.Property(v => v.ZipCode).IsRequired().HasMaxLength(10)
                                         .HasColumnName("ZipCode");
-                a.Property(v => v.CountryID).IsRequired();
 
-                builder.HasOne<Counties>().WithMany()
-                        .HasForeignKey("Address_CountryID");
+                a.Property(v => v.CountryID)
+                    .IsRequired()
+                    .HasColumnName("Address_CountryID");
+
+                a.HasOne<Counties>()
+                        .WithMany()
+                        .HasForeignKey(v => v.CountryID)
+                        .OnDelete(DeleteBehavior.Restrict); ;
+
+
             });
 
             builder.OwnsOne(p => p.Phone, phone =>
             {
                 phone.Property(v => v.PhoneNumber).IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnName("PhoneNumber");
+                        .HasColumnName("Phone");
             });
 
             builder.OwnsOne(p => p.Email, email =>
             {
-                email.Property(v => v.Value).HasMaxLength(100);
+                email.Property(v => v.Value).HasMaxLength(100)
+                    .HasColumnName("Email");
                 email.HasIndex(v => v.Value).IsUnique();
             });
 
