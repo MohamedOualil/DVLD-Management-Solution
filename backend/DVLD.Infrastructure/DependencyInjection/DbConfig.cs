@@ -24,6 +24,7 @@ namespace DVLD.Infrastructure.DependencyInjection
                 options.UseSqlServer(connectionString));
 
             services.AddScoped<IPersonRepository, PersonRepository>();
+            services.AddScoped<IUserRepository,UserRepository>();
             services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 
             return services;
