@@ -70,6 +70,7 @@ namespace DVLD.Infrastructure.Data.Configuration
                 email.HasIndex(v => v.Value).IsUnique();
             });
 
+            builder.Property(p => p.ImagePath).HasMaxLength(500);
             builder.ToTable("Person");
         }
     }

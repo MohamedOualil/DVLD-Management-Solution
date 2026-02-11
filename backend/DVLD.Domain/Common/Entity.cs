@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Common
 {
-    public abstract class Entity<TId>
+    public abstract class Entity<TId> : IEquatable<Entity<TId>>
     {
         public TId Id { get; protected set; }
 
@@ -21,17 +21,17 @@ namespace DVLD.Domain.Common
             IsDeactivated = true;
         }
 
-        public override bool Equals(object? obj)
-        {
-            if (obj is not Entity<TId> other) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            if (Id == null || Id.Equals(default(TId))) return false;
-
-            return Id.Equals(other.Id);
-        }
 
         public override int GetHashCode() => Id?.GetHashCode() ?? 0;
 
+        public bool Equals(Entity<TId>? other)
+        {
+            if (other is null) return false;
+            if (ReferenceEquals(this, other)) return true;
+            if (Id == null || Id.Equals(default(TId))) return false;
+            return Id.Equals(other.Id);
+        }
+
+        public override bool Equals(object? obj) => Equals(obj as Entity<TId>);
     }
 }
