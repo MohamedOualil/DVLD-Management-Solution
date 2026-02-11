@@ -13,24 +13,24 @@ namespace DVLD.Domain.ValueObjects
         public string City { get; init; }
         public string State { get; init; }
         public string ZipCode { get; init; }
-        public string Country { get; init; }
+        public int CountryID { get; init; }
 
         private Address()
         {
             
         }
 
-        private Address(string street, string city,string state, string zipCode, string country)
+        private Address(string street, string city,string state, string zipCode, int countryId)
         {
             Street = street;
             State = state;
             City = city;
             ZipCode = zipCode;
-            Country = country;
+            CountryID = countryId;
 
             
         }
-        public static Result<Address> Create(string street,string state,string city,string ZipCode,string country)
+        public static Result<Address> Create(string street,string state,string city,string ZipCode,int countryId)
         {
             if (string.IsNullOrWhiteSpace(street))
                 return Result<Address>.Failure("Street is Requeied");
@@ -45,11 +45,10 @@ namespace DVLD.Domain.ValueObjects
             if (ZipCode.Length != 5 )
                 return Result<Address>.Failure("ZipCode Should Be 5 Characters");
 
+            if (countryId <= 0)
+                return Result<Address>.Failure("A valid Country ID is required");
 
-            if (string.IsNullOrWhiteSpace(country))
-                return Result<Address>.Failure("country is Requeied");
-
-            var address = new Address(street, state, city, ZipCode, country);
+            var address = new Address(street, state, city, ZipCode, countryId);
 
             return Result<Address>.Success(address);
 
@@ -57,7 +56,7 @@ namespace DVLD.Domain.ValueObjects
 
         public override string ToString()
         {
-            return Street + "-" + State + "-"+ City + "-" + ZipCode + "-" + Country;
+            return $"{Street}-{State}-{City}-{ZipCode} (Country ID: {CountryID})";
         }
     }
 }

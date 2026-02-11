@@ -10,31 +10,29 @@ namespace DVLD.Domain.ValueObjects
     public record class NationalNo 
     {
         public string Number { get; init; }
-        public string CountryCode { get; init; }
+        public int CountryID { get; init; }
 
         private NationalNo() {}
 
-        private NationalNo(string value,string CountryCode)
+        private NationalNo(string nationalnum,int countryid)
         {
-            this.Number = value;
-            this.CountryCode = CountryCode;
+            this.Number = nationalnum;
+            this.CountryID = countryid;
         }
 
-        public static Result<NationalNo> Create(string nationalNO,string countryCode)
+        public static Result<NationalNo> Create(string nationalNO,int countryid)
         {
             if (string.IsNullOrWhiteSpace(nationalNO))
                 return Result<NationalNo>.Failure(DomainErrors.Person.InvalidNationalId);
-            if (string.IsNullOrWhiteSpace(countryCode)) 
-                return Result<NationalNo>.Failure("Country Code is Requeried");
 
 
-            var result = ValidateByCountry(nationalNO, countryCode);
+            var result = ValidateByCountry(nationalNO, countryid);
             if (!result.Item2)
                 return Result<NationalNo>.Failure(result.Item1);
 
-            var National = new NationalNo(nationalNO,countryCode);
 
-            return Result<NationalNo>.Success(National);
+
+            return Result<NationalNo>.Success(new NationalNo(nationalNO, countryid));
 
         }
 
@@ -43,11 +41,11 @@ namespace DVLD.Domain.ValueObjects
             return this.Number;
         }
 
-        private static (string , bool) ValidateByCountry(string value,string countrycode)
+        private static (string , bool) ValidateByCountry(string value,int countryId)
         {
-            switch (countrycode)
+            switch (countryId)
             {
-                case "Ma":
+                case 1:
                    return  _MarocValidate(value); 
             }
             
