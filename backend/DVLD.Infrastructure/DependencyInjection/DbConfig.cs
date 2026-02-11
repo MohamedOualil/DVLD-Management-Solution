@@ -25,6 +25,7 @@ namespace DVLD.Infrastructure.DependencyInjection
 
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<IUserRepository,UserRepository>();
+            services.AddScoped<IApplicationTypesRepository, ApplicationTypesRepositorys>();
             services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 
             return services;
