@@ -1,4 +1,5 @@
 ﻿using DVLD.Domain.Common;
+using DVLD.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,6 @@ namespace DVLD.Domain.Entities
         public string UserName { get; private set; }
         public string PasswordHash { get; private set; }
 
-        public int Permission {  get; private set; }
 
         private User() 
         {
@@ -38,7 +38,7 @@ namespace DVLD.Domain.Entities
         }
 
 
-        public static Result<User> CreateUser(Person person,string userName,string password)
+        public static Result<User> CreateUser(Person person,string userName,string password,IPasswordHasher passwordHasher)
         {
             if (person == null) 
                 return Result<User>.Failure("Person Info is required.");
@@ -46,62 +46,47 @@ namespace DVLD.Domain.Entities
             if (string.IsNullOrWhiteSpace(userName))
                 return Result<User>.Failure("Username is required.");
 
+            if (string.IsNullOrWhiteSpace(password) || password.Length < 8)
+                return Result<User>.Failure("Password must be at least 8 characters.");
 
             if (!UsernameRegex.IsMatch(userName))
                 return Result<User>.Failure("Invalid username format. Use 3-20 characters, letters, and numbers.");
 
-            var passwordValidation = _PasswordValidation(password);
+            var hash = passwordHasher.HashPassword(password);
 
-            if (passwordValidation.IsFailure)
-                return Result<User>.Failure(passwordValidation.MessageError);
 
-           
-
-            return Result<User>.Success(new User(person,userName, passwordValidation.Data));
+            return Result<User>.Success(new User(person,userName, hash));
         }
 
 
-        private static Result<string> _PasswordValidation(string password)
+        private static Result<string> _PasswordValidation(string password, IPasswordHasher passwordHasher)
         {
             if (string.IsNullOrWhiteSpace(password) || password.Length < 8)
                 return Result<string>.Failure("Password must be at least 8 characters.");
 
 
-            var passwordhash = ComputeHash(password);
+            var passwordhash = passwordHasher.HashPassword(password);
 
             return Result<string>.Success(passwordhash);
         }
 
 
-        public Result SetPassword(string password)
+        public Result SetPassword(string password,IPasswordHasher passwordHasher)
         {
-            var passwordharsh =  _PasswordValidation(password);
+            if (string.IsNullOrWhiteSpace(password) || password.Length < 8)
+                return Result<string>.Failure("Password must be at least 8 characters.");
 
-            if (passwordharsh.IsFailure)
-                return Result.Failure(passwordharsh.MessageError);
-
-            if (passwordharsh.IsSuccess)
-                this.PasswordHash = passwordharsh.Data;
+            this.PasswordHash  =  passwordHasher.HashPassword(password);
 
             return Result.Success();
 
         }
 
-        static string ComputeHash(string hash)
+
+        public bool VerifyPassword(string RawPassword, string PasswordHarsh,IPasswordHasher passwordHasher)
         {
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(hash));
+            return passwordHasher.VerifyPassword(RawPassword, PasswordHarsh);
 
-                return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
-            }
-        }
-
-        public bool VerifyPassword(string RawPassword, string PasswordHarsh)
-        {
-            RawPassword = ComputeHash(RawPassword);
-
-            return (RawPassword == PasswordHarsh);
         }
     }
 }
