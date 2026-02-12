@@ -12,8 +12,8 @@ namespace DVLD.Domain.Entities
     {
         public string ClassName { get; private set; }
         public string ClassDescription { get; private set; }
-        public int MinimumAllowedAge { get; private set; }
-        public int DefaultValidityLength { get; private set; }
+        public byte MinimumAllowedAge { get; private set; }
+        public byte DefaultValidityLength { get; private set; }
         public Money ClassFees { get; private set; }
 
         private LicenseClasses()
@@ -21,7 +21,7 @@ namespace DVLD.Domain.Entities
             
         }
 
-        private LicenseClasses(string className,string classDescription,int minimumAllowedAge,int defaultValidityLength,
+        private LicenseClasses(string className,string classDescription, byte minimumAllowedAge, byte defaultValidityLength,
             Money classFees)
         {
             ClassName = className;
@@ -33,8 +33,8 @@ namespace DVLD.Domain.Entities
             
         }
 
-        public static Result<LicenseClasses> Create(string className, string classDescription, int minimumAllowedAge, 
-            int defaultValidityLength,Money classFees)
+        public static Result<LicenseClasses> Create(string className, string classDescription, byte minimumAllowedAge,
+            byte defaultValidityLength,Money classFees)
         {
             if (string.IsNullOrWhiteSpace(className))
                 return Result<LicenseClasses>.Failure("Class Name is required.");
