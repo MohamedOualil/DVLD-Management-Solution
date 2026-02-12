@@ -44,6 +44,7 @@ namespace DVLD.Domain.Entities
             LastStatusDate = DateTime.UtcNow;
             CreatedByUserId = createdBy.Id;
             CreatedBy = createdBy;
+            PaidFees = paidFees;
             
         }
 
