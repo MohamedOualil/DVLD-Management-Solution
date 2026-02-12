@@ -29,6 +29,7 @@ namespace DVLD.Infrastructure.DependencyInjection
             services.AddScoped<IApplicationsRepository,ApplicationsRepository>();
             services.AddScoped<ILicenseClassesRepository, LicenseClassesRepository>();
             services.AddScoped<IDriverRepository, DriverRepository>();
+            services.AddScoped<ILicenseRepository, LicenseRepository>();
             services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 
             return services;
