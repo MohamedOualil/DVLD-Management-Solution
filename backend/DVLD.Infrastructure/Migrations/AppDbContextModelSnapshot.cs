@@ -25,10 +25,7 @@ namespace DVLD.Infrastructure.Migrations
             modelBuilder.Entity("DVLD.Domain.Entities.ApplicationTypes", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ApplicationName")
                         .IsRequired()
@@ -49,7 +46,7 @@ namespace DVLD.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ApplicationTypes");
+                    b.ToTable("ApplicationTypes", (string)null);
                 });
 
             modelBuilder.Entity("DVLD.Domain.Entities.Applications", b =>
@@ -141,6 +138,62 @@ namespace DVLD.Infrastructure.Migrations
                     b.ToTable("Counties");
                 });
 
+            modelBuilder.Entity("DVLD.Domain.Entities.DetainedLicense", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DetainDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeactivated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("IsReleased")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("LicenseId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ReleaseApplicationId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ReleaseDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ReleasedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedByUserId");
+
+                    b.HasIndex("LicenseId");
+
+                    b.HasIndex("ReleaseApplicationId");
+
+                    b.HasIndex("ReleasedByUserId");
+
+                    b.ToTable("DetainedLicenses", (string)null);
+                });
+
             modelBuilder.Entity("DVLD.Domain.Entities.Driver", b =>
                 {
                     b.Property<int>("Id")
@@ -206,6 +259,11 @@ namespace DVLD.Infrastructure.Migrations
                         .HasDefaultValue(true);
 
                     b.Property<bool>("IsDeactivated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("IsDetained")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
@@ -625,6 +683,67 @@ namespace DVLD.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("DVLD.Domain.Entities.DetainedLicense", b =>
+                {
+                    b.HasOne("DVLD.Domain.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DVLD.Domain.Entities.License", "License")
+                        .WithMany()
+                        .HasForeignKey("LicenseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DVLD.Domain.Entities.Applications", "ReleaseApplication")
+                        .WithMany()
+                        .HasForeignKey("ReleaseApplicationId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DVLD.Domain.Entities.User", "ReleasedBy")
+                        .WithMany()
+                        .HasForeignKey("ReleasedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.OwnsOne("DVLD.Domain.ValueObjects.Money", "FineFees", b1 =>
+                        {
+                            b1.Property<int>("DetainedLicenseId")
+                                .HasColumnType("int");
+
+                            b1.Property<decimal>("Amount")
+                                .HasPrecision(18, 2)
+                                .HasColumnType("decimal(18,2)")
+                                .HasColumnName("FineFees");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .ValueGeneratedOnAdd()
+                                .HasMaxLength(3)
+                                .HasColumnType("nvarchar(3)")
+                                .HasDefaultValue("USD");
+
+                            b1.HasKey("DetainedLicenseId");
+
+                            b1.ToTable("DetainedLicenses");
+
+                            b1.WithOwner()
+                                .HasForeignKey("DetainedLicenseId");
+                        });
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("FineFees")
+                        .IsRequired();
+
+                    b.Navigation("License");
+
+                    b.Navigation("ReleaseApplication");
+
+                    b.Navigation("ReleasedBy");
                 });
 
             modelBuilder.Entity("DVLD.Domain.Entities.Driver", b =>

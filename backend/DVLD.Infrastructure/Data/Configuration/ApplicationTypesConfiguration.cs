@@ -14,11 +14,13 @@ namespace DVLD.Infrastructure.Data.Configuration
     {
         public override void Configure(EntityTypeBuilder<ApplicationTypes> builder)
         {
+        
             builder.HasKey(x => x.Id);
 
 
             builder.Property(x => x.Id)
-                .HasConversion<int>();
+                .HasConversion<int>()
+                .ValueGeneratedNever(); 
 
             builder.Property(p => p.ApplicationName)
                 .IsRequired()
@@ -36,6 +38,10 @@ namespace DVLD.Infrastructure.Data.Configuration
                     .IsRequired()
                     .HasDefaultValue("USD");
             });
+
+            base.Configure(builder);
+
+            builder.ToTable("ApplicationTypes");
         }
     }
 }
