@@ -25,6 +25,7 @@ namespace DVLD.Domain.Entities
         public string ?Notes { get; private set; }
         public Money PaidFees { get; private set; }
         public bool IsActive { get; private set; } = true;
+        public bool IsDetained { get; private set; } = false;
         public IssueReason IssueReason { get; private set; }
 
         public int CreatedByUserId { get; private set; }
@@ -49,6 +50,7 @@ namespace DVLD.Domain.Entities
             Notes = note;
             PaidFees = licenseClasses.ClassFees;
             IsActive = true;
+            IsDetained = false;
             IssueReason = issueReason;
             CreatedByUserId = createdBy.Id;
             CreatedBy = createdBy;
@@ -75,5 +77,21 @@ namespace DVLD.Domain.Entities
                             (applications, driver, licenseClasses,note,issueReason,createdBy));
 
         }
+
+
+        public void Activate()
+        {
+            IsActive = true;
+
+        }
+
+        public void Deactivate()
+        {
+            IsActive = false;
+
+        }
+
+        public void MarkAsDetained() => IsDetained = true;
+        public void MarkAsReleased() => IsDetained = false;
     }
 }
