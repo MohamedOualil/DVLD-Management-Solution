@@ -1,4 +1,5 @@
 ﻿using DVLD.Domain.Common;
+using DVLD.Domain.Enums;
 using DVLD.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Entities
 {
-    public class ApplicationTypes : Entity<int>
+    public class ApplicationTypes : Entity<ApplicationType>
     {
         public string ApplicationName { get; private set; }
         public Money ApplicationFees { get; private set; }

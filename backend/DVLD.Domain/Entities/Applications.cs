@@ -14,7 +14,7 @@ namespace DVLD.Domain.Entities
         public int PersonId { get; private set; }
         public Person Person { get; private set; }
         public DateTime ApplicationDate { get; private set; }
-        public int ApplicationTypeId { get; private set; }
+        public ApplicationType ApplicationTypeId { get; private set; }
         public ApplicationTypes ApplicationType { get; private set; }
         public ApplicationStatus Status { get; private set; } = ApplicationStatus.New;
         public DateTime LastStatusDate { get; private set; }
