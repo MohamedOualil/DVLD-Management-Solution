@@ -1,4 +1,5 @@
 ﻿using DVLD.Domain.Entities;
+using DVLD.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -9,11 +10,15 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Data.Configuration
 {
-    public class ApplicationTypesConfiguration : BaseEntityConfiguration<ApplicationTypes, int>
+    public class ApplicationTypesConfiguration : BaseEntityConfiguration<ApplicationTypes, ApplicationType>
     {
         public override void Configure(EntityTypeBuilder<ApplicationTypes> builder)
         {
-            base.Configure(builder);
+            builder.HasKey(x => x.Id);
+
+
+            builder.Property(x => x.Id)
+                .HasConversion<int>();
 
             builder.Property(p => p.ApplicationName)
                 .IsRequired()

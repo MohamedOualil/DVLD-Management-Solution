@@ -25,7 +25,7 @@ namespace DVLD.Infrastructure.Data.Configuration
 
             builder.HasOne(u => u.ApplicationType)
                 .WithMany()
-                .HasForeignKey(p => p.ApplicationTypeId)
+                .HasForeignKey(p => (int) p.ApplicationTypeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(s => s.Status)

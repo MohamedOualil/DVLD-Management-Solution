@@ -57,6 +57,10 @@ namespace DVLD.Infrastructure.Data.Configuration
                 .HasForeignKey(p => p.CreatedByUserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Property(l => l.IsDetained)
+                .IsRequired()
+                .HasDefaultValue(false);
+
             builder.ToTable("Licenses");
         }
     }
