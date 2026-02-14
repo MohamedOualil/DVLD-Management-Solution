@@ -1,4 +1,5 @@
-﻿using DVLD.Domain.Interfaces;
+﻿using DVLD.Domain.Entities;
+using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
 using DVLD.Infrastructure.Repositorys;
 using DVLD.Infrastructure.Services;
@@ -30,6 +31,13 @@ namespace DVLD.Infrastructure.DependencyInjection
             services.AddScoped<ILicenseClassesRepository, LicenseClassesRepository>();
             services.AddScoped<IDriverRepository, DriverRepository>();
             services.AddScoped<ILicenseRepository, LicenseRepository>();
+            services.AddScoped<ICountiesRepository, CountiesRepository>();
+            services.AddScoped<IDetainedLicenseRepository, DetainedLicenseRepository>();
+            services.AddScoped<ILocalDrivingLicenseApplicationRepository, LocalDrivingLicenseApplicationRepository>();
+            services.AddScoped<ITestAppointmentRepository, TestAppointmentRepository>();
+            services.AddScoped<ITestTypesRepository, TestTypesRepository>();
+            services.AddScoped<ITestRepository, TestRepository>();
+            services.AddScoped<IInternationalLicenseRepository, InternationalLicenseRepository>();
             services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 
             return services;
