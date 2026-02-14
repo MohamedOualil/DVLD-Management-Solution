@@ -27,6 +27,8 @@ namespace DVLD.Domain.Entities
         public int CreatedByUserId { get; private set; }
         public User CreatedBy { get; private set; }
 
+        private InternationalLicense() { }
+        
 
         private InternationalLicense(Applications applications, Driver driver, License license,IssueReason issueReason, User createdBy)
         {
