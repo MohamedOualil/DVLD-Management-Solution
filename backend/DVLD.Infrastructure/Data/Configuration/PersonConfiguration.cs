@@ -27,8 +27,8 @@ namespace DVLD.Infrastructure.Data.Configuration
 
             builder.OwnsOne(p => p.NationalNo, nationalNo =>
             {
-                nationalNo.Property(v => v.Number).IsRequired().HasMaxLength(20)
-                .HasColumnName("NationalNo");
+                nationalNo.Property(v => v.Number).IsRequired().HasMaxLength(20);
+                //.HasColumnName("NationalNo");
 
                 nationalNo.Property(v => v.CountryID).IsRequired()
                         .HasColumnName("NationalNo_CountryID"); 

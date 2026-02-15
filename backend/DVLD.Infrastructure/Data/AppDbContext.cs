@@ -15,7 +15,7 @@ namespace DVLD.Infrastructure.Data
         {
 
         }
-        public DbSet<Person> Students => Set<Person>();
+        public DbSet<Person> Person => Set<Person>();
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
