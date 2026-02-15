@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.ValueObjects
 {
-    public record class Address
+    public record  Address
     {
         public string Street { get; init; }
         public string City { get; init; }
