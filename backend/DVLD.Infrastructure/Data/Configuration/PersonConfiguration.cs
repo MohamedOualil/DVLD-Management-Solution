@@ -27,10 +27,11 @@ namespace DVLD.Infrastructure.Data.Configuration
 
             builder.OwnsOne(p => p.NationalNo, nationalNo =>
             {
-                nationalNo.Property(v => v.Number).IsRequired().HasMaxLength(20);
+                nationalNo.Property(v => v.Number).IsRequired().HasMaxLength(20)
+                .HasColumnName("NationalNo");
 
                 nationalNo.Property(v => v.CountryID).IsRequired()
-                        .HasColumnName("NationalNo_CountryID"); ;
+                        .HasColumnName("NationalNo_CountryID"); 
 
                 nationalNo.HasOne<Counties>()
                     .WithMany()
@@ -43,27 +44,34 @@ namespace DVLD.Infrastructure.Data.Configuration
             builder.Property(s => s.DateOfBirth).IsRequired();
             builder.Property(s => s.Gender).IsRequired().HasConversion<short>();
 
-            builder.OwnsOne(p => p.Address, a =>
+            builder.OwnsOne(p => p.Address, address =>
             {
-                a.Property(v => v.Street).IsRequired()
+                address.Property(v => v.Street).IsRequired()
                                     .HasMaxLength(100)
                                     .HasColumnName("Street");
-                a.Property(v => v.State).IsRequired()
+                address.Property(v => v.State).IsRequired()
                                     .HasMaxLength(50)
                                     .HasColumnName("State");
-                a.Property(v => v.City).IsRequired().HasMaxLength(50)
+                address.Property(v => v.City).IsRequired().HasMaxLength(50)
                                         .HasColumnName("City");
-                a.Property(v => v.ZipCode).IsRequired().HasMaxLength(10)
+                address.Property(v => v.ZipCode).IsRequired().HasMaxLength(10)
                                         .HasColumnName("ZipCode");
 
-                a.Property(v => v.CountryID)
+                address.Property(v => v.CountryID)
                     .IsRequired()
                     .HasColumnName("Address_CountryID");
 
-                a.HasOne<Counties>()
-                        .WithMany()
-                        .HasForeignKey(v => v.CountryID)
-                        .OnDelete(DeleteBehavior.Restrict); ;
+                //address.HasOne<Counties>()
+                //        .WithMany()
+                //        .HasForeignKey(v => v.CountryID)
+                //        .OnDelete(DeleteBehavior.Restrict);
+
+                address.HasOne(d => d.Counties)
+                .WithMany()
+                .HasForeignKey(d => d.CountryID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+                
 
 
             });

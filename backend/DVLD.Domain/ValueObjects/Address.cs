@@ -1,4 +1,5 @@
 ﻿using DVLD.Domain.Common;
+using DVLD.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace DVLD.Domain.ValueObjects
         public string State { get; init; }
         public string ZipCode { get; init; }
         public int CountryID { get; init; }
+        public Counties Counties { get; init; }
 
         private Address()
         {

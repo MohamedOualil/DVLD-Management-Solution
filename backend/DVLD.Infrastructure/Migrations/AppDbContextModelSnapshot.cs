@@ -135,7 +135,7 @@ namespace DVLD.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Counties");
+                    b.ToTable("Counties", (string)null);
                 });
 
             modelBuilder.Entity("DVLD.Domain.Entities.DetainedLicense", b =>
@@ -658,7 +658,7 @@ namespace DVLD.Infrastructure.Migrations
 
             modelBuilder.Entity("DVLD.Domain.Entities.ApplicationTypes", b =>
                 {
-                    b.OwnsOne("DVLD.Domain.ValueObjects.Money", "ApplicationFees", b1 =>
+                    b.OwnsOne("DVLD.Domain.Entities.ApplicationTypes.ApplicationFees#DVLD.Domain.ValueObjects.Money", "ApplicationFees", b1 =>
                         {
                             b1.Property<int>("ApplicationTypesId")
                                 .HasColumnType("int");
@@ -677,7 +677,7 @@ namespace DVLD.Infrastructure.Migrations
 
                             b1.HasKey("ApplicationTypesId");
 
-                            b1.ToTable("ApplicationTypes");
+                            b1.ToTable("ApplicationTypes", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("ApplicationTypesId");
@@ -712,7 +712,7 @@ namespace DVLD.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.OwnsOne("DVLD.Domain.ValueObjects.Money", "PaidFees", b1 =>
+                    b.OwnsOne("DVLD.Domain.Entities.Applications.PaidFees#DVLD.Domain.ValueObjects.Money", "PaidFees", b1 =>
                         {
                             b1.Property<int>("ApplicationsId")
                                 .HasColumnType("int");
@@ -731,7 +731,7 @@ namespace DVLD.Infrastructure.Migrations
 
                             b1.HasKey("ApplicationsId");
 
-                            b1.ToTable("Applications");
+                            b1.ToTable("Applications", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("ApplicationsId");
@@ -773,7 +773,7 @@ namespace DVLD.Infrastructure.Migrations
                         .HasForeignKey("ReleasedByUserId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.OwnsOne("DVLD.Domain.ValueObjects.Money", "FineFees", b1 =>
+                    b.OwnsOne("DVLD.Domain.Entities.DetainedLicense.FineFees#DVLD.Domain.ValueObjects.Money", "FineFees", b1 =>
                         {
                             b1.Property<int>("DetainedLicenseId")
                                 .HasColumnType("int");
@@ -792,7 +792,7 @@ namespace DVLD.Infrastructure.Migrations
 
                             b1.HasKey("DetainedLicenseId");
 
-                            b1.ToTable("DetainedLicenses");
+                            b1.ToTable("DetainedLicenses", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("DetainedLicenseId");
@@ -890,7 +890,7 @@ namespace DVLD.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.OwnsOne("DVLD.Domain.ValueObjects.Money", "PaidFees", b1 =>
+                    b.OwnsOne("DVLD.Domain.Entities.License.PaidFees#DVLD.Domain.ValueObjects.Money", "PaidFees", b1 =>
                         {
                             b1.Property<int>("LicenseId")
                                 .HasColumnType("int");
@@ -909,7 +909,7 @@ namespace DVLD.Infrastructure.Migrations
 
                             b1.HasKey("LicenseId");
 
-                            b1.ToTable("Licenses");
+                            b1.ToTable("Licenses", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("LicenseId");
@@ -929,7 +929,7 @@ namespace DVLD.Infrastructure.Migrations
 
             modelBuilder.Entity("DVLD.Domain.Entities.LicenseClasses", b =>
                 {
-                    b.OwnsOne("DVLD.Domain.ValueObjects.Money", "ClassFees", b1 =>
+                    b.OwnsOne("DVLD.Domain.Entities.LicenseClasses.ClassFees#DVLD.Domain.ValueObjects.Money", "ClassFees", b1 =>
                         {
                             b1.Property<int>("LicenseClassesId")
                                 .HasColumnType("int");
@@ -948,7 +948,7 @@ namespace DVLD.Infrastructure.Migrations
 
                             b1.HasKey("LicenseClassesId");
 
-                            b1.ToTable("LicenseClasses");
+                            b1.ToTable("LicenseClasses", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("LicenseClassesId");
@@ -979,7 +979,7 @@ namespace DVLD.Infrastructure.Migrations
 
             modelBuilder.Entity("DVLD.Domain.Entities.Person", b =>
                 {
-                    b.OwnsOne("DVLD.Domain.ValueObjects.Address", "Address", b1 =>
+                    b.OwnsOne("DVLD.Domain.Entities.Person.Address#DVLD.Domain.ValueObjects.Address", "Address", b1 =>
                         {
                             b1.Property<int>("PersonId")
                                 .HasColumnType("int");
@@ -1016,7 +1016,7 @@ namespace DVLD.Infrastructure.Migrations
 
                             b1.HasIndex("CountryID");
 
-                            b1.ToTable("Person");
+                            b1.ToTable("Person", (string)null);
 
                             b1.HasOne("DVLD.Domain.Entities.Counties", null)
                                 .WithMany()
@@ -1028,7 +1028,7 @@ namespace DVLD.Infrastructure.Migrations
                                 .HasForeignKey("PersonId");
                         });
 
-                    b.OwnsOne("DVLD.Domain.ValueObjects.Email", "Email", b1 =>
+                    b.OwnsOne("DVLD.Domain.Entities.Person.Email#DVLD.Domain.ValueObjects.Email", "Email", b1 =>
                         {
                             b1.Property<int>("PersonId")
                                 .HasColumnType("int");
@@ -1045,13 +1045,13 @@ namespace DVLD.Infrastructure.Migrations
                                 .IsUnique()
                                 .HasFilter("[Email] IS NOT NULL");
 
-                            b1.ToTable("Person");
+                            b1.ToTable("Person", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("PersonId");
                         });
 
-                    b.OwnsOne("DVLD.Domain.ValueObjects.NationalNo", "NationalNo", b1 =>
+                    b.OwnsOne("DVLD.Domain.Entities.Person.NationalNo#DVLD.Domain.ValueObjects.NationalNo", "NationalNo", b1 =>
                         {
                             b1.Property<int>("PersonId")
                                 .HasColumnType("int");
@@ -1072,7 +1072,7 @@ namespace DVLD.Infrastructure.Migrations
                             b1.HasIndex("Number")
                                 .IsUnique();
 
-                            b1.ToTable("Person");
+                            b1.ToTable("Person", (string)null);
 
                             b1.HasOne("DVLD.Domain.Entities.Counties", null)
                                 .WithMany()
@@ -1084,7 +1084,7 @@ namespace DVLD.Infrastructure.Migrations
                                 .HasForeignKey("PersonId");
                         });
 
-                    b.OwnsOne("DVLD.Domain.ValueObjects.Phone", "Phone", b1 =>
+                    b.OwnsOne("DVLD.Domain.Entities.Person.Phone#DVLD.Domain.ValueObjects.Phone", "Phone", b1 =>
                         {
                             b1.Property<int>("PersonId")
                                 .HasColumnType("int");
@@ -1097,7 +1097,7 @@ namespace DVLD.Infrastructure.Migrations
 
                             b1.HasKey("PersonId");
 
-                            b1.ToTable("Person");
+                            b1.ToTable("Person", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("PersonId");
@@ -1154,7 +1154,7 @@ namespace DVLD.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.OwnsOne("DVLD.Domain.ValueObjects.Money", "PaidFees", b1 =>
+                    b.OwnsOne("DVLD.Domain.Entities.TestAppointment.PaidFees#DVLD.Domain.ValueObjects.Money", "PaidFees", b1 =>
                         {
                             b1.Property<int>("TestAppointmentId")
                                 .HasColumnType("int");
@@ -1173,7 +1173,7 @@ namespace DVLD.Infrastructure.Migrations
 
                             b1.HasKey("TestAppointmentId");
 
-                            b1.ToTable("TestAppointments");
+                            b1.ToTable("TestAppointments", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("TestAppointmentId");
@@ -1191,7 +1191,7 @@ namespace DVLD.Infrastructure.Migrations
 
             modelBuilder.Entity("DVLD.Domain.Entities.TestTypes", b =>
                 {
-                    b.OwnsOne("DVLD.Domain.ValueObjects.Money", "TestFees", b1 =>
+                    b.OwnsOne("DVLD.Domain.Entities.TestTypes.TestFees#DVLD.Domain.ValueObjects.Money", "TestFees", b1 =>
                         {
                             b1.Property<int>("TestTypesId")
                                 .HasColumnType("int");
@@ -1210,7 +1210,7 @@ namespace DVLD.Infrastructure.Migrations
 
                             b1.HasKey("TestTypesId");
 
-                            b1.ToTable("TestTypes");
+                            b1.ToTable("TestTypes", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("TestTypesId");
