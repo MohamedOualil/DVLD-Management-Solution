@@ -1,38 +1,36 @@
 ﻿using DVLD.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Domain.ValueObjects
 {
-    public record class NationalNo 
+    public sealed record  NationalNo 
     {
         public string Number { get; init; }
-        public int CountryID { get; init; }
+        public CountryId CountryID { get; init; }
 
         private NationalNo() {}
 
-        private NationalNo(string nationalnum,int countryid)
+        private NationalNo(string nationalnum, CountryId countryid)
         {
             this.Number = nationalnum;
             this.CountryID = countryid;
         }
 
-        public static Result<NationalNo> Create(string nationalNO,int countryid)
+        public static Result<NationalNo> Create(string nationalNumber, CountryId countryid)
         {
-            if (string.IsNullOrWhiteSpace(nationalNO))
+            if (string.IsNullOrWhiteSpace(nationalNumber))
                 return Result<NationalNo>.Failure(DomainErrors.Person.InvalidNationalId);
 
-
-            var result = ValidateByCountry(nationalNO, countryid);
-            if (!result.Item2)
-                return Result<NationalNo>.Failure(result.Item1);
+            nationalNumber = nationalNumber.Trim().ToUpperInvariant();
 
 
+            var result = ValidateByCountry(nationalNumber, countryid);
+            if (result.IsFailure)
+                return Result<NationalNo>.Failure(result.MessageError);
 
-            return Result<NationalNo>.Success(new NationalNo(nationalNO, countryid));
+
+
+            return Result<NationalNo>.Success(new NationalNo
+                (nationalNumber, countryid));
 
         }
 
@@ -41,24 +39,26 @@ namespace DVLD.Domain.ValueObjects
             return this.Number;
         }
 
-        private static (string , bool) ValidateByCountry(string value,int countryId)
+        private static Result ValidateByCountry(string value, CountryId countryId)
         {
-            switch (countryId)
+            switch (countryId.value)
             {
                 case 2:
-                   return  _MarocValidate(value); 
+                   return  _MarocValidate(value);
+
+                default:
+                    return Result.Failure($"Unsupported country : {countryId}");
             }
             
-            return ("No Valid Country",false);
 
         }
 
-        private static (string, bool) _MarocValidate(string value)
+        private static Result _MarocValidate(string value)
         {
             if (value.Length != 8)
-                return (DomainErrors.Person.InvalidNationalId,false);
+                return Result.Failure(DomainErrors.Person.InvalidNationalId);
 
-            return (string.Empty,true);
+            return Result.Success();
         }
     }
 }
