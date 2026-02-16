@@ -17,9 +17,11 @@ namespace DVLD.Infrastructure.Repositorys
         {
             _context = appDbContext;
         }
-        public Task<int> AddAsync(Person entity)
+        public async Task<int> AddAsync(Person entity)
         {
-            throw new NotImplementedException();
+             var result = await  _context.Person.AddAsync(entity);
+
+            return result.Entity.Id;
         }
 
         public Task<bool> DeleteAsync(int id)

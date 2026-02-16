@@ -40,14 +40,14 @@ namespace DVLD.Domain.Common
     public class Result<T> : Result
     {
 
-        public T? Data { get; }
+        public T? Value { get; }
 
 
         private Result(T? data, string messageError, bool success)
             : base(success,messageError)
         {
 
-            this.Data = data;
+            this.Value = data;
 
         }
 
