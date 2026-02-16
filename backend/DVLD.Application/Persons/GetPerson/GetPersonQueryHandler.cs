@@ -34,10 +34,10 @@ namespace DVLD.Application.Persons.GetPerson
             var personResponse = new PersonResponse
             {
                 PersonId = personEntity.Id,
-                FirstName = personEntity.FirstName,
-                LastName = personEntity.LastName,
-                SecondName = personEntity.SecondName,
-                ThirdName = personEntity.ThirdName,
+                FirstName = personEntity.FullName.FirstName,
+                LastName = personEntity.FullName.LastName,
+                SecondName = personEntity.FullName.SecondName,
+                ThirdName = personEntity.FullName.ThirdName,
                 Gender = (short)personEntity.Gender,
                 DateOfBirth = personEntity.DateOfBirth,
                 City = personEntity.Address.City,

@@ -16,42 +16,35 @@ namespace DVLD.Application.Persons.CreatePerson
     public class CreatePersonCommandHandler : ICommandHandler<CreatePersonCommand, int>
     {
         private readonly IPersonRepository _personRepository;
-        public CreatePersonCommandHandler(IPersonRepository personRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public CreatePersonCommandHandler(IPersonRepository personRepository,IUnitOfWork unitOfWork)
         {
             _personRepository = personRepository;
+            _unitOfWork = unitOfWork;
 
         }
         public async Task<Result<int>> Handle(CreatePersonCommand request, CancellationToken cancellationToken)
         {
-            var addressObject = Address.Create(request.Street, request.State, request.City,request.ZipCode, request.CountryId);
-            if (addressObject.IsFailure)
-                return Result<int>.Failure(addressObject.MessageError);
-
-            var nationalNo = NationalNo.Create(request.NationalNo, request.CountryId);
+            
+            var nationalNo = NationalNo.Create(request.NationalNo, new CountryId(request.CountryId));
             if (nationalNo.IsFailure)
                 return Result<int>.Failure(nationalNo.MessageError);
 
 
-            var phone = Phone.Create(request.Phone);
-            if (phone.IsFailure)
-                return Result<int>.Failure(phone.MessageError);
+            var address = new Address(request.Street, request.State, request.City, request.ZipCode, request.CountryId);
+
+            var fullName = new FullName(request.FirstName, request.SecondName, request.ThirdName,
+                request.LastName);
+
+            var person = new Person(fullName, nationalNo.Value,request.DateOfBirth,(Gender)request.Gender,
+                address,new Phone(request.Phone),new Email(request.Email),request.ImagePath); 
 
 
-            var email = Email.Create(request.Email);
-            if (email.IsFailure)
-                return Result<int>.Failure(email.MessageError);
+            await _personRepository.AddAsync(person);
+            await _unitOfWork.SaveChangesAsync();
 
 
-            var person = Person.CreatePerson(request.FirstName,request.SecondName,request.ThirdName,
-                request.LastName,nationalNo.Value,request.DateOfBirth,(Gender)request.Gender,
-                addressObject.Value,phone.Value,email.Value,request.ImagePath); 
-
-            if (person.IsFailure)
-                return Result<int>.Failure(person.MessageError);
-
-            int personid = await _personRepository.AddAsync(person.Value);
-
-           return Result<int>.Success(personid);
+           return Result<int>.Success(person.Id);
 
         }
     }

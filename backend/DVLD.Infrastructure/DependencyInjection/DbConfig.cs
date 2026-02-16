@@ -1,4 +1,5 @@
-﻿using DVLD.Domain.Entities;
+﻿using DVLD.Domain.Common;
+using DVLD.Domain.Entities;
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
 using DVLD.Infrastructure.Repositorys;
@@ -39,6 +40,8 @@ namespace DVLD.Infrastructure.DependencyInjection
             services.AddScoped<ITestRepository, TestRepository>();
             services.AddScoped<IInternationalLicenseRepository, InternationalLicenseRepository>();
             services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
+
+            services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
 
             return services;
 
