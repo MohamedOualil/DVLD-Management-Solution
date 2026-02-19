@@ -26,7 +26,7 @@ namespace DVLD.Application.Persons.GetPerson
             if (request.personId < 0)
                 return  Result<PersonResponse>.Failure("invalide person id ");
 
-            var personEntity = await _personRepository.FindAsync(request.personId);
+            var personEntity = await _personRepository.GetByIdAsync(request.personId);
 
             if (personEntity == null)
                 return Result<PersonResponse>.Failure("Not Found");
@@ -41,7 +41,7 @@ namespace DVLD.Application.Persons.GetPerson
                 Gender = (short)personEntity.Gender,
                 DateOfBirth = personEntity.DateOfBirth,
                 City = personEntity.Address.City,
-                CountryName = personEntity.Address.Counties.CountryName,
+                CountryId = personEntity.Address.CountryID,
                 CreatedAt = personEntity.CreatedAt,
                 ZipCode= personEntity.Address.ZipCode,
                 Email = personEntity.Email.Value,

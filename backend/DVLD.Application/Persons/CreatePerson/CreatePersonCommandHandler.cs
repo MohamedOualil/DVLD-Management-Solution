@@ -26,7 +26,7 @@ namespace DVLD.Application.Persons.CreatePerson
         public async Task<Result<int>> Handle(CreatePersonCommand request, CancellationToken cancellationToken)
         {
             
-            var nationalNo = NationalNo.Create(request.NationalNo, new CountryId(request.CountryId));
+            var nationalNo = NationalNo.Create(request.NationalNo,request.CountryId);
             if (nationalNo.IsFailure)
                 return Result<int>.Failure(nationalNo.MessageError);
 
@@ -40,8 +40,8 @@ namespace DVLD.Application.Persons.CreatePerson
                 address,new Phone(request.Phone),new Email(request.Email),request.ImagePath); 
 
 
-            await _personRepository.AddAsync(person);
-            await _unitOfWork.SaveChangesAsync();
+            _personRepository.Add(person);
+            int id =  await _unitOfWork.SaveChangesAsync();
 
 
            return Result<int>.Success(person.Id);

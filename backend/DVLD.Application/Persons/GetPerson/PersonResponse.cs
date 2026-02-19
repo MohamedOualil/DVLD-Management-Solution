@@ -22,7 +22,7 @@ namespace DVLD.Application.Persons.GetPerson
         public string City { get; init; }
         public string State { get; init; }
         public string ZipCode { get; init; }
-        public string CountryName { get; init; }
+        public int CountryId { get; init; }
         public string Phone { get; init; }
         public string Email { get; init; }
         public DateTime CreatedAt { get; init; }

@@ -10,32 +10,20 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    public class PersonRepository : IPersonRepository
+    internal sealed class PersonRepository : Repositories<Person,int>, IPersonRepository
     {
         private readonly AppDbContext _context;
-        public PersonRepository(AppDbContext appDbContext) 
+        public PersonRepository(AppDbContext appDbContext) : base(appDbContext) 
         {
             _context = appDbContext;
         }
-        public async Task<int> AddAsync(Person entity)
-        {
-             var result = await  _context.Person.AddAsync(entity);
-
-            return result.Entity.Id;
-        }
+        
 
         public Task<bool> DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<Person> FindAsync(int id)
-        {
-            return await _context.Person
-                .Include(p => p.Address)
-                .ThenInclude(c => c.Counties)
-                .FirstOrDefaultAsync(person => person.Id == id);
-        }
 
         public Task<IEnumerable<Person>> GetAllAsync()
         {

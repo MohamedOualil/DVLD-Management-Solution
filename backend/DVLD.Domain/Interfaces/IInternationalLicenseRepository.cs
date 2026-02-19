@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Interfaces
 {
-    public interface IInternationalLicenseRepository : IBaseRepository<InternationalLicense>
+    public interface IInternationalLicenseRepository : IBaseRepository<InternationalLicense,int>
     {
     }
 }

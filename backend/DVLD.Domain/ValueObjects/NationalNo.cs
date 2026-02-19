@@ -1,21 +1,23 @@
 ﻿using DVLD.Domain.Common;
+using DVLD.Domain.Entities;
 
 namespace DVLD.Domain.ValueObjects
 {
     public sealed record  NationalNo 
     {
         public string Number { get; init; }
-        public CountryId CountryID { get; init; }
+        public int CountryID { get; init; }
+
 
         private NationalNo() {}
 
-        private NationalNo(string nationalnum, CountryId countryid)
+        private NationalNo(string nationalnum, int countryid)
         {
             this.Number = nationalnum;
             this.CountryID = countryid;
         }
 
-        public static Result<NationalNo> Create(string nationalNumber, CountryId countryid)
+        public static Result<NationalNo> Create(string nationalNumber, int countryid)
         {
             if (string.IsNullOrWhiteSpace(nationalNumber))
                 return Result<NationalNo>.Failure(DomainErrors.Person.InvalidNationalId);
@@ -39,16 +41,17 @@ namespace DVLD.Domain.ValueObjects
             return this.Number;
         }
 
-        private static Result ValidateByCountry(string value, CountryId countryId)
+        private static Result ValidateByCountry(string value, int countryId)
         {
-            switch (countryId.value)
+            switch (countryId)
             {
-                case 2:
+                case 2 :
                    return  _MarocValidate(value);
 
                 default:
                     return Result.Failure($"Unsupported country : {countryId}");
             }
+
             
 
         }

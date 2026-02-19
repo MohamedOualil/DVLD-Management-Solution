@@ -1,11 +1,12 @@
 ﻿using DVLD.Domain.Entities;
+using DVLD.Domain.ValueObjects;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DVLD.Infrastructure.Data.Configuration
 {
@@ -15,27 +16,37 @@ namespace DVLD.Infrastructure.Data.Configuration
         {
             base.Configure(builder);
 
+            builder.OwnsOne(p => p.FullName, fullName =>
+            {
+                fullName.Property(s => s.FirstName)
+                .IsRequired()
+                .HasMaxLength(20)
+                .HasColumnName("FirstName");
+                fullName.Property(s => s.SecondName)
+                    .HasMaxLength(20)
+                    .HasColumnName("SecondName");
+                fullName.Property(s => s.ThirdName)
+                    .HasMaxLength(20)
+                    .HasColumnName("ThirdName");
+                fullName.Property(s => s.LastName).IsRequired()
+                    .HasMaxLength(20)
+                    .HasColumnName("LastName");
+            });
 
-            builder.Property(s => s.FirstName).IsRequired()
-                .HasMaxLength(20);
-            builder.Property(s => s.SecondName)
-                .HasMaxLength(20);
-            builder.Property(s => s.ThirdName)
-                .HasMaxLength(20);
-            builder.Property(s => s.LastName).IsRequired()
-                .HasMaxLength(20);
+            //builder.OwnsOne(p => p.)
 
             builder.OwnsOne(p => p.NationalNo, nationalNo =>
             {
                 nationalNo.Property(v => v.Number).IsRequired().HasMaxLength(20);
                 //.HasColumnName("NationalNo");
 
-                nationalNo.Property(v => v.CountryID).IsRequired()
-                        .HasColumnName("NationalNo_CountryID"); 
+                nationalNo.Property(v => v.CountryID)
+                        .IsRequired()
+                        .HasColumnName("NationalNo_CountryID");
 
                 nationalNo.HasOne<Counties>()
                     .WithMany()
-                    .HasForeignKey(v => v.CountryID)
+                    .HasForeignKey(c => c.CountryID)
                     .OnDelete(DeleteBehavior.Restrict);
 
                 nationalNo.HasIndex(v => v.Number).IsUnique();

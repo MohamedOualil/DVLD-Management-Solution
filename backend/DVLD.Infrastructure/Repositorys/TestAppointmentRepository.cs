@@ -1,5 +1,6 @@
 ﻿using DVLD.Domain.Entities;
 using DVLD.Domain.Interfaces;
+using DVLD.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +9,12 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    public class TestAppointmentRepository : ITestAppointmentRepository
+    internal sealed class TestAppointmentRepository :Repositories<TestAppointment,int>, ITestAppointmentRepository
     {
-        public Task<int> AddAsync(TestAppointment entity)
+        private readonly AppDbContext _context;
+        public TestAppointmentRepository(AppDbContext appDbContext) : base(appDbContext)
         {
-            throw new NotImplementedException();
+            _context = appDbContext;
         }
 
         public Task<bool> DeleteAsync(int id)
@@ -20,10 +22,7 @@ namespace DVLD.Infrastructure.Repositorys
             throw new NotImplementedException();
         }
 
-        public Task<TestAppointment> FindAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public Task<IEnumerable<TestAppointment>> GetAllAsync()
         {

@@ -1,5 +1,6 @@
 ﻿using DVLD.Domain.Entities;
 using DVLD.Domain.Interfaces;
+using DVLD.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,22 +9,20 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    public class InternationalLicenseRepository : IInternationalLicenseRepository
+    internal sealed class InternationalLicenseRepository : Repositories<InternationalLicense,int>, IInternationalLicenseRepository
     {
-        public Task<int> AddAsync(InternationalLicense entity)
+        private readonly AppDbContext _context;
+        public InternationalLicenseRepository(AppDbContext appDbContext) : base(appDbContext)
         {
-            throw new NotImplementedException();
+            _context = appDbContext;
         }
+
 
         public Task<bool> DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<InternationalLicense> FindAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
 
         public Task<IEnumerable<InternationalLicense>> GetAllAsync()
         {

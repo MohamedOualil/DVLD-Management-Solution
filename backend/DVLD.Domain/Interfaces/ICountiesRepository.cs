@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Interfaces
 {
-    public interface ICountiesRepository : IBaseRepository<Counties>
+    public interface ICountiesRepository : IBaseRepository<Counties,int>
     {
     }
 }

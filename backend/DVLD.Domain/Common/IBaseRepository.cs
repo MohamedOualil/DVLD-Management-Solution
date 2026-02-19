@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Common
 {
-    public interface IBaseRepository<Entity>
+    public interface IBaseRepository<T,TId>
     {
-        Task<int> AddAsync(Entity entity);
-        Task<bool> UpdateAsync(Entity entity);
-        Task<bool> DeleteAsync(int id);
-        Task<IEnumerable<Entity>> GetAllAsync();
+        //Task<int> AddAsync(Entity entity);
+        void Add(T entity);    
+        Task<bool> UpdateAsync(T entity);
+        Task<bool> DeleteAsync(TId id);
+        Task<IEnumerable<T>> GetAllAsync();
 
-        Task<Entity> FindAsync(int id);
+        Task<T?> GetByIdAsync(TId id,CancellationToken cancellationToken = default);
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DVLD.Domain.Entities;
 using DVLD.Domain.Interfaces;
+using DVLD.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +9,13 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    public class LocalDrivingLicenseApplicationRepository : ILocalDrivingLicenseApplicationRepository
+    internal sealed class LocalDrivingLicenseApplicationRepository : Repositories<LocalDrivingLicenseApplication,int>, ILocalDrivingLicenseApplicationRepository
     {
-        public Task<int> AddAsync(LocalDrivingLicenseApplication entity)
+
+        private readonly AppDbContext _context;
+        public LocalDrivingLicenseApplicationRepository(AppDbContext appDbContext) : base(appDbContext)
         {
-            throw new NotImplementedException();
+            _context = appDbContext;
         }
 
         public Task<bool> DeleteAsync(int id)
@@ -20,10 +23,7 @@ namespace DVLD.Infrastructure.Repositorys
             throw new NotImplementedException();
         }
 
-        public Task<LocalDrivingLicenseApplication> FindAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+  
 
         public Task<IEnumerable<LocalDrivingLicenseApplication>> GetAllAsync()
         {
