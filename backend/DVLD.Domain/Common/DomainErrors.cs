@@ -10,6 +10,8 @@ namespace DVLD.Domain.Common
     {
         public static class Person
         {
+            public static readonly Error InvalidId =
+                new("Person.InvalidId", "The person ID format is invalid.");
             public static readonly Error FirstNameRequired =
                 new("Person.FirstNameRequired", "First name is required.");
 
@@ -18,6 +20,9 @@ namespace DVLD.Domain.Common
 
             public static readonly Error InvalidNationalId =
                 new("Person.InvalidNationalId", "The national ID format is invalid for this country.");
+
+            public static readonly Error NationalNoAlreadyExists =
+                new("Person.NationalNoAlreadyExists", "A person with the same national ID already exists.");
 
             public static readonly Error UnderAge =
                 new("Person.UnderAge", "Person must be at least 18 years old.");

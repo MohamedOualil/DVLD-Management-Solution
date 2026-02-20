@@ -47,14 +47,14 @@ namespace DVLD.Domain.Common
     public sealed class Result<TValue> : Result
     {
 
-        public TValue? _value { get; }
+        public TValue? Value { get; }
 
 
         private Result(TValue? data, Error error, bool success,IReadOnlyList<Error> errors = null)
             : base(success,error,errors)
         {
 
-            this._value = data;
+            this.Value = data;
 
 
         }
@@ -66,6 +66,7 @@ namespace DVLD.Domain.Common
 
         public new static Result<TValue> Failure(Error error)
         {
+            
             return new Result<TValue>(default, error, false);
 
         }

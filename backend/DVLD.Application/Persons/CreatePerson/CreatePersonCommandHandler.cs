@@ -45,6 +45,9 @@ namespace DVLD.Application.Persons.CreatePerson
             if (nationalNo.IsFailure)
                 return Result<int>.Failure(nationalNo.Error);
 
+            if (await _personRepository.NationlNoExist(nationalNo.Value!.Number))
+                return Result<int>.Failure(DomainErrors.Person.NationalNoAlreadyExists);
+
 
             var address = new Address(
                 request.Street, 
@@ -61,7 +64,7 @@ namespace DVLD.Application.Persons.CreatePerson
 
             var person = new Person(
                 fullName, 
-                nationalNo._value!, 
+                nationalNo.Value!, 
                 request.DateOfBirth,
                 (Gender)request.Gender,
                 address,

@@ -34,7 +34,21 @@ namespace DVLD.Domain.Entities
         private Person() {  }
 
         
+        public void Update(FullName fullName, NationalNo nationlNo, DateTime dateOfbirth, Gender gendor,
+            Address address, Phone phone, Email email, string imagePath)
+        {
+            FullName = fullName;
+            NationalNo = nationlNo;
+            DateOfBirth = dateOfbirth;
+            Gender = gendor;
+            Address = address;
+            Phone = phone;
+            Email = email;
+            ImagePath = imagePath;
 
+
+
+        }
        
 
 

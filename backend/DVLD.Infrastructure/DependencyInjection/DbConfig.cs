@@ -1,5 +1,6 @@
 using DVLD.Application.Abstractions;
 using DVLD.Application.Persons.CreatePerson;
+using DVLD.Application.Persons.UpdatePerson;
 using DVLD.Domain.Common;
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
@@ -50,6 +51,7 @@ namespace DVLD.Infrastructure.DependencyInjection
 
             // Validators
             services.AddScoped<IValidate<CreatePersonCommand>, CreatePersonCommandValidator>();
+            services.AddScoped<IValidate<UpdatePersonCommand>, UpdatePersonCommandValidator>();
 
             // UnitOfWork
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());

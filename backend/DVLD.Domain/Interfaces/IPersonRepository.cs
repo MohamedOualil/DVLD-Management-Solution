@@ -10,6 +10,6 @@ namespace DVLD.Domain.Interfaces
 {
     public interface IPersonRepository : IBaseRepository<Person,int>
     {
-
+        Task<bool> NationlNoExist(string nationalNo);
     }
 }

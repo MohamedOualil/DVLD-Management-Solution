@@ -1,27 +1,25 @@
-﻿using DVLD.Domain.Common;
-using DVLD.Domain.ValueObjects;
+﻿using DVLD.Application.Abstractions;
+using DVLD.Application.Abstractions.Validator;
+using DVLD.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using DVLD.Application.Abstractions;
-using System.Reflection.Metadata.Ecma335;
-using DVLD.Application.Abstractions.Validator;
 
-namespace DVLD.Application.Persons.CreatePerson
+namespace DVLD.Application.Persons.UpdatePerson
 {
-    public sealed class CreatePersonCommandValidator : IValidate<CreatePersonCommand>
+    public sealed class UpdatePersonCommandValidator : IValidate<UpdatePersonCommand>
     {
-       
-        public Result Validate(CreatePersonCommand request)
+        public Result Validate(UpdatePersonCommand request)
         {
-            List<Error> errors = new(8); 
+            List<Error> errors = new(10);
+
+            if (request.Id <= 0)
+                errors.Add(DomainErrors.Person.InvalidId);
 
             if (string.IsNullOrWhiteSpace(request.FirstName))
-                 errors.Add(DomainErrors.Person.FirstNameRequired);
+                errors.Add(DomainErrors.Person.FirstNameRequired);
 
             if (string.IsNullOrWhiteSpace(request.LastName))
                 errors.Add(DomainErrors.Person.LastNameRequired);
@@ -55,17 +53,11 @@ namespace DVLD.Application.Persons.CreatePerson
                 request.AddressCountryId);
             errors.AddRange(addressError);
 
- 
+
             if (errors.Count > 0)
                 return Result.Failure(errors);
 
             return Result.Success();
-
         }
-
-
-       
-
-        
     }
 }

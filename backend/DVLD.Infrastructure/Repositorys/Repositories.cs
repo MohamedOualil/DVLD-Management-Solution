@@ -30,5 +30,10 @@ namespace DVLD.Infrastructure.Repositorys
         {
             DbContext.Add(entity);
         }
+
+        public virtual void Update(T entity)
+        {
+            DbContext.Update(entity);
+        }
     }
 }

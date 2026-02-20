@@ -30,19 +30,12 @@ namespace DVLD.Infrastructure.Repositorys
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateAsync(Person entity)
+        public Task<bool> NationlNoExist (string nationalNo)
         {
-            throw new NotImplementedException();
+            return _context.Persons.AnyAsync(p => p.NationalNo.Number == nationalNo);
+
         }
 
 
-
-
-
-
-
-
-
-     
     }
 }

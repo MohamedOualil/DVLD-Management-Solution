@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace DVLD.Application.Abstractions.Messaging
 {
-    public interface ICommandHandler<TCommand> : IRequestHandler<ICommand,Result>
+    public interface ICommandHandler<TCommand> : IRequestHandler<TCommand,Result> 
+        where TCommand : ICommand
     {
     }
     public interface ICommandHandler<TCommand, TResponse> : IRequestHandler<TCommand, Result<TResponse>>
