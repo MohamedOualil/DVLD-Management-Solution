@@ -32,11 +32,11 @@ namespace DVLD.Domain.Entities
 
         public static Result<Driver> Create(Person person, User createdBy)
         {
-            if (person == null)
-                return Result<Driver>.Failure("Person Info is required.");
+            //if (person == null)
+            //    return Result<Driver>.Failure("Person Info is required.");
 
-            if (createdBy == null)
-                return Result<Driver>.Failure("User  is required.");
+            //if (createdBy == null)
+            //    return Result<Driver>.Failure("User  is required.");
 
             return Result<Driver>.Success(new Driver(person, createdBy));
 

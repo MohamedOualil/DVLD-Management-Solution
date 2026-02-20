@@ -52,26 +52,26 @@ namespace DVLD.Domain.Entities
         public static Result<InternationalLicense> IssueLicense(Applications applications, Driver driver,License license, 
             IssueReason issueReason, User createdBy)
         {
-            if (applications == null)
-                return Result<InternationalLicense>.Failure("Application is required.");
+            //if (applications == null)
+            //    return Result<InternationalLicense>.Failure("Application is required.");
 
-            if (applications.ApplicationTypeId != ApplicationType.NewInternationalLicense)
-                return Result<InternationalLicense>.Failure("Invalid application type for release.");
+            //if (applications.ApplicationTypeId != ApplicationType.NewInternationalLicense)
+            //    return Result<InternationalLicense>.Failure("Invalid application type for release.");
 
-            if (license == null)
-                return Result<InternationalLicense>.Failure("License is required.");
+            //if (license == null)
+            //    return Result<InternationalLicense>.Failure("License is required.");
 
-            if (license.IsDetained)
-                return Result<InternationalLicense>.Failure("License is detained.");
+            //if (license.IsDetained)
+            //    return Result<InternationalLicense>.Failure("License is detained.");
 
-            if (!license.IsActive)
-                return Result<InternationalLicense>.Failure("License is  not active.");
+            //if (!license.IsActive)
+            //    return Result<InternationalLicense>.Failure("License is  not active.");
 
-            if (driver == null)
-                return Result<InternationalLicense>.Failure("Driver is required.");
+            //if (driver == null)
+            //    return Result<InternationalLicense>.Failure("Driver is required.");
 
-            if (createdBy == null)
-                return Result<InternationalLicense>.Failure("Creator user is required.");
+            //if (createdBy == null)
+            //    return Result<InternationalLicense>.Failure("Creator user is required.");
 
 
             return Result<InternationalLicense>.Success(new InternationalLicense

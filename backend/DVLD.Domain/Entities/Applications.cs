@@ -51,16 +51,16 @@ namespace DVLD.Domain.Entities
         public static Result<Applications> ApplyApplication(Person person, ApplicationTypes applicationTypes, Money paidFees,
             User createdBy)
         {
-            if (person == null)
-                return Result<Applications>.Failure("Person Info is required.");
-            if (applicationTypes == null)
-                return Result<Applications>.Failure("Application Types  is required.");
+            //if (person == null)
+            //    return Result<Applications>.Failure("Person Info is required.");
+            //if (applicationTypes == null)
+            //    return Result<Applications>.Failure("Application Types  is required.");
 
-            if (paidFees == null)
-                return Result<Applications>.Failure("Paid Fees is required.");
+            //if (paidFees == null)
+            //    return Result<Applications>.Failure("Paid Fees is required.");
 
-            if (createdBy == null)
-                return Result<Applications>.Failure("User  is required.");
+            //if (createdBy == null)
+            //    return Result<Applications>.Failure("User  is required.");
 
 
             return Result<Applications>.Success(new Applications(person,applicationTypes,paidFees,createdBy));

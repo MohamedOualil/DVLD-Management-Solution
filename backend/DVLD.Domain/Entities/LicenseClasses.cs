@@ -36,20 +36,20 @@ namespace DVLD.Domain.Entities
         public static Result<LicenseClasses> Create(string className, string classDescription, byte minimumAllowedAge,
             byte defaultValidityLength,Money classFees)
         {
-            if (string.IsNullOrWhiteSpace(className))
-                return Result<LicenseClasses>.Failure("Class Name is required.");
+            //if (string.IsNullOrWhiteSpace(className))
+            //    return Result<LicenseClasses>.Failure("Class Name is required.");
 
-            if (string.IsNullOrWhiteSpace(classDescription))
-                return Result<LicenseClasses>.Failure("class Description is required.");
+            //if (string.IsNullOrWhiteSpace(classDescription))
+            //    return Result<LicenseClasses>.Failure("class Description is required.");
 
-            if (minimumAllowedAge < 16)
-                return Result<LicenseClasses>.Failure("Minimum allowed age must be at least 18.");
+            //if (minimumAllowedAge < 16)
+            //    return Result<LicenseClasses>.Failure("Minimum allowed age must be at least 18.");
 
-            if (defaultValidityLength < 1)
-                return Result<LicenseClasses>.Failure("Default validity length must be at least 1 year.");
+            //if (defaultValidityLength < 1)
+            //    return Result<LicenseClasses>.Failure("Default validity length must be at least 1 year.");
 
-            if (classFees == null)
-                return Result<LicenseClasses>.Failure("Class fees are required.");
+            //if (classFees == null)
+            //    return Result<LicenseClasses>.Failure("Class fees are required.");
 
             return Result<LicenseClasses>.Success(new LicenseClasses(className, classDescription, minimumAllowedAge,
                                                                         defaultValidityLength,classFees));

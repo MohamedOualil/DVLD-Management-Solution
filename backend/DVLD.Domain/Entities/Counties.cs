@@ -28,11 +28,11 @@ namespace DVLD.Domain.Entities
 
         public static Result<Counties> Create( string countryName,string countryCode)
         {
-            if (string.IsNullOrWhiteSpace(countryCode))
-                return Result<Counties>.Failure("Country Name is Requeried");
+            //if (string.IsNullOrWhiteSpace(countryCode))
+            //    return Result<Counties>.Failure("Country Name is Requeried");
 
-            if (string.IsNullOrWhiteSpace(countryCode))
-                return Result<Counties>.Failure("Country Code is Requeried");
+            //if (string.IsNullOrWhiteSpace(countryCode))
+            //    return Result<Counties>.Failure("Country Code is Requeried");
 
             return Result<Counties>.Success(new Counties(countryName, countryCode));
             

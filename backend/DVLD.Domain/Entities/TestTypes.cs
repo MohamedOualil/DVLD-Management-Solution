@@ -28,14 +28,14 @@ namespace DVLD.Domain.Entities
 
         public static Result<TestTypes> Create(string testName, string testDescription, Money testFees)
         {
-            if (string.IsNullOrWhiteSpace(testName))
-                return Result<TestTypes>.Failure("Test Name is required.");
+            //if (string.IsNullOrWhiteSpace(testName))
+            //    return Result<TestTypes>.Failure("Test Name is required.");
 
-            if (string.IsNullOrWhiteSpace(testDescription))
-                return Result<TestTypes>.Failure("Test Name is required.");
+            //if (string.IsNullOrWhiteSpace(testDescription))
+            //    return Result<TestTypes>.Failure("Test Name is required.");
 
-            if (testFees == null)
-                return Result<TestTypes>.Failure("Paid Fees is required.");
+            //if (testFees == null)
+            //    return Result<TestTypes>.Failure("Paid Fees is required.");
 
             return Result<TestTypes>.Success(new TestTypes(testName, testDescription, testFees));
 

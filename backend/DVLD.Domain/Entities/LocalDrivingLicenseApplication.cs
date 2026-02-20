@@ -28,11 +28,11 @@ namespace DVLD.Domain.Entities
 
         public static Result<LocalDrivingLicenseApplication> Create(Applications application, LicenseClasses licenseClass)
         {
-            if (application == null) 
-                return Result<LocalDrivingLicenseApplication>.Failure("Base Application is required.");
-            if (licenseClass == null) 
-                return Result<LocalDrivingLicenseApplication>.Failure("License Class is required.");
+            //if (application == null) 
+            //    return Result<LocalDrivingLicenseApplication>.Failure("Base Application is required.");
+            //if (licenseClass == null) 
 
+            //    return Result<LocalDrivingLicenseApplication>.Failure("License Class is required.");
             return Result<LocalDrivingLicenseApplication>.Success(new LocalDrivingLicenseApplication(application, licenseClass));
         }
     }

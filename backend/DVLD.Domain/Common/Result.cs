@@ -47,14 +47,14 @@ namespace DVLD.Domain.Common
     public sealed class Result<TValue> : Result
     {
 
-        public TValue? Value { get; }
+        public TValue? _value { get; }
 
 
         private Result(TValue? data, Error error, bool success,IReadOnlyList<Error> errors = null)
             : base(success,error,errors)
         {
 
-            this.Value = data;
+            this._value = data;
 
 
         }

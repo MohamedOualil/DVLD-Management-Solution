@@ -1,46 +1,41 @@
-﻿using DVLD.Domain.Common;
+using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Data
 {
-    public class AppDbContext : DbContext , IUnitOfWork
+    public class AppDbContext : DbContext, IUnitOfWork
     {
-
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-
         }
-        public DbSet<Person> Person => Set<Person>();
 
+        public DbSet<Person> Persons => Set<Person>();
+        public DbSet<User> Users => Set<User>();
+        public DbSet<Driver> Drivers => Set<Driver>();
+        public DbSet<License> Licenses => Set<License>();
+        public DbSet<Applications> Applications => Set<Applications>();
+        public DbSet<ApplicationTypes> ApplicationTypes => Set<ApplicationTypes>();
+        public DbSet<LicenseClasses> LicenseClasses => Set<LicenseClasses>();
+        public DbSet<Counties> Counties => Set<Counties>();
+        public DbSet<DetainedLicense> DetainedLicenses => Set<DetainedLicense>();
+        public DbSet<LocalDrivingLicenseApplication> LocalDrivingLicenseApplications => Set<LocalDrivingLicenseApplication>();
+        public DbSet<TestAppointment> TestAppointments => Set<TestAppointment>();
+        public DbSet<TestTypes> TestTypes => Set<TestTypes>();
+        public DbSet<Test> Tests => Set<Test>();
+        public DbSet<InternationalLicense> InternationalLicenses => Set<InternationalLicense>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
-
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            try
-            {
-                int result = await base.SaveChangesAsync(cancellationToken);
-
-                return result;
-            }
-            catch(DbUpdateConcurrencyException ex)
-            {
-                throw new Exception("Concurrency exception occurred.", ex);
-            }
-            
+            // AuditInterceptor handles CreatedAt and UpdatedAt automatically
+            // No manual field-setting needed here
+            return await base.SaveChangesAsync(cancellationToken);
         }
     }
 }

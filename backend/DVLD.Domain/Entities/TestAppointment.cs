@@ -49,10 +49,10 @@ namespace DVLD.Domain.Entities
             DateTime appointmentDate,
             User createdBy)
         {
-            if (testType == null) return Result<TestAppointment>.Failure("Test Type is required.");
-            if (localApp == null) return Result<TestAppointment>.Failure("Local Application is required.");
-            if (appointmentDate < DateTime.Now) return Result<TestAppointment>.Failure("Appointment date cannot be in the past.");
-            if (createdBy == null) return Result<TestAppointment>.Failure("Creator user is required.");
+            //if (testType == null) return Result<TestAppointment>.Failure("Test Type is required.");
+            //if (localApp == null) return Result<TestAppointment>.Failure("Local Application is required.");
+            //if (appointmentDate < DateTime.Now) return Result<TestAppointment>.Failure("Appointment date cannot be in the past.");
+            //if (createdBy == null) return Result<TestAppointment>.Failure("Creator user is required.");
 
             return Result<TestAppointment>.Success(new TestAppointment(testType, localApp, appointmentDate, createdBy));
         }

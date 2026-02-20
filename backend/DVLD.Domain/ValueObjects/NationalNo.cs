@@ -49,10 +49,10 @@ namespace DVLD.Domain.ValueObjects
                    return  _MarocValidate(value);
 
                 default:
-                    return Result.Failure($"Unsupported country : {countryId}");
+                    return Result.Failure(DomainErrors.Country.InvalidCode);
             }
 
-            
+  
 
         }
 

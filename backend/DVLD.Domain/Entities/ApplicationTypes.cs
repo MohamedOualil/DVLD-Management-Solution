@@ -28,11 +28,11 @@ namespace DVLD.Domain.Entities
 
         public static Result<ApplicationTypes> Create(string applicationName, Money applicationFees)
         {
-            if (string.IsNullOrWhiteSpace(applicationName))
-                return Result<ApplicationTypes>.Failure("Application Name is required.");
+            //if (string.IsNullOrWhiteSpace(applicationName))
+            //    return Result<ApplicationTypes>.Failure("Application Name is required.");
 
-            if (applicationFees == null)
-                return Result<ApplicationTypes>.Failure("Application Fees are required.");
+            //if (applicationFees == null)
+            //    return Result<ApplicationTypes>.Failure("Application Fees are required.");
 
 
             return Result<ApplicationTypes>.Success(new ApplicationTypes(applicationName, applicationFees));

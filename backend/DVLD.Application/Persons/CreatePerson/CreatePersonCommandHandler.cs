@@ -61,7 +61,7 @@ namespace DVLD.Application.Persons.CreatePerson
 
             var person = new Person(
                 fullName, 
-                nationalNo.Value!, 
+                nationalNo._value!, 
                 request.DateOfBirth,
                 (Gender)request.Gender,
                 address,

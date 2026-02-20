@@ -27,7 +27,7 @@ namespace DVLD.Api.Controllers.Person
 
             Result<PersonResponse> result = await _sender.Send(query, cancellationToken);
 
-            return result.IsSuccess ? Ok(result.Value) : NotFound();
+            return result.IsSuccess ? Ok(result._value) : NotFound();
         }
 
         [HttpPost]
@@ -59,10 +59,10 @@ namespace DVLD.Api.Controllers.Person
 
             if (result.IsFailure)
             {
-                return BadRequest(result.Error);
+                return BadRequest(result.Errors);
             }
 
-            return CreatedAtAction(nameof(GetPerson), new { id = result.Value }, result.Value);
+            return CreatedAtAction(nameof(GetPerson), new { id = result._value }, result._value);
         }
     }
 }

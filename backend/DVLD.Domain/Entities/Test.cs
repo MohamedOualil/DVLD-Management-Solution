@@ -35,13 +35,13 @@ namespace DVLD.Domain.Entities
 
         public static Result<Test> Create(TestAppointment testAppointment, bool testResult, string notes, User createdBy)
         {
-            if (testAppointment == null) 
-                return Result<Test>.Failure("Test Appointment is required.");
+            //if (testAppointment == null) 
+            //    return Result<Test>.Failure("Test Appointment is required.");
 
-            if (testAppointment.IsLocked)
-                return Result<Test>.Failure("This appointment already has a recorded test and is locked.");
+            //if (testAppointment.IsLocked)
+            //    return Result<Test>.Failure("This appointment already has a recorded test and is locked.");
 
-            if (createdBy == null) return Result<Test>.Failure("Creator user is required.");
+            //if (createdBy == null) return Result<Test>.Failure("Creator user is required.");
 
             return Result<Test>.Success(new Test(testAppointment, testResult, notes, createdBy));
         }

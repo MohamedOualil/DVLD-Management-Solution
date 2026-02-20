@@ -46,11 +46,11 @@ namespace DVLD.Domain.Entities
 
         public static Result<DetainedLicense> Detain(License license, Money fineFees, User createdBy)  
         {
-            if (fineFees == null) return Result<DetainedLicense>.Failure("Fine amount is required.");
-            if (license == null) return Result<DetainedLicense>.Failure("License is required.");
-            if (license.IsDetained) return Result<DetainedLicense>.Failure("License is already detained.");
+            //if (fineFees == null) return Result<DetainedLicense>.Failure("Fine amount is required.");
+            //if (license == null) return Result<DetainedLicense>.Failure("License is required.");
+            //if (license.IsDetained) return Result<DetainedLicense>.Failure("License is already detained.");
 
-            if (createdBy == null) return Result<DetainedLicense>.Failure("Creator user is required.");
+            //if (createdBy == null) return Result<DetainedLicense>.Failure("Creator user is required.");
 
             return Result<DetainedLicense>.Success(new DetainedLicense(license,fineFees ,createdBy));
 
@@ -59,21 +59,21 @@ namespace DVLD.Domain.Entities
 
         public Result ReleaseLicense(Applications releaseApplications,User releaseBy,Money paidFees)
         {
-            if (IsReleased) 
-                return Result.Failure("License is already released.");
+            //if (IsReleased) 
+            //    return Result.Failure("License is already released.");
 
-            if (releaseApplications == null)
-                return Result.Failure("Release application is required.");
+            //if (releaseApplications == null)
+            //    return Result.Failure("Release application is required.");
 
-            if (releaseApplications.PaidFees.Amount < FineFees.Amount)
-                return Result.Failure("The paid fees do not cover the fine amount.");
+            //if (releaseApplications.PaidFees.Amount < FineFees.Amount)
+            //    return Result.Failure("The paid fees do not cover the fine amount.");
 
-            if (releaseApplications.ApplicationTypeId != Enums.ApplicationType.ReleaseDetainedDrivingLicsense)
-                return Result.Failure("Invalid application type for release.");
+            //if (releaseApplications.ApplicationTypeId != Enums.ApplicationType.ReleaseDetainedDrivingLicsense)
+            //    return Result.Failure("Invalid application type for release.");
 
-            if (releaseBy == null) return Result<DetainedLicense>.Failure("Creator user is required.");
+            //if (releaseBy == null) return Result<DetainedLicense>.Failure("Creator user is required.");
 
-            if (paidFees == null) return Result<DetainedLicense>.Failure("Fees is required.");
+            //if (paidFees == null) return Result<DetainedLicense>.Failure("Fees is required.");
 
 
             FineFees = paidFees;

@@ -1,20 +1,14 @@
-﻿using DVLD.Application.Abstractions;
+using DVLD.Application.Abstractions;
+using DVLD.Application.Persons.CreatePerson;
 using DVLD.Domain.Common;
-using DVLD.Domain.Entities;
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
+using DVLD.Infrastructure.Data.Interceptors;
 using DVLD.Infrastructure.Repositorys;
 using DVLD.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DVLD.Application.Persons.CreatePerson;
-
 
 namespace DVLD.Infrastructure.DependencyInjection
 {
@@ -24,13 +18,24 @@ namespace DVLD.Infrastructure.DependencyInjection
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(connectionString));
+            // Register IDateTimeProvider first — interceptor depends on it
+            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
+            // Register interceptor — must be scoped so EF Core can inject it per request
+            services.AddScoped<AuditInterceptor>();
+
+            // Register DbContext — pull interceptor from DI so it gets IDateTimeProvider
+            services.AddDbContext<AppDbContext>((sp, options) =>
+            {
+                options.UseSqlServer(connectionString)
+                       .AddInterceptors(sp.GetRequiredService<AuditInterceptor>());
+            });
+
+            // Repositories
             services.AddScoped<IPersonRepository, PersonRepository>();
-            services.AddScoped<IUserRepository,UserRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IApplicationTypesRepository, ApplicationTypesRepositorys>();
-            services.AddScoped<IApplicationsRepository,ApplicationsRepository>();
+            services.AddScoped<IApplicationsRepository, ApplicationsRepository>();
             services.AddScoped<ILicenseClassesRepository, LicenseClassesRepository>();
             services.AddScoped<IDriverRepository, DriverRepository>();
             services.AddScoped<ILicenseRepository, LicenseRepository>();
@@ -43,13 +48,13 @@ namespace DVLD.Infrastructure.DependencyInjection
             services.AddScoped<IInternationalLicenseRepository, InternationalLicenseRepository>();
             services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 
+            // Validators
             services.AddScoped<IValidate<CreatePersonCommand>, CreatePersonCommandValidator>();
 
+            // UnitOfWork
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
 
             return services;
-
-
         }
     }
 }

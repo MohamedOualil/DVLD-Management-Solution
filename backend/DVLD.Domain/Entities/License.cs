@@ -61,17 +61,17 @@ namespace DVLD.Domain.Entities
         public static Result<License> IssueLicense(Applications applications, Driver driver, LicenseClasses licenseClasses, 
             string note,IssueReason issueReason, User createdBy)
         {
-            if (applications == null)
-                return Result<License>.Failure("Application is required.");
+            //if (applications == null)
+            //    return Result<License>.Failure("Application is required.");
 
-            if (driver == null)
-                return Result<License>.Failure("Driver is required.");
+            //if (driver == null)
+            //    return Result<License>.Failure("Driver is required.");
 
-            if (licenseClasses == null)
-                return Result<License>.Failure("License Classe is required.");
+            //if (licenseClasses == null)
+            //    return Result<License>.Failure("License Classe is required.");
 
-            if (createdBy == null)
-                return Result<License>.Failure("Creator user is required.");
+            //if (createdBy == null)
+            //    return Result<License>.Failure("Creator user is required.");
 
             return Result<License>.Success(new License
                             (applications, driver, licenseClasses,note,issueReason,createdBy));
