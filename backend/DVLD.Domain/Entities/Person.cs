@@ -50,7 +50,10 @@ namespace DVLD.Domain.Entities
 
         }
        
-
+        public void Deactivate()
+        {
+            base.Deactivate();
+        }
 
 
     }

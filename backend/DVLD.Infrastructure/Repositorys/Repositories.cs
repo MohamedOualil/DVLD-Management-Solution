@@ -23,7 +23,7 @@ namespace DVLD.Infrastructure.Repositorys
         {
             return await DbContext
                 .Set<T>()
-                .FirstOrDefaultAsync(p => p.Id.Equals(id), cancellationToken);
+                .FirstOrDefaultAsync(p => p.Id.Equals(id) && !p.IsDeactivated, cancellationToken);
         }
 
         public virtual void Add(T entity)
@@ -34,6 +34,11 @@ namespace DVLD.Infrastructure.Repositorys
         public virtual void Update(T entity)
         {
             DbContext.Update(entity);
+        }
+
+        public virtual void Delete(T entity)
+        {
+            DbContext.Remove(entity);
         }
     }
 }

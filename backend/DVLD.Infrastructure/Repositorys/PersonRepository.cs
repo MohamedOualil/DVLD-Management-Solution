@@ -17,12 +17,6 @@ namespace DVLD.Infrastructure.Repositorys
         {
             _context = appDbContext;
         }
-        
-
-        public Task<bool> DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
 
 
         public Task<IEnumerable<Person>> GetAllAsync()

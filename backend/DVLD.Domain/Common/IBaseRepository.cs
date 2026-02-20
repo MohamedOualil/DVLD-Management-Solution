@@ -11,7 +11,8 @@ namespace DVLD.Domain.Common
         //Task<int> AddAsync(Entity entity);
         void Add(T entity);    
         void Update(T entity);
-        Task<bool> DeleteAsync(TId id);
+
+        void Delete(T entity);
         Task<IEnumerable<T>> GetAllAsync();
 
         Task<T?> GetByIdAsync(TId id,CancellationToken cancellationToken = default);
