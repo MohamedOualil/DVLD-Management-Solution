@@ -1,4 +1,5 @@
-﻿using DVLD.Domain.Common;
+﻿using DVLD.Application.Abstractions;
+using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
@@ -12,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DVLD.Application.Persons.CreatePerson;
 
 
 namespace DVLD.Infrastructure.DependencyInjection
@@ -40,6 +42,8 @@ namespace DVLD.Infrastructure.DependencyInjection
             services.AddScoped<ITestRepository, TestRepository>();
             services.AddScoped<IInternationalLicenseRepository, InternationalLicenseRepository>();
             services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
+
+            services.AddScoped<IValidate<CreatePersonCommand>, CreatePersonCommandValidator>();
 
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
 

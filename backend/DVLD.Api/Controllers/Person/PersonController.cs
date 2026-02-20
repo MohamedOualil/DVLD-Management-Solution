@@ -59,7 +59,7 @@ namespace DVLD.Api.Controllers.Person
 
             if (result.IsFailure)
             {
-                return BadRequest(result.MessageError);
+                return BadRequest(result.Error);
             }
 
             return CreatedAtAction(nameof(GetPerson), new { id = result.Value }, result.Value);

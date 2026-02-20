@@ -12,53 +12,67 @@ namespace DVLD.Domain.Common
         public bool IsSuccess { get; }
 
         public bool IsFailure => !IsSuccess;
-        public string MessageError { get; }
+        public Error Error { get; }
+        public IReadOnlyList<Error> Errors { get; }
 
 
 
-        protected Result(bool success ,string messageError)
+        protected Result(bool success ,Error error,IReadOnlyList<Error> validationErrors = null)
         {
-            this.MessageError = messageError;
+            this.Error = error;
             this.IsSuccess = success;
+            this.Errors = validationErrors ?? [];
 
         }
 
         public static Result Success()
         {
-            return new Result(true,string.Empty);
+            return new Result(true,Error.None);
         }
 
-        public static Result Failure(string messageError)
+        public static Result Failure(Error error)
         {
-            return new Result(false,messageError);
+            return new Result(false,error);
 
+        }
+
+        public static Result Failure(IReadOnlyList<Error> errors)
+        {
+            return new Result(false, errors.FirstOrDefault() ?? Error.None, errors);
         }
 
 
     }
 
-    public class Result<T> : Result
+    public sealed class Result<TValue> : Result
     {
 
-        public T? Value { get; }
+        public TValue? Value { get; }
 
 
-        private Result(T? data, string messageError, bool success)
-            : base(success,messageError)
+        private Result(TValue? data, Error error, bool success,IReadOnlyList<Error> errors = null)
+            : base(success,error,errors)
         {
 
             this.Value = data;
 
+
         }
 
-        public new static Result<T> Success(T data)
+        public new static Result<TValue> Success(TValue data)
         {
-            return new Result<T>(data, string.Empty,true);
+            return new Result<TValue>(data, Error.None,true);
         }
 
-        public new static Result<T> Failure(string messageError)
+        public new static Result<TValue> Failure(Error error)
         {
-            return new Result<T>(default, messageError, false);
+            return new Result<TValue>(default, error, false);
+
+        }
+
+        public new static Result<TValue> Failure(IReadOnlyList<Error> errors)
+        {
+            return new Result<TValue>(default, errors.FirstOrDefault() ?? Error.None, false,errors);
 
         }
 

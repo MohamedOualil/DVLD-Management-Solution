@@ -11,7 +11,7 @@ using DVLD.Domain.Interfaces;
 
 namespace DVLD.Application.Persons.GetPerson
 {
-    public class GetPersonQueryHandler : IQueryHandler<GetPersonQuery, PersonResponse>
+    internal sealed class GetPersonQueryHandler : IQueryHandler<GetPersonQuery, PersonResponse>
     {
 
         private readonly IPersonRepository _personRepository;
@@ -24,12 +24,12 @@ namespace DVLD.Application.Persons.GetPerson
         {
 
             if (request.personId < 0)
-                return  Result<PersonResponse>.Failure("invalide person id ");
+                return  Result<PersonResponse>.Failure(new Error("invalide person id ",string.Empty));
 
             var personEntity = await _personRepository.GetByIdAsync(request.personId);
 
-            if (personEntity == null)
-                return Result<PersonResponse>.Failure("Not Found");
+            //if (personEntity == null)
+            //    //return Result<PersonResponse>.Failure("Not Found");
 
             var personResponse = new PersonResponse
             {
