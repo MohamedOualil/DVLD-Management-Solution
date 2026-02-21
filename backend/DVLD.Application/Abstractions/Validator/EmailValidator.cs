@@ -17,9 +17,9 @@ namespace DVLD.Application.Abstractions.Validator
         public static Error ValidateEmail(string? email)
         {
             if (string.IsNullOrWhiteSpace(email))
-                return DomainErrors.Person.EmailRequired;
+                return DomainErrors.erPerson.EmailRequired;
             if (!EmailRegex.IsMatch(email))
-                return DomainErrors.Person.InvalidEmail;
+                return DomainErrors.erPerson.InvalidEmail;
 
             return Error.None;
         }

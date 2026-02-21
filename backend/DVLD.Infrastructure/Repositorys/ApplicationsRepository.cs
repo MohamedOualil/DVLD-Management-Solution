@@ -1,6 +1,8 @@
 ﻿using DVLD.Domain.Entities;
+using DVLD.Domain.Enums;
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,19 +21,18 @@ namespace DVLD.Infrastructure.Repositorys
         }
 
 
-        public Task<bool> DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<IEnumerable<Applications>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateAsync(Applications entity)
+        public Task<bool> AciveApplicationExist(int personId, ApplicationType ApplicationTypeId)
         {
-            throw new NotImplementedException();
+            return _context.Applications.AnyAsync(a => 
+                a.PersonId == personId && 
+                a.ApplicationTypeId == ApplicationTypeId && 
+                a.Status == ApplicationStatus.New);
         }
+
     }
 }

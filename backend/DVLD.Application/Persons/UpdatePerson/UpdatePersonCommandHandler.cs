@@ -38,7 +38,7 @@ namespace DVLD.Application.Persons.UpdatePerson
             Person? person = await _personResponse.GetByIdAsync(request.Id);
 
             if (person is null)
-                return Result.Failure(DomainErrors.Person.NotFound);
+                return Result.Failure(DomainErrors.erPerson.NotFound);
 
             Result<NationalNo> nationalNo = NationalNo.Create(
                 request.NationalNo,
@@ -50,7 +50,7 @@ namespace DVLD.Application.Persons.UpdatePerson
             if (person.NationalNo != nationalNo.Value)
             {
                 if (await _personResponse.NationlNoExist(nationalNo.Value!.Number))
-                    return Result.Failure(DomainErrors.Person.NationalNoAlreadyExists);
+                    return Result.Failure(DomainErrors.erPerson.NationalNoAlreadyExists);
             }
             
 

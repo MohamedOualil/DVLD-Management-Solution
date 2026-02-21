@@ -8,7 +8,7 @@ namespace DVLD.Domain.Common
 {
     public static class DomainErrors
     {
-        public static class Person
+        public static class erPerson
         {
             public static readonly Error InvalidId =
                 new("Person.InvalidId", "The person ID format is invalid.");
@@ -66,12 +66,54 @@ namespace DVLD.Domain.Common
                 new("Person.InvalidDateOfBirth", "The date of birth is invalid.");
         }
 
-        public static class Country
+        public static class erCountry
         {
             public static readonly Error NotFound =
                 new("Country.NotFound", "Country with the specified ID was not found.");
             public static readonly Error InvalidCode =
                 new("Country.InvalidCode", "The country code format is invalid.");
+        }
+
+        public static class erLicenseClass
+        {
+            public static readonly Error InvalidId =
+                new("LicenseClass.InvalidId", "The license class ID format is invalid.");
+            public static readonly Error NotFound =
+                new("LicenseClass.NotFound", "License class with the specified ID was not found.");
+
+            public static readonly Error minimumAge =
+                new("LicenseClass.MinimumAgeNotMet", "The applicant does not meet the minimum age requirement for this license class.");
+        }
+
+        public static class erApplications 
+        {
+            public static readonly Error NotFound =
+                new("Application.NotFound", "Application with the specified ID was not found.");
+
+            public static readonly Error InvalidApplicationType =
+                new("Application.InvalidApplicationType", "The application type is invalid.");
+
+            public static readonly Error error =
+                new("Application.Error", "An error occurred while processing the application.");
+
+            public static readonly Error InvalidPersonId =
+                new("Application.InvalidPersonId", "The person ID associated with the application is invalid.");
+
+            public static readonly Error InvalidLicenseClassId =
+                new("Application.InvalidLicenseClassId", "The license class ID associated with the application is invalid.");
+
+            public static readonly Error ApplicationFees = 
+                new("Application.InvalidApplicationFees", "The application fees provided do not match the required amount for the application type.");
+            public static readonly Error ActiveApplicationExist = 
+                new("Application.ActiveApplicationExist", "An active application of the same type already exists for this person.");
+        }
+
+        public static class erUser
+        {
+            public static readonly Error NotFound =
+                new("User.NotFound", "User with the specified ID was not found.");
+            public static readonly Error InvalidId =
+                                new("User.InvalidId", "The user ID format is invalid.");
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,6 +31,18 @@ namespace DVLD.Infrastructure.Repositorys
         {
             DbContext.Add(entity);
         }
+
+        public virtual async Task<bool> AnyAsync(
+            Expression<Func<T, bool>> predicate,
+            CancellationToken cancellationToken = default)
+        {
+            return await DbContext.Set<T>().AllAsync(predicate,cancellationToken);
+        }
+
+        public virtual bool Exist(TId id)
+        {
+            return DbContext.Set<T>().AnyAsync(p => p.Id.Equals(id) && !p.IsDeactivated).Result;
+        }   
 
         public virtual void Update(T entity)
         {

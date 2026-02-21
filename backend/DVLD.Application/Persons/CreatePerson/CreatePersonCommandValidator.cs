@@ -21,16 +21,16 @@ namespace DVLD.Application.Persons.CreatePerson
             List<Error> errors = new(8); 
 
             if (string.IsNullOrWhiteSpace(request.FirstName))
-                 errors.Add(DomainErrors.Person.FirstNameRequired);
+                 errors.Add(DomainErrors.erPerson.FirstNameRequired);
 
             if (string.IsNullOrWhiteSpace(request.LastName))
-                errors.Add(DomainErrors.Person.LastNameRequired);
+                errors.Add(DomainErrors.erPerson.LastNameRequired);
 
             if (string.IsNullOrWhiteSpace(request.NationalNo))
-                errors.Add(DomainErrors.Person.InvalidNationalId);
+                errors.Add(DomainErrors.erPerson.InvalidNationalId);
 
             if (request.CountryId <= 0)
-                errors.Add(DomainErrors.Country.InvalidCode);
+                errors.Add(DomainErrors.erCountry.InvalidCode);
 
             var validDateOfBirthResult = DateOfBirthValidator.ValidateDateOfBirth(request.DateOfBirth);
 

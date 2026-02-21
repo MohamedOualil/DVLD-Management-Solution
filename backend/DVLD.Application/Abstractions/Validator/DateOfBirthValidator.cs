@@ -31,7 +31,7 @@ namespace DVLD.Application.Abstractions.Validator
 
 
             if (age > 120)
-                return DomainErrors.Person.InvalidBirth;
+                return DomainErrors.erPerson.InvalidBirth;
 
 
             return Error.None;

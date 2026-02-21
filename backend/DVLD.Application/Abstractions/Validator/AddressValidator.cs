@@ -15,23 +15,23 @@ namespace DVLD.Application.Abstractions.Validator
         {
             List<Error> errors = new(5);
             if (string.IsNullOrWhiteSpace(street))
-                errors.Add(DomainErrors.Person.StreetRequired);
+                errors.Add(DomainErrors.erPerson.StreetRequired);
             if (string.IsNullOrWhiteSpace(city))
-                errors.Add(DomainErrors.Person.CityRequired);
+                errors.Add(DomainErrors.erPerson.CityRequired);
             if (string.IsNullOrWhiteSpace(state))
-                errors.Add(DomainErrors.Person.StateRequired);
+                errors.Add(DomainErrors.erPerson.StateRequired);
 
             if (contryId <= 0)
-                errors.Add(DomainErrors.Person.AddressCountryRequired);
+                errors.Add(DomainErrors.erPerson.AddressCountryRequired);
 
             if (string.IsNullOrWhiteSpace(zipCode))
             {
-                errors.Add(DomainErrors.Person.ZipCodeRequired);
+                errors.Add(DomainErrors.erPerson.ZipCodeRequired);
                 return errors;
             }
 
             if (zipCode.Length != 5)
-                errors.Add(DomainErrors.Person.InvalidZipCode);
+                errors.Add(DomainErrors.erPerson.InvalidZipCode);
 
             return errors;
         

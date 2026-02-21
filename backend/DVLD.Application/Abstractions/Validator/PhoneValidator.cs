@@ -14,10 +14,10 @@ namespace DVLD.Application.Abstractions.Validator
         public static Error ValidatePhone(string phone)
         {
             if (string.IsNullOrWhiteSpace(phone))
-                return DomainErrors.Person.PhoneRequired;
+                return DomainErrors.erPerson.PhoneRequired;
 
             if (!Regex.IsMatch(phone, PhonePattern))
-                return DomainErrors.Person.InvalidPhone;
+                return DomainErrors.erPerson.InvalidPhone;
 
             return Error.None;
         }

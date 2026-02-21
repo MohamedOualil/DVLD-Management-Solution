@@ -20,7 +20,7 @@ namespace DVLD.Domain.ValueObjects
         public static Result<NationalNo> Create(string nationalNumber, int countryid)
         {
             if (string.IsNullOrWhiteSpace(nationalNumber))
-                return Result<NationalNo>.Failure(DomainErrors.Person.InvalidNationalId);
+                return Result<NationalNo>.Failure(DomainErrors.erPerson.InvalidNationalId);
 
             nationalNumber = nationalNumber.Trim().ToUpperInvariant();
 
@@ -49,7 +49,7 @@ namespace DVLD.Domain.ValueObjects
                    return  _MarocValidate(value);
 
                 default:
-                    return Result.Failure(DomainErrors.Country.InvalidCode);
+                    return Result.Failure(DomainErrors.erCountry.InvalidCode);
             }
 
   
@@ -59,7 +59,7 @@ namespace DVLD.Domain.ValueObjects
         private static Result _MarocValidate(string value)
         {
             if (value.Length != 8)
-                return Result.Failure(DomainErrors.Person.InvalidNationalId);
+                return Result.Failure(DomainErrors.erPerson.InvalidNationalId);
 
             return Result.Success();
         }

@@ -33,7 +33,7 @@ namespace DVLD.Domain.Entities
         }
 
         private Applications(Person person, ApplicationTypes applicationTypes
-            ,Money paidFees,User createdBy )
+            ,Money paidFees,int createdById )
         {
             PersonId = person.Id;
             Person = person;
@@ -42,28 +42,29 @@ namespace DVLD.Domain.Entities
             ApplicationType = applicationTypes;
             Status = ApplicationStatus.New;
             LastStatusDate = DateTime.UtcNow;
-            CreatedByUserId = createdBy.Id;
-            CreatedBy = createdBy;
+            CreatedByUserId = createdById;
+
             PaidFees = paidFees;
             
         }
 
         public static Result<Applications> ApplyApplication(Person person, ApplicationTypes applicationTypes, Money paidFees,
-            User createdBy)
+            int createdById)
         {
-            //if (person == null)
-            //    return Result<Applications>.Failure("Person Info is required.");
-            //if (applicationTypes == null)
-            //    return Result<Applications>.Failure("Application Types  is required.");
-
-            //if (paidFees == null)
-            //    return Result<Applications>.Failure("Paid Fees is required.");
-
-            //if (createdBy == null)
-            //    return Result<Applications>.Failure("User  is required.");
 
 
-            return Result<Applications>.Success(new Applications(person,applicationTypes,paidFees,createdBy));
+
+            return Result<Applications>.Success(new Applications(person,applicationTypes,paidFees,createdById));
+        }
+
+        public static Result<Applications> CreateLocalApplication(Person person, ApplicationTypes applicationTypes,
+            int createdById)
+        {
+           if (applicationTypes.Id != Enums.ApplicationType.NewLocalDrivingLicenseService)
+                return Result<Applications>.Failure(DomainErrors.erApplications.InvalidApplicationType);
+
+
+            return Result<Applications>.Success(new Applications(person, applicationTypes, applicationTypes.ApplicationFees, createdById));
         }
 
 

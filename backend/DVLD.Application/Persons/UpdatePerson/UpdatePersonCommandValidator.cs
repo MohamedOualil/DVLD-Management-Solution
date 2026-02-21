@@ -16,19 +16,19 @@ namespace DVLD.Application.Persons.UpdatePerson
             List<Error> errors = new(10);
 
             if (request.Id <= 0)
-                errors.Add(DomainErrors.Person.InvalidId);
+                errors.Add(DomainErrors.erPerson.InvalidId);
 
             if (string.IsNullOrWhiteSpace(request.FirstName))
-                errors.Add(DomainErrors.Person.FirstNameRequired);
+                errors.Add(DomainErrors.erPerson.FirstNameRequired);
 
             if (string.IsNullOrWhiteSpace(request.LastName))
-                errors.Add(DomainErrors.Person.LastNameRequired);
+                errors.Add(DomainErrors.erPerson.LastNameRequired);
 
             if (string.IsNullOrWhiteSpace(request.NationalNo))
-                errors.Add(DomainErrors.Person.InvalidNationalId);
+                errors.Add(DomainErrors.erPerson.InvalidNationalId);
 
             if (request.CountryId <= 0)
-                errors.Add(DomainErrors.Country.InvalidCode);
+                errors.Add(DomainErrors.erCountry.InvalidCode);
 
             var validDateOfBirthResult = DateOfBirthValidator.ValidateDateOfBirth(request.DateOfBirth);
 

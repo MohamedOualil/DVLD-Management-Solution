@@ -30,12 +30,12 @@ namespace DVLD.Application.Persons.DeletePerson
         public async Task<Result> Handle(DeletePersonCommand request, CancellationToken cancellationToken)
         {
             if (request.Id <= 0)
-                return Result.Failure(DomainErrors.Person.InvalidId);
+                return Result.Failure(DomainErrors.erPerson.InvalidId);
 
             Person? person = await _personRepository.GetByIdAsync(request.Id, cancellationToken);
 
             if (person is null)
-                return Result.Failure(DomainErrors.Person.NotFound);
+                return Result.Failure(DomainErrors.erPerson.NotFound);
 
 
             person.Deactivate();

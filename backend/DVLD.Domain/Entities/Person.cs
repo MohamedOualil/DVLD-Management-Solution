@@ -16,6 +16,15 @@ namespace DVLD.Domain.Entities
         public Email? Email { get; private set; }
         public string ?ImagePath { get; private set; }
 
+        public int Age => CalculateAge();
+
+        private int CalculateAge()
+        {
+            var today = DateTime.Today;
+            var age = today.Year - DateOfBirth.Year;
+            if (DateOfBirth.Date > today.AddYears(-age)) age--;
+            return age;
+        }
 
         public Person(FullName fullName,NationalNo nationlNo, DateTime dateOfbirth, Gender gendor,
             Address address, Phone phone,Email email , string imagePath)

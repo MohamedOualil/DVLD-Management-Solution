@@ -1,5 +1,6 @@
 ﻿using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
+using DVLD.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace DVLD.Domain.Interfaces
 {
     public interface IApplicationsRepository : IBaseRepository<Applications,int>
     {
+        Task<bool> AciveApplicationExist(int personId, ApplicationType ApplicationTypeId);
     }
 }

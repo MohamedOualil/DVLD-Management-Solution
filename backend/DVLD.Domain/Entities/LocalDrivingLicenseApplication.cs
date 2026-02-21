@@ -1,4 +1,5 @@
 ﻿using DVLD.Domain.Common;
+using DVLD.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,13 +27,13 @@ namespace DVLD.Domain.Entities
             LicenseClass = licenseClass;
         }
 
-        public static Result<LocalDrivingLicenseApplication> Create(Applications application, LicenseClasses licenseClass)
+        public static Result<LocalDrivingLicenseApplication> Create(
+            Applications application, 
+            LicenseClasses licenseClass)
         {
-            //if (application == null) 
-            //    return Result<LocalDrivingLicenseApplication>.Failure("Base Application is required.");
-            //if (licenseClass == null) 
+            if (application.Person.Age < licenseClass.MinimumAllowedAge)
+                return Result<LocalDrivingLicenseApplication>.Failure(DomainErrors.erLicenseClass.minimumAge);
 
-            //    return Result<LocalDrivingLicenseApplication>.Failure("License Class is required.");
             return Result<LocalDrivingLicenseApplication>.Success(new LocalDrivingLicenseApplication(application, licenseClass));
         }
     }
