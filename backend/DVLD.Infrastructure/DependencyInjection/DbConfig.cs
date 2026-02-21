@@ -10,6 +10,7 @@ using DVLD.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using DVLD.Application.Abstractions.Data;
 
 namespace DVLD.Infrastructure.DependencyInjection
 {
@@ -32,6 +33,7 @@ namespace DVLD.Infrastructure.DependencyInjection
                        .AddInterceptors(sp.GetRequiredService<AuditInterceptor>());
             });
 
+            services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
             // Repositories
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
