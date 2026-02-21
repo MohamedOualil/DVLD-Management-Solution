@@ -64,7 +64,8 @@ namespace DVLD.Domain.Entities
                 return Result<Applications>.Failure(DomainErrors.erApplications.InvalidApplicationType);
 
 
-            return Result<Applications>.Success(new Applications(person, applicationTypes, applicationTypes.ApplicationFees, createdById));
+            return Result<Applications>.Success(new Applications(
+                person, applicationTypes, applicationTypes.ApplicationFees, createdById));
         }
 
 
