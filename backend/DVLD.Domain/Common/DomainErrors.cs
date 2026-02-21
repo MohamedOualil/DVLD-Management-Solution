@@ -106,6 +106,12 @@ namespace DVLD.Domain.Common
                 new("Application.InvalidApplicationFees", "The application fees provided do not match the required amount for the application type.");
             public static readonly Error ActiveApplicationExist = 
                 new("Application.ActiveApplicationExist", "An active application of the same type already exists for this person.");
+
+            public static readonly Error ApplicationAlreadyCancelled = 
+                new("Application.ApplicationAlreadyCancelled", "The application has already been cancelled.");
+
+            public static readonly Error ApplicationIsCompleted = 
+                new Error("Application.ApplicationIsCompleted", "The application has already been completed and cannot be modified.");
         }
 
         public static class erLocalApplications

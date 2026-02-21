@@ -68,7 +68,20 @@ namespace DVLD.Domain.Entities
                 person, applicationTypes, applicationTypes.ApplicationFees, createdById));
         }
 
+        public Result CancelApplication(User CancelBy)
+        {
+            if (Status == ApplicationStatus.Cancelled)
+                return Result.Failure(DomainErrors.erApplications.ApplicationAlreadyCancelled);
+            if (Status == ApplicationStatus.Completed)
+                return Result.Failure(DomainErrors.erApplications.ApplicationIsCompleted);
 
+            Status = ApplicationStatus.Cancelled;
+            LastStatusDate = DateTime.UtcNow;
+            LastUpdatedBy = CancelBy;
+            LastUpdatedByUserId = CancelBy.Id;
+
+            return Result.Success();
+        }
 
     }
 }
