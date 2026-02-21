@@ -108,6 +108,16 @@ namespace DVLD.Domain.Common
                 new("Application.ActiveApplicationExist", "An active application of the same type already exists for this person.");
         }
 
+        public static class erLocalApplications
+        {
+            public static readonly Error InvalidId =
+                new("LocalApplication.InvalidId", "The local application ID format is invalid.");
+            public static readonly Error NotFound =
+                new("LocalApplication.NotFound", "Local driving license application with the specified ID was not found.");
+            public static readonly Error InvalidLicenseClassId =
+                new("LocalApplication.InvalidLicenseClassId", "The license class ID associated with the local application is invalid.");
+        }
+
         public static class erUser
         {
             public static readonly Error NotFound =
