@@ -24,14 +24,14 @@ namespace DVLD.Application.Persons.GetPerson
         {
 
             if (request.personId < 0)
-                return  Result<PersonResponse>.Failure(new Error("invalide person id ",string.Empty));
+                return Result<PersonResponse>.Failure(DomainErrors.Person.InvalidId);
 
             var personEntity = await _personRepository.GetByIdAsync(request.personId);
 
-            //if (personEntity == null)
-            //    //return Result<PersonResponse>.Failure("Not Found");
+            if (personEntity == null)
+                return Result<PersonResponse>.Failure(DomainErrors.Person.NotFound);
 
-            var personResponse = new PersonResponse
+                var personResponse = new PersonResponse
             {
                 PersonId = personEntity.Id,
                 FirstName = personEntity.FullName.FirstName,

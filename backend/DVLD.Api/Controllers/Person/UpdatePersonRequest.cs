@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DVLD.Api.Controllers.Person
+﻿namespace DVLD.Api.Controllers.Person
 {
-    public sealed record CreatePersonRequest
+    public sealed record UpdatePersonRequest
     {
+        public int Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string? SecondName { get; set; }
         public string? ThirdName { get; set; }

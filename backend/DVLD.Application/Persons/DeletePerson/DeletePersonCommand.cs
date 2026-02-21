@@ -5,8 +5,9 @@ using ICommand = DVLD.Application.Abstractions.Messaging.ICommand;
 
 namespace DVLD.Application.Persons.DeletePerson
 {
-    public class DeletePersonCommand : ICommand
+    public sealed record DeletePersonCommand(int Id) : ICommand
     {
-        public int Id { get; init; }
+
     }
+  
 }
