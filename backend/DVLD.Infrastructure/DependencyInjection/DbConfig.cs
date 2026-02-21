@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using DVLD.Application.Abstractions.Data;
+using DVLD.Application.LocalLicenseApplications.CreateApplication;
 
 namespace DVLD.Infrastructure.DependencyInjection
 {
@@ -54,6 +55,7 @@ namespace DVLD.Infrastructure.DependencyInjection
             // Validators
             services.AddScoped<IValidate<CreatePersonCommand>, CreatePersonCommandValidator>();
             services.AddScoped<IValidate<UpdatePersonCommand>, UpdatePersonCommandValidator>();
+            services.AddScoped<IValidate<LocalDrivingLicenseApplicationCommand>, LocalDrivingLicenseApplicationCommandValidator>();
 
             // UnitOfWork
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
