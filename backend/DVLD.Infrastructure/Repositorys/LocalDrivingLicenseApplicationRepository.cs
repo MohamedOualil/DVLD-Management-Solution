@@ -1,9 +1,11 @@
 ﻿using DVLD.Domain.Entities;
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,12 +20,15 @@ namespace DVLD.Infrastructure.Repositorys
             _context = appDbContext;
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public async Task<LocalDrivingLicenseApplication?> GetWithDetailsAsync(int id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await _context.LocalDrivingLicenseApplications
+                .Include(a => a.Application)
+                .Include(t => t.TestAppointments)
+                    .ThenInclude(ts => ts.Test)
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
-  
 
         public Task<IEnumerable<LocalDrivingLicenseApplication>> GetAllAsync()
         {

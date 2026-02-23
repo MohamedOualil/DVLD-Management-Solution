@@ -24,17 +24,18 @@ namespace DVLD.Domain.Entities
 
         public bool IsLocked { get; private set; } = false;
 
+        public Test? Test {  get; private set; }
+
         private TestAppointment() { }
 
         private TestAppointment(TestTypes testTypes, LocalDrivingLicenseApplication localDrivingLicense,
-             DateTime appointmentdate ,User createdBy)
+             DateTime appointmentdate ,int createdById)
         {
             TestTypeId = testTypes.Id;
             TestTypes = testTypes;
             LocalDrivingLicenseApplicationId = localDrivingLicense.Id;
             LocalDrivingLicense = localDrivingLicense;
-            CreatedByUserId = createdBy.Id;
-            CreatedBy = createdBy;
+            CreatedByUserId = createdById;
 
             PaidFees = testTypes.TestFees;
             AppointmentDate = appointmentdate;
@@ -43,18 +44,13 @@ namespace DVLD.Domain.Entities
 
         }
 
-        public static Result<TestAppointment> Create(
+        public static TestAppointment Create(
             TestTypes testType,
             LocalDrivingLicenseApplication localApp,
             DateTime appointmentDate,
-            User createdBy)
+            int createdById)
         {
-            //if (testType == null) return Result<TestAppointment>.Failure("Test Type is required.");
-            //if (localApp == null) return Result<TestAppointment>.Failure("Local Application is required.");
-            //if (appointmentDate < DateTime.Now) return Result<TestAppointment>.Failure("Appointment date cannot be in the past.");
-            //if (createdBy == null) return Result<TestAppointment>.Failure("Creator user is required.");
-
-            return Result<TestAppointment>.Success(new TestAppointment(testType, localApp, appointmentDate, createdBy));
+            return new TestAppointment(testType, localApp, appointmentDate, createdById);
         }
 
     }

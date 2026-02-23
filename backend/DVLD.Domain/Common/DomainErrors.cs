@@ -112,6 +112,12 @@ namespace DVLD.Domain.Common
 
             public static readonly Error ApplicationIsCompleted = 
                 new Error("Application.ApplicationIsCompleted", "The application has already been completed and cannot be modified.");
+
+            
+            public static readonly Error CannotUpdateProcessedApplication = 
+                new Error("Application.CannotUpdateProcessedApplication", "The application has already been processed and cannot be updated.");
+
+            
         }
 
         public static class erLocalApplications
@@ -131,5 +137,51 @@ namespace DVLD.Domain.Common
             public static readonly Error InvalidId =
                                 new("User.InvalidId", "The user ID format is invalid.");
         }
-    }
+
+        public static class erTests
+        {
+            public static readonly Error NotFound =
+                new("Test.NotFound", "Test with the specified ID was not found.");
+            public static readonly Error InvalidId =
+                new("Test.InvalidId", "The test ID format is invalid.");
+            public static readonly Error TestAlreadyScheduled =
+                new("Test.TestAlreadyScheduled", "A test of this type has already been scheduled for this application.");
+            public static readonly Error VisionTestAlreadyScheduled =
+                new("Test.VisionTestAlreadyScheduled", "A vision test has already been scheduled for this application.");
+
+            public static readonly Error TestAlreadyPassed =
+                new("Test.TestAlreadyPassed", "The test has already been passed for this application.");
+
+            public static readonly Error VisionTestNotPassed =
+                new("Test.VisionTestNotPassed", "The vision test must be passed before scheduling the written test.");
+          
+            public static readonly Error WrittenTestNotPassed =
+                new("Test.WrittenTestNotPassed", "The written test must be passed before scheduling the street test.");
+            public static readonly Error InvalidTestType =
+                new("Test.InvalidTestType", "The test type is invalid.");
+            public static readonly Error TestAttempts =
+                new("Test.TestAttempts", "The maximum number of failed attempts for this test type has been reached.");
+
+
+
+        }
+
+        public static class erTestAppointment
+        {
+            public static readonly Error NotFound =
+                new("TestAppointment.NotFound", "Test appointment with the specified ID was not found.");
+            public static readonly Error InvalidId =
+                new("TestAppointment.InvalidId", "The test appointment ID format is invalid.");
+            public static readonly Error InvalidAppoinmentDate =
+                new("TestAppointment.InvalidAppoinmentDate", "The appointment date must be in the future.");
+
+        }
+
+        public static class erTestTypes
+        {
+            public static readonly Error NotFound =
+                new("TestTypes.NotFound", "Test type with the specified ID was not found.");
+            public static readonly Error InvalidId =
+                new("TestTypes.InvalidId", "The test type ID format is invalid.");
+        }
 }
