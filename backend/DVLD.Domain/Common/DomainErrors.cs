@@ -175,6 +175,9 @@ namespace DVLD.Domain.Common
             public static readonly Error InvalidAppoinmentDate =
                 new("TestAppointment.InvalidAppoinmentDate", "The appointment date must be in the future.");
 
+            public static readonly Error TestLocked =
+                new("TestAppointment.TestLocked", "The test appointment is locked and cannot be modified.");
+
         }
 
         public static class erTestTypes

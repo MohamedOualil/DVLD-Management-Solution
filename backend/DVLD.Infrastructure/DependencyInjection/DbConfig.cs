@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using DVLD.Application.Abstractions.Data;
 using DVLD.Application.LocalLicenseApplications.CreateApplication;
+using DVLD.Application.Tests.ScheduleTest;
 
 namespace DVLD.Infrastructure.DependencyInjection
 {
@@ -56,6 +57,7 @@ namespace DVLD.Infrastructure.DependencyInjection
             services.AddScoped<IValidate<CreatePersonCommand>, CreatePersonCommandValidator>();
             services.AddScoped<IValidate<UpdatePersonCommand>, UpdatePersonCommandValidator>();
             services.AddScoped<IValidate<LocalDrivingLicenseApplicationCommand>, LocalDrivingLicenseApplicationCommandValidator>();
+            services.AddScoped<IValidate<CreateTestAppointmentCommand>, CreateTestAppointmentCommandValidator>();
 
             // UnitOfWork
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());

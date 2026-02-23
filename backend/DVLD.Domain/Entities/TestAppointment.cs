@@ -53,5 +53,15 @@ namespace DVLD.Domain.Entities
             return new TestAppointment(testType, localApp, appointmentDate, createdById);
         }
 
+        public Result<Test> TakeTest(TestResult testResult,string? notes,int createByid)
+        {
+            if (IsLocked)
+                return Result<Test>.Failure(DomainErrors.erTestAppointment.TestLocked);
+            
+            this.Test = Test.Create(this, testResult, notes, createByid);
+            this.IsLocked = true;
+
+            return Result<Test>.Success(this.Test);
+        }
     }
 }

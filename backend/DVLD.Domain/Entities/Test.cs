@@ -12,7 +12,7 @@ namespace DVLD.Domain.Entities
     {
         public int TestAppointmentId { get; private set; }
         public TestAppointment TestAppointment { get; private set; }
-        public bool TestResult { get; private set; }
+        public TestResult TestResult { get; private set; }
         public string ?Notes { get; private set; }
 
         public int CreatedByUserId { get; private set; }
@@ -21,29 +21,20 @@ namespace DVLD.Domain.Entities
         private Test() { }
         
 
-        private Test(TestAppointment testAppointment , bool testResult , string notes,User createdBy)
+        private Test(TestAppointment testAppointment , TestResult testResult , string? notes,int createdById)
         {
             TestAppointmentId = testAppointment.Id;
             TestAppointment = testAppointment;
             TestResult = testResult;
             Notes = notes;
-            CreatedByUserId = createdBy.Id;
-            CreatedBy = createdBy;
+            CreatedByUserId = createdById;
             
         }
 
 
-        public static Result<Test> Create(TestAppointment testAppointment, bool testResult, string notes, User createdBy)
+        public static Test Create(TestAppointment testAppointment, TestResult testResult, string? notes, int createdById)
         {
-            //if (testAppointment == null) 
-            //    return Result<Test>.Failure("Test Appointment is required.");
-
-            //if (testAppointment.IsLocked)
-            //    return Result<Test>.Failure("This appointment already has a recorded test and is locked.");
-
-            //if (createdBy == null) return Result<Test>.Failure("Creator user is required.");
-
-            return Result<Test>.Success(new Test(testAppointment, testResult, notes, createdBy));
+            return new Test(testAppointment, testResult, notes, createdById);
         }
     }
 }
