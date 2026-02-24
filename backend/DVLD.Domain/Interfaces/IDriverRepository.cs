@@ -10,5 +10,6 @@ namespace DVLD.Domain.Interfaces
 {
     public interface IDriverRepository : IBaseRepository<Driver,int>
     {
+        Task<Driver?> GetByPersonIdAsync(int id, CancellationToken cancellationToken);
     }
 }

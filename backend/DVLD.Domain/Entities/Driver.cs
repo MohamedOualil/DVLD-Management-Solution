@@ -21,25 +21,15 @@ namespace DVLD.Domain.Entities
             
         }
 
-        private Driver(Person person, User createdBy )
+        public Driver(int personId, int createdById )
         {
-            PersonId = person.Id;
-            Person = person;
-            CreatedByUserId = createdBy.Id;
-            CreatedBy = createdBy;
+            PersonId = personId;
+
+            CreatedByUserId = createdById;
+ 
             
         }
 
-        public static Result<Driver> Create(Person person, User createdBy)
-        {
-            //if (person == null)
-            //    return Result<Driver>.Failure("Person Info is required.");
-
-            //if (createdBy == null)
-            //    return Result<Driver>.Failure("User  is required.");
-
-            return Result<Driver>.Success(new Driver(person, createdBy));
-
-        }
+        
     }
 }

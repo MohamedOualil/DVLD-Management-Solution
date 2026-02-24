@@ -31,7 +31,7 @@ namespace DVLD.Infrastructure.Repositorys
             return _context.Applications.AnyAsync(a => 
                 a.PersonId == personId && 
                 a.ApplicationTypeId == ApplicationTypeId && 
-                a.Status == ApplicationStatus.New);
+                a.Status == ApplicationStatusEnum.New);
         }
 
     }

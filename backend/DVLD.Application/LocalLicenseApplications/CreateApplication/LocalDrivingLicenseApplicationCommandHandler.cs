@@ -55,7 +55,7 @@ namespace DVLD.Application.LocalLicenseApplications.CreateApplication
 
             if (await _repository.AnyAsync(a =>
                                 a.Application.PersonId == request.PersonId &&
-                                a.Application.Status == ApplicationStatus.New &&
+                                a.Application.Status == ApplicationStatusEnum.New &&
                                 a.LicenseClassId == request.LicensesClassId,
                                 cancellationToken))
                 return Result<int>.Failure(DomainErrors.erApplications.ActiveApplicationExist);

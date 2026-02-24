@@ -18,7 +18,7 @@ namespace DVLD.Application.LocalLicenseApplications.GetLocalApplication
         public string UserFullName { get; init; }
         public DateTime ApplicationDate { get; init; }
         public DateTime LastStatusDate { get; init; }
-        public ApplicationStatus Status { get; init; }
+        public ApplicationStatusEnum Status { get; init; }
 
     }
 }

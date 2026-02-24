@@ -1,6 +1,7 @@
 ﻿using DVLD.Domain.Entities;
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +20,12 @@ namespace DVLD.Infrastructure.Repositorys
         }
 
 
-        public Task<bool> DeleteAsync(int id)
+        public async Task<Driver?> GetByPersonIdAsync(int id,CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return await _context.Drivers.FirstOrDefaultAsync(t => 
+                            t.PersonId == id && 
+                            !t.IsDeactivated, 
+                            cancellationToken);
         }
 
 
@@ -30,9 +34,5 @@ namespace DVLD.Infrastructure.Repositorys
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateAsync(Driver entity)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

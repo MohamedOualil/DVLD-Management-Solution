@@ -36,8 +36,8 @@ namespace DVLD.Domain.Entities
             
         }
 
-        private License(Applications applications,Driver driver,LicenseClasses licenseClasses,string? note,
-            IssueReason issueReason,User createdBy)
+        private License(Applications applications,Driver driver,int licenseClassId, string? note,
+            IssueReason issueReason,int createdBy)
         {
             ApplicationId = applications.Id;
             Applications = applications;
@@ -58,26 +58,27 @@ namespace DVLD.Domain.Entities
         }
 
 
-        public static Result<License> IssueLicense(Applications applications, Driver driver, LicenseClasses licenseClasses, 
-            string note,IssueReason issueReason, User createdBy)
+        //public static License IssueLicense(Applications applications, Driver driver, LicenseClasses licenseClasses, 
+        //    string note,IssueReason issueReason, User createdBy)
+        //{
+
+        //    return new License
+        //                    (applications, driver, licenseClasses,note,issueReason,createdBy);
+
+        //}
+
+
+        public static License IssueLicenseFirstTime(Applications applications, Driver driver,int licenseClassesId,
+            string note,int createdBy)
         {
-            //if (applications == null)
-            //    return Result<License>.Failure("Application is required.");
-
-            //if (driver == null)
-            //    return Result<License>.Failure("Driver is required.");
-
-            //if (licenseClasses == null)
-            //    return Result<License>.Failure("License Classe is required.");
-
-            //if (createdBy == null)
-            //    return Result<License>.Failure("Creator user is required.");
-
-            return Result<License>.Success(new License
-                            (applications, driver, licenseClasses,note,issueReason,createdBy));
-
+            return new License(
+                applications, 
+                driver, 
+                licenseClassesId,
+                note,
+                IssueReason.FirstTime, 
+                createdBy);
         }
-
 
         public void Activate()
         {

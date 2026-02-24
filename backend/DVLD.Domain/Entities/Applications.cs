@@ -16,7 +16,7 @@ namespace DVLD.Domain.Entities
         public DateTime ApplicationDate { get; private set; }
         public ApplicationType ApplicationTypeId { get; private set; }
         public ApplicationTypes ApplicationType { get; private set; }
-        public ApplicationStatus Status { get; private set; } = ApplicationStatus.New;
+        public ApplicationStatusEnum Status { get; private set; } = ApplicationStatusEnum.New;
         public DateTime LastStatusDate { get; private set; }
         public Money PaidFees { get; private set; }
 
@@ -24,28 +24,28 @@ namespace DVLD.Domain.Entities
         public User CreatedBy { get; private set; }
 
         public int? LastUpdatedByUserId { get; private set; }
-        public User LastUpdatedBy { get; private set; }
+        public User? LastUpdatedBy { get; private set; }
 
 
         private Applications()
         {
-            
+
         }
 
         private Applications(Person person, ApplicationTypes applicationTypes
-            ,Money paidFees,int createdById )
+            , Money paidFees, int createdById)
         {
             PersonId = person.Id;
             Person = person;
             ApplicationDate = DateTime.UtcNow;
             ApplicationTypeId = applicationTypes.Id;
             ApplicationType = applicationTypes;
-            Status = ApplicationStatus.New;
+            Status = ApplicationStatusEnum.New;
             LastStatusDate = DateTime.UtcNow;
             CreatedByUserId = createdById;
 
             PaidFees = paidFees;
-            
+
         }
 
         public static Result<Applications> ApplyApplication(Person person, ApplicationTypes applicationTypes, Money paidFees,
@@ -54,13 +54,13 @@ namespace DVLD.Domain.Entities
 
 
 
-            return Result<Applications>.Success(new Applications(person,applicationTypes,paidFees,createdById));
+            return Result<Applications>.Success(new Applications(person, applicationTypes, paidFees, createdById));
         }
 
         public static Result<Applications> CreateLocalApplication(Person person, ApplicationTypes applicationTypes,
             int createdById)
         {
-           if (applicationTypes.Id != Enums.ApplicationType.NewLocalDrivingLicenseService)
+            if (applicationTypes.Id != Enums.ApplicationType.NewLocalDrivingLicenseService)
                 return Result<Applications>.Failure(DomainErrors.erApplications.InvalidApplicationType);
 
 
@@ -70,12 +70,12 @@ namespace DVLD.Domain.Entities
 
         public Result CancelApplication(User CancelBy)
         {
-            if (Status == ApplicationStatus.Cancelled)
+            if (Status == ApplicationStatusEnum.Cancelled)
                 return Result.Failure(DomainErrors.erApplications.ApplicationAlreadyCancelled);
-            if (Status == ApplicationStatus.Completed)
+            if (Status == ApplicationStatusEnum.Completed)
                 return Result.Failure(DomainErrors.erApplications.ApplicationIsCompleted);
 
-            Status = ApplicationStatus.Cancelled;
+            Status = ApplicationStatusEnum.Cancelled;
             LastStatusDate = DateTime.UtcNow;
             LastUpdatedBy = CancelBy;
             LastUpdatedByUserId = CancelBy.Id;
@@ -83,5 +83,12 @@ namespace DVLD.Domain.Entities
             return Result.Success();
         }
 
+        public void MakeComplete( int updatedBy)
+        {
+            Status = ApplicationStatusEnum.Completed;
+            LastStatusDate = DateTime.UtcNow;
+            LastUpdatedByUserId = updatedBy;
+
+        }
     }
 }

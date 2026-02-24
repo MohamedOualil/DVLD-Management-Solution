@@ -20,7 +20,9 @@ namespace DVLD.Infrastructure.Repositorys
             _context = appDbContext;
         }
 
-        public async Task<LocalDrivingLicenseApplication?> GetWithDetailsAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<LocalDrivingLicenseApplication?> GetWithDetailsAsync(
+            int id, 
+            CancellationToken cancellationToken = default)
         {
             return await _context.LocalDrivingLicenseApplications
                 .Include(a => a.Application)

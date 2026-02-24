@@ -67,7 +67,7 @@ namespace DVLD.Domain.Entities
         }
         private Result CanScheduleTest(TestType testType)
         {
-            if (Application.Status != ApplicationStatus.New)
+            if (Application.Status != ApplicationStatusEnum.New)
                 return Result.Failure(DomainErrors.erApplications.CannotUpdateProcessedApplication);
 
             var appointmentsForThisTest = TestAppointments.Where(x => x.TestTypeId == testType).ToList();
@@ -77,7 +77,7 @@ namespace DVLD.Domain.Entities
                 return Result.Failure(DomainErrors.erTests.TestAlreadyScheduled);
 
 
-            bool passedTheTest = appointmentsForThisTest.Any(ta => ta.Test?.TestResult == true);
+            bool passedTheTest = appointmentsForThisTest.Any(ta => ta.Test?.TestResult == TestResult.Success);
             if (passedTheTest)
                 return Result.Failure(DomainErrors.erTests.TestAlreadyPassed);
 
@@ -102,8 +102,62 @@ namespace DVLD.Domain.Entities
         public bool HasPassedTest(TestType testType)
         {
             return TestAppointments.Where(t => t.TestTypeId == testType)
-                    .Any(ts => ts.Test?.TestResult == true);
+                    .Any(ts => ts.Test?.TestResult == TestResult.Success);
         }
+
+        private Result AllTestPass()
+        {
+            List<TestAppointment> passTests = TestAppointments.Where(ts => 
+                                ts.Test?.TestResult == TestResult.Success)
+                                .ToList();
+
+            bool passVisontest = passTests.Any(
+                t => t.TestTypeId == TestType.VisionTest);
+
+            if (!passVisontest)
+                return Result.Failure(DomainErrors.erTests.VisionTestNotPassed);
+
+            bool passWritingtest = passTests.Any(
+                t => t.TestTypeId == TestType.WrittenTest);
+
+            if (!passWritingtest)
+                return Result.Failure(DomainErrors.erTests.WrittenTestNotPassed);
+
+            bool passStreettest = TestAppointments.Any(
+                t => t.TestTypeId == TestType.WrittenTest);
+
+            if (!passStreettest)
+                return Result.Failure(DomainErrors.erTests.WrittenTestNotPassed);
+
+            return Result.Success();
+        }
+
+        public Result<License> IssueLicenseFirstTime(string? notes,int createdBy,Driver driver)
+        {
+            if (Application.ApplicationTypeId != ApplicationType.NewLocalDrivingLicenseService)
+                return Result<License>.Failure(DomainErrors.erLicense.ApplicationTypeNotAllowed);
+
+            if (Application.Status != ApplicationStatusEnum.New)
+                return Result<License>.Failure(DomainErrors.erApplications.CannotUpdateProcessedApplication);
+
+            Result allTestsPassResult = AllTestPass();
+            if (allTestsPassResult.IsFailure)
+                return Result<License>.Failure(allTestsPassResult.Error);
+
+            License newLicense = License.IssueLicenseFirstTime(
+                Application, 
+                driver, 
+                LicenseClassId, 
+                notes ?? string.Empty, 
+                createdBy);
+
+            Application.MakeComplete(createdBy);
+
+            return Result<License>.Success(newLicense);
+
+        }
+
+        
 
     }
 }

@@ -35,34 +35,34 @@ namespace DVLD.Domain.Common
 
             public static readonly Error StreetRequired =
                 new("Person.StreetRequired", "Street address is required.");
-            public static readonly Error CityRequired = 
+            public static readonly Error CityRequired =
                 new("Person.CityRequired", "City is required.");
-            public static readonly Error StateRequired = 
+            public static readonly Error StateRequired =
                 new("Person.StateRequired", "State is required.");
-            public static readonly Error ZipCodeRequired = 
+            public static readonly Error ZipCodeRequired =
                 new("Person.ZipCodeRequired", "Zip code is required.");
 
-            public static readonly Error InvalidZipCode = 
+            public static readonly Error InvalidZipCode =
                 new("Person.InvalidZipCode", "The zip code format is invalid.");
-            public static readonly Error AddressCountryRequired = 
+            public static readonly Error AddressCountryRequired =
                 new("Person.AddressCountryRequired", "Address country ID is required.");
 
-            public static readonly Error PhoneRequired = 
+            public static readonly Error PhoneRequired =
                 new("Person.PhoneRequired", "Phone number is required.");
 
-            public static readonly Error InvalidPhone = 
+            public static readonly Error InvalidPhone =
                 new("Person.InvalidPhone", "The phone number format is invalid.");
 
-            public static readonly Error InvalidEmail = 
+            public static readonly Error InvalidEmail =
                 new("Person.InvalidEmail", "The email format is invalid.");
 
-            public static readonly Error EmailRequired = 
+            public static readonly Error EmailRequired =
                 new("Person.EmailRequired", "Email is required.");
 
-            public static readonly Error  BirthRequired = 
+            public static readonly Error BirthRequired =
                 new("Person.DateOfBirthRequired", "Date of birth is required.");
 
-            public static readonly Error InvalidBirth = 
+            public static readonly Error InvalidBirth =
                 new("Person.InvalidDateOfBirth", "The date of birth is invalid.");
         }
 
@@ -85,7 +85,7 @@ namespace DVLD.Domain.Common
                 new("LicenseClass.MinimumAgeNotMet", "The applicant does not meet the minimum age requirement for this license class.");
         }
 
-        public static class erApplications 
+        public static class erApplications
         {
             public static readonly Error NotFound =
                 new("Application.NotFound", "Application with the specified ID was not found.");
@@ -102,22 +102,22 @@ namespace DVLD.Domain.Common
             public static readonly Error InvalidLicenseClassId =
                 new("Application.InvalidLicenseClassId", "The license class ID associated with the application is invalid.");
 
-            public static readonly Error ApplicationFees = 
+            public static readonly Error ApplicationFees =
                 new("Application.InvalidApplicationFees", "The application fees provided do not match the required amount for the application type.");
-            public static readonly Error ActiveApplicationExist = 
+            public static readonly Error ActiveApplicationExist =
                 new("Application.ActiveApplicationExist", "An active application of the same type already exists for this person.");
 
-            public static readonly Error ApplicationAlreadyCancelled = 
+            public static readonly Error ApplicationAlreadyCancelled =
                 new("Application.ApplicationAlreadyCancelled", "The application has already been cancelled.");
 
-            public static readonly Error ApplicationIsCompleted = 
+            public static readonly Error ApplicationIsCompleted =
                 new Error("Application.ApplicationIsCompleted", "The application has already been completed and cannot be modified.");
 
-            
-            public static readonly Error CannotUpdateProcessedApplication = 
+
+            public static readonly Error CannotUpdateProcessedApplication =
                 new Error("Application.CannotUpdateProcessedApplication", "The application has already been processed and cannot be updated.");
 
-            
+
         }
 
         public static class erLocalApplications
@@ -154,7 +154,7 @@ namespace DVLD.Domain.Common
 
             public static readonly Error VisionTestNotPassed =
                 new("Test.VisionTestNotPassed", "The vision test must be passed before scheduling the written test.");
-          
+
             public static readonly Error WrittenTestNotPassed =
                 new("Test.WrittenTestNotPassed", "The written test must be passed before scheduling the street test.");
             public static readonly Error InvalidTestType =
@@ -186,5 +186,29 @@ namespace DVLD.Domain.Common
                 new("TestTypes.NotFound", "Test type with the specified ID was not found.");
             public static readonly Error InvalidId =
                 new("TestTypes.InvalidId", "The test type ID format is invalid.");
+        }
+
+        public static class erLicense
+        {
+            public static readonly Error NotFound =
+                new("License.NotFound", "License with the specified ID was not found.");
+            public static readonly Error InvalidId =
+                new("License.InvalidId", "The license ID format is invalid.");
+            public static readonly Error LicenseAlreadyIssued =
+                new("License.LicenseAlreadyIssued", "A license has already been issued for this application.");
+            public static readonly Error ApplicationNotCompleted =
+                new("License.ApplicationNotCompleted", "The application must be completed before issuing a license.");
+            public static readonly Error ApplicationTypeNotAllowed =
+                new("License.ApplicationTypeNotAllowed", "A license cannot be issued for this application type.");
+
+        }
+
+        public static class erDrivers
+        {
+            public static readonly Error NotFound =
+                new("Driver.NotFound", "Driver with the specified ID was not found.");
+            public static readonly Error InvalidId =
+                new("Driver.InvalidId", "The driver ID format is invalid.");
+
         }
 }

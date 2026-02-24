@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Enums
 {
-    public enum ApplicationStatus
+    public enum ApplicationStatusEnum
     {
         New = 1,
         Cancelled = 2,

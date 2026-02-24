@@ -36,7 +36,7 @@ namespace DVLD.Infrastructure.Repositorys
             Expression<Func<T, bool>> predicate,
             CancellationToken cancellationToken = default)
         {
-            return await DbContext.Set<T>().AnyAsync(predicate,cancellationToken);
+            return await DbContext.Set<T>().AnyAsync(predicate ,cancellationToken);
         }
 
         public virtual bool Exist(TId id)

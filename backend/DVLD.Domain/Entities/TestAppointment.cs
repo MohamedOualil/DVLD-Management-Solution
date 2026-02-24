@@ -61,6 +61,8 @@ namespace DVLD.Domain.Entities
             this.Test = Test.Create(this, testResult, notes, createByid);
             this.IsLocked = true;
 
+            //if (TestTypeId == TestType.StreetTest)
+            //    LocalDrivingLicense.Application.Status = ApplicationStatus.Completed;
             return Result<Test>.Success(this.Test);
         }
     }
