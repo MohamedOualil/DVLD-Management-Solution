@@ -147,7 +147,7 @@ namespace DVLD.Domain.Entities
             License newLicense = License.IssueLicenseFirstTime(
                 Application, 
                 driver, 
-                LicenseClassId, 
+                LicenseClass, 
                 notes ?? string.Empty, 
                 createdBy);
 

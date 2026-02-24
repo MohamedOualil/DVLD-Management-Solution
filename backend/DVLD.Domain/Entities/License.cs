@@ -36,24 +36,24 @@ namespace DVLD.Domain.Entities
             
         }
 
-        private License(Applications applications,Driver driver,int licenseClassId, string? note,
+        private License(Applications applications,Driver driver,LicenseClasses licenseClass, string? note,
             IssueReason issueReason,int createdBy)
         {
             ApplicationId = applications.Id;
             Applications = applications;
             DriverId = driver.Id;
             Driver = driver;
-            LicenseClassId = licenseClasses.Id;
-            LicenseClass = licenseClasses;
+            LicenseClassId = licenseClass.Id;
+            LicenseClass = licenseClass;
             IssueDate = DateTime.UtcNow;
-            ExpirationDate = DateTime.Today.AddYears(licenseClasses.DefaultValidityLength);
+            ExpirationDate = DateTime.Today.AddYears(licenseClass.DefaultValidityLength);
             Notes = note;
-            PaidFees = licenseClasses.ClassFees;
+            PaidFees = licenseClass.ClassFees;
             IsActive = true;
             IsDetained = false;
             IssueReason = issueReason;
-            CreatedByUserId = createdBy.Id;
-            CreatedBy = createdBy;
+            CreatedByUserId = createdBy;
+
 
         }
 
@@ -68,13 +68,13 @@ namespace DVLD.Domain.Entities
         //}
 
 
-        public static License IssueLicenseFirstTime(Applications applications, Driver driver,int licenseClassesId,
+        public static License IssueLicenseFirstTime(Applications applications, Driver driver,LicenseClasses licenseClasses,
             string note,int createdBy)
         {
             return new License(
                 applications, 
                 driver, 
-                licenseClassesId,
+                licenseClasses,
                 note,
                 IssueReason.FirstTime, 
                 createdBy);

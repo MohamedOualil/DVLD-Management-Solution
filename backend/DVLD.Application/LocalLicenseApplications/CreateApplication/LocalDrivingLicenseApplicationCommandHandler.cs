@@ -24,6 +24,7 @@ namespace DVLD.Application.LocalLicenseApplications.CreateApplication
         private readonly IApplicationsRepository _applicationsRepository;
         private readonly IApplicationTypesRepository _applicationTypesRepository;
         private readonly IUserRepository _userRepository;
+        private readonly ILicenseRepository _licenseRepository;
         public LocalDrivingLicenseApplicationCommandHandler(
             IUserRepository userRepository,
             IApplicationTypesRepository applicationTypesRepository,
@@ -32,6 +33,7 @@ namespace DVLD.Application.LocalLicenseApplications.CreateApplication
             ILocalDrivingLicenseApplicationRepository repository,
             ILicenseClassesRepository licenseClassesRepository,
             IUnitOfWork unitOfWork,
+            ILicenseRepository licenseRepository,
             IValidate<LocalDrivingLicenseApplicationCommand> validate)
         {
             _userRepository = userRepository;
@@ -42,6 +44,7 @@ namespace DVLD.Application.LocalLicenseApplications.CreateApplication
             _licenseClassesRepository = licenseClassesRepository;
             _unitOfWork = unitOfWork;
             _validator = validate;
+            _licenseRepository = licenseRepository;
 
         }
         public async Task<Result<int>> Handle(LocalDrivingLicenseApplicationCommand request, CancellationToken cancellationToken)
@@ -49,6 +52,13 @@ namespace DVLD.Application.LocalLicenseApplications.CreateApplication
             Result validation = _validator.Validate(request);
             if (validation.IsFailure)
                 return Result<int>.Failure(validation.Errors);
+
+            if (await _licenseRepository.AnyAsync(l =>
+                                l.Applications.PersonId == request.PersonId &&
+                                l.LicenseClassId == request.LicensesClassId &&
+                                l.IsActive,
+                                cancellationToken))
+                return Result<int>.Failure(DomainErrors.erLicense.ActiveLicenseExist);
 
             if (!await _userRepository.AnyAsync(c => c.Id == request.CreatedBy && !c.IsDeactivated,cancellationToken))
                 return Result<int>.Failure(DomainErrors.erUser.NotFound);

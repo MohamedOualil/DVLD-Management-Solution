@@ -200,6 +200,8 @@ namespace DVLD.Domain.Common
                 new("License.ApplicationNotCompleted", "The application must be completed before issuing a license.");
             public static readonly Error ApplicationTypeNotAllowed =
                 new("License.ApplicationTypeNotAllowed", "A license cannot be issued for this application type.");
+            public static readonly Error ActiveLicenseExist =
+                new("License.ActiveLicenseExist", "An active license of the same class already exists for this person.");
 
         }
 
