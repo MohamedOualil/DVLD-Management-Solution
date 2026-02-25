@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Enums
 {
-    public enum IssueReason
+    public enum IssueReasonEnum
     {
         FirstTime = 1,
         Renew = 2, 

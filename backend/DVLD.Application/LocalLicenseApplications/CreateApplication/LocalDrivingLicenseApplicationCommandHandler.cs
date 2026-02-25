@@ -54,7 +54,7 @@ namespace DVLD.Application.LocalLicenseApplications.CreateApplication
                 return Result<int>.Failure(validation.Errors);
 
             if (await _licenseRepository.AnyAsync(l =>
-                                l.Applications.PersonId == request.PersonId &&
+                                l.Application.PersonId == request.PersonId &&
                                 l.LicenseClassId == request.LicensesClassId &&
                                 l.IsActive,
                                 cancellationToken))

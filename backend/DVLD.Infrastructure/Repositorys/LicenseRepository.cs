@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class LicenseRepository : Repositories<License,int>, ILicenseRepository
+    internal sealed class LicenseRepository : Repositories<DrivingLicense,int>, ILicenseRepository
     {
 
         private readonly AppDbContext _context;
@@ -24,12 +24,12 @@ namespace DVLD.Infrastructure.Repositorys
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<License>> GetAllAsync()
+        public Task<IEnumerable<DrivingLicense>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateAsync(License entity)
+        public Task<bool> UpdateAsync(DrivingLicense entity)
         {
             throw new NotImplementedException();
         }

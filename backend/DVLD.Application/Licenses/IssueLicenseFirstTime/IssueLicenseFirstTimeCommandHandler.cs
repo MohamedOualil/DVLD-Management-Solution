@@ -61,7 +61,7 @@ namespace DVLD.Application.Licenses.IssueLicenseFirstTime
             }
                 
 
-            Result<License> result = localApplication.IssueLicenseFirstTime(
+            Result<DrivingLicense> result = localApplication.IssueLicenseFirstTime(
                 request.Notes, 
                 request.CreatedByUserId,
                 driver);

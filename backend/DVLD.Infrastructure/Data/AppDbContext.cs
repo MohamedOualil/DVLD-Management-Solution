@@ -13,7 +13,7 @@ namespace DVLD.Infrastructure.Data
         public DbSet<Person> Persons => Set<Person>();
         public DbSet<User> Users => Set<User>();
         public DbSet<Driver> Drivers => Set<Driver>();
-        public DbSet<License> Licenses => Set<License>();
+        public DbSet<DrivingLicense> Licenses => Set<DrivingLicense>();
         public DbSet<Applications> Applications => Set<Applications>();
         public DbSet<ApplicationTypes> ApplicationTypes => Set<ApplicationTypes>();
         public DbSet<LicenseClasses> LicenseClasses => Set<LicenseClasses>();

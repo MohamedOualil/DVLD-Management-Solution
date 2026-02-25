@@ -85,6 +85,19 @@ namespace DVLD.Domain.Common
                 new("LicenseClass.MinimumAgeNotMet", "The applicant does not meet the minimum age requirement for this license class.");
         }
 
+        public static class erApplicationTypes
+        {
+            public static readonly Error NotFound =
+                new("ApplicationType.NotFound", "Application type with the specified ID was not found.");
+            public static readonly Error InvalidId =
+                new("ApplicationType.InvalidId", "The application type ID format is invalid.");
+            public static readonly Error ApplicationTypeAlreadyExists =
+                new("ApplicationType.ApplicationTypeAlreadyExists", "An application type with the same name already exists.");
+            public static readonly Error ApplicationTypeNameRequired =
+                new("ApplicationType.ApplicationTypeNameRequired", "The application type name is required.");
+            public static readonly Error ApplicationTypeFeesRequired =
+                new("ApplicationType.ApplicationTypeFeesRequired", "The application type fees are required.");
+        }
         public static class erApplications
         {
             public static readonly Error NotFound =
@@ -202,6 +215,16 @@ namespace DVLD.Domain.Common
                 new("License.ApplicationTypeNotAllowed", "A license cannot be issued for this application type.");
             public static readonly Error ActiveLicenseExist =
                 new("License.ActiveLicenseExist", "An active license of the same class already exists for this person.");
+
+       
+
+            public static readonly Error LicenseExpired =
+                new("License.LicenseExpired", "The license has expired and cannot be renewed.");
+             public static readonly Error LicenseNotActive =
+                new("License.LicenseNotActive", "The license is not active and cannot be renewed.");
+             public static readonly Error LicenseAlreadyRenewed =
+                new("License.LicenseAlreadyRenewed", "The license has already been renewed once and cannot be renewed again.");
+
 
         }
 

@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Data.Configuration
 {
-    public class LicenseConfiguration : BaseEntityConfiguration<License,int>
+    public class LicenseConfiguration : BaseEntityConfiguration<DrivingLicense,int>
     {
-        public override void Configure(EntityTypeBuilder<License> builder)
+        public override void Configure(EntityTypeBuilder<DrivingLicense> builder)
         {
             base.Configure(builder);
 
-            builder.HasOne(x => x.Applications)
+            builder.HasOne(x => x.Application)
                 .WithMany()
                 .HasForeignKey(x => x.ApplicationId)
                 .OnDelete(DeleteBehavior.Restrict);

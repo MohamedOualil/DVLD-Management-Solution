@@ -11,7 +11,7 @@ namespace DVLD.Domain.Entities
     public class DetainedLicense : Entity<int>
     {
         public int LicenseId { get; private set; }
-        public License License { get; private set; }
+        public DrivingLicense License { get; private set; }
         public DateTime DetainDate { get; private set; }
         public Money FineFees { get; private set; }
         public int CreatedByUserId { get; private set; }
@@ -27,7 +27,7 @@ namespace DVLD.Domain.Entities
 
         private DetainedLicense() { }
 
-        private DetainedLicense(License license, Money fineFees,User createdBy)
+        private DetainedLicense(DrivingLicense license, Money fineFees,User createdBy)
         {
             LicenseId = license.Id;
             License = license;
@@ -44,7 +44,7 @@ namespace DVLD.Domain.Entities
 
        
 
-        public static Result<DetainedLicense> Detain(License license, Money fineFees, User createdBy)  
+        public static Result<DetainedLicense> Detain(DrivingLicense license, Money fineFees, User createdBy)  
         {
             //if (fineFees == null) return Result<DetainedLicense>.Failure("Fine amount is required.");
             //if (license == null) return Result<DetainedLicense>.Failure("License is required.");

@@ -47,6 +47,20 @@ namespace DVLD.Domain.Entities
             PaidFees = paidFees;
 
         }
+        private Applications(int personId, ApplicationTypes applicationTypes
+            , Money paidFees, int createdById)
+        {
+            PersonId = personId;
+            ApplicationDate = DateTime.UtcNow;
+            ApplicationTypeId = applicationTypes.Id;
+            ApplicationType = applicationTypes;
+            Status = ApplicationStatusEnum.Completed;
+            LastStatusDate = DateTime.UtcNow;
+            CreatedByUserId = createdById;
+
+            PaidFees = paidFees;
+
+        }
 
         public static Result<Applications> ApplyApplication(Person person, ApplicationTypes applicationTypes, Money paidFees,
             int createdById)
@@ -83,12 +97,20 @@ namespace DVLD.Domain.Entities
             return Result.Success();
         }
 
-        public void MakeComplete( int updatedBy)
+        public void MakeComplete(int updatedBy)
         {
             Status = ApplicationStatusEnum.Completed;
             LastStatusDate = DateTime.UtcNow;
             LastUpdatedByUserId = updatedBy;
 
         }
+
+        public static Applications RenewApplication(int personId, ApplicationTypes applicationType
+            , int createdById)
+        {
+            return new Applications(personId, applicationType, applicationType.ApplicationFees, createdById);
+        }
+
+            
     }
 }

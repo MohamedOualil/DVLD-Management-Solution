@@ -132,19 +132,19 @@ namespace DVLD.Domain.Entities
             return Result.Success();
         }
 
-        public Result<License> IssueLicenseFirstTime(string? notes,int createdBy,Driver driver)
+        public Result<DrivingLicense> IssueLicenseFirstTime(string? notes,int createdBy,Driver driver)
         {
             if (Application.ApplicationTypeId != ApplicationType.NewLocalDrivingLicenseService)
-                return Result<License>.Failure(DomainErrors.erLicense.ApplicationTypeNotAllowed);
+                return Result<DrivingLicense>.Failure(DomainErrors.erLicense.ApplicationTypeNotAllowed);
 
             if (Application.Status != ApplicationStatusEnum.New)
-                return Result<License>.Failure(DomainErrors.erApplications.CannotUpdateProcessedApplication);
+                return Result<DrivingLicense>.Failure(DomainErrors.erApplications.CannotUpdateProcessedApplication);
 
             Result allTestsPassResult = AllTestPass();
             if (allTestsPassResult.IsFailure)
-                return Result<License>.Failure(allTestsPassResult.Error);
+                return Result<DrivingLicense>.Failure(allTestsPassResult.Error);
 
-            License newLicense = License.IssueLicenseFirstTime(
+            DrivingLicense newLicense = DrivingLicense.IssueLicenseFirstTime(
                 Application, 
                 driver, 
                 LicenseClass, 
@@ -153,9 +153,11 @@ namespace DVLD.Domain.Entities
 
             Application.MakeComplete(createdBy);
 
-            return Result<License>.Success(newLicense);
+            return Result<DrivingLicense>.Success(newLicense);
 
         }
+
+        
 
         
 

@@ -16,13 +16,13 @@ namespace DVLD.Domain.Entities
         public Driver Driver { get; private set; }
 
         public int IssuedUsingLocalLicenseId { get; private set; }
-        public License LocalLicense {  get; private set; }
+        public DrivingLicense LocalLicense {  get; private set; }
         public DateTime IssueDate { get; private set; }
         public DateTime ExpirationDate { get; private set; }
         
         public bool IsActive { get; private set; } = true;
         public bool IsDetained { get; private set; } = false;
-        public IssueReason IssueReason { get; private set; }
+        public IssueReasonEnum IssueReason { get; private set; }
 
         public int CreatedByUserId { get; private set; }
         public User CreatedBy { get; private set; }
@@ -30,7 +30,7 @@ namespace DVLD.Domain.Entities
         private InternationalLicense() { }
         
 
-        private InternationalLicense(Applications applications, Driver driver, License license,IssueReason issueReason, User createdBy)
+        private InternationalLicense(Applications applications, Driver driver, DrivingLicense license,IssueReasonEnum issueReason, User createdBy)
         {
             ApplicationId = applications.Id;
             Application = applications;
@@ -49,8 +49,8 @@ namespace DVLD.Domain.Entities
         }
 
 
-        public static Result<InternationalLicense> IssueLicense(Applications applications, Driver driver,License license, 
-            IssueReason issueReason, User createdBy)
+        public static Result<InternationalLicense> IssueLicense(Applications applications, Driver driver,DrivingLicense license, 
+            IssueReasonEnum issueReason, User createdBy)
         {
             //if (applications == null)
             //    return Result<InternationalLicense>.Failure("Application is required.");
