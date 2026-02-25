@@ -30,7 +30,12 @@ namespace DVLD.Domain.Entities
         private InternationalLicense() { }
         
 
-        private InternationalLicense(Applications applications, Driver driver, DrivingLicense license,IssueReasonEnum issueReason, User createdBy)
+        private InternationalLicense(
+            Applications applications, 
+            Driver driver, 
+            DrivingLicense license,
+            IssueReasonEnum issueReason, 
+            int createdBy)
         {
             ApplicationId = applications.Id;
             Application = applications;
@@ -43,39 +48,17 @@ namespace DVLD.Domain.Entities
             IsActive = true;
             IsDetained = false;
             IssueReason = issueReason;
-            CreatedByUserId = createdBy.Id;
-            CreatedBy = createdBy;
+            CreatedByUserId = createdBy;
 
         }
 
 
-        public static Result<InternationalLicense> IssueLicense(Applications applications, Driver driver,DrivingLicense license, 
-            IssueReasonEnum issueReason, User createdBy)
+        public static InternationalLicense IssueLicense(Applications applications, Driver driver,DrivingLicense license, 
+            IssueReasonEnum issueReason, int createdBy)
         {
-            //if (applications == null)
-            //    return Result<InternationalLicense>.Failure("Application is required.");
 
-            //if (applications.ApplicationTypeId != ApplicationType.NewInternationalLicense)
-            //    return Result<InternationalLicense>.Failure("Invalid application type for release.");
-
-            //if (license == null)
-            //    return Result<InternationalLicense>.Failure("License is required.");
-
-            //if (license.IsDetained)
-            //    return Result<InternationalLicense>.Failure("License is detained.");
-
-            //if (!license.IsActive)
-            //    return Result<InternationalLicense>.Failure("License is  not active.");
-
-            //if (driver == null)
-            //    return Result<InternationalLicense>.Failure("Driver is required.");
-
-            //if (createdBy == null)
-            //    return Result<InternationalLicense>.Failure("Creator user is required.");
-
-
-            return Result<InternationalLicense>.Success(new InternationalLicense
-                            (applications, driver, license, issueReason, createdBy));
+            return new InternationalLicense
+                            (applications, driver, license, issueReason, createdBy);
 
         }
 
@@ -94,5 +77,7 @@ namespace DVLD.Domain.Entities
 
         public void MarkAsDetained() => IsDetained = true;
         public void MarkAsReleased() => IsDetained = false;
+
+        
     }
 }

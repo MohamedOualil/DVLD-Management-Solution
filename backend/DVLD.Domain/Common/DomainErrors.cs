@@ -216,14 +216,14 @@ namespace DVLD.Domain.Common
             public static readonly Error ActiveLicenseExist =
                 new("License.ActiveLicenseExist", "An active license of the same class already exists for this person.");
 
-       
+
 
             public static readonly Error LicenseExpired =
                 new("License.LicenseExpired", "The license has expired and cannot be renewed.");
-             public static readonly Error LicenseNotActive =
-                new("License.LicenseNotActive", "The license is not active and cannot be renewed.");
-             public static readonly Error LicenseAlreadyRenewed =
-                new("License.LicenseAlreadyRenewed", "The license has already been renewed once and cannot be renewed again.");
+            public static readonly Error LicenseNotActive =
+               new("License.LicenseNotActive", "The license is not active and cannot be renewed.");
+            public static readonly Error LicenseAlreadyRenewed =
+               new("License.LicenseAlreadyRenewed", "The license has already been renewed once and cannot be renewed again.");
 
 
         }
@@ -236,4 +236,20 @@ namespace DVLD.Domain.Common
                 new("Driver.InvalidId", "The driver ID format is invalid.");
 
         }
+
+        public static class erInternationalLicense
+        {
+            public static readonly Error NotFound =
+                new("InternationalLicense.NotFound", "International license with the specified ID was not found.");
+            public static readonly Error InvalidId =
+                new("InternationalLicense.InvalidId", "The international license ID format is invalid.");
+            public static readonly Error LicenseAlreadyIssued =
+                new("InternationalLicense.LicenseAlreadyIssued", "An international license has already been issued using this local license.");
+            public static readonly Error LocalLicenseNotActive =
+                new("InternationalLicense.LocalLicenseNotActive", "The local license used for issuing the international license is not active.");
+
+
+        }
+
+    }
 }

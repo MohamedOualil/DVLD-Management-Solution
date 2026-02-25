@@ -3,6 +3,7 @@ using DVLD.Domain.Enums;
 using DVLD.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
@@ -18,7 +19,7 @@ namespace DVLD.Domain.Entities
         public int DriverId { get; private set; }
         public Driver Driver { get; private set; }
 
-        public int LicenseClassId { get; private set; }
+        public LicenseClassEnum LicenseClassId { get; private set; }
         public LicenseClasses LicenseClass { get; private set; }
 
         public DateTime IssueDate { get; private set; }
@@ -121,6 +122,7 @@ namespace DVLD.Domain.Entities
                                                  createdBy, 
                                                  issueReason, 
                                                  applicationType);
+            this.Deactivate();
 
             return Result<DrivingLicense>.Success(newDrivingLicense);
 
@@ -130,8 +132,7 @@ namespace DVLD.Domain.Entities
 
         private DrivingLicense ReplaceDrivingLicense(string? notes,int createdBy,IssueReasonEnum issueReason,ApplicationTypes applicationType)
         {
-            var application = Applications.RenewApplication(
-                this.Application.PersonId,
+            var application = this.Application.LicenseApplication(
                 applicationType,
                 createdBy);
 
@@ -145,6 +146,29 @@ namespace DVLD.Domain.Entities
 
             return license;
         }
-        
+
+        public Result<InternationalLicense> IssueInternationalLicense(
+            int createdBy,
+            ApplicationTypes applicationTypes)
+        {
+            if (!this.IsActive)
+                return Result<InternationalLicense>.Failure(DomainErrors.erLicense.LicenseNotActive);
+            if (this.LicenseClassId != LicenseClassEnum.OrdinaryDrivingLicense)
+                return Result<InternationalLicense>.Failure(DomainErrors.erLicense.ApplicationTypeNotAllowed);
+
+            var newApplication = this.Application.LicenseApplication(applicationTypes,createdBy);
+
+            InternationalLicense internationalLicense = InternationalLicense.IssueLicense(
+                newApplication,
+                this.Driver,
+                this,
+                IssueReasonEnum.FirstTime,
+                createdBy);
+
+            return Result<InternationalLicense>.Success(internationalLicense);
+
+
+        }
+
     }
 }

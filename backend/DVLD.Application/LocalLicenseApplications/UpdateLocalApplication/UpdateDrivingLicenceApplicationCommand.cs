@@ -13,6 +13,6 @@ namespace DVLD.Application.LocalLicenseApplications.UpdateLocalApplication
     public sealed record UpdateDrivingLicenceApplicationCommand : ICommand
     {
         public int LocalApplicationId { get; init; }
-        public enLicenseClass LicenseClass { get; init; }
+        public LicenseClassEnum LicenseClass { get; init; }
     }
 }

@@ -105,11 +105,13 @@ namespace DVLD.Domain.Entities
 
         }
 
-        public static Applications RenewApplication(int personId, ApplicationTypes applicationType
+        public  Applications LicenseApplication(ApplicationTypes applicationType
             , int createdById)
         {
-            return new Applications(personId, applicationType, applicationType.ApplicationFees, createdById);
+            return new Applications(this.PersonId, applicationType, applicationType.ApplicationFees, createdById);
         }
+
+     
 
             
     }

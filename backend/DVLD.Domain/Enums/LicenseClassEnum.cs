@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Enums
 {
-    public enum enLicenseClass
+    public enum LicenseClassEnum
     {
         SmallMotorcycle = 1,
         HeavyMotorcycleLicense = 2,
