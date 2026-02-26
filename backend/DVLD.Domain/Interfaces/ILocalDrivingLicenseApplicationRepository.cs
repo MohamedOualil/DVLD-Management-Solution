@@ -10,6 +10,10 @@ namespace DVLD.Domain.Interfaces
 {
     public interface ILocalDrivingLicenseApplicationRepository : IBaseRepository<LocalDrivingLicenseApplication, int>
     {
-        Task<LocalDrivingLicenseApplication?> GetWithDetailsAsync(int id, CancellationToken cancellationToken = default);
+        Task<LocalDrivingLicenseApplication?> GetWithDetailsAsync(
+            int id, 
+            CancellationToken cancellationToken = default);
+
+       
     }
 }

@@ -43,9 +43,9 @@ namespace DVLD.Application.InternationalDrivingLicenses.IssueInternationalLicens
             if (validation.IsFailure)
                 return Result<int>.Failure(validation.Errors);
 
-            if (await _internationalLicenseRepository.AnyAsync(x => 
-                        x.IssuedUsingLocalLicenseId == request.LicenseId &&
-                        x.IsActive))
+            if (await _internationalLicenseRepository.HasActiveLicenseForLocalLicenseAsync(
+                request.LicenseId,
+                cancellationToken))
                 return Result<int>.Failure(DomainErrors.erInternationalLicense.LicenseAlreadyIssued);
 
             if (!await _userRepository.AnyAsync(c => c.Id == request.CreatedBy && !c.IsDeactivated, cancellationToken))

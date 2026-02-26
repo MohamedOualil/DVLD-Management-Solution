@@ -10,5 +10,8 @@ namespace DVLD.Domain.Interfaces
 {
     public interface IInternationalLicenseRepository : IBaseRepository<InternationalLicense,int>
     {
+        Task<bool> HasActiveLicenseForLocalLicenseAsync(
+           int localLicenseId,
+           CancellationToken cancellationToken = default);
     }
 }

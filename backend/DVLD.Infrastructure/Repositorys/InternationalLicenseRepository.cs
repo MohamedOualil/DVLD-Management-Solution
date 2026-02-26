@@ -1,6 +1,7 @@
 ﻿using DVLD.Domain.Entities;
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,20 +19,17 @@ namespace DVLD.Infrastructure.Repositorys
         }
 
 
-        public Task<bool> DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-
         public Task<IEnumerable<InternationalLicense>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateAsync(InternationalLicense entity)
+        public async Task<bool> HasActiveLicenseForLocalLicenseAsync(
+            int localLicenseId,
+            CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await _context.InternationalLicenses
+                .AnyAsync(x => x.IssuedUsingLocalLicenseId == localLicenseId && x.IsActive, cancellationToken);
         }
     }
 }
