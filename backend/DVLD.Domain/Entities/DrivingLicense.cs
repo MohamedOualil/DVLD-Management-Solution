@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using static DVLD.Domain.Common.DomainErrors;
 using static System.Net.Mime.MediaTypeNames;
@@ -188,6 +189,23 @@ namespace DVLD.Domain.Entities
             return Result<DrivingLicense>.Success(newLicense);
 
 
+        }
+
+        public Result<DetainedLicense> DetainedDrivingLicense(decimal fees,int createdBy)
+        {
+            if (!this.IsActive)
+                return Result<DetainedLicense>.Failure(DomainErrors.erLicense.LicenseNotActive);
+
+            if (this.IsDetained)
+                return Result<DetainedLicense>.Failure(DomainErrors.erDetainedLicense.LicenseAlreadyDetained);
+
+            Result<Money> moneyResult = Money.Create(fees);
+            if (moneyResult.IsFailure)
+                return Result<DetainedLicense>.Failure(moneyResult.Error);
+
+            DetainedLicense deatian = DetainedLicense.Detain(this, moneyResult.Value!, createdBy);
+
+            return Result<DetainedLicense>.Success(deatian);
         }
 
        
