@@ -5,7 +5,7 @@ using DVLD.Domain.ValueObjects;
 namespace DVLD.Domain.Entities
 {
     
-    public class Person : Entity<int>
+    public class Person : Entity
     {
         public FullName FullName { get; private set; }
         public NationalNo NationalNo { get; private set; }

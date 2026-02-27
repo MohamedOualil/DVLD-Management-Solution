@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Entities
 {
-    public class Counties : Entity<int>
+    public class Counties : Entity
     {
         public string CountryName {  get; private set; }
         public string CountryCode { get; private set; }

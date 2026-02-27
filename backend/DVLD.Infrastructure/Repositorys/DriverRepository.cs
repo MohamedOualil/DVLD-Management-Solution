@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class DriverRepository : Repositories<Driver,int>, IDriverRepository
+    internal sealed class DriverRepository : Repositories<Driver>, IDriverRepository
     {
 
         private readonly AppDbContext _context;

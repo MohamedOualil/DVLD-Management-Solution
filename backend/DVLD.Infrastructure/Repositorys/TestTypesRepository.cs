@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class TestTypesRepository : Repositories<TestTypes,TestType> ,ITestTypesRepository
+    internal sealed class TestTypesRepository : Repositories<TestTypes> ,ITestTypesRepository
     {
         private readonly AppDbContext _context;
         public TestTypesRepository(AppDbContext appDbContext) : base(appDbContext)
@@ -18,22 +18,5 @@ namespace DVLD.Infrastructure.Repositorys
             _context = appDbContext;
         }
 
-
-        public Task<bool> DeleteAsync(TestType id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<TestTypes>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-
-
-        public Task<bool> UpdateAsync(TestTypes entity)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

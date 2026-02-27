@@ -14,7 +14,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace DVLD.Domain.Entities
 {
-    public class DrivingLicense : Entity<int>
+    public class DrivingLicense : Entity
     {
         public int ApplicationId { get;private set; }
         public Applications Application { get; private set; }

@@ -9,7 +9,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace DVLD.Domain.Entities
 {
-    public class LocalDrivingLicenseApplication : Entity<int>
+    public class LocalDrivingLicenseApplication : Entity
     {
         public int ApplicationId { get; private set; }
         public Applications Application { get; private set; }

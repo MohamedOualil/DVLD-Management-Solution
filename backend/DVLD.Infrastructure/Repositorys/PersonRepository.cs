@@ -10,18 +10,12 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class PersonRepository : Repositories<Person,int>, IPersonRepository
+    internal sealed class PersonRepository : Repositories<Person>, IPersonRepository
     {
         private readonly AppDbContext _context;
         public PersonRepository(AppDbContext appDbContext) : base(appDbContext) 
         {
             _context = appDbContext;
-        }
-
-
-        public Task<IEnumerable<Person>> GetAllAsync()
-        {
-            throw new NotImplementedException();
         }
 
         public Task<bool> NationlNoExist (string nationalNo)

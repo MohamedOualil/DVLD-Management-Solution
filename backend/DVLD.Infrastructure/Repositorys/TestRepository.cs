@@ -9,27 +9,12 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class TestRepository : Repositories<Test,int> ,ITestRepository
+    internal sealed class TestRepository : Repositories<Test> ,ITestRepository
     {
         private readonly AppDbContext _context;
         public TestRepository(AppDbContext appDbContext) : base(appDbContext)
         {
             _context = appDbContext;
-        }
-
-        public Task<bool> DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Test>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> UpdateAsync(Test entity)
-        {
-            throw new NotImplementedException();
         }
     }
 }

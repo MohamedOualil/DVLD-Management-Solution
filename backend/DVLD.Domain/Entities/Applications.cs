@@ -9,7 +9,7 @@ using DVLD.Domain.ValueObjects;
 
 namespace DVLD.Domain.Entities
 {
-    public class Applications : Entity<int>
+    public class Applications : Entity
     {
         public int PersonId { get; private set; }
         public Person Person { get; private set; }

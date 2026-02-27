@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Common
 {
-    public abstract class Entity<TId> : IEquatable<Entity<TId>>
+    public abstract class Entity : IEquatable<Entity>
     {
-        public TId Id { get; protected set; }
+        public int Id { get; protected set; }
 
         public bool IsDeactivated { get; private set; }
         public DateTime CreatedAt { get; private set; }
@@ -24,14 +24,14 @@ namespace DVLD.Domain.Common
 
         public override int GetHashCode() => Id?.GetHashCode() ?? 0;
 
-        public bool Equals(Entity<TId>? other)
+        public bool Equals(Entity? other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
-            if (Id == null || Id.Equals(default(TId))) return false;
+            if (Id == null || Id.Equals(default(int))) return false;
             return Id.Equals(other.Id);
         }
 
-        public override bool Equals(object? obj) => Equals(obj as Entity<TId>);
+        public override bool Equals(object? obj) => Equals(obj as Entity);
     }
 }

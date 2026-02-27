@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Interfaces
 {
-    public interface ILocalDrivingLicenseApplicationRepository : IBaseRepository<LocalDrivingLicenseApplication, int>
+    public interface ILocalDrivingLicenseApplicationRepository : IBaseRepository<LocalDrivingLicenseApplication>
     {
         Task<LocalDrivingLicenseApplication?> GetWithDetailsAsync(
             int id, 

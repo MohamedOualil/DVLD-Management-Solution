@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Entities
 {
-    public class Test : Entity<int>
+    public class Test : Entity
     {
         public int TestAppointmentId { get; private set; }
         public TestAppointment TestAppointment { get; private set; }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Interfaces
 {
-    public interface IPersonRepository : IBaseRepository<Person,int>
+    public interface IPersonRepository : IBaseRepository<Person>
     {
         Task<bool> NationlNoExist(string nationalNo);
     }

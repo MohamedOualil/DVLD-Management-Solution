@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Interfaces
 {
-    public interface IApplicationsRepository : IBaseRepository<Applications,int>
+    public interface IApplicationsRepository : IBaseRepository<Applications>
     {
         Task<bool> AciveApplicationExist(int personId, ApplicationType ApplicationTypeId);
     }

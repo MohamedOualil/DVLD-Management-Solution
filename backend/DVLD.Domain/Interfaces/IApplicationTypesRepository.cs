@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Interfaces
 {
-    public interface IApplicationTypesRepository : IBaseRepository<ApplicationTypes,ApplicationType>
+    public interface IApplicationTypesRepository : IBaseRepository<ApplicationTypes>
     {
     }
 }

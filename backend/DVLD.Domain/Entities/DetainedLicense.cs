@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Entities
 {
-    public class DetainedLicense : Entity<int>
+    public class DetainedLicense : Entity
     {
         public int LicenseId { get; private set; }
         public DrivingLicense License { get; private set; }

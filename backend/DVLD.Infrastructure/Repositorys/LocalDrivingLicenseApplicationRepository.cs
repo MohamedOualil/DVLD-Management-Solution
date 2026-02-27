@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class LocalDrivingLicenseApplicationRepository : Repositories<LocalDrivingLicenseApplication,int>, ILocalDrivingLicenseApplicationRepository
+    internal sealed class LocalDrivingLicenseApplicationRepository : Repositories<LocalDrivingLicenseApplication>, ILocalDrivingLicenseApplicationRepository
     {
 
         private readonly AppDbContext _context;
@@ -32,15 +32,6 @@ namespace DVLD.Infrastructure.Repositorys
         }
 
 
-        public Task<IEnumerable<LocalDrivingLicenseApplication>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> UpdateAsync(LocalDrivingLicenseApplication entity)
-        {
-            throw new NotImplementedException();
-        }
         
     }
 }

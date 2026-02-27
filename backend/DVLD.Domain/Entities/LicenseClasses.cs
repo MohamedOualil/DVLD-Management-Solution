@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Entities
 {
-    public class LicenseClasses : Entity<LicenseClassEnum>
+    public class LicenseClasses : Entity
     {
         public string ClassName { get; private set; }
         public string ClassDescription { get; private set; }

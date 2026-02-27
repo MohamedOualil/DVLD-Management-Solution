@@ -7,19 +7,18 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Common
 {
-    public interface IBaseRepository<T,TId>
+    public interface IBaseRepository<T> where T : Entity
     {
-        //Task<int> AddAsync(Entity entity);
         void Add(T entity);    
         void Update(T entity);
-        bool Exist(TId id);
+        Task<bool> Exist(int id);
         Task<bool> AnyAsync(
             Expression<Func<T, bool>> predicate,
              CancellationToken cancellationToken = default);
         void Delete(T entity);
         Task<IEnumerable<T>> GetAllAsync();
 
-        Task<T?> GetByIdAsync(TId id,CancellationToken cancellationToken = default);
+        Task<T?> GetByIdAsync(int id,CancellationToken cancellationToken = default);
 
     }
 }

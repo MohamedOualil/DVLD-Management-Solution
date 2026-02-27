@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Interfaces
 {
-    public interface IDriverRepository : IBaseRepository<Driver,int>
+    public interface IDriverRepository : IBaseRepository<Driver>
     {
         Task<Driver?> GetByPersonIdAsync(int id, CancellationToken cancellationToken);
     }

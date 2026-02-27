@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Interfaces
 {
-    public interface ITestRepository : IBaseRepository<Test,int>
+    public interface ITestRepository : IBaseRepository<Test>
     {
     }
 }

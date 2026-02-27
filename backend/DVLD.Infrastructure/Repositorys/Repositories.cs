@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal abstract class Repositories<T,TId> where T : Entity<TId>
+    internal abstract class Repositories<T> : IBaseRepository<T> where T : Entity
     {
         protected readonly AppDbContext DbContext;
 
@@ -19,12 +20,11 @@ namespace DVLD.Infrastructure.Repositorys
             DbContext = dbContext;
         }
 
-
-        public async Task<T?> GetByIdAsync(TId id, CancellationToken cancellationToken = default)
+        public async Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
             return await DbContext
                 .Set<T>()
-                .FirstOrDefaultAsync(p => p.Id.Equals(id) && !p.IsDeactivated, cancellationToken);
+                .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeactivated, cancellationToken);
         }
 
         public virtual void Add(T entity)
@@ -39,9 +39,9 @@ namespace DVLD.Infrastructure.Repositorys
             return await DbContext.Set<T>().AnyAsync(predicate ,cancellationToken);
         }
 
-        public virtual bool Exist(TId id)
+        public virtual async Task<bool> Exist(int id)
         {
-            return DbContext.Set<T>().AnyAsync(p => p.Id.Equals(id) && !p.IsDeactivated).Result;
+            return await DbContext.Set<T>().AnyAsync(p => p.Id == id );
         }   
 
         public virtual void Update(T entity)
@@ -53,5 +53,12 @@ namespace DVLD.Infrastructure.Repositorys
         {
             DbContext.Remove(entity);
         }
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
+        {
+            return await DbContext.Set<T>().AsNoTracking().ToListAsync();
+        }
+
+
+ 
     }
 }

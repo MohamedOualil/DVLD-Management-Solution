@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Entities
 {
-    public class TestAppointment : Entity<int>
+    public class TestAppointment : Entity
     {
         public TestType TestTypeId { get; private set; }
         public TestTypes TestTypes { get; private set; }

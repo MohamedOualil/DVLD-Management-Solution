@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Entities
 {
-    public class User : Entity<int>
+    public class User : Entity
     {
         private static readonly Regex UsernameRegex = new(@"^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){1,18}[a-zA-Z0-9]$");
         public int PersonId { get; private set; }

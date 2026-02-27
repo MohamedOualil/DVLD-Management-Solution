@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Entities
 {
-    public class ApplicationTypes : Entity<ApplicationType>
+    public class ApplicationTypes : Entity
     {
         public string ApplicationName { get; private set; }
         public Money ApplicationFees { get; private set; }

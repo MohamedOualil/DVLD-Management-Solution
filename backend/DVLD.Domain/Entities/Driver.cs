@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Entities
 {
-    public class Driver : Entity<int>
+    public class Driver : Entity
     {
         public int PersonId { get; private set; }
         public Person Person { get; private set; }

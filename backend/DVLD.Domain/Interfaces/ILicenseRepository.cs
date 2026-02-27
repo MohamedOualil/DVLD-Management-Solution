@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Interfaces
 {
-    public interface ILicenseRepository : IBaseRepository<DrivingLicense, int>
+    public interface ILicenseRepository : IBaseRepository<DrivingLicense>
     {
     }
 }

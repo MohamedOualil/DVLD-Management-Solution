@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Entities
 {
-    public class InternationalLicense : Entity<int>
+    public class InternationalLicense : Entity
     {
         public int ApplicationId { get; private set; }
         public Applications Application { get; private set; }

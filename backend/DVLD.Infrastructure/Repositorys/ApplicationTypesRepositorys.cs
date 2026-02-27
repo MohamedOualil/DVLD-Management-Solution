@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class ApplicationTypesRepositorys : Repositories<ApplicationTypes, ApplicationType> ,IApplicationTypesRepository
+    internal sealed class ApplicationTypesRepositorys : Repositories<ApplicationTypes> ,IApplicationTypesRepository
         
     {
         private readonly AppDbContext _context;
@@ -20,19 +20,6 @@ namespace DVLD.Infrastructure.Repositorys
             _context = appDbContext;
         }
 
-        public Task<bool> DeleteAsync(ApplicationType id)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<IEnumerable<ApplicationTypes>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> UpdateAsync(ApplicationTypes entity)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class DetainedLicenseRepository : Repositories<DetainedLicense,int>, IDetainedLicenseRepository
+    internal sealed class DetainedLicenseRepository : Repositories<DetainedLicense>, IDetainedLicenseRepository
     {
         private readonly AppDbContext _context;
         public DetainedLicenseRepository(AppDbContext appDbContext) : base(appDbContext)
@@ -17,22 +17,5 @@ namespace DVLD.Infrastructure.Repositorys
             _context = appDbContext;
         }
  
-
-        public Task<bool> DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-
-
-        public Task<IEnumerable<DetainedLicense>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> UpdateAsync(DetainedLicense entity)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

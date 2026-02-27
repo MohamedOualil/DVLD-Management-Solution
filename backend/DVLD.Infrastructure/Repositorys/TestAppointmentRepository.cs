@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class TestAppointmentRepository :Repositories<TestAppointment,int>, ITestAppointmentRepository
+    internal sealed class TestAppointmentRepository :Repositories<TestAppointment>, ITestAppointmentRepository
     {
         private readonly AppDbContext _context;
         public TestAppointmentRepository(AppDbContext appDbContext) : base(appDbContext)
@@ -17,21 +17,6 @@ namespace DVLD.Infrastructure.Repositorys
             _context = appDbContext;
         }
 
-        public Task<bool> DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        
-
-        public Task<IEnumerable<TestAppointment>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> UpdateAsync(TestAppointment entity)
-        {
-            throw new NotImplementedException();
-        }
+   
     }
 }
