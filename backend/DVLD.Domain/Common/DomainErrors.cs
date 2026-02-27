@@ -217,13 +217,13 @@ namespace DVLD.Domain.Common
                 new("License.ActiveLicenseExist", "An active license of the same class already exists for this person.");
 
 
-
             public static readonly Error LicenseExpired =
                 new("License.LicenseExpired", "The license has expired and cannot be renewed.");
             public static readonly Error LicenseNotActive =
                new("License.LicenseNotActive", "The license is not active and cannot be renewed.");
-            public static readonly Error LicenseAlreadyRenewed =
-               new("License.LicenseAlreadyRenewed", "The license has already been renewed once and cannot be renewed again.");
+            public static readonly Error LicenseNotExpired =
+                 new("","");
+               
 
 
         }

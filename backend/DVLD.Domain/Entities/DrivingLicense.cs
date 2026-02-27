@@ -8,6 +8,8 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using static DVLD.Domain.Common.DomainErrors;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DVLD.Domain.Entities
 {
@@ -117,7 +119,7 @@ namespace DVLD.Domain.Entities
             }
 
             
-            DrivingLicense newDrivingLicense = ReplaceDrivingLicense(
+            DrivingLicense newDrivingLicense = _NewDrivingLicense(
                                                  notes, 
                                                  createdBy, 
                                                  issueReason, 
@@ -130,7 +132,10 @@ namespace DVLD.Domain.Entities
 
    
 
-        private DrivingLicense ReplaceDrivingLicense(string? notes,int createdBy,IssueReasonEnum issueReason,ApplicationTypes applicationType)
+        private DrivingLicense _NewDrivingLicense(string? notes,
+            int createdBy,
+            IssueReasonEnum issueReason,
+            ApplicationTypes applicationType)
         {
             var application = this.Application.LicenseApplication(
                 applicationType,
@@ -167,8 +172,24 @@ namespace DVLD.Domain.Entities
 
             return Result<InternationalLicense>.Success(internationalLicense);
 
+        }
+
+        public Result<DrivingLicense> RenewLicense(int createdBy ,ApplicationTypes applicationType,string? notes)
+        {
+            if (!this.IsActive)
+                return Result<DrivingLicense>.Failure(DomainErrors.erLicense.LicenseNotActive);
+            if (this.ExpirationDate < DateTime.UtcNow)
+                return Result<DrivingLicense>.Failure(DomainErrors.erLicense.LicenseNotExpired);
+
+            var newLicense = _NewDrivingLicense(notes, createdBy,IssueReasonEnum.Renew,applicationType);
+
+            this.Deactivate();
+
+            return Result<DrivingLicense>.Success(newLicense);
+
 
         }
 
+       
     }
 }
