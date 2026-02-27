@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.ValueObjects
 {
-    public record class Money
+    public record  Money
     {
         public decimal Amount { get; init; }
         public string Currency { get; init; } = "USD";
@@ -15,7 +15,7 @@ namespace DVLD.Domain.ValueObjects
         private Money()
         {
             Amount = 0;
-            Currency = string.Empty;
+            Currency = "USD";
         }
 
         private Money(decimal amount, string currency)
@@ -27,38 +27,37 @@ namespace DVLD.Domain.ValueObjects
 
         public static Result<Money> Create(decimal amount, string currency = "USD")
         {
-            //if (amount < 0)
-            //    return Result<Money>.Failure("Money amount cannot be negative.");
+            if (amount < 0)
+                return Result<Money>.Failure(new Error("Money.Negative", "Money amount cannot be negative."));
+
+            if (string.IsNullOrWhiteSpace(currency))
+                return Result<Money>.Failure(new Error("Money.InvalidCurrency", "Currency cannot be empty."));
 
             return Result<Money>.Success(new Money(amount,currency));
 
 
         }
 
-        public static  Result<Money> operator -(Money left,Money right)
+        public static Money operator -(Money left,Money right)
         {
-            //if (left.Currency != right.Currency)
-            //    return Result<Money>.Failure("Cannot subtract different currencies.");
+            if (left.Currency != right.Currency)
+                throw new InvalidOperationException($"Cannot subtract {right.Currency} from {left.Currency}.");
 
-            //var newAmount = left.Amount - right.Amount;
+            if (left.Amount - right.Amount < 0)
+                throw new InvalidOperationException("Resulting money balance cannot be negative.");
 
-            //if (newAmount < 0)
-            //    return Result<Money>.Failure("Resulting balance cannot be negative.");
-
-            return Result<Money>.Success(new Money(1, left.Currency));
+            return new Money(left.Amount - right.Amount, left.Currency);
+        }
 
         }
 
-        public static Result<Money> operator +(Money left, Money right)
+        public static Money operator +(Money left, Money right)
         {
-            //if (left.Currency != right.Currency)
-            //    return Result<Money>.Failure("Cannot add money with different currencies.");
 
-            var newAmount = left.Amount + right.Amount;
+            if (left.Currency != right.Currency)
+                throw new InvalidOperationException($"Cannot add {left.Currency} to {right.Currency}.");
 
-
-            return Result<Money>.Success(new Money(newAmount, left.Currency));
-
+            return new Money(left.Amount + right.Amount, left.Currency);
         }
 
         public static bool operator >(Money left, Money right)
