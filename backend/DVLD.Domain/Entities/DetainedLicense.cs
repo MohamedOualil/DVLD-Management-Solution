@@ -48,10 +48,9 @@ namespace DVLD.Domain.Entities
         }
 
 
-        public void ReleaseLicense(Applications releaseApplications,int releaseBy,Money paidFees)
+        private void _ReleaseLicense(Applications releaseApplications,int releaseBy)
         {
 
-            FineFees = paidFees;
             IsReleased = true;
             ReleaseDate = DateTime.Now;
             ReleaseApplicationId = releaseApplications.Id;
@@ -61,6 +60,22 @@ namespace DVLD.Domain.Entities
             License.MarkAsReleased();
         }
 
+        public Result RelaseDrivingLicense(int relaseBy,ApplicationTypes applicationType)
+        {
+            if (!this.License.IsActive)
+                return Result.Failure(DomainErrors.erLicense.LicenseNotActive);
+
+            if (this.IsReleased)
+                return Result.Failure(DomainErrors.erDetainedLicense.LicenseAlreadyReleased);
+
+            Applications? application = Applications.CreateApplication(
+                this.License.Driver.PersonId, 
+                applicationType,
+                relaseBy);
+            _ReleaseLicense(application, relaseBy);
+
+            return Result.Success();
+        }
 
 
     }

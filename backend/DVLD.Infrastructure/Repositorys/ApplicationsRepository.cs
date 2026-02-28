@@ -26,7 +26,7 @@ namespace DVLD.Infrastructure.Repositorys
             throw new NotImplementedException();
         }
 
-        public Task<bool> AciveApplicationExist(int personId, ApplicationType ApplicationTypeId)
+        public Task<bool> AciveApplicationExist(int personId, ApplicationTypeEnum ApplicationTypeId)
         {
             return _context.Applications.AnyAsync(a => 
                 a.PersonId == personId && 

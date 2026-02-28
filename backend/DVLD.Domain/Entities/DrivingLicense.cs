@@ -109,10 +109,10 @@ namespace DVLD.Domain.Entities
             IssueReasonEnum issueReason = IssueReasonEnum.LostReplacement;
             switch (applicationType.Id)
             {
-                case ApplicationType.Replacement_for_a_DamagedDrivingLicense:
+                case ApplicationTypeEnum.Replacement_for_a_DamagedDrivingLicense:
                    issueReason = IssueReasonEnum.DamagedReplacement;
                     break;
-                case ApplicationType.Replacement_for_a_LostDrivingLicense:
+                case ApplicationTypeEnum.Replacement_for_a_LostDrivingLicense:
                     issueReason = IssueReasonEnum.LostReplacement;
                     break;
                 default:
@@ -208,6 +208,8 @@ namespace DVLD.Domain.Entities
             return Result<DetainedLicense>.Success(deatian);
         }
 
-       
+        
+
+
     }
 }

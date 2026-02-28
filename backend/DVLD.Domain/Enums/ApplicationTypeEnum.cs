@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Enums
 {
-    public enum ApplicationType
+    public enum ApplicationTypeEnum
     {
         NewLocalDrivingLicenseService = 1,
         RenewDrivingLicenseService = 2,

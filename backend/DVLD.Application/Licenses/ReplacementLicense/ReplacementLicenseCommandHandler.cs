@@ -56,9 +56,9 @@ namespace DVLD.Application.Licenses.ReplacementLicense
             if (!oldLicense.IsActive)
                 return Result<int>.Failure(DomainErrors.erLicense.LicenseNotActive);
 
-            ApplicationType applicationTypeId = (request.ReplacmentType == ReplacmentTypeEnum.Lost) ?
-                ApplicationType.Replacement_for_a_LostDrivingLicense : 
-                ApplicationType.Replacement_for_a_DamagedDrivingLicense;
+            ApplicationTypeEnum applicationTypeId = (request.ReplacmentType == ReplacmentTypeEnum.Lost) ?
+                ApplicationTypeEnum.Replacement_for_a_LostDrivingLicense : 
+                ApplicationTypeEnum.Replacement_for_a_DamagedDrivingLicense;
 
             ApplicationTypes? applicationType = await _applicationTypesRepository.GetByIdAsync(
                                     applicationTypeId,

@@ -134,7 +134,7 @@ namespace DVLD.Domain.Entities
 
         public Result<DrivingLicense> IssueLicenseFirstTime(string? notes,int createdBy,Driver driver)
         {
-            if (Application.ApplicationTypeId != ApplicationType.NewLocalDrivingLicenseService)
+            if (Application.ApplicationTypeId != ApplicationTypeEnum.NewLocalDrivingLicenseService)
                 return Result<DrivingLicense>.Failure(DomainErrors.erLicense.ApplicationTypeNotAllowed);
 
             if (Application.Status != ApplicationStatusEnum.New)

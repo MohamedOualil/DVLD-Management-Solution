@@ -81,7 +81,7 @@ namespace DVLD.Application.LocalLicenseApplications.CreateApplication
 
 
             ApplicationTypes? applicationType = await  _applicationTypesRepository.GetByIdAsync(
-                ApplicationType.NewLocalDrivingLicenseService);
+                ApplicationTypeEnum.NewLocalDrivingLicenseService);
             if (applicationType is null)
                 return Result<int>.Failure(DomainErrors.erApplications.InvalidApplicationType);
 

@@ -50,7 +50,7 @@ namespace DVLD.Application.Licenses.RenewLicenseApplication
                 return Result<int>.Failure(DomainErrors.erLicense.NotFound);
 
             ApplicationTypes? applicationType = await _applicationTypeRepository.GetByIdAsync(
-               ApplicationType.RenewDrivingLicenseService);
+               (int)ApplicationTypeEnum.RenewDrivingLicenseService);
             if (applicationType is null)
                 return Result<int>.Failure(DomainErrors.erApplicationTypes.NotFound);
 

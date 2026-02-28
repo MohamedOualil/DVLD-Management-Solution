@@ -14,7 +14,7 @@ namespace DVLD.Domain.Entities
         public int PersonId { get; private set; }
         public Person Person { get; private set; }
         public DateTime ApplicationDate { get; private set; }
-        public ApplicationType ApplicationTypeId { get; private set; }
+        public ApplicationTypeEnum ApplicationTypeId { get; private set; }
         public ApplicationTypes ApplicationType { get; private set; }
         public ApplicationStatusEnum Status { get; private set; } = ApplicationStatusEnum.New;
         public DateTime LastStatusDate { get; private set; }
@@ -38,7 +38,7 @@ namespace DVLD.Domain.Entities
             PersonId = person.Id;
             Person = person;
             ApplicationDate = DateTime.UtcNow;
-            ApplicationTypeId = applicationTypes.Id;
+            ApplicationTypeId = (ApplicationTypeEnum)applicationTypes.Id;
             ApplicationType = applicationTypes;
             Status = ApplicationStatusEnum.New;
             LastStatusDate = DateTime.UtcNow;
@@ -52,7 +52,7 @@ namespace DVLD.Domain.Entities
         {
             PersonId = personId;
             ApplicationDate = DateTime.UtcNow;
-            ApplicationTypeId = applicationTypes.Id;
+            ApplicationTypeId = (ApplicationTypeEnum) applicationTypes.Id;
             ApplicationType = applicationTypes;
             Status = ApplicationStatusEnum.Completed;
             LastStatusDate = DateTime.UtcNow;
@@ -62,19 +62,18 @@ namespace DVLD.Domain.Entities
 
         }
 
-        public static Result<Applications> ApplyApplication(Person person, ApplicationTypes applicationTypes, Money paidFees,
+        public static Applications CreateApplication(int personId, ApplicationTypes applicationTypes,
             int createdById)
         {
 
 
-
-            return Result<Applications>.Success(new Applications(person, applicationTypes, paidFees, createdById));
+            return new Applications(personId, applicationTypes, applicationTypes.ApplicationFees, createdById);
         }
 
         public static Result<Applications> CreateLocalApplication(Person person, ApplicationTypes applicationTypes,
             int createdById)
         {
-            if (applicationTypes.Id != Enums.ApplicationType.NewLocalDrivingLicenseService)
+            if (applicationTypes.Id != (int) Enums.ApplicationTypeEnum.NewLocalDrivingLicenseService)
                 return Result<Applications>.Failure(DomainErrors.erApplications.InvalidApplicationType);
 
 

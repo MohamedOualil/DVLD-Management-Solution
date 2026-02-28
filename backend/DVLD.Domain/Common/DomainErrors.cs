@@ -236,6 +236,8 @@ namespace DVLD.Domain.Common
                 new("DetainedLicense.LicenseNotDetained", "This license is not currently detained.");
             public static readonly Error ReleaseFeeNotPaid =
                 new("DetainedLicense.ReleaseFeeNotPaid", "The fine/release fee must be paid before releasing the license.");
+            public static readonly Error LicenseAlreadyReleased =
+                new("DetainedLicense.LicenseAlreadyReleased", "This detained license has already been released.");
         }
     }
 }

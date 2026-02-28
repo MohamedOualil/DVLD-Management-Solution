@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Data.Configuration
 {
-    public class ApplicationTypesConfiguration : BaseEntityConfiguration<ApplicationTypes, ApplicationType>
+    public class ApplicationTypesConfiguration : BaseEntityConfiguration<ApplicationTypes, ApplicationTypeEnum>
     {
         public override void Configure(EntityTypeBuilder<ApplicationTypes> builder)
         {

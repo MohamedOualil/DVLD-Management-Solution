@@ -11,6 +11,6 @@ namespace DVLD.Domain.Interfaces
 {
     public interface IApplicationsRepository : IBaseRepository<Applications>
     {
-        Task<bool> AciveApplicationExist(int personId, ApplicationType ApplicationTypeId);
+        Task<bool> AciveApplicationExist(int personId, ApplicationTypeEnum ApplicationTypeId);
     }
 }
