@@ -196,7 +196,7 @@ namespace DVLD.Domain.Common
             public static readonly Error LicenseNotExpired =
                 new("License.LicenseNotExpired", "The license is not yet expired and cannot be renewed at this time.");
 
-      
+
             public static readonly Error LicenseIsDetained =
                 new("License.LicenseIsDetained", "The license is currently detained and cannot be renewed or replaced.");
         }
@@ -223,7 +223,7 @@ namespace DVLD.Domain.Common
                 new("InternationalLicense.LocalLicenseNotActive", "The local license used for issuing the international license is not active.");
         }
 
-        
+
         public static class erDetainedLicense
         {
             public static readonly Error NotFound =
@@ -239,5 +239,15 @@ namespace DVLD.Domain.Common
             public static readonly Error LicenseAlreadyReleased =
                 new("DetainedLicense.LicenseAlreadyReleased", "This detained license has already been released.");
         }
+
+        public static class erPagedList
+        {
+            public static readonly Error InvalidPageNumber =
+                new("PagedList.InvalidPageNumber", "Page number must be greater than 0.");
+            public static readonly Error InvalidPageSize =
+                new("PagedList.InvalidPageSize", "Page size must be greater than 0 and less than or equal to 100.");
+            
+        }
+
     }
 }

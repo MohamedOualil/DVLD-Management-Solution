@@ -57,7 +57,7 @@ namespace DVLD.Application.InternationalDrivingLicenses.IssueInternationalLicens
                 return Result<int>.Failure(DomainErrors.erLicense.NotFound);
 
             ApplicationTypes? applicationType = await _applicationTypeRepository.GetByIdAsync(
-                ApplicationTypeEnum.NewInternationalLicense);
+                (int)ApplicationTypeEnum.NewInternationalLicense);
             if (applicationType is null)
                 return Result<int>.Failure(DomainErrors.erApplicationTypes.NotFound);
 
