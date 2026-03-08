@@ -53,10 +53,10 @@ namespace DVLD.Application.Tests.TakeTest
             if (testResult.IsFailure)
                 return Result<int>.Failure(testResult.Error);
 
-            _testRepository.Add(testResult.Value);
+            _testRepository.Add(testResult.Value!);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return Result<int>.Success(testResult.Value.Id);
+            return Result<int>.Success(testResult.Value!.Id);
 
         }
     }

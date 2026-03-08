@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Data.Configuration
 {
-    public class DetainedLicenseConfiguration : BaseEntityConfiguration<DetainedLicense,int>
+    public class DetainedLicenseConfiguration : BaseEntityConfiguration<DetainedLicense>
     {
         public override void Configure(EntityTypeBuilder<DetainedLicense> builder)
         {

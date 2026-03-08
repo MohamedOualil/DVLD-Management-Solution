@@ -25,14 +25,6 @@ namespace DVLD.Application.Drivers.GetListOfDrivers
             _sqlConnectionFactory = sqlConnectionFactory;
         }
 
-        private record DriverResultRow(
-            int DriverId,
-            int PersonId,
-            string NationNo,
-            string FullName,
-            DateTime CreateDate,
-            int ActiveLicenses,
-            int TotalCount);
         public async Task<Result<PagedList<DriversListResponse>>> Handle(
             GetListOfDriversQuery request, 
             CancellationToken cancellationToken)
@@ -89,9 +81,9 @@ namespace DVLD.Application.Drivers.GetListOfDrivers
             };
       
 
-             var rawItems = (await connection.QueryAsync<DriverResultRow>(sql, parameters)).AsList();
+             var rawItems = (await connection.QueryAsync<dynamic>(sql, parameters)).AsList();
 
-             int totalCount = rawItems.Count >0 ? rawItems[0].TotalCount : 0;
+             int totalCount = rawItems.Count >0 ? (int)rawItems[0].TotalCount : 0;
 
             var items = rawItems.Select(r => new DriversListResponse(
                 r.DriverId,

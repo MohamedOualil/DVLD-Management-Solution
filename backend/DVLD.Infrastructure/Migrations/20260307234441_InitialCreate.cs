@@ -15,7 +15,8 @@ namespace DVLD.Infrastructure.Migrations
                 name: "ApplicationTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ApplicationName = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     ApplicationFees = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     ApplicationFees_Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false, defaultValue: "USD"),
@@ -70,14 +71,15 @@ namespace DVLD.Infrastructure.Migrations
                 name: "TestTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     TestName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     TestDescription = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     TestFees = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     TestFees_Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false, defaultValue: "USD"),
-                    IsDeactivated = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeactivated = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -397,13 +399,61 @@ namespace DVLD.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "InternationalLicenses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ApplicationId = table.Column<int>(type: "int", nullable: false),
+                    DriverId = table.Column<int>(type: "int", nullable: false),
+                    IssuedUsingLocalLicenseId = table.Column<int>(type: "int", nullable: false),
+                    IssueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    IsDetained = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    IssueReason = table.Column<short>(type: "smallint", nullable: false),
+                    CreatedByUserId = table.Column<int>(type: "int", nullable: false),
+                    IsDeactivated = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InternationalLicenses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_InternationalLicenses_Applications_ApplicationId",
+                        column: x => x.ApplicationId,
+                        principalTable: "Applications",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_InternationalLicenses_Drivers_DriverId",
+                        column: x => x.DriverId,
+                        principalTable: "Drivers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_InternationalLicenses_Licenses_IssuedUsingLocalLicenseId",
+                        column: x => x.IssuedUsingLocalLicenseId,
+                        principalTable: "Licenses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_InternationalLicenses_Users_CreatedByUserId",
+                        column: x => x.CreatedByUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tests",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TestAppointmentId = table.Column<int>(type: "int", nullable: false),
-                    TestResult = table.Column<bool>(type: "bit", nullable: false),
+                    TestResult = table.Column<int>(type: "int", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     CreatedByUserId = table.Column<int>(type: "int", nullable: false),
                     IsDeactivated = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
@@ -477,6 +527,26 @@ namespace DVLD.Infrastructure.Migrations
                 table: "Drivers",
                 column: "PersonId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InternationalLicenses_ApplicationId",
+                table: "InternationalLicenses",
+                column: "ApplicationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InternationalLicenses_CreatedByUserId",
+                table: "InternationalLicenses",
+                column: "CreatedByUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InternationalLicenses_DriverId",
+                table: "InternationalLicenses",
+                column: "DriverId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InternationalLicenses_IssuedUsingLocalLicenseId",
+                table: "InternationalLicenses",
+                column: "IssuedUsingLocalLicenseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Licenses_ApplicationId",
@@ -576,6 +646,9 @@ namespace DVLD.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "DetainedLicenses");
+
+            migrationBuilder.DropTable(
+                name: "InternationalLicenses");
 
             migrationBuilder.DropTable(
                 name: "Tests");

@@ -42,10 +42,10 @@ namespace DVLD.Application.Tests.ScheduleTest
             if (validationResult.IsFailure)
                 return Result<int>.Failure(validationResult.Errors);
 
-            if (!await _userRepository.AnyAsync(u => u.Id == request.CreatedById , cancellationToken))
+            if (!await _userRepository.Exist(request.CreatedById,cancellationToken))
                   return Result<int>.Failure(DomainErrors.erUser.NotFound);
 
-            TestTypes? testType = await _testTypesRepository.GetByIdAsync(request.TestType, cancellationToken);
+            TestTypes? testType = await _testTypesRepository.GetByIdAsync((int)request.TestType, cancellationToken);
             if (testType is null)
                 return Result<int>.Failure(DomainErrors.erTestTypes.NotFound);
 
@@ -65,10 +65,10 @@ namespace DVLD.Application.Tests.ScheduleTest
                 return Result<int>.Failure(scheduling.Error);
 
 
-            _testAppointmentRepository.Add(scheduling.Value);
+            _testAppointmentRepository.Add(scheduling.Value!);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return Result<int>.Success(scheduling.Value.Id);
+            return Result<int>.Success(scheduling.Value!.Id);
 
 
 

@@ -42,10 +42,10 @@ namespace DVLD.Application.Licenses.ReleaseDeatinedDrivingLicense
             if (validation.IsFailure)
                 return Result.Failure(validation.Errors);
 
-            if (!await _userRepository.Exist(request.LicensesId))
+            if (!await _userRepository.Exist(request.LicensesId,cancellationToken))
                 return Result.Failure(DomainErrors.erUser.NotFound);
 
-            if (!await _licenseRepository.Exist(request.LicensesId))
+            if (!await _licenseRepository.Exist(request.LicensesId,cancellationToken))
                 return Result.Failure(DomainErrors.erLicense.NotFound);
 
             DetainedLicense? detainedLicense = await _detainedLicenseRepository.GetByIdAsync(

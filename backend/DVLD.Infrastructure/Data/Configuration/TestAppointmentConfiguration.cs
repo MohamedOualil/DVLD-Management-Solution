@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Data.Configuration
 {
-    public class TestAppointmentConfiguration : BaseEntityConfiguration<TestAppointment,int>
+    public class TestAppointmentConfiguration : BaseEntityConfiguration<TestAppointment>
     {
         public override void Configure(EntityTypeBuilder<TestAppointment> builder)
         {
@@ -17,14 +17,13 @@ namespace DVLD.Infrastructure.Data.Configuration
 
             
             builder.HasOne(ta => ta.LocalDrivingLicense)
-                .WithMany() 
+                .WithMany(tal => tal.TestAppointments) 
                 .HasForeignKey(ta => ta.LocalDrivingLicenseApplicationId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-
             builder.HasOne(ta => ta.TestTypes)
                 .WithMany()
-                .HasForeignKey(ta => (int)ta.TestTypeId)
+                .HasForeignKey(ta => ta.TestTypeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
            

@@ -10,17 +10,11 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Data.Configuration
 {
-    public class ApplicationTypesConfiguration : BaseEntityConfiguration<ApplicationTypes, ApplicationTypeEnum>
+    public class ApplicationTypesConfiguration : BaseEntityConfiguration<ApplicationTypes>
     {
         public override void Configure(EntityTypeBuilder<ApplicationTypes> builder)
         {
-        
-            builder.HasKey(x => x.Id);
-
-
-            builder.Property(x => x.Id)
-                .HasConversion<int>()
-                .ValueGeneratedNever(); 
+            base.Configure(builder);
 
             builder.Property(p => p.ApplicationName)
                 .IsRequired()
@@ -39,7 +33,7 @@ namespace DVLD.Infrastructure.Data.Configuration
                     .HasDefaultValue("USD");
             });
 
-            base.Configure(builder);
+            
 
             builder.ToTable("ApplicationTypes");
         }

@@ -9,19 +9,20 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Data.Configuration
 {
-    public class TestConfiguration : BaseEntityConfiguration<Test, int>
+    public class TestConfiguration : BaseEntityConfiguration<Test>
     {
         public override void Configure(EntityTypeBuilder<Test> builder)
         {
             base.Configure(builder);
 
             builder.HasOne(t => t.TestAppointment)
-                .WithOne() 
+                .WithOne(ta => ta.Test) 
                 .HasForeignKey<Test>(t => t.TestAppointmentId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(t => t.TestResult)
-                .IsRequired();
+                .IsRequired()
+                .HasConversion<int>();
 
             builder.Property(t => t.Notes)
                 .HasMaxLength(500);

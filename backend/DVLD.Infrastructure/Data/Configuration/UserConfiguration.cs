@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Data.Configuration
 {
-    public class UserConfiguration : BaseEntityConfiguration<User, int>
+    public class UserConfiguration : BaseEntityConfiguration<User>
     {
         public override void Configure(EntityTypeBuilder<User> builder)
         {

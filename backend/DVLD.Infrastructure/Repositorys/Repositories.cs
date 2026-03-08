@@ -39,9 +39,9 @@ namespace DVLD.Infrastructure.Repositorys
             return await DbContext.Set<T>().AnyAsync(predicate ,cancellationToken);
         }
 
-        public virtual async Task<bool> Exist(int id)
+        public virtual async Task<bool> Exist(int id,CancellationToken cancellationToken)
         {
-            return await DbContext.Set<T>().AnyAsync(p => p.Id == id );
+            return await DbContext.Set<T>().AnyAsync(p => p.Id == id, cancellationToken );
         }   
 
         public virtual void Update(T entity)

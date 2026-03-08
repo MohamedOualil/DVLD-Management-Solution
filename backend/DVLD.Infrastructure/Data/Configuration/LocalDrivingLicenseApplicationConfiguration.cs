@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Data.Configuration
 {
-    public class LocalDrivingLicenseApplicationConfiguration : BaseEntityConfiguration<LocalDrivingLicenseApplication,int>
+    public class LocalDrivingLicenseApplicationConfiguration : BaseEntityConfiguration<LocalDrivingLicenseApplication>
     {
         public override void Configure(EntityTypeBuilder<LocalDrivingLicenseApplication> builder)
         {

@@ -49,7 +49,7 @@ namespace DVLD.Domain.ValueObjects
             return new Money(left.Amount - right.Amount, left.Currency);
         }
 
-        }
+        
 
         public static Money operator +(Money left, Money right)
         {

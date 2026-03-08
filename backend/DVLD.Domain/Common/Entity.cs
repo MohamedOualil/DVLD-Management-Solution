@@ -22,16 +22,20 @@ namespace DVLD.Domain.Common
         }
 
 
-        public override int GetHashCode() => Id?.GetHashCode() ?? 0;
+        public override int GetHashCode() => Id.GetHashCode();
 
         public bool Equals(Entity? other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
-            if (Id == null || Id.Equals(default(int))) return false;
-            return Id.Equals(other.Id);
+
+            if (Id == 0 || other.Id == 0) return false;
+
+            return Id == other.Id;
         }
 
         public override bool Equals(object? obj) => Equals(obj as Entity);
+        public static bool operator ==(Entity? a, Entity? b) => ReferenceEquals(a, b) || (a?.Equals(b) ?? false);
+        public static bool operator !=(Entity? a, Entity? b) => !(a == b);
     }
 }

@@ -26,11 +26,11 @@ namespace DVLD.Infrastructure.Repositorys
             throw new NotImplementedException();
         }
 
-        public Task<bool> AciveApplicationExist(int personId, ApplicationTypeEnum ApplicationTypeId)
+        public Task<bool> AciveApplicationExist(int personId, ApplicationTypeEnum applicationTypeEnum)
         {
             return _context.Applications.AnyAsync(a => 
                 a.PersonId == personId && 
-                a.ApplicationTypeId == ApplicationTypeId && 
+                a.ApplicationTypeEnum == applicationTypeEnum && 
                 a.Status == ApplicationStatusEnum.New);
         }
 

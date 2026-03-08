@@ -12,7 +12,7 @@ namespace DVLD.Application.Drivers.GetListOfDrivers
     {
         public Result Validate(GetListOfDriversQuery request)
         {
-            List<Error> errors = new();
+            List<Error> errors = new(6);
 
             if (request.PageNumber <= 0)
                 errors.Add(DomainErrors.erPagedList.InvalidPageNumber);

@@ -11,7 +11,7 @@ namespace DVLD.Domain.Common
     {
         void Add(T entity);    
         void Update(T entity);
-        Task<bool> Exist(int id);
+        Task<bool> Exist(int id,CancellationToken cancellationToken);
         Task<bool> AnyAsync(
             Expression<Func<T, bool>> predicate,
              CancellationToken cancellationToken = default);

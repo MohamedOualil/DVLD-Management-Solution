@@ -55,7 +55,7 @@ namespace DVLD.Application.LocalLicenseApplications.CreateApplication
 
             if (await _licenseRepository.AnyAsync(l =>
                                 l.Application.PersonId == request.PersonId &&
-                                l.LicenseClassId == (LicenseClassEnum) request.LicensesClassId &&
+                                l.LicenseClassId == request.LicensesClassId &&
                                 l.IsActive,
                                 cancellationToken))
                 return Result<int>.Failure(DomainErrors.erLicense.ActiveLicenseExist);
@@ -81,7 +81,7 @@ namespace DVLD.Application.LocalLicenseApplications.CreateApplication
 
 
             ApplicationTypes? applicationType = await  _applicationTypesRepository.GetByIdAsync(
-                ApplicationTypeEnum.NewLocalDrivingLicenseService);
+                (int)ApplicationTypeEnum.NewLocalDrivingLicenseService);
             if (applicationType is null)
                 return Result<int>.Failure(DomainErrors.erApplications.InvalidApplicationType);
 

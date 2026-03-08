@@ -50,7 +50,7 @@ namespace DVLD.Domain.Entities
 
         public Result<TestAppointment> ScheduleTest(TestTypes testType, DateTime appointmentDate, int createdById)
         {
-            Result canScheduleResult = CanScheduleTest(testType.Id);
+            Result canScheduleResult = CanScheduleTest((TestTypeEnum)testType.Id);
             if (canScheduleResult.IsFailure)
                 return Result<TestAppointment>.Failure(canScheduleResult.Error);
 
@@ -65,12 +65,12 @@ namespace DVLD.Domain.Entities
             return Result<TestAppointment>.Success(newAppointment);
 
         }
-        private Result CanScheduleTest(TestType testType)
+        private Result CanScheduleTest(TestTypeEnum testType)
         {
             if (Application.Status != ApplicationStatusEnum.New)
                 return Result.Failure(DomainErrors.erApplications.CannotUpdateProcessedApplication);
 
-            var appointmentsForThisTest = TestAppointments.Where(x => x.TestTypeId == testType).ToList();
+            var appointmentsForThisTest = TestAppointments.Where(x => x.TestTypeEnum == testType).ToList();
 
             bool hasActiveAppointment = appointmentsForThisTest.Any(x => !x.IsLocked);
             if (hasActiveAppointment)
@@ -87,10 +87,10 @@ namespace DVLD.Domain.Entities
 
 
 
-            if (testType == TestType.WrittenTest && !HasPassedTest(TestType.VisionTest))
+            if (testType == TestTypeEnum.WrittenTest && !HasPassedTest(TestTypeEnum.VisionTest))
                 return Result.Failure(DomainErrors.erTests.VisionTestNotPassed);
 
-            if (testType == TestType.StreetTest && !HasPassedTest(TestType.WrittenTest))
+            if (testType == TestTypeEnum.StreetTest && !HasPassedTest(TestTypeEnum.WrittenTest))
                 return Result.Failure(DomainErrors.erTests.WrittenTestNotPassed);
 
             return Result.Success();
@@ -99,9 +99,9 @@ namespace DVLD.Domain.Entities
 
         }
 
-        public bool HasPassedTest(TestType testType)
+        public bool HasPassedTest(TestTypeEnum testType)
         {
-            return TestAppointments.Where(t => t.TestTypeId == testType)
+            return TestAppointments.Where(t => t.TestTypeEnum == testType)
                     .Any(ts => ts.Test?.TestResult == TestResult.Success);
         }
 
@@ -112,19 +112,19 @@ namespace DVLD.Domain.Entities
                                 .ToList();
 
             bool passVisontest = passTests.Any(
-                t => t.TestTypeId == TestType.VisionTest);
+                t => t.TestTypeEnum == TestTypeEnum.VisionTest);
 
             if (!passVisontest)
                 return Result.Failure(DomainErrors.erTests.VisionTestNotPassed);
 
             bool passWritingtest = passTests.Any(
-                t => t.TestTypeId == TestType.WrittenTest);
+                t => t.TestTypeEnum == TestTypeEnum.WrittenTest);
 
             if (!passWritingtest)
                 return Result.Failure(DomainErrors.erTests.WrittenTestNotPassed);
 
             bool passStreettest = TestAppointments.Any(
-                t => t.TestTypeId == TestType.WrittenTest);
+                t => t.TestTypeEnum == TestTypeEnum.WrittenTest);
 
             if (!passStreettest)
                 return Result.Failure(DomainErrors.erTests.WrittenTestNotPassed);
@@ -134,7 +134,7 @@ namespace DVLD.Domain.Entities
 
         public Result<DrivingLicense> IssueLicenseFirstTime(string? notes,int createdBy,Driver driver)
         {
-            if (Application.ApplicationTypeId != ApplicationTypeEnum.NewLocalDrivingLicenseService)
+            if (Application.ApplicationTypeEnum != ApplicationTypeEnum.NewLocalDrivingLicenseService)
                 return Result<DrivingLicense>.Failure(DomainErrors.erLicense.ApplicationTypeNotAllowed);
 
             if (Application.Status != ApplicationStatusEnum.New)

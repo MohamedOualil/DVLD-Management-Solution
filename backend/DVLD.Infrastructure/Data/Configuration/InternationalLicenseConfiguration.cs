@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Data.Configuration
 {
-    public class InternationalLicenseConfiguration : BaseEntityConfiguration<InternationalLicense,int>
+    public class InternationalLicenseConfiguration : BaseEntityConfiguration<InternationalLicense>
     {
         public override void Configure(EntityTypeBuilder<InternationalLicense> builder)
         {

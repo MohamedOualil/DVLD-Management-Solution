@@ -8,7 +8,7 @@ namespace DVLD.Domain.Enums
 {
     public enum  TestResult
     {
-        Success,
-        Failure
+        Success = 1,
+        Failure = 0
     }
 }

@@ -25,7 +25,10 @@ namespace DVLD.Infrastructure.Migrations
             modelBuilder.Entity("DVLD.Domain.Entities.ApplicationTypes", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ApplicationName")
                         .IsRequired()
@@ -135,7 +138,7 @@ namespace DVLD.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Counties", (string)null);
+                    b.ToTable("Counties");
                 });
 
             modelBuilder.Entity("DVLD.Domain.Entities.DetainedLicense", b =>
@@ -230,71 +233,7 @@ namespace DVLD.Infrastructure.Migrations
                     b.ToTable("Drivers", (string)null);
                 });
 
-            modelBuilder.Entity("DVLD.Domain.Entities.InternationalLicense", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ApplicationId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("CreatedByUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DriverId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ExpirationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<bool>("IsDeactivated")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<bool>("IsDetained")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<DateTime>("IssueDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<short>("IssueReason")
-                        .HasColumnType("smallint");
-
-                    b.Property<int>("IssuedUsingLocalLicenseId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationId");
-
-                    b.HasIndex("CreatedByUserId");
-
-                    b.HasIndex("DriverId");
-
-                    b.HasIndex("IssuedUsingLocalLicenseId");
-
-                    b.ToTable("InternationalLicenses", (string)null);
-                });
-
-            modelBuilder.Entity("DVLD.Domain.Entities.License", b =>
+            modelBuilder.Entity("DVLD.Domain.Entities.DrivingLicense", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -360,6 +299,70 @@ namespace DVLD.Infrastructure.Migrations
                     b.HasIndex("LicenseClassId");
 
                     b.ToTable("Licenses", (string)null);
+                });
+
+            modelBuilder.Entity("DVLD.Domain.Entities.InternationalLicense", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ApplicationId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DriverId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<bool>("IsDeactivated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("IsDetained")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime>("IssueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<short>("IssueReason")
+                        .HasColumnType("smallint");
+
+                    b.Property<int>("IssuedUsingLocalLicenseId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationId");
+
+                    b.HasIndex("CreatedByUserId");
+
+                    b.HasIndex("DriverId");
+
+                    b.HasIndex("IssuedUsingLocalLicenseId");
+
+                    b.ToTable("InternationalLicenses", (string)null);
                 });
 
             modelBuilder.Entity("DVLD.Domain.Entities.LicenseClasses", b =>
@@ -453,11 +456,6 @@ namespace DVLD.Infrastructure.Migrations
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
                     b.Property<short>("Gender")
                         .HasColumnType("smallint");
 
@@ -469,19 +467,6 @@ namespace DVLD.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("SecondName")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("ThirdName")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .IsRequired()
@@ -518,8 +503,8 @@ namespace DVLD.Infrastructure.Migrations
                     b.Property<int>("TestAppointmentId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("TestResult")
-                        .HasColumnType("bit");
+                    b.Property<int>("TestResult")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .IsRequired()
@@ -586,13 +571,18 @@ namespace DVLD.Infrastructure.Migrations
             modelBuilder.Entity("DVLD.Domain.Entities.TestTypes", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeactivated")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("TestDescription")
                         .IsRequired()
@@ -605,6 +595,7 @@ namespace DVLD.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime?>("UpdatedAt")
+                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -658,7 +649,7 @@ namespace DVLD.Infrastructure.Migrations
 
             modelBuilder.Entity("DVLD.Domain.Entities.ApplicationTypes", b =>
                 {
-                    b.OwnsOne("DVLD.Domain.Entities.ApplicationTypes.ApplicationFees#DVLD.Domain.ValueObjects.Money", "ApplicationFees", b1 =>
+                    b.OwnsOne("DVLD.Domain.ValueObjects.Money", "ApplicationFees", b1 =>
                         {
                             b1.Property<int>("ApplicationTypesId")
                                 .HasColumnType("int");
@@ -677,7 +668,7 @@ namespace DVLD.Infrastructure.Migrations
 
                             b1.HasKey("ApplicationTypesId");
 
-                            b1.ToTable("ApplicationTypes", (string)null);
+                            b1.ToTable("ApplicationTypes");
 
                             b1.WithOwner()
                                 .HasForeignKey("ApplicationTypesId");
@@ -712,7 +703,7 @@ namespace DVLD.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.OwnsOne("DVLD.Domain.Entities.Applications.PaidFees#DVLD.Domain.ValueObjects.Money", "PaidFees", b1 =>
+                    b.OwnsOne("DVLD.Domain.ValueObjects.Money", "PaidFees", b1 =>
                         {
                             b1.Property<int>("ApplicationsId")
                                 .HasColumnType("int");
@@ -731,7 +722,7 @@ namespace DVLD.Infrastructure.Migrations
 
                             b1.HasKey("ApplicationsId");
 
-                            b1.ToTable("Applications", (string)null);
+                            b1.ToTable("Applications");
 
                             b1.WithOwner()
                                 .HasForeignKey("ApplicationsId");
@@ -757,7 +748,7 @@ namespace DVLD.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("DVLD.Domain.Entities.License", "License")
+                    b.HasOne("DVLD.Domain.Entities.DrivingLicense", "License")
                         .WithMany()
                         .HasForeignKey("LicenseId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -773,7 +764,7 @@ namespace DVLD.Infrastructure.Migrations
                         .HasForeignKey("ReleasedByUserId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.OwnsOne("DVLD.Domain.Entities.DetainedLicense.FineFees#DVLD.Domain.ValueObjects.Money", "FineFees", b1 =>
+                    b.OwnsOne("DVLD.Domain.ValueObjects.Money", "FineFees", b1 =>
                         {
                             b1.Property<int>("DetainedLicenseId")
                                 .HasColumnType("int");
@@ -792,7 +783,7 @@ namespace DVLD.Infrastructure.Migrations
 
                             b1.HasKey("DetainedLicenseId");
 
-                            b1.ToTable("DetainedLicenses", (string)null);
+                            b1.ToTable("DetainedLicenses");
 
                             b1.WithOwner()
                                 .HasForeignKey("DetainedLicenseId");
@@ -829,44 +820,9 @@ namespace DVLD.Infrastructure.Migrations
                     b.Navigation("Person");
                 });
 
-            modelBuilder.Entity("DVLD.Domain.Entities.InternationalLicense", b =>
+            modelBuilder.Entity("DVLD.Domain.Entities.DrivingLicense", b =>
                 {
                     b.HasOne("DVLD.Domain.Entities.Applications", "Application")
-                        .WithMany()
-                        .HasForeignKey("ApplicationId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DVLD.Domain.Entities.User", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedByUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DVLD.Domain.Entities.Driver", "Driver")
-                        .WithMany()
-                        .HasForeignKey("DriverId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DVLD.Domain.Entities.License", "LocalLicense")
-                        .WithMany()
-                        .HasForeignKey("IssuedUsingLocalLicenseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Application");
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("Driver");
-
-                    b.Navigation("LocalLicense");
-                });
-
-            modelBuilder.Entity("DVLD.Domain.Entities.License", b =>
-                {
-                    b.HasOne("DVLD.Domain.Entities.Applications", "Applications")
                         .WithMany()
                         .HasForeignKey("ApplicationId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -890,9 +846,9 @@ namespace DVLD.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.OwnsOne("DVLD.Domain.Entities.License.PaidFees#DVLD.Domain.ValueObjects.Money", "PaidFees", b1 =>
+                    b.OwnsOne("DVLD.Domain.ValueObjects.Money", "PaidFees", b1 =>
                         {
-                            b1.Property<int>("LicenseId")
+                            b1.Property<int>("DrivingLicenseId")
                                 .HasColumnType("int");
 
                             b1.Property<decimal>("Amount")
@@ -907,15 +863,15 @@ namespace DVLD.Infrastructure.Migrations
                                 .HasColumnType("nvarchar(3)")
                                 .HasDefaultValue("USD");
 
-                            b1.HasKey("LicenseId");
+                            b1.HasKey("DrivingLicenseId");
 
-                            b1.ToTable("Licenses", (string)null);
+                            b1.ToTable("Licenses");
 
                             b1.WithOwner()
-                                .HasForeignKey("LicenseId");
+                                .HasForeignKey("DrivingLicenseId");
                         });
 
-                    b.Navigation("Applications");
+                    b.Navigation("Application");
 
                     b.Navigation("CreatedBy");
 
@@ -927,9 +883,44 @@ namespace DVLD.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DVLD.Domain.Entities.InternationalLicense", b =>
+                {
+                    b.HasOne("DVLD.Domain.Entities.Applications", "Application")
+                        .WithMany()
+                        .HasForeignKey("ApplicationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DVLD.Domain.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DVLD.Domain.Entities.Driver", "Driver")
+                        .WithMany()
+                        .HasForeignKey("DriverId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DVLD.Domain.Entities.DrivingLicense", "LocalLicense")
+                        .WithMany()
+                        .HasForeignKey("IssuedUsingLocalLicenseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Application");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("Driver");
+
+                    b.Navigation("LocalLicense");
+                });
+
             modelBuilder.Entity("DVLD.Domain.Entities.LicenseClasses", b =>
                 {
-                    b.OwnsOne("DVLD.Domain.Entities.LicenseClasses.ClassFees#DVLD.Domain.ValueObjects.Money", "ClassFees", b1 =>
+                    b.OwnsOne("DVLD.Domain.ValueObjects.Money", "ClassFees", b1 =>
                         {
                             b1.Property<int>("LicenseClassesId")
                                 .HasColumnType("int");
@@ -948,7 +939,7 @@ namespace DVLD.Infrastructure.Migrations
 
                             b1.HasKey("LicenseClassesId");
 
-                            b1.ToTable("LicenseClasses", (string)null);
+                            b1.ToTable("LicenseClasses");
 
                             b1.WithOwner()
                                 .HasForeignKey("LicenseClassesId");
@@ -979,7 +970,7 @@ namespace DVLD.Infrastructure.Migrations
 
             modelBuilder.Entity("DVLD.Domain.Entities.Person", b =>
                 {
-                    b.OwnsOne("DVLD.Domain.Entities.Person.Address#DVLD.Domain.ValueObjects.Address", "Address", b1 =>
+                    b.OwnsOne("DVLD.Domain.ValueObjects.Address", "Address", b1 =>
                         {
                             b1.Property<int>("PersonId")
                                 .HasColumnType("int");
@@ -1016,9 +1007,9 @@ namespace DVLD.Infrastructure.Migrations
 
                             b1.HasIndex("CountryID");
 
-                            b1.ToTable("Person", (string)null);
+                            b1.ToTable("Person");
 
-                            b1.HasOne("DVLD.Domain.Entities.Counties", null)
+                            b1.HasOne("DVLD.Domain.Entities.Counties", "Counties")
                                 .WithMany()
                                 .HasForeignKey("CountryID")
                                 .OnDelete(DeleteBehavior.Restrict)
@@ -1026,15 +1017,16 @@ namespace DVLD.Infrastructure.Migrations
 
                             b1.WithOwner()
                                 .HasForeignKey("PersonId");
+
+                            b1.Navigation("Counties");
                         });
 
-                    b.OwnsOne("DVLD.Domain.Entities.Person.Email#DVLD.Domain.ValueObjects.Email", "Email", b1 =>
+                    b.OwnsOne("DVLD.Domain.ValueObjects.Email", "Email", b1 =>
                         {
                             b1.Property<int>("PersonId")
                                 .HasColumnType("int");
 
                             b1.Property<string>("Value")
-                                .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("nvarchar(100)")
                                 .HasColumnName("Email");
@@ -1045,13 +1037,48 @@ namespace DVLD.Infrastructure.Migrations
                                 .IsUnique()
                                 .HasFilter("[Email] IS NOT NULL");
 
-                            b1.ToTable("Person", (string)null);
+                            b1.ToTable("Person");
 
                             b1.WithOwner()
                                 .HasForeignKey("PersonId");
                         });
 
-                    b.OwnsOne("DVLD.Domain.Entities.Person.NationalNo#DVLD.Domain.ValueObjects.NationalNo", "NationalNo", b1 =>
+                    b.OwnsOne("DVLD.Domain.ValueObjects.FullName", "FullName", b1 =>
+                        {
+                            b1.Property<int>("PersonId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("FirstName")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)")
+                                .HasColumnName("FirstName");
+
+                            b1.Property<string>("LastName")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)")
+                                .HasColumnName("LastName");
+
+                            b1.Property<string>("SecondName")
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)")
+                                .HasColumnName("SecondName");
+
+                            b1.Property<string>("ThirdName")
+                                .HasMaxLength(20)
+                                .HasColumnType("nvarchar(20)")
+                                .HasColumnName("ThirdName");
+
+                            b1.HasKey("PersonId");
+
+                            b1.ToTable("Person");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PersonId");
+                        });
+
+                    b.OwnsOne("DVLD.Domain.ValueObjects.NationalNo", "NationalNo", b1 =>
                         {
                             b1.Property<int>("PersonId")
                                 .HasColumnType("int");
@@ -1072,7 +1099,7 @@ namespace DVLD.Infrastructure.Migrations
                             b1.HasIndex("Number")
                                 .IsUnique();
 
-                            b1.ToTable("Person", (string)null);
+                            b1.ToTable("Person");
 
                             b1.HasOne("DVLD.Domain.Entities.Counties", null)
                                 .WithMany()
@@ -1084,7 +1111,7 @@ namespace DVLD.Infrastructure.Migrations
                                 .HasForeignKey("PersonId");
                         });
 
-                    b.OwnsOne("DVLD.Domain.Entities.Person.Phone#DVLD.Domain.ValueObjects.Phone", "Phone", b1 =>
+                    b.OwnsOne("DVLD.Domain.ValueObjects.Phone", "Phone", b1 =>
                         {
                             b1.Property<int>("PersonId")
                                 .HasColumnType("int");
@@ -1097,7 +1124,7 @@ namespace DVLD.Infrastructure.Migrations
 
                             b1.HasKey("PersonId");
 
-                            b1.ToTable("Person", (string)null);
+                            b1.ToTable("Person");
 
                             b1.WithOwner()
                                 .HasForeignKey("PersonId");
@@ -1107,6 +1134,9 @@ namespace DVLD.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Email");
+
+                    b.Navigation("FullName")
+                        .IsRequired();
 
                     b.Navigation("NationalNo")
                         .IsRequired();
@@ -1124,7 +1154,7 @@ namespace DVLD.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("DVLD.Domain.Entities.TestAppointment", "TestAppointment")
-                        .WithOne()
+                        .WithOne("Test")
                         .HasForeignKey("DVLD.Domain.Entities.Test", "TestAppointmentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1143,7 +1173,7 @@ namespace DVLD.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("DVLD.Domain.Entities.LocalDrivingLicenseApplication", "LocalDrivingLicense")
-                        .WithMany()
+                        .WithMany("TestAppointments")
                         .HasForeignKey("LocalDrivingLicenseApplicationId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1154,7 +1184,7 @@ namespace DVLD.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.OwnsOne("DVLD.Domain.Entities.TestAppointment.PaidFees#DVLD.Domain.ValueObjects.Money", "PaidFees", b1 =>
+                    b.OwnsOne("DVLD.Domain.ValueObjects.Money", "PaidFees", b1 =>
                         {
                             b1.Property<int>("TestAppointmentId")
                                 .HasColumnType("int");
@@ -1173,7 +1203,7 @@ namespace DVLD.Infrastructure.Migrations
 
                             b1.HasKey("TestAppointmentId");
 
-                            b1.ToTable("TestAppointments", (string)null);
+                            b1.ToTable("TestAppointments");
 
                             b1.WithOwner()
                                 .HasForeignKey("TestAppointmentId");
@@ -1191,7 +1221,7 @@ namespace DVLD.Infrastructure.Migrations
 
             modelBuilder.Entity("DVLD.Domain.Entities.TestTypes", b =>
                 {
-                    b.OwnsOne("DVLD.Domain.Entities.TestTypes.TestFees#DVLD.Domain.ValueObjects.Money", "TestFees", b1 =>
+                    b.OwnsOne("DVLD.Domain.ValueObjects.Money", "TestFees", b1 =>
                         {
                             b1.Property<int>("TestTypesId")
                                 .HasColumnType("int");
@@ -1210,7 +1240,7 @@ namespace DVLD.Infrastructure.Migrations
 
                             b1.HasKey("TestTypesId");
 
-                            b1.ToTable("TestTypes", (string)null);
+                            b1.ToTable("TestTypes");
 
                             b1.WithOwner()
                                 .HasForeignKey("TestTypesId");
@@ -1229,6 +1259,16 @@ namespace DVLD.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("DVLD.Domain.Entities.LocalDrivingLicenseApplication", b =>
+                {
+                    b.Navigation("TestAppointments");
+                });
+
+            modelBuilder.Entity("DVLD.Domain.Entities.TestAppointment", b =>
+                {
+                    b.Navigation("Test");
                 });
 #pragma warning restore 612, 618
         }

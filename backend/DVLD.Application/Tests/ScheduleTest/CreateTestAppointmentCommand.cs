@@ -13,6 +13,6 @@ namespace DVLD.Application.Tests.ScheduleTest
         public int LocalApplicationId { get; init; }
         public int CreatedById { get; init; }
         public DateTime AppointmentDate { get; init; }
-        public TestType TestType { get; init; }
+        public TestTypeEnum TestType { get; init; }
     }
 }

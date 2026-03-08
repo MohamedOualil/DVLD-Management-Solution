@@ -74,7 +74,7 @@ namespace DVLD.Api.Controllers.Person
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> DeleteStudent(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeletePerson(int id, CancellationToken cancellationToken)
         {
             var command = new DeletePersonCommand(id);
             Result result = await _sender.Send(command,cancellationToken);

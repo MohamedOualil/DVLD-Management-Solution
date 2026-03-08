@@ -10,15 +10,11 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Data.Configuration
 {
-    public class TestTypesConfiguration : BaseEntityConfiguration<TestTypes,TestType>
+    public class TestTypesConfiguration : BaseEntityConfiguration<TestTypes>
     {
         public override void Configure(EntityTypeBuilder<TestTypes> builder)
         {
-            builder.HasKey(x => x.Id);
-
-           
-            builder.Property(x => x.Id)
-                .HasConversion<int>();
+            base.Configure(builder);
 
             builder.Property(x => x.TestName)
                 .IsRequired()

@@ -22,7 +22,8 @@ namespace DVLD.Domain.Entities
         public int DriverId { get; private set; }
         public Driver Driver { get; private set; }
 
-        public LicenseClassEnum LicenseClassId { get; private set; }
+        public int LicenseClassId { get; private set; }
+        public LicenseClassEnum LicenseClassEnum => (LicenseClassEnum)LicenseClassId;
         public LicenseClasses LicenseClass { get; private set; }
 
         public DateTime IssueDate { get; private set; }
@@ -109,10 +110,10 @@ namespace DVLD.Domain.Entities
             IssueReasonEnum issueReason = IssueReasonEnum.LostReplacement;
             switch (applicationType.Id)
             {
-                case ApplicationTypeEnum.Replacement_for_a_DamagedDrivingLicense:
+                case (int)ApplicationTypeEnum.Replacement_for_a_DamagedDrivingLicense:
                    issueReason = IssueReasonEnum.DamagedReplacement;
                     break;
-                case ApplicationTypeEnum.Replacement_for_a_LostDrivingLicense:
+                case (int)ApplicationTypeEnum.Replacement_for_a_LostDrivingLicense:
                     issueReason = IssueReasonEnum.LostReplacement;
                     break;
                 default:
@@ -159,7 +160,7 @@ namespace DVLD.Domain.Entities
         {
             if (!this.IsActive)
                 return Result<InternationalLicense>.Failure(DomainErrors.erLicense.LicenseNotActive);
-            if (this.LicenseClassId != LicenseClassEnum.OrdinaryDrivingLicense)
+            if (this.LicenseClassEnum != LicenseClassEnum.OrdinaryDrivingLicense)
                 return Result<InternationalLicense>.Failure(DomainErrors.erLicense.ApplicationTypeNotAllowed);
 
             var newApplication = this.Application.LicenseApplication(applicationTypes,createdBy);

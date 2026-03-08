@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Data.Configuration
 {
-    public class DriverConfiguration : BaseEntityConfiguration<Driver, int>
+    public class DriverConfiguration : BaseEntityConfiguration<Driver>
     {
         public override void Configure(EntityTypeBuilder<Driver> builder)
         {

@@ -14,7 +14,8 @@ namespace DVLD.Domain.Entities
         public int PersonId { get; private set; }
         public Person Person { get; private set; }
         public DateTime ApplicationDate { get; private set; }
-        public ApplicationTypeEnum ApplicationTypeId { get; private set; }
+        public int ApplicationTypeId { get; private set; }
+        public ApplicationTypeEnum ApplicationTypeEnum => (ApplicationTypeEnum)ApplicationTypeId;
         public ApplicationTypes ApplicationType { get; private set; }
         public ApplicationStatusEnum Status { get; private set; } = ApplicationStatusEnum.New;
         public DateTime LastStatusDate { get; private set; }
@@ -38,7 +39,7 @@ namespace DVLD.Domain.Entities
             PersonId = person.Id;
             Person = person;
             ApplicationDate = DateTime.UtcNow;
-            ApplicationTypeId = (ApplicationTypeEnum)applicationTypes.Id;
+            ApplicationTypeId = applicationTypes.Id;
             ApplicationType = applicationTypes;
             Status = ApplicationStatusEnum.New;
             LastStatusDate = DateTime.UtcNow;
@@ -52,7 +53,7 @@ namespace DVLD.Domain.Entities
         {
             PersonId = personId;
             ApplicationDate = DateTime.UtcNow;
-            ApplicationTypeId = (ApplicationTypeEnum) applicationTypes.Id;
+            ApplicationTypeId = applicationTypes.Id;
             ApplicationType = applicationTypes;
             Status = ApplicationStatusEnum.Completed;
             LastStatusDate = DateTime.UtcNow;

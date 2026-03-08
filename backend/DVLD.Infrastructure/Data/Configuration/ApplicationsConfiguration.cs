@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Data.Configuration
 {
-    public class ApplicationsConfiguration : BaseEntityConfiguration<Applications, int>
+    public class ApplicationsConfiguration : BaseEntityConfiguration<Applications>
     {
         public override void Configure(EntityTypeBuilder<Applications> builder)
         {
@@ -23,9 +23,10 @@ namespace DVLD.Infrastructure.Data.Configuration
             builder.Property(p => p.ApplicationDate)
                 .IsRequired();
 
+
             builder.HasOne(u => u.ApplicationType)
                 .WithMany()
-                .HasForeignKey(p => (int) p.ApplicationTypeId)
+                .HasForeignKey(u => u.ApplicationTypeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(s => s.Status)

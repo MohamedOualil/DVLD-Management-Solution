@@ -11,7 +11,8 @@ namespace DVLD.Domain.Entities
 {
     public class TestAppointment : Entity
     {
-        public TestType TestTypeId { get; private set; }
+        public int TestTypeId { get; private set; }
+        public TestTypeEnum TestTypeEnum => (TestTypeEnum)TestTypeId;
         public TestTypes TestTypes { get; private set; }
 
         public int LocalDrivingLicenseApplicationId { get; private set; }

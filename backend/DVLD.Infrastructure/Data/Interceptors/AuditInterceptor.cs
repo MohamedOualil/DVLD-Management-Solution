@@ -35,7 +35,7 @@ namespace DVLD.Infrastructure.Data.Interceptors
         {
             if (context is null) return;
 
-            var entries = context.ChangeTracker.Entries<Entity<int>>();
+            var entries = context.ChangeTracker.Entries<Entity>();
 
             foreach (var entry in entries)
             {

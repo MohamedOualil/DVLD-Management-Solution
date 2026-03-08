@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Data.Configuration
 {
-    public class CountiesConfiguration : BaseEntityConfiguration<Counties,int>
+    public class CountiesConfiguration : BaseEntityConfiguration<Counties>
     {
         public override void Configure(EntityTypeBuilder<Counties> builder)
         {

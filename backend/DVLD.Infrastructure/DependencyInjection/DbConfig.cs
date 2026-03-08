@@ -13,6 +13,14 @@ using Microsoft.Extensions.DependencyInjection;
 using DVLD.Application.Abstractions.Data;
 using DVLD.Application.LocalLicenseApplications.CreateApplication;
 using DVLD.Application.Tests.ScheduleTest;
+using DVLD.Application.Tests.TakeTest;
+using DVLD.Application.Licenses.DetainedDrivingLicense;
+using DVLD.Application.InternationalDrivingLicenses.IssueInternationalLicense;
+using DVLD.Application.Licenses.IssueLicenseFirstTime;
+using DVLD.Application.Licenses.ReleaseDeatinedDrivingLicense;
+using DVLD.Application.Licenses.RenewLicenseApplication;
+using DVLD.Application.Licenses.ReplacementLicense;
+using DVLD.Application.Drivers.GetListOfDrivers;
 
 namespace DVLD.Infrastructure.DependencyInjection
 {
@@ -44,7 +52,6 @@ namespace DVLD.Infrastructure.DependencyInjection
             services.AddScoped<ILicenseClassesRepository, LicenseClassesRepository>();
             services.AddScoped<IDriverRepository, DriverRepository>();
             services.AddScoped<ILicenseRepository, LicenseRepository>();
-            services.AddScoped<ICountiesRepository, CountiesRepository>();
             services.AddScoped<IDetainedLicenseRepository, DetainedLicenseRepository>();
             services.AddScoped<ILocalDrivingLicenseApplicationRepository, LocalDrivingLicenseApplicationRepository>();
             services.AddScoped<ITestAppointmentRepository, TestAppointmentRepository>();
@@ -53,11 +60,23 @@ namespace DVLD.Infrastructure.DependencyInjection
             services.AddScoped<IInternationalLicenseRepository, InternationalLicenseRepository>();
             services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 
+
             // Validators
             services.AddScoped<IValidate<CreatePersonCommand>, CreatePersonCommandValidator>();
             services.AddScoped<IValidate<UpdatePersonCommand>, UpdatePersonCommandValidator>();
             services.AddScoped<IValidate<LocalDrivingLicenseApplicationCommand>, LocalDrivingLicenseApplicationCommandValidator>();
             services.AddScoped<IValidate<CreateTestAppointmentCommand>, CreateTestAppointmentCommandValidator>();
+            services.AddScoped<IValidate<TakeTestCommand>, TakeTestCommandValidator>();
+            services.AddScoped<IValidate<DetainedDrivingLicenseCommand>, DetainedDrivingLicenseValidator>();
+            services.AddScoped<IValidate<GetListOfDriversQuery>, GetListOfDriversValidator>();
+            services.AddScoped<IValidate<IssueLicenseFirstTimeCommand>, IssueLicenseFirstTimeCommandValidator>();
+            services.AddScoped<IValidate<IssueInternationalLicenseCommand>, IssueInternationalLicenseCommandValidator>();
+            services.AddScoped<IValidate<ReleaseDeatinedDrivingLicenseCommand>, ReleaseDeatinedDrivingLicenseValidator>();
+            services.AddScoped<IValidate<RenewLicenseApplicationCommand>, RenewLicenseApplicationValidator>();
+            services.AddScoped<IValidate<ReplacementLicenseCommand>, ReplacementLicenseCommandValidater>();
+
+
+
 
             // UnitOfWork
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
