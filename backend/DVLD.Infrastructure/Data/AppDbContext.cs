@@ -33,9 +33,17 @@ namespace DVLD.Infrastructure.Data
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            // AuditInterceptor handles CreatedAt and UpdatedAt automatically
-            // No manual field-setting needed here
-            return await base.SaveChangesAsync(cancellationToken);
+            try
+            {
+                int result = await base.SaveChangesAsync(cancellationToken);
+
+                return result;
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                throw new Exception("Concurrency exception occurred.", ex);
+            }
+            
         }
     }
 }

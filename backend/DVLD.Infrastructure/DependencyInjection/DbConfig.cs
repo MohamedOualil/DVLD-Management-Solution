@@ -4,7 +4,6 @@ using DVLD.Application.Persons.UpdatePerson;
 using DVLD.Domain.Common;
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
-using DVLD.Infrastructure.Data.Interceptors;
 using DVLD.Infrastructure.Repositorys;
 using DVLD.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
@@ -31,18 +30,10 @@ namespace DVLD.Infrastructure.DependencyInjection
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-            // Register IDateTimeProvider first — interceptor depends on it
+            services.AddDbContext<AppDbContext>(options =>
+               options.UseSqlServer(connectionString));
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
-            // Register interceptor — must be scoped so EF Core can inject it per request
-            services.AddScoped<AuditInterceptor>();
-
-            // Register DbContext — pull interceptor from DI so it gets IDateTimeProvider
-            services.AddDbContext<AppDbContext>((sp, options) =>
-            {
-                options.UseSqlServer(connectionString)
-                       .AddInterceptors(sp.GetRequiredService<AuditInterceptor>());
-            });
 
             services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
             // Repositories
