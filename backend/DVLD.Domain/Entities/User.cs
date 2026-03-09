@@ -15,9 +15,10 @@ namespace DVLD.Domain.Entities
         private static readonly Regex UsernameRegex = new(@"^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){1,18}[a-zA-Z0-9]$");
         public int PersonId { get; private set; }
         public Person Person { get; private set; }
-
+       
         public string UserName { get; private set; }
         public string PasswordHash { get; private set; }
+        public bool IsActive { get; private set; } = true;
 
 
         private User() 

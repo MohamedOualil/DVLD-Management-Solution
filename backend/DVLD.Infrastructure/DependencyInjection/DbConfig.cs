@@ -21,6 +21,7 @@ using DVLD.Application.Licenses.ReleaseDeatinedDrivingLicense;
 using DVLD.Application.Licenses.RenewLicenseApplication;
 using DVLD.Application.Licenses.ReplacementLicense;
 using DVLD.Application.Drivers.GetListOfDrivers;
+using DVLD.Application.Users.GetUsersList;
 
 namespace DVLD.Infrastructure.DependencyInjection
 {
@@ -74,6 +75,7 @@ namespace DVLD.Infrastructure.DependencyInjection
             services.AddScoped<IValidate<ReleaseDeatinedDrivingLicenseCommand>, ReleaseDeatinedDrivingLicenseValidator>();
             services.AddScoped<IValidate<RenewLicenseApplicationCommand>, RenewLicenseApplicationValidator>();
             services.AddScoped<IValidate<ReplacementLicenseCommand>, ReplacementLicenseCommandValidater>();
+            services.AddScoped<IValidate<GetListOfUsersQuery>, GetListOfUsersQueryValidator>();
 
 
 

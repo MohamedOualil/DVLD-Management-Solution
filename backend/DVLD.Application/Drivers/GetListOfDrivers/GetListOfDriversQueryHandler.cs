@@ -20,9 +20,11 @@ namespace DVLD.Application.Drivers.GetListOfDrivers
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
         private readonly IValidate<GetListOfDriversQuery> _validator;
 
-        public GetListOfDriversQueryHandler(ISqlConnectionFactory sqlConnectionFactory)
+        public GetListOfDriversQueryHandler(ISqlConnectionFactory sqlConnectionFactory,
+            IValidate<GetListOfDriversQuery> validate)
         {
             _sqlConnectionFactory = sqlConnectionFactory;
+            _validator = validate;
         }
 
         public async Task<Result<PagedList<DriversListResponse>>> Handle(

@@ -21,6 +21,7 @@ namespace DVLD.Infrastructure.Data.Configuration
 
             builder.Property(p => p.PasswordHash).IsRequired()
                     .HasMaxLength(255);
+            builder.Property(p => p.IsActive).IsRequired();
 
             builder.HasOne(u => u.Person)
                 .WithOne()
