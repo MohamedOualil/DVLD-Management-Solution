@@ -37,6 +37,7 @@ namespace DVLD.Application.Users.GetUsersList
             string? fullName = string.IsNullOrWhiteSpace(request.Name) ? null : request.Name.Trim();
 
             const string sql = @"SELECT 
+                                COUNT(1) OVER() AS TotalCount,
 		                            U.Id AS UserId,
 		                            U.PersonId,
 		                            CONCAT_WS(' ',P.FirstName,P.LastName) AS FullName,
@@ -44,9 +45,9 @@ namespace DVLD.Application.Users.GetUsersList
 		                            U.IsActive
 	                            FROM Users U
 	                            INNER JOIN Person P ON P.Id = U.PersonId
-	                            WHERE (@personId is null or U.PersonId = @personId)
+	                            WHERE (@PersonId is null or U.PersonId = @PersonId)
 	                            and (@UserId is null or U.Id = @UserId)
-	                            and (@FullName is null or CONCAT_WS(' ',FirstName,LastName) = @FullName)
+	                            and (@FullName is null or CONCAT_WS(' ',FirstName,LastName) like '%'+ @FullName+ '%')
 	                            and (@IsActive = 0 or U.IsActive = 1)
 	                            ORDER BY U.CreatedAt
 	                            OFFSET (@PageNumber - 1) * @PageSize ROWS
@@ -56,11 +57,12 @@ namespace DVLD.Application.Users.GetUsersList
 
             var parameters = new
             {
-                PeronsId = personId,
+                PersonId = personId,
                 UserId = userId,
                 FullName = fullName,
                 PageNumber = request.PageNumber,
-                PageSize = request.PageSize
+                PageSize = request.PageSize,
+                IsActive = request.IsAcitve ? 1 : 0,
 
             };
 
@@ -72,10 +74,10 @@ namespace DVLD.Application.Users.GetUsersList
             var items = rawItems.Select(r => new UsersListResponse
             {
                 PersonId = r.PersonId,
-                UserId = r.DriverId,
+                UserId = r.UserId,
                 FullName = r.FullName,
-                UserName = r.NationNo,
-                IsActive = r.isActive
+                UserName = r.UserName,
+                IsActive = r.IsActive
             }).ToList();
 
             PagedList <UsersListResponse> pageResutl = new PagedList<UsersListResponse>(
