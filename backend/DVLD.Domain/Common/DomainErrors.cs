@@ -130,6 +130,16 @@ namespace DVLD.Domain.Common
                 new("User.UserAlreadyExists", "A user with the given username or person association already exists.");
             public static readonly Error Deactivated =
                 new("User.Deactivated", "This user account has been deactivated.");
+            public static readonly Error UserNameRequired =
+                new("User.UsernameRequired", "Username is required.");
+            public static readonly Error PasswordTooShort = 
+                new("User.PasswordTooShort", "Password must be at least 6 characters long.");
+            public static readonly Error PasswordRequired =
+                new("User.PasswordRequired", "Password is required.");
+            public static readonly Error PersonAlreadyHasUser =
+                new("User.PersonAlreadyHasUser", "A user account is already associated with this person.");
+
+
         }
 
         public static class erTests

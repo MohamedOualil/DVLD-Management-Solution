@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class UserRepository : Repositories<User> ,IUserRepository
+    internal sealed class UserRepository : Repositories<User>, IUserRepository
     {
         private readonly AppDbContext _context;
         public UserRepository(AppDbContext appDbContext) : base(appDbContext)
@@ -18,6 +18,10 @@ namespace DVLD.Infrastructure.Repositorys
             _context = appDbContext;
         }
 
+        public async Task<bool> IsPersonUser(int personId,CancellationToken cancellationToken)
+        {
+            return await _context.Users.AnyAsync(u => u.PersonId == personId,cancellationToken);
+        }
 
     }
 }

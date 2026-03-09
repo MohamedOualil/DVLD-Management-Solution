@@ -10,5 +10,6 @@ namespace DVLD.Domain.Interfaces
 {
     public interface IUserRepository : IBaseRepository<User>
     {
+        Task<bool> IsPersonUser(int personId, CancellationToken cancellationToken);
     }
 }
