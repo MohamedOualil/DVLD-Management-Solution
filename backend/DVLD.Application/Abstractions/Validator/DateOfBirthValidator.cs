@@ -14,7 +14,7 @@ namespace DVLD.Application.Abstractions.Validator
             DateTime today = DateTime.Today;
 
             if (dateOfBirth > today)
-                return new Error("DateOfBirth", "Date of birth cannot be in the future.");
+                return DomainErrors.erPerson.InvalidBirth;
 
 
             int age = today.Year - dateOfBirth.Year;
@@ -27,7 +27,7 @@ namespace DVLD.Application.Abstractions.Validator
 
             // Check if under 18
             if (age < 18)
-                return new Error("DateOfBirth", "You must be at least 18 years old.");
+                return DomainErrors.erPerson.UnderAge;
 
 
             if (age > 120)

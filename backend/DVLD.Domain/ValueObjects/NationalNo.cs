@@ -27,7 +27,7 @@ namespace DVLD.Domain.ValueObjects
 
             var result = ValidateByCountry(nationalNumber, countryid);
             if (result.IsFailure)
-                return Result<NationalNo>.Failure(result.Error);
+                return Result<NationalNo>.Failure(result.Errors);
 
 
 

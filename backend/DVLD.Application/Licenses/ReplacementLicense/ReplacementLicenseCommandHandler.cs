@@ -72,7 +72,7 @@ namespace DVLD.Application.Licenses.ReplacementLicense
                 request.Notes);
 
             if (newLicense.IsFailure)
-                return Result<int>.Failure(newLicense.Error);
+                return Result<int>.Failure(newLicense.Errors);
 
             _licenseRepository.Add(newLicense.Value!);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

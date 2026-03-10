@@ -39,7 +39,7 @@ namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
             if (result.IsFailure)
             {
 
-                return BadRequest(result.Error);
+                return BadRequest(result.Errors);
             }
 
             return CreatedAtAction(nameof(GetLocalApplication), new { id = result.Value }, result.Value);
@@ -52,7 +52,7 @@ namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
 
             Result<LocalApplicationResponse> result = await _sender.Send(query, cancellationToken);
 
-            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
+            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Errors);
         }
     }
 }

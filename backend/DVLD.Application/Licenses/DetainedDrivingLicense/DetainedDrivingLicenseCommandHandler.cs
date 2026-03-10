@@ -59,7 +59,7 @@ namespace DVLD.Application.Licenses.DetainedDrivingLicense
                 request.Fees, 
                 request.CreatedBy);
             if (detainedLicense.IsFailure)
-                return Result<int>.Failure(detainedLicense.Error);
+                return Result<int>.Failure(detainedLicense.Errors);
 
 
             _detainedLicenseRepository.Add(detainedLicense.Value!);

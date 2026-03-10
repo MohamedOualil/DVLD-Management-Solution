@@ -52,7 +52,7 @@ namespace DVLD.Domain.Entities
         {
             Result canScheduleResult = CanScheduleTest((TestTypeEnum)testType.Id);
             if (canScheduleResult.IsFailure)
-                return Result<TestAppointment>.Failure(canScheduleResult.Error);
+                return Result<TestAppointment>.Failure(canScheduleResult.Errors);
 
             TestAppointment newAppointment = TestAppointment.Create(
                 testType,
@@ -142,7 +142,7 @@ namespace DVLD.Domain.Entities
 
             Result allTestsPassResult = AllTestPass();
             if (allTestsPassResult.IsFailure)
-                return Result<DrivingLicense>.Failure(allTestsPassResult.Error);
+                return Result<DrivingLicense>.Failure(allTestsPassResult.Errors);
 
             DrivingLicense newLicense = DrivingLicense.IssueLicenseFirstTime(
                 Application, 

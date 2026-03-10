@@ -10,35 +10,43 @@ namespace DVLD.Domain.Common
     public class Result
     {
         public bool IsSuccess { get; }
-
         public bool IsFailure => !IsSuccess;
-        public Error Error { get; }
-        public IReadOnlyList<Error> Errors { get; }
+        private List<Error> _errors = new List<Error>();
+        public IReadOnlyList<Error> Errors => _errors;
 
-
-
-        protected Result(bool success ,Error error,IReadOnlyList<Error> validationErrors = null)
+        protected Result(bool success ,IReadOnlyList<Error> validationErrors)
         {
-            this.Error = error;
             this.IsSuccess = success;
-            this.Errors = validationErrors ?? [];
+
+            if (validationErrors != null)
+                _errors.AddRange(validationErrors);
 
         }
 
+        protected Result(bool success, Error error)
+        {
+            if (error != null || error != Common.Error.None)
+                _errors.Add(error);
+
+            this.IsSuccess = success;
+        }
+
+
         public static Result Success()
         {
-            return new Result(true,Error.None);
+            return new Result(true, Common.Error.None);
         }
 
         public static Result Failure(Error error)
         {
+            
             return new Result(false,error);
 
         }
 
         public static Result Failure(IReadOnlyList<Error> errors)
         {
-            return new Result(false, errors.FirstOrDefault() ?? Error.None, errors);
+            return new Result(false, errors);
         }
 
 
@@ -50,8 +58,17 @@ namespace DVLD.Domain.Common
         public TValue? Value { get; }
 
 
-        private Result(TValue? data, Error error, bool success,IReadOnlyList<Error> errors = null)
-            : base(success,error,errors)
+        private Result(TValue? data, bool success,IReadOnlyList<Error> errors )
+            : base(success,errors)
+        {
+
+            this.Value = data;
+
+
+        }
+
+        private Result(TValue? data, Error error, bool success)
+           : base(success, error)
         {
 
             this.Value = data;
@@ -61,7 +78,7 @@ namespace DVLD.Domain.Common
 
         public new static Result<TValue> Success(TValue data)
         {
-            return new Result<TValue>(data, Error.None,true);
+            return new Result<TValue>(data, Common.Error.None,true);
         }
 
         public new static Result<TValue> Failure(Error error)
@@ -73,7 +90,7 @@ namespace DVLD.Domain.Common
 
         public new static Result<TValue> Failure(IReadOnlyList<Error> errors)
         {
-            return new Result<TValue>(default, errors.FirstOrDefault() ?? Error.None, false,errors);
+            return new Result<TValue>(default, false,errors);
 
         }
 

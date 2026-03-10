@@ -28,10 +28,10 @@ namespace DVLD.Domain.ValueObjects
         public static Result<Money> Create(decimal amount, string currency = "USD")
         {
             if (amount < 0)
-                return Result<Money>.Failure(new Error("Money.Negative", "Money amount cannot be negative."));
+                return Result<Money>.Failure(DomainErrors.erMoney.InvalidAmount);
 
             if (string.IsNullOrWhiteSpace(currency))
-                return Result<Money>.Failure(new Error("Money.InvalidCurrency", "Currency cannot be empty."));
+                return Result<Money>.Failure(DomainErrors.erMoney.InvalidCurrency);
 
             return Result<Money>.Success(new Money(amount,currency));
 

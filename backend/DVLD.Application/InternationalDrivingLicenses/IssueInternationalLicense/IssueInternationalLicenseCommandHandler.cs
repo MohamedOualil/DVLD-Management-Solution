@@ -65,7 +65,7 @@ namespace DVLD.Application.InternationalDrivingLicenses.IssueInternationalLicens
                 request.CreatedBy,
                 applicationType);
             if (result.IsFailure)
-                return Result<int>.Failure(result.Error);
+                return Result<int>.Failure(result.Errors);
 
            _internationalLicenseRepository.Add(result.Value!);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

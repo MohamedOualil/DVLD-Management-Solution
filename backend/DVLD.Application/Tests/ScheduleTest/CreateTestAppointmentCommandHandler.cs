@@ -62,7 +62,7 @@ namespace DVLD.Application.Tests.ScheduleTest
                 request.CreatedById);
 
             if (scheduling.IsFailure)
-                return Result<int>.Failure(scheduling.Error);
+                return Result<int>.Failure(scheduling.Errors);
 
 
             _testAppointmentRepository.Add(scheduling.Value!);

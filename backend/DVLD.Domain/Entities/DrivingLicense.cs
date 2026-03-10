@@ -202,7 +202,7 @@ namespace DVLD.Domain.Entities
 
             Result<Money> moneyResult = Money.Create(fees);
             if (moneyResult.IsFailure)
-                return Result<DetainedLicense>.Failure(moneyResult.Error);
+                return Result<DetainedLicense>.Failure(moneyResult.Errors);
 
             DetainedLicense deatian = DetainedLicense.Detain(this, moneyResult.Value!, createdBy);
 

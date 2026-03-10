@@ -88,14 +88,14 @@ namespace DVLD.Application.LocalLicenseApplications.CreateApplication
 
             var application = Applications.CreateLocalApplication(person, applicationType, request.CreatedBy);
             if (application.IsFailure)
-                return Result<int>.Failure(application.Error);
+                return Result<int>.Failure(application.Errors);
 
 
             var localDrivingLicenseApplication = LocalDrivingLicenseApplication.Create(
                 application.Value!,
                 licenseClass);
             if (localDrivingLicenseApplication.IsFailure)
-                return Result<int>.Failure(localDrivingLicenseApplication.Error);
+                return Result<int>.Failure(localDrivingLicenseApplication.Errors);
 
 
             _applicationsRepository.Add(application.Value!);

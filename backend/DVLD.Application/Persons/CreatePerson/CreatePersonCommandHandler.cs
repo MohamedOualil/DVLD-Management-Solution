@@ -43,7 +43,7 @@ namespace DVLD.Application.Persons.CreatePerson
                 request.CountryId);
 
             if (nationalNo.IsFailure)
-                return Result<int>.Failure(nationalNo.Error);
+                return Result<int>.Failure(nationalNo.Errors);
 
             if (await _personRepository.NationlNoExist(nationalNo.Value!.Number))
                 return Result<int>.Failure(DomainErrors.erPerson.NationalNoAlreadyExists);

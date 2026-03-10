@@ -28,13 +28,14 @@ namespace DVLD.Domain.Entities
             PasswordHash = string.Empty;
         }
 
-        private User(int personId,string userName,string passwordhash,bool isActive)
+        private User(int personId,string userName,string passwordhash,bool isActive) : base(DateTime.UtcNow)
         {
             PersonId = personId;
             UserName = userName;
             PasswordHash = passwordhash;
             IsActive = isActive;
-            
+            UpdatedAt = DateTime.UtcNow;
+
         }
 
 

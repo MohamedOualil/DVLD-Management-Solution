@@ -51,7 +51,7 @@ namespace DVLD.Application.Tests.TakeTest
             Result<Test> testResult = testAppointment.TakeTest(request.Result, request.Notes, request.CreateById);
 
             if (testResult.IsFailure)
-                return Result<int>.Failure(testResult.Error);
+                return Result<int>.Failure(testResult.Errors);
 
             _testRepository.Add(testResult.Value!);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

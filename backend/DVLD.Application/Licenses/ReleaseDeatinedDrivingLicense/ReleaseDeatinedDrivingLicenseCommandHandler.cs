@@ -64,7 +64,7 @@ namespace DVLD.Application.Licenses.ReleaseDeatinedDrivingLicense
                 request.RelaseBy, 
                 applicationType);
             if (relaseReslult.IsFailure)
-                return Result.Failure(relaseReslult.Error);
+                return Result.Failure(relaseReslult.Errors);
 
             _detainedLicenseRepository.Update(detainedLicense);
 

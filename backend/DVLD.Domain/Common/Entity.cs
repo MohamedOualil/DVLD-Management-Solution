@@ -12,7 +12,7 @@ namespace DVLD.Domain.Common
 
         public bool IsDeactivated { get; private set; }
         public DateTime CreatedAt { get; private set; }
-        public DateTime? UpdatedAt { get; private set; }
+        public DateTime? UpdatedAt { get; protected set; }
         protected Entity() { }
 
         protected void Deactivate()
@@ -21,6 +21,11 @@ namespace DVLD.Domain.Common
             IsDeactivated = true;
         }
 
+        protected Entity(DateTime createAt )
+        {
+            CreatedAt = createAt;
+            
+        }
 
         public override int GetHashCode() => Id.GetHashCode();
 

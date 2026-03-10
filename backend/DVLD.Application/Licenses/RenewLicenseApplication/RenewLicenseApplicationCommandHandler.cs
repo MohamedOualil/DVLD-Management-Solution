@@ -60,7 +60,7 @@ namespace DVLD.Application.Licenses.RenewLicenseApplication
                request.Notes);
 
             if (newLicense.IsFailure)
-                return Result<int>.Failure(newLicense.Error);
+                return Result<int>.Failure(newLicense.Errors);
 
             _licenseRepository.Add(license);
             await _unitOfWork.SaveChangesAsync(cancellationToken);

@@ -31,7 +31,7 @@ namespace DVLD.Api.Controllers.Person
 
             Result<PersonResponse> result = await _sender.Send(query, cancellationToken);
 
-            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
+            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Errors);
         }
 
         [HttpPost]
@@ -64,7 +64,7 @@ namespace DVLD.Api.Controllers.Person
             if (result.IsFailure)
             {
 
-                return BadRequest(result.Error);
+                return BadRequest(result.Errors);
             }
 
             return CreatedAtAction(nameof(GetPerson), new { id = result.Value }, result.Value);
@@ -81,7 +81,7 @@ namespace DVLD.Api.Controllers.Person
 
             if (result.IsFailure)
             {
-                return BadRequest(result.Error);
+                return BadRequest(result.Errors);
             }
 
             return Ok($"Person With ID {id} has been deleted.");
@@ -123,7 +123,7 @@ namespace DVLD.Api.Controllers.Person
             if (result.IsFailure)
             {
 
-                return BadRequest(result.Error);
+                return BadRequest(result.Errors);
             }
 
             return CreatedAtAction(nameof(GetPerson), new { id = id }, result);

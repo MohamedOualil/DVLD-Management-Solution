@@ -40,7 +40,7 @@ namespace DVLD.Api.Controllers.Drivers
                 query, 
                 cancellationToken);
 
-            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
+            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Errors);
         }
     }
 }

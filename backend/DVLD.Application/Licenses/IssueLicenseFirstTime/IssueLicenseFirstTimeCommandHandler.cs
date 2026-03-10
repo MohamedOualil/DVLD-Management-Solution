@@ -66,7 +66,7 @@ namespace DVLD.Application.Licenses.IssueLicenseFirstTime
                 request.CreatedByUserId,
                 driver);
             if (result.IsFailure)
-                return Result<int>.Failure(result.Error);
+                return Result<int>.Failure(result.Errors);
 
             _licenseRepository.Add(result.Value!);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
