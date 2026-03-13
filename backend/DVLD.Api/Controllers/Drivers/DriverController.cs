@@ -19,7 +19,7 @@ namespace DVLD.Api.Controllers.Drivers
             
         }
  
-        [HttpGet("All", Name = "GetDriversList")]
+        [HttpGet( Name = "GetDriversList")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<PagedList<DriversListResponse>>> GetDriversList(

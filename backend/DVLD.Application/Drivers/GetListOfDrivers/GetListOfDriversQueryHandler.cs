@@ -96,11 +96,14 @@ namespace DVLD.Application.Drivers.GetListOfDrivers
                 r.ActiveLicenses
             )).ToList();
 
-            PagedList<DriversListResponse> pageResutl = new PagedList<DriversListResponse> (
-                items, 
-                request.PageNumber, 
-                request.PageSize, 
+            PagedList<DriversListResponse> pageResutl = new PagedList<DriversListResponse>(
+                items,
+                request.PageNumber,
+                request.PageSize,
                 totalCount);
+
+            
+
 
             return Result<PagedList<DriversListResponse>>.Success(pageResutl);
 

@@ -8,7 +8,9 @@ namespace DVLD.Application.Abstractions
 {
     public class PagedList<T>
     {
-        public List<T> Items { get; }
+        public IReadOnlyList<T> Items => _items.AsReadOnly();
+
+        private readonly List<T> _items;
         public int PageNumber { get; }
         public int PageSize { get; }
         public int TotalCount { get; }
@@ -19,7 +21,7 @@ namespace DVLD.Application.Abstractions
 
         public PagedList(List<T> items, int totalCount, int pageNumber, int pageSize)
         {
-            Items = items;
+            _items = items;
             PageNumber = pageNumber;
             PageSize = pageSize;
             TotalCount = totalCount;

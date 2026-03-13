@@ -9,16 +9,16 @@ namespace DVLD.Application.LocalLicenseApplications.GetLocalApplication
 {
     public sealed record LocalApplicationResponse
     {
-        public int LocalId { get; init; }
-        public int ApplicationId { get; init; }
-        public string ClassName { get; init; }
-        public decimal PaidFees { get; init; }
-        public string ApplicationName { get; init; }
-        public string PersonFullName { get; init; }
-        public string UserFullName { get; init; }
-        public DateTime ApplicationDate { get; init; }
-        public DateTime LastStatusDate { get; init; }
-        public ApplicationStatusEnum Status { get; init; }
+        public required int LocalId { get; init; }
+        public required int ApplicationId { get; init; }
+        public required string ClassName { get; init; }
+        public required decimal PaidFees { get; init; }
+        public required string ApplicationName { get; init; }
+        public required string PersonFullName { get; init; }
+        public required string UserFullName { get; init; }
+        public required DateTime ApplicationDate { get; init; }
+        public required DateTime LastStatusDate { get; init; }
+        public required string Status { get; init; }
 
     }
 }
