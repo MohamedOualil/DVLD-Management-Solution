@@ -9,12 +9,13 @@ namespace DVLD.Application.LocalLicenseApplications.GetAllLocalApplications
 {
     public  record GetAllLocalApplicationsResponse
     {
-        public required int LocalApplicationId { get; init; }
+        public  int LocalApplicationId { get; init; }
         public required string DrivingClass { get; init; }
         public required string NationalNo { get; init; }
         public required string FullName { get; init; }
-        public required DateTime ApplicationDate { get; init; }
-        public required int PassedTest {  get; init; }
-        public required string Status { get; init; }
+        public  DateTime ApplicationDate { get; init; }
+        public int PassedTest {  get; init; }
+        public string StatusName => ((ApplicationStatusEnum)StatusId).ToString();
+        public  int StatusId { get; init; }
     }
 }

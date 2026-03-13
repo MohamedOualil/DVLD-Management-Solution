@@ -56,7 +56,7 @@ namespace DVLD.Application.LocalLicenseApplications.GetAllLocalApplications
 	                                LC.ClassName AS DrivingClass,
 	                                P.NationalNo_Number AS NationalNo,
 	                                CONCAT_WS(' ',P.FirstName,P.LastName) AS FullName,
-	                                A.Status,
+	                                A.Status AS StatusId,
 	                                A.ApplicationDate,
 	                                ISNULL(T.PassedTest,0) AS PassedTest,
 	                                Count(*) OVER () AS TotalCount

@@ -1,4 +1,9 @@
-﻿using DVLD.Application.LocalLicenseApplications.CreateApplication;
+﻿using DVLD.Api.Common;
+using DVLD.Api.Controllers.Drivers;
+using DVLD.Application.Abstractions;
+using DVLD.Application.Drivers.GetListOfDrivers;
+using DVLD.Application.LocalLicenseApplications.CreateApplication;
+using DVLD.Application.LocalLicenseApplications.GetAllLocalApplications;
 using DVLD.Application.LocalLicenseApplications.GetLocalApplication;
 using DVLD.Application.Persons.CreatePerson;
 using DVLD.Application.Persons.GetPerson;
@@ -12,7 +17,7 @@ namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LocalDrivingLicenseApplicationController : ControllerBase
+    public class LocalDrivingLicenseApplicationController : ApiController
     {
         private readonly ISender _sender;
 
@@ -53,6 +58,29 @@ namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
             Result<LocalApplicationResponse> result = await _sender.Send(query, cancellationToken);
 
             return result.IsSuccess ? Ok(result.Value) : NotFound(result.Errors);
+        }
+
+        [HttpGet(Name = "GetAllLocalApplications")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<PagedList<GetAllLocalApplicationsResponse>>> GetAllLocalApplications(
+           [FromQuery] GetAllLocalApplicationsRequest allLocalApplicationsRequest
+           , CancellationToken cancellationToken)
+        {
+            GetAllLocalApplicationsQuery query = new GetAllLocalApplicationsQuery
+            {
+                PageNumber = allLocalApplicationsRequest.PageNumber,
+                PageSize = allLocalApplicationsRequest.PageSize
+            };
+
+            Result<PagedList<GetAllLocalApplicationsResponse>> result = await _sender.Send(
+                query,
+                cancellationToken);
+
+            if (result.IsFailure)
+                return HandleFailure(result);
+
+            return Ok(result.Value);
         }
     }
 }

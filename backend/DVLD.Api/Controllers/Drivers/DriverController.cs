@@ -1,4 +1,5 @@
-﻿using DVLD.Application.Abstractions;
+﻿using DVLD.Api.Common;
+using DVLD.Application.Abstractions;
 using DVLD.Application.Drivers.GetListOfDrivers;
 using DVLD.Application.Persons.GetPerson;
 using DVLD.Domain.Common;
@@ -10,7 +11,7 @@ namespace DVLD.Api.Controllers.Drivers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DriverController : ControllerBase
+    public class DriverController : ApiController
     {
         private readonly ISender _sender;
         public DriverController(ISender sender)
@@ -40,7 +41,10 @@ namespace DVLD.Api.Controllers.Drivers
                 query, 
                 cancellationToken);
 
-            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Errors);
+            if (result.IsFailure)
+                return HandleFailure(result);
+
+            return Ok(result.Value);
         }
     }
 }
