@@ -1,6 +1,11 @@
 ﻿using Azure.Core;
+using DVLD.Api.Common;
+using DVLD.Api.Controllers.LocalDrivingLicenseApplications;
+using DVLD.Application.Abstractions;
+using DVLD.Application.LocalLicenseApplications.GetAllLocalApplications;
 using DVLD.Application.Persons.CreatePerson;
 using DVLD.Application.Persons.DeletePerson;
+using DVLD.Application.Persons.GetAllPerson;
 using DVLD.Application.Persons.GetPerson;
 using DVLD.Application.Persons.UpdatePerson;
 using DVLD.Domain.Common;
@@ -13,7 +18,7 @@ namespace DVLD.Api.Controllers.Person
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PersonController : ControllerBase
+    public class PersonController : ApiController
     {
 
         private readonly ISender _sender;
@@ -129,6 +134,35 @@ namespace DVLD.Api.Controllers.Person
             return CreatedAtAction(nameof(GetPerson), new { id = id }, result);
 
 
+        }
+
+
+
+        [HttpGet(Name = "GetAllPerson")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<PagedList<GetAllPersonResponse>>> GetAllPerson(
+           [FromQuery] GetAllPersonRequest allLocalApplicationsRequest
+           , CancellationToken cancellationToken)
+        {
+            GetAllPersonQuery query = new GetAllPersonQuery
+            {
+                PageNumber = allLocalApplicationsRequest.PageNumber,
+                PageSize = allLocalApplicationsRequest.PageSize
+            };
+
+            Result<PagedList<GetAllPersonResponse>> result = await _sender.Send(
+                query,
+                cancellationToken);
+
+            if (result.IsFailure)
+                return HandleFailure(result);
+
+            if (result.Value.Items.Count == 0)
+                return NotFound();
+
+            return Ok(result.Value);
         }
     }
 }

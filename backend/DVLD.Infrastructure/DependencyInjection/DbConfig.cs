@@ -1,6 +1,23 @@
 using DVLD.Application.Abstractions;
+using DVLD.Application.Abstractions.Data;
+using DVLD.Application.Drivers.GetListOfDrivers;
+using DVLD.Application.InternationalDrivingLicenses.IssueInternationalLicense;
+using DVLD.Application.Licenses.DetainedDrivingLicense;
+using DVLD.Application.Licenses.GetInternationalDrivingLicenseHistory;
+using DVLD.Application.Licenses.GetLocalDrivingLicenseHistory;
+using DVLD.Application.Licenses.IssueLicenseFirstTime;
+using DVLD.Application.Licenses.ReleaseDeatinedDrivingLicense;
+using DVLD.Application.Licenses.RenewLicenseApplication;
+using DVLD.Application.Licenses.ReplacementLicense;
+using DVLD.Application.LocalLicenseApplications.CreateApplication;
+using DVLD.Application.LocalLicenseApplications.GetAllLocalApplications;
 using DVLD.Application.Persons.CreatePerson;
+using DVLD.Application.Persons.GetAllPerson;
 using DVLD.Application.Persons.UpdatePerson;
+using DVLD.Application.Tests.ScheduleTest;
+using DVLD.Application.Tests.TakeTest;
+using DVLD.Application.Users.AddUser;
+using DVLD.Application.Users.GetUsersList;
 using DVLD.Domain.Common;
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
@@ -9,22 +26,6 @@ using DVLD.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using DVLD.Application.Abstractions.Data;
-using DVLD.Application.LocalLicenseApplications.CreateApplication;
-using DVLD.Application.Tests.ScheduleTest;
-using DVLD.Application.Tests.TakeTest;
-using DVLD.Application.Licenses.DetainedDrivingLicense;
-using DVLD.Application.InternationalDrivingLicenses.IssueInternationalLicense;
-using DVLD.Application.Licenses.IssueLicenseFirstTime;
-using DVLD.Application.Licenses.ReleaseDeatinedDrivingLicense;
-using DVLD.Application.Licenses.RenewLicenseApplication;
-using DVLD.Application.Licenses.ReplacementLicense;
-using DVLD.Application.Drivers.GetListOfDrivers;
-using DVLD.Application.Users.GetUsersList;
-using DVLD.Application.Users.AddUser;
-using DVLD.Application.LocalLicenseApplications.GetAllLocalApplications;
-using DVLD.Application.Licenses.GetLocalDrivingLicenseHistory;
-using DVLD.Application.Licenses.GetInternationalDrivingLicenseHistory;
 
 namespace DVLD.Infrastructure.DependencyInjection
 {
@@ -75,6 +76,7 @@ namespace DVLD.Infrastructure.DependencyInjection
             services.AddScoped<IValidate<GetAllLocalApplicationsQuery>, GetAllLocalApplicationsQueryValidator>();
             services.AddScoped<IValidate<GetLocalDrivingLicenseHistoryQuery>,GetLocalDrivingLicenseHistoryValidator>();
             services.AddScoped<IValidate<GetInternationalDrivingLicenseHistoryQuery>, GetInternationalDrivingLicenseHistoryValidator>();
+            services.AddScoped<IValidate<GetAllPersonQuery>, GetAllPersonQueryValidator>();
 
 
 
