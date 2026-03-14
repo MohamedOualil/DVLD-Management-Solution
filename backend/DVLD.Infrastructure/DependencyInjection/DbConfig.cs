@@ -24,6 +24,7 @@ using DVLD.Application.Users.GetUsersList;
 using DVLD.Application.Users.AddUser;
 using DVLD.Application.LocalLicenseApplications.GetAllLocalApplications;
 using DVLD.Application.Licenses.GetLocalDrivingLicenseHistory;
+using DVLD.Application.Licenses.GetInternationalDrivingLicenseHistory;
 
 namespace DVLD.Infrastructure.DependencyInjection
 {
@@ -73,6 +74,7 @@ namespace DVLD.Infrastructure.DependencyInjection
             services.AddScoped<IValidate<AddUserCommand>, AddUserCommandValidator>();
             services.AddScoped<IValidate<GetAllLocalApplicationsQuery>, GetAllLocalApplicationsQueryValidator>();
             services.AddScoped<IValidate<GetLocalDrivingLicenseHistoryQuery>,GetLocalDrivingLicenseHistoryValidator>();
+            services.AddScoped<IValidate<GetInternationalDrivingLicenseHistoryQuery>, GetInternationalDrivingLicenseHistoryValidator>();
 
 
 
