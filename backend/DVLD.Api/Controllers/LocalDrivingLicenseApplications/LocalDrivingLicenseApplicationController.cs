@@ -63,6 +63,7 @@ namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
         [HttpGet(Name = "GetAllLocalApplications")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<PagedList<GetAllLocalApplicationsResponse>>> GetAllLocalApplications(
            [FromQuery] GetAllLocalApplicationsRequest allLocalApplicationsRequest
            , CancellationToken cancellationToken)
