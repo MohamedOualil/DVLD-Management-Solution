@@ -138,6 +138,15 @@ namespace DVLD.Domain.Common
                 new("User.PasswordRequired", "Password is required.", ErrorType.BadRequest);
             public static readonly Error PersonAlreadyHasUser =
                 new("User.PersonAlreadyHasUser", "A user account is already associated with this person.", ErrorType.BadRequest);
+            public static readonly Error NewPassword =
+                new("User.NewPasswordRequired", "New password is required.", ErrorType.BadRequest);
+            
+            public static readonly Error CurrentPassword =
+                new("User.CurrentPasswordRequired", "Current password is required.", ErrorType.BadRequest);
+            public static readonly Error PasswordMismatch =
+                new("User.PasswordMismatch", "The current password is incorrect.", ErrorType.BadRequest);
+
+
         }
 
         public static class erTests
