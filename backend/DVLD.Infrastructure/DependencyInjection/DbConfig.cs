@@ -17,6 +17,7 @@ using DVLD.Application.Persons.UpdatePerson;
 using DVLD.Application.Tests.ScheduleTest;
 using DVLD.Application.Tests.TakeTest;
 using DVLD.Application.Users.AddUser;
+using DVLD.Application.Users.ChangePassword;
 using DVLD.Application.Users.GetUsersList;
 using DVLD.Domain.Common;
 using DVLD.Domain.Interfaces;
@@ -77,6 +78,7 @@ namespace DVLD.Infrastructure.DependencyInjection
             services.AddScoped<IValidate<GetLocalDrivingLicenseHistoryQuery>,GetLocalDrivingLicenseHistoryValidator>();
             services.AddScoped<IValidate<GetInternationalDrivingLicenseHistoryQuery>, GetInternationalDrivingLicenseHistoryValidator>();
             services.AddScoped<IValidate<GetAllPersonQuery>, GetAllPersonQueryValidator>();
+            services.AddScoped<IValidate<ChangePasswordCommand>, ChangePasswordValidator>();
 
 
 
