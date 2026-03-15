@@ -29,14 +29,17 @@ namespace DVLD.Api.Controllers.Person
             
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}",Name = "GetPerson")]
         public async Task<IActionResult> GetPerson(int id, CancellationToken cancellationToken)
         {
             var query = new GetPersonQuery(id);
 
             Result<PersonResponse> result = await _sender.Send(query, cancellationToken);
 
-            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Errors);
+            if (result.IsFailure)
+                return HandleFailure(result);
+
+            return Ok(result.Value);
         }
 
         [HttpPost]

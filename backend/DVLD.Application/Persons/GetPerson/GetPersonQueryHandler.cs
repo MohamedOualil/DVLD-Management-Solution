@@ -1,24 +1,29 @@
-﻿using DVLD.Domain.Entities;
+﻿using Dapper;
+using DVLD.Application.Abstractions.Data;
+using DVLD.Application.Abstractions.Messaging;
+using DVLD.Application.Licenses.GetLicense;
+using DVLD.Domain.Common;
+using DVLD.Domain.Entities;
+using DVLD.Domain.Interfaces;
 using MediatR;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DVLD.Domain.Common;
-using DVLD.Application.Abstractions.Messaging;
-using DVLD.Domain.Interfaces;
 
 namespace DVLD.Application.Persons.GetPerson
 {
     internal sealed class GetPersonQueryHandler : IQueryHandler<GetPersonQuery, PersonResponse>
     {
+        private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
         private readonly IPersonRepository _personRepository;
-        public GetPersonQueryHandler(IPersonRepository personRepository)
+        public GetPersonQueryHandler(IPersonRepository personRepository, ISqlConnectionFactory sqlConnectionFactory)
         {
             _personRepository = personRepository;
-            
+            _sqlConnectionFactory = sqlConnectionFactory;
         }
         public async Task<Result<PersonResponse>> Handle(GetPersonQuery request, CancellationToken cancellationToken)
         {
@@ -26,31 +31,41 @@ namespace DVLD.Application.Persons.GetPerson
             if (request.personId < 0)
                 return Result<PersonResponse>.Failure(DomainErrors.erPerson.InvalidId);
 
-            var personEntity = await _personRepository.GetByIdAsync(request.personId);
+            const string sql = @"SELECT 
+		                        P.Id AS PersonId,
+		                        P.NationalNo_Number AS NationalNo,
+		                        P.NationalNo_CountryID AS CountryId,
+		                        P.FirstName,
+		                        P.SecondName,
+		                        P.ThirdName,
+		                        P.LastName,
+		                        P.Gender,
+		                        P.DateOfBirth,
+		                        P.Phone,
+		                        P.Email,
+		                        P.ImagePath,
+		                        P.City,
+		                        P.State,
+		                        P.ZipCode,
+		                        P.Street,
+                                P.CreatedAt
+	                        FROM Person P
+	                        WHERE P.Id = @PersonId AND P.IsDeactivated = 0";
+            using IDbConnection connection = _sqlConnectionFactory.CreateConnection();
 
-            if (personEntity == null)
-                return Result<PersonResponse>.Failure(DomainErrors.erPerson.NotFound);
+            var command = new CommandDefinition(
+                sql,
+                new { PersonId = request.personId },
+                cancellationToken: cancellationToken);
 
-                var personResponse = new PersonResponse
-            {
-                PersonId = personEntity.Id,
-                FirstName = personEntity.FullName.FirstName,
-                LastName = personEntity.FullName.LastName,
-                SecondName = personEntity.FullName.SecondName,
-                ThirdName = personEntity.FullName.ThirdName,
-                Gender = (short)personEntity.Gender,
-                DateOfBirth = personEntity.DateOfBirth,
-                City = personEntity.Address.City,
-                CountryId = personEntity.Address.CountryID,
-                CreatedAt = personEntity.CreatedAt,
-                ZipCode= personEntity.Address.ZipCode,
-                Email = personEntity.Email.Value,
-                NationalNo = personEntity.NationalNo.Number,
-                Phone = personEntity.Phone.PhoneNumber,
-                State = personEntity.Address.State,
-                Street = personEntity.Address.Street,
-            };
+            PersonResponse? personResponse = await connection.QueryFirstOrDefaultAsync
+                                                         <PersonResponse>(command);
 
+
+
+
+            if (personResponse is null)
+                return Result<PersonResponse>.Failure(DomainErrors.erLicense.NotFound);
 
             return Result<PersonResponse>.Success(personResponse);
 
