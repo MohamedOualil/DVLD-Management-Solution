@@ -48,22 +48,26 @@ namespace DVLD.Domain.Entities
             return new User(personId,userName, hash,isActive);
         }
 
-
-        private static Result<string> _PasswordValidation(string password, IPasswordHasher passwordHasher)
+        public Result ChangePassword(string currentPassword, string newPassword, IPasswordHasher passwordHasher)
         {
+            if (!this.IsActive)
+                return Result.Failure(DomainErrors.erUser.Deactivated);
 
-            var passwordhash = passwordHasher.HashPassword(password);
+            if (!passwordHasher.VerifyPassword(currentPassword, this.PasswordHash))
+                return Result.Failure(DomainErrors.erUser.PasswordMismatch);
 
-            return Result<string>.Success(passwordhash);
+            this.PasswordHash = passwordHasher.HashPassword(newPassword);
+            UpdatedAt = DateTime.UtcNow;
+
+            return Result.Success();
         }
 
+       
 
-        public Result SetPassword(string password,IPasswordHasher passwordHasher)
+        private void SetPassword(string password,IPasswordHasher passwordHasher)
         {
 
             this.PasswordHash  =  passwordHasher.HashPassword(password);
-
-            return Result.Success();
 
         }
 
