@@ -1,7 +1,9 @@
 ﻿using DVLD.Api.Common;
 using DVLD.Api.Controllers.License;
 using DVLD.Application.Abstractions;
+using DVLD.Application.InternationalDrivingLicenses.GetInternationalLicense;
 using DVLD.Application.Licenses.GetInternationalDrivingLicenseHistory;
+using DVLD.Application.Licenses.GetLicense;
 using DVLD.Application.Licenses.GetLocalDrivingLicenseHistory;
 using DVLD.Domain.Common;
 using MediatR;
@@ -46,6 +48,27 @@ namespace DVLD.Api.Controllers.InternationalLicense
 
             if (result.Value.Items.Count == 0)
                 return NotFound();
+
+            return Ok(result.Value);
+        }
+
+
+        [HttpGet("{InternationalLicenseId}", Name = "GetInternationalLicense")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<GetInternationalLicenseResponse>> GetInternationalLicense(
+          int InternationalLicenseId
+          , CancellationToken cancellationToken)
+        {
+            GetInternationalLicenseQuery query = new GetInternationalLicenseQuery(InternationalLicenseId);
+
+            Result<GetInternationalLicenseResponse> result = await _sender.Send(
+                query,
+                cancellationToken);
+
+            if (result.IsFailure)
+                return HandleFailure(result);
 
             return Ok(result.Value);
         }
