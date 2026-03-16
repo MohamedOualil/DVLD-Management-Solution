@@ -23,5 +23,14 @@ namespace DVLD.Infrastructure.Repositorys
             return await _context.Users.AnyAsync(u => u.PersonId == personId,cancellationToken);
         }
 
+        public async Task<User?> GetUserByUsername(string username,CancellationToken cancellationToken)
+        {
+            return await _context.Users
+                            .AsNoTracking()
+                            .SingleOrDefaultAsync(u => u.UserName == username 
+                                                  && !u.IsDeactivated, 
+                                                 cancellationToken);
+        }
+
     }
 }

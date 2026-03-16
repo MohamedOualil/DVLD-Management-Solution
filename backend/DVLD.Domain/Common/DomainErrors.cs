@@ -145,6 +145,9 @@ namespace DVLD.Domain.Common
                 new("User.CurrentPasswordRequired", "Current password is required.", ErrorType.BadRequest);
             public static readonly Error PasswordMismatch =
                 new("User.PasswordMismatch", "The current password is incorrect.", ErrorType.BadRequest);
+            public static readonly Error UsernameOrPasswordWrong =
+                new("User.UsernameOrPasswordWrong", "The provided username or password is incorrect.", ErrorType.BadRequest);
+
 
 
         }
