@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Application.Users.GetUser
 {
-    public sealed record GetUserResponse
+    public sealed record LoginResponse
     {
         public required string Username { get; init; }
         public int PersonId { get; init; }

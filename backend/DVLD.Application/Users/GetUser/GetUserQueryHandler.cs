@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Application.Users.GetUser
 {
-    internal sealed class GetUserQueryHandler : IQueryHandler<GetUserQuery, GetUserResponse>
+    internal sealed class GetUserQueryHandler : IQueryHandler<GetUserQuery, LoginResponse>
     {
 
         private readonly IUserRepository _userRepository;
@@ -31,29 +31,29 @@ namespace DVLD.Application.Users.GetUser
             _validator = validate;
         }
 
-        public async Task<Result<GetUserResponse>> Handle(
+        public async Task<Result<LoginResponse>> Handle(
             GetUserQuery request, 
             CancellationToken cancellationToken)
         {
             Result validation = _validator.Validate(request);
             if (validation.IsFailure)
-                return Result<GetUserResponse>.Failure(validation.Errors);
+                return Result<LoginResponse>.Failure(validation.Errors);
 
             User? user = await _userRepository.GetUserByUsername(
                 request.Username,
                 cancellationToken);
             if (user is null)
-                return Result<GetUserResponse>.Failure(DomainErrors.erUser.UsernameOrPasswordWrong);
+                return Result<LoginResponse>.Failure(DomainErrors.erUser.UsernameOrPasswordWrong);
 
             if (!user.VerifyPassword(request.Password, 
                                      user.PasswordHash,
                                      _passwordHasher))
-                return Result<GetUserResponse>.Failure(DomainErrors.erUser.UsernameOrPasswordWrong);
+                return Result<LoginResponse>.Failure(DomainErrors.erUser.UsernameOrPasswordWrong);
 
             if (!user.IsActive)
-                return Result<GetUserResponse>.Failure(DomainErrors.erUser.Deactivated);
+                return Result<LoginResponse>.Failure(DomainErrors.erUser.Deactivated);
 
-            return Result<GetUserResponse>.Success(new GetUserResponse { 
+            return Result<LoginResponse>.Success(new LoginResponse { 
                 Username = user.UserName, 
                 PersonId = user.PersonId, 
                 IsActive = user.IsActive });

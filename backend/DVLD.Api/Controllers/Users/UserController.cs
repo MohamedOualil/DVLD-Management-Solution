@@ -3,9 +3,11 @@ using DVLD.Api.Controllers.Drivers;
 using DVLD.Api.Controllers.Tests;
 using DVLD.Application.Abstractions;
 using DVLD.Application.Drivers.GetListOfDrivers;
+using DVLD.Application.Licenses.GetLicense;
 using DVLD.Application.Tests.ScheduleTest;
 using DVLD.Application.Users.AddUser;
 using DVLD.Application.Users.ChangePassword;
+using DVLD.Application.Users.GetUser;
 using DVLD.Application.Users.GetUsersList;
 using DVLD.Domain.Common;
 using MediatR;
@@ -50,7 +52,7 @@ namespace DVLD.Api.Controllers.Users
             return result.IsSuccess ? Ok(result.Value) : NotFound(result.Errors);
         }
 
-        [HttpPost("User", Name = "CreateUser")]
+        [HttpPost("Create", Name = "CreateUser")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -74,15 +76,15 @@ namespace DVLD.Api.Controllers.Users
         }
 
 
-        [HttpPost("Change", Name = "ChangePassword")]
+        [HttpPatch("{userId}/change-password", Name = "ChangePassword")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> ChangePassword(ChangePasswordRequest request)
+        public async Task<IActionResult> ChangePassword([FromRoute]int userId,
+            [FromBody]ChangePasswordRequest request)
         {
             ChangePasswordCommand command = new ChangePasswordCommand
             {
-                UserId = request.UserId,
+                UserId = userId,
                 CurrentPassword = request.CurrentPassword,
                 NewPassword = request.NewPassword
             };
@@ -93,7 +95,29 @@ namespace DVLD.Api.Controllers.Users
             {
                 return HandleFailure(result);
             }
-            return Ok(result);
+            return Ok();
+        }
+
+        [HttpPost("login", Name = "Login")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<LoginResponse>> Login(
+          [FromBody]GetUserRequest request
+          , CancellationToken cancellationToken)
+        {
+            GetUserQuery query = new GetUserQuery { 
+                Password = request.Password, 
+                Username = request.Username };
+
+            Result<LoginResponse> result = await _sender.Send(
+                query,
+                cancellationToken);
+
+            if (result.IsFailure)
+                return HandleFailure(result);
+
+            return Ok(result.Value);
         }
     }
 }
