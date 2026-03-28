@@ -14,6 +14,18 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("DVLDApiPolicy", policy =>
+    {
+        policy.WithOrigins("https://localhost:7261",
+                            "http://localhost:5244")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 
@@ -25,6 +37,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("DVLDApiPolicy");
 
 app.UseAuthorization();
 
