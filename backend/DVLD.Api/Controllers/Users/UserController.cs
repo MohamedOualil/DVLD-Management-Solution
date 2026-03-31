@@ -98,26 +98,5 @@ namespace DVLD.Api.Controllers.Users
             return Ok();
         }
 
-        [HttpPost("login", Name = "Login")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<LoginResponse>> Login(
-          [FromBody]GetUserRequest request
-          , CancellationToken cancellationToken)
-        {
-            GetUserQuery query = new GetUserQuery { 
-                Password = request.Password, 
-                Username = request.Username };
-
-            Result<LoginResponse> result = await _sender.Send(
-                query,
-                cancellationToken);
-
-            if (result.IsFailure)
-                return HandleFailure(result);
-
-            return Ok(result.Value);
-        }
     }
 }

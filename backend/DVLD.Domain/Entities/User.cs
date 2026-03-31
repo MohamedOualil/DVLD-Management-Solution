@@ -17,6 +17,7 @@ namespace DVLD.Domain.Entities
        
         public string UserName { get; private set; }
         public string PasswordHash { get; private set; }
+        public string Role {get; private set; } 
         public bool IsActive { get; private set; } = true;
 
 
