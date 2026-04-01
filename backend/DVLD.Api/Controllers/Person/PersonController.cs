@@ -10,12 +10,14 @@ using DVLD.Application.Persons.GetPerson;
 using DVLD.Application.Persons.UpdatePerson;
 using DVLD.Domain.Common;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace DVLD.Api.Controllers.Person
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PersonController : ApiController

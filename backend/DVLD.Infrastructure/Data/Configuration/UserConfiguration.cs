@@ -18,6 +18,7 @@ namespace DVLD.Infrastructure.Data.Configuration
             builder.Property(p=>p.UserName).IsRequired()
                 .HasMaxLength(20);
             builder.HasIndex(p => p.UserName).IsUnique();
+            builder.Property(p => p.Role);
 
             builder.Property(p => p.PasswordHash).IsRequired()
                     .HasMaxLength(255);

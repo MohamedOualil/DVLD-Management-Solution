@@ -1,4 +1,5 @@
 using DVLD.Application.Abstractions;
+using DVLD.Application.Abstractions.Authentication;
 using DVLD.Application.Abstractions.Data;
 using DVLD.Application.Drivers.GetListOfDrivers;
 using DVLD.Application.InternationalDrivingLicenses.IssueInternationalLicense;
@@ -22,6 +23,7 @@ using DVLD.Application.Users.GetUser;
 using DVLD.Application.Users.GetUsersList;
 using DVLD.Domain.Common;
 using DVLD.Domain.Interfaces;
+using DVLD.Infrastructure.Authentication;
 using DVLD.Infrastructure.Data;
 using DVLD.Infrastructure.Repositorys;
 using DVLD.Infrastructure.Services;
@@ -82,7 +84,7 @@ namespace DVLD.Infrastructure.DependencyInjection
             services.AddScoped<IValidate<ChangePasswordCommand>, ChangePasswordValidator>();
             services.AddScoped<IValidate<GetUserQuery>, GetUserValidator>();
 
-
+            services.AddScoped<IJwtProvider, JwtProvider>();
 
 
             // UnitOfWork

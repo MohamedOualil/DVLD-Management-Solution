@@ -4,11 +4,13 @@ using DVLD.Application.Drivers.GetListOfDrivers;
 using DVLD.Application.Persons.GetPerson;
 using DVLD.Domain.Common;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DVLD.Api.Controllers.Drivers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class DriverController : ApiController
