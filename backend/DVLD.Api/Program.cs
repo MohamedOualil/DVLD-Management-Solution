@@ -1,7 +1,9 @@
+using DVLD.Api.Authorization;
 using DVLD.Application;
 using DVLD.Infrastructure.DependencyInjection;
 using DVLD.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -41,6 +43,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAuthorization();
+
+builder.Services.AddAuthorization(options =>
+{
+
+    options.AddPolicy("PersonOwnershipPolicy", policy =>
+    {
+        policy.Requirements.Add(new PersonOwnershipRequirement());
+    });
+});
+
+builder.Services.AddSingleton<IAuthorizationHandler, PersonOwnershipHandler>();
 
 
 

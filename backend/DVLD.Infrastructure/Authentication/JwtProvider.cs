@@ -16,6 +16,7 @@ namespace DVLD.Infrastructure.Authentication
     internal sealed class JwtProvider : IJwtProvider
     {
         private readonly JwtSettings _jwtSettings;
+        
         public JwtProvider(IOptions<JwtSettings> jwtSettings)
         {
             _jwtSettings = jwtSettings.Value;

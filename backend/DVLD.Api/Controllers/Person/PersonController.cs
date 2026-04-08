@@ -22,18 +22,29 @@ namespace DVLD.Api.Controllers.Person
     [ApiController]
     public class PersonController : ApiController
     {
-
+        private readonly IAuthorizationService _authorizationService;
         private readonly ISender _sender;
 
-        public PersonController(ISender sender)
+        public PersonController(ISender sender, IAuthorizationService authorizationService)
         {
             _sender = sender;
-            
+            _authorizationService = authorizationService;
         }
 
         [HttpGet("{id}",Name = "GetPerson")]
         public async Task<IActionResult> GetPerson(int id, CancellationToken cancellationToken)
         {
+            var authResult = await _authorizationService.AuthorizeAsync(
+            User,
+            id,
+            "PersonOwnershipPolicy" 
+            );
+
+            if (!authResult.Succeeded)
+            {
+                return Forbid();
+            }
+
             var query = new GetPersonQuery(id);
 
             Result<PersonResponse> result = await _sender.Send(query, cancellationToken);
@@ -44,6 +55,7 @@ namespace DVLD.Api.Controllers.Person
             return Ok(result.Value);
         }
 
+        [Authorize(Roles = "Admin,Employee")]
         [HttpPost]
         public async Task<IActionResult> CreatePerson(
         CreatePersonRequest request,
@@ -99,7 +111,6 @@ namespace DVLD.Api.Controllers.Person
 
         }
 
-        [Authorize(Roles = "Admin")]
         [HttpPut("{id}", Name = "UpdatePerson")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -109,6 +120,17 @@ namespace DVLD.Api.Controllers.Person
             UpdatePersonRequest request,
             CancellationToken cancellationToken)
         {
+            var authResult = await _authorizationService.AuthorizeAsync(
+            User,
+            id,
+            "PersonOwnershipPolicy"
+            );
+
+            if (!authResult.Succeeded)
+            {
+                return Forbid();
+            }
+
             var command = new UpdatePersonCommand
             {
                 Id = id,
@@ -144,7 +166,7 @@ namespace DVLD.Api.Controllers.Person
         }
 
 
-        
+        [Authorize(Roles = "Admin,Employee")]
         [HttpGet(Name = "GetAllPerson")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
