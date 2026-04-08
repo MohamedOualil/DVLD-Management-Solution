@@ -1146,10 +1146,6 @@ namespace DVLD.Infrastructure.Migrations
                             b1.Property<int>("PersonId")
                                 .HasColumnType("int");
 
-                            b1.Property<int>("CountryID")
-                                .HasColumnType("int")
-                                .HasColumnName("NationalNo_CountryID");
-
                             b1.Property<string>("Number")
                                 .IsRequired()
                                 .HasMaxLength(20)
@@ -1157,18 +1153,10 @@ namespace DVLD.Infrastructure.Migrations
 
                             b1.HasKey("PersonId");
 
-                            b1.HasIndex("CountryID");
-
                             b1.HasIndex("Number")
                                 .IsUnique();
 
                             b1.ToTable("Person");
-
-                            b1.HasOne("DVLD.Domain.Entities.Counties", null)
-                                .WithMany()
-                                .HasForeignKey("CountryID")
-                                .OnDelete(DeleteBehavior.Restrict)
-                                .IsRequired();
 
                             b1.WithOwner()
                                 .HasForeignKey("PersonId");

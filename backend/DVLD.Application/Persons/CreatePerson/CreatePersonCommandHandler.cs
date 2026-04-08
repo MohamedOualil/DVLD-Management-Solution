@@ -39,8 +39,7 @@ namespace DVLD.Application.Persons.CreatePerson
 
 
             Result<NationalNo> nationalNo = NationalNo.Create(
-                request.NationalNo,
-                request.CountryId);
+                request.NationalNo);
 
             if (nationalNo.IsFailure)
                 return Result<int>.Failure(nationalNo.Errors);

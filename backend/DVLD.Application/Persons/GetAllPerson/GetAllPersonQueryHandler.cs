@@ -44,7 +44,7 @@ namespace DVLD.Application.Persons.GetAllPerson
                             	SELECT 
 		                            P.Id AS PersonId,
 		                            P.NationalNo_Number AS NationalNo,
-		                            P.NationalNo_CountryID AS CountryId,
+		                            P.Address_CountryID AS CountryId,
 		                            P.FirstName,
 		                            P.SecondName,
 		                            P.ThirdName,

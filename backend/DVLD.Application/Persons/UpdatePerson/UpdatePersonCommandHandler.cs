@@ -41,8 +41,7 @@ namespace DVLD.Application.Persons.UpdatePerson
                 return Result.Failure(DomainErrors.erPerson.NotFound);
 
             Result<NationalNo> nationalNo = NationalNo.Create(
-                request.NationalNo,
-                request.CountryId);
+                request.NationalNo);
 
             if (nationalNo.IsFailure)
                 return nationalNo;

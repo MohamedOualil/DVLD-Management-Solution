@@ -6,33 +6,24 @@ namespace DVLD.Domain.ValueObjects
     public sealed record  NationalNo 
     {
         public string Number { get; init; }
-        public int CountryID { get; init; }
 
 
         private NationalNo() {}
 
-        private NationalNo(string nationalnum, int countryid)
+        private NationalNo(string nationalnum)
         {
             this.Number = nationalnum;
-            this.CountryID = countryid;
         }
 
-        public static Result<NationalNo> Create(string nationalNumber, int countryid)
+        public static Result<NationalNo> Create(string nationalNumber)
         {
             if (string.IsNullOrWhiteSpace(nationalNumber))
                 return Result<NationalNo>.Failure(DomainErrors.erPerson.InvalidNationalId);
 
             nationalNumber = nationalNumber.Trim().ToUpperInvariant();
 
-
-            var result = ValidateByCountry(nationalNumber, countryid);
-            if (result.IsFailure)
-                return Result<NationalNo>.Failure(result.Errors);
-
-
-
             return Result<NationalNo>.Success(new NationalNo
-                (nationalNumber, countryid));
+                (nationalNumber));
 
         }
 
@@ -41,27 +32,6 @@ namespace DVLD.Domain.ValueObjects
             return this.Number;
         }
 
-        private static Result ValidateByCountry(string value, int countryId)
-        {
-            switch (countryId)
-            {
-                case 2 :
-                   return  _MarocValidate(value);
 
-                default:
-                    return Result.Failure(DomainErrors.erCountry.InvalidCode);
-            }
-
-  
-
-        }
-
-        private static Result _MarocValidate(string value)
-        {
-            if (value.Length != 8)
-                return Result.Failure(DomainErrors.erPerson.InvalidNationalId);
-
-            return Result.Success();
-        }
     }
 }
