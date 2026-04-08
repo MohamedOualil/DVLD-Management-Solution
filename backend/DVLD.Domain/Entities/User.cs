@@ -29,24 +29,25 @@ namespace DVLD.Domain.Entities
             PasswordHash = string.Empty;
         }
 
-        private User(int personId,string userName,string passwordhash,bool isActive) : base(DateTime.UtcNow)
+        private User(int personId,string userName,string roles,string passwordhash,bool isActive) : base(DateTime.UtcNow)
         {
             PersonId = personId;
             UserName = userName;
             PasswordHash = passwordhash;
             IsActive = isActive;
+            Role = roles;
             UpdatedAt = DateTime.UtcNow;
 
         }
 
 
-        public static User CreateUser(int personId,string userName,string password,bool isActive ,IPasswordHasher passwordHasher)
+        public static User CreateUser(int personId,string userName,string password,string roles,bool isActive ,IPasswordHasher passwordHasher)
         {
 
             var hash = passwordHasher.HashPassword(password);
 
 
-            return new User(personId,userName, hash,isActive);
+            return new User(personId,userName,roles, hash,isActive);
         }
 
         public Result ChangePassword(string currentPassword, string newPassword, IPasswordHasher passwordHasher)

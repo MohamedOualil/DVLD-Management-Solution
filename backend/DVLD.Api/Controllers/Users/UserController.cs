@@ -64,6 +64,7 @@ namespace DVLD.Api.Controllers.Users
             {
                 PersonId = request.PersonId,
                 UserName = request.Username,
+                Roles = request.Roles,
                 Password = request.Password,
                 IsActive = request.IsActive
             };

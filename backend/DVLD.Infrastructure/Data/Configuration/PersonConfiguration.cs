@@ -40,15 +40,6 @@ namespace DVLD.Infrastructure.Data.Configuration
                 nationalNo.Property(v => v.Number).IsRequired().HasMaxLength(20);
                 //.HasColumnName("NationalNo");
 
-                nationalNo.Property(v => v.CountryID)
-                        .IsRequired()
-                        .HasColumnName("NationalNo_CountryID");
-
-                nationalNo.HasOne<Counties>()
-                    .WithMany()
-                    .HasForeignKey(c => c.CountryID)
-                    .OnDelete(DeleteBehavior.Restrict);
-
                 nationalNo.HasIndex(v => v.Number).IsUnique();
             });
 

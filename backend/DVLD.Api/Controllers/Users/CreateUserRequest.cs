@@ -5,6 +5,7 @@
         public required int PersonId { get; set; }
         public required string Username { get; set; } 
         public required string Password { get; set; }
+        public required string Roles { get; set; }
         public required bool IsActive { get; set; } = true;
     }
 }

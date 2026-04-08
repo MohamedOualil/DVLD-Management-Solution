@@ -27,7 +27,7 @@ namespace DVLD.Infrastructure.Authentication
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.PersonId.ToString()),
+                new Claim("PersonId", user.PersonId.ToString()),
 
                 new Claim(ClaimTypes.Email, user.UserName),
 

@@ -47,6 +47,7 @@ namespace DVLD.Application.Users.AddUser
                                         request.PersonId, 
                                         request.UserName, 
                                         request.Password,
+                                        request.Roles,
                                         request.IsActive,
                                         _passwordHasher);
 
