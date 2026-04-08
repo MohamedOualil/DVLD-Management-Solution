@@ -1,5 +1,7 @@
 ﻿using DVLD.Application.Abstractions.Authentication;
 using DVLD.Domain.Entities;
+using DVLD.Infrastructure.Services;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,12 @@ namespace DVLD.Infrastructure.Authentication
 {
     internal sealed class JwtProvider : IJwtProvider
     {
+        private readonly JwtSettings _jwtSettings;
+        public JwtProvider(IOptions<JwtSettings> jwtSettings)
+        {
+            _jwtSettings = jwtSettings.Value;
+            
+        }
         public string Generate(User user)
         {
             var claims = new[]
@@ -25,16 +33,16 @@ namespace DVLD.Infrastructure.Authentication
             };
 
             var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes("THIS_IS_A_VERY_SECRET_KEY_123456"));
+                Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
 
             var token = new JwtSecurityToken(
-                issuer: "DVLD-Api",
-                audience: "DVLD-Clients",
+                issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Audience,
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiresInMinutes),
                 signingCredentials: creds
             );
 

@@ -1,13 +1,21 @@
 using DVLD.Application;
 using DVLD.Infrastructure.DependencyInjection;
+using DVLD.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+
+builder.Services.Configure<JwtSettings>(
+    builder.Configuration.GetSection(JwtSettings.SectionName));
+
+var jwtSettings = builder.Configuration.GetSection(JwtSettings.SectionName).Get<JwtSettings>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -23,20 +31,62 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
         ValidateIssuerSigningKey = true,
 
-        ValidIssuer = "DVLD-Api",
+        ValidIssuer = jwtSettings!.Issuer,
 
-        ValidAudience = "DVLD-Clients",
+        ValidAudience = jwtSettings.Audience,
 
         IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes("THIS_IS_A_VERY_SECRET_KEY_123456"))
+                Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
     };
     });
 
 builder.Services.AddAuthorization();
 
+
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+
+
+        Type = SecuritySchemeType.Http,
+
+        Scheme = "Bearer",
+
+        BearerFormat = "JWT",
+
+
+        In = ParameterLocation.Header,
+
+
+        Description = "Enter: Bearer {your JWT token}"
+    });
+
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+
+            new string[] {}
+        }
+    });
+});
+
+
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -69,6 +119,7 @@ app.UseHttpsRedirection();
 
 app.UseCors("DVLDApiPolicy");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
