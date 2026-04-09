@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="../frontend/DVLD.WinForms/DVLD.WinForms.csproj" Id="a2d0852e-6565-4bbb-996e-9c05cfbc7326" />
   <Project Path="DVLD.Api/DVLD.Api.csproj" />
   <Project Path="DVLD.Application/DVLD.Application.csproj" />
   <Project Path="DVLD.Domain/DVLD.Domain.csproj" />
