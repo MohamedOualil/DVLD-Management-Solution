@@ -27,7 +27,7 @@ namespace DVLD.Api.Controllers.Users
                 Username = request.Username
             };
 
-            Result<string> result = await _sender.Send(
+            Result<LoginResponse> result = await _sender.Send(
                 query,
                 cancellationToken);
 

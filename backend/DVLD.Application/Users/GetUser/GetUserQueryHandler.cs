@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Application.Users.GetUser
 {
-    internal sealed class GetUserQueryHandler : IQueryHandler<GetUserQuery,string>
+    internal sealed class GetUserQueryHandler : IQueryHandler<GetUserQuery, LoginResponse>
     {
 
         private readonly IUserRepository _userRepository;
@@ -35,31 +35,42 @@ namespace DVLD.Application.Users.GetUser
             _validator = validate;
         }
 
-        public async Task<Result<string>> Handle(
+        public async Task<Result<LoginResponse>> Handle(
             GetUserQuery request, 
             CancellationToken cancellationToken)
         {
             Result validation = _validator.Validate(request);
             if (validation.IsFailure)
-                return Result<string>.Failure(validation.Errors);
+                return Result<LoginResponse>.Failure(validation.Errors);
 
             User? user = await _userRepository.GetUserByUsername(
                 request.Username,
                 cancellationToken);
             if (user is null)
-                return Result<string>.Failure(DomainErrors.erUser.UsernameOrPasswordWrong);
+                return Result<LoginResponse>.Failure(DomainErrors.erUser.UsernameOrPasswordWrong);
 
             if (!user.VerifyPassword(request.Password, 
                                      user.PasswordHash,
                                      _passwordHasher))
-                return Result<string>.Failure(DomainErrors.erUser.UsernameOrPasswordWrong);
+                return Result<LoginResponse>.Failure(DomainErrors.erUser.UsernameOrPasswordWrong);
 
             if (!user.IsActive)
-                return Result<string>.Failure(DomainErrors.erUser.Deactivated);
+                return Result<LoginResponse>.Failure(DomainErrors.erUser.Deactivated);
 
             var tokon = _jwtProvider.Generate(user);
 
-            return Result<string>.Success(tokon);
+            LoginResponse result = new LoginResponse
+            {
+                Username = user.UserName,
+                Role = user.Role,
+                IsActive = user.IsActive,
+                PersonId = user.PersonId,
+                UserId = user.Id,
+                Tokon = tokon,
+          
+            };
+
+            return Result<LoginResponse>.Success(result);
 
 
         }

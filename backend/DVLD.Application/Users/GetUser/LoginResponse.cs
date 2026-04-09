@@ -12,7 +12,11 @@ namespace DVLD.Application.Users.GetUser
     {
         public required string Username { get; init; }
         public int PersonId { get; init; }
+        public int UserId { get; init; }
         public bool IsActive { get; init; } 
+        public required string Role { get; init; }
+
+        public required string Tokon { get; init; }
 
     }
 }

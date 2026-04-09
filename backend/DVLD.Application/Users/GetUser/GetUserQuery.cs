@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Application.Users.GetUser
 {
-    public sealed record GetUserQuery : IQuery<string>
+    public sealed record GetUserQuery : IQuery<LoginResponse>
     {
         public required string Username { get; init; }
         public required string Password { get; init; }
