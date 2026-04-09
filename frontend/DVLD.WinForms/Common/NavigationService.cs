@@ -17,6 +17,17 @@ namespace DVLD.WinForms.Common
             _serviceProvider = serviceProvider;
             
         }
+
+        public void CloseCurrentForm(Form currentForm)
+        {
+            currentForm?.Close();
+        }
+
+        public void HideCurrentForm(Form currentForm)
+        {
+            currentForm?.Hide();
+        }
+
         public void SetMainForm(Form mainForm)
         {
             _form = mainForm;

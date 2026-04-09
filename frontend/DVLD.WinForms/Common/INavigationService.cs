@@ -12,5 +12,9 @@ namespace DVLD.WinForms.Common
         void ShowDialog<TForm>() where TForm : Form;
         void SetMainForm(Form mainForm);
         void ShowChildForm<TForm>() where TForm : Form;
+
+        void HideCurrentForm(Form currentForm);
+
+        void CloseCurrentForm(Form currentForm);
     }
 }

@@ -66,7 +66,7 @@ namespace DVLD.Application.Users.GetUser
                 IsActive = user.IsActive,
                 PersonId = user.PersonId,
                 UserId = user.Id,
-                Tokon = tokon,
+                Token = tokon,
           
             };
 

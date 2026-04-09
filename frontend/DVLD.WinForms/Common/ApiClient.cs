@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace DVLD.WinForms.Common
@@ -89,21 +90,58 @@ namespace DVLD.WinForms.Common
                 };
             }
 
+            string rawContent = await response.Content.ReadAsStringAsync();
+
             try
             {
-                var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<T>>();
+                var options = new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-                if (apiResponse != null)
+                if (response.IsSuccessStatusCode)
                 {
-                    return apiResponse;
+                    if (!rawContent.TrimStart().StartsWith("{") && !rawContent.TrimStart().StartsWith("["))
+                    {
+                        string cleanString = rawContent.Trim('"');
+
+                        if (typeof(T) == typeof(string))
+                        {
+                            return new ApiResponse<T> { IsSuccess = true, Data = (T)(object)cleanString };
+                        }
+                    }
+
+                    var data = System.Text.Json.JsonSerializer.Deserialize<T>(rawContent, options);
+                    return new ApiResponse<T>
+                    {
+                        IsSuccess = true,
+                        Data = data
+                    };
                 }
+
+                var errorResponse = System.Text.Json.JsonSerializer.Deserialize<ApiResponse<T>>(rawContent, options);
+
+                if (errorResponse != null)
+                {
+                    if (string.IsNullOrEmpty(errorResponse.Error) && rawContent.Length > 0)
+                        errorResponse.Error = rawContent;
+
+                    return errorResponse;
+                }
+            }
+            catch (System.Text.Json.JsonException)
+            {
+                return new ApiResponse<T>
+                {
+                    IsSuccess = false,
+                    Error = string.IsNullOrWhiteSpace(rawContent)
+                              ? $"API returned an empty response. Status Code: {response.StatusCode}"
+                              : rawContent
+                };
             }
             catch (Exception ex)
             {
                 return new ApiResponse<T>
                 {
                     IsSuccess = false,
-                    Error = $"An error occurred reading the data: {ex.Message}"
+                    Error = $"An error occurred parsing the data: {ex.Message}"
                 };
             }
 

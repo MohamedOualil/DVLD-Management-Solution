@@ -16,7 +16,7 @@ namespace DVLD.Application.Users.GetUser
         public bool IsActive { get; init; } 
         public required string Role { get; init; }
 
-        public required string Tokon { get; init; }
+        public required string Token { get; init; }
 
     }
 }

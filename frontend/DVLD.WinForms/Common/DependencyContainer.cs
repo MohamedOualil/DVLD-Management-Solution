@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DVLD.WinForms.Features.Dashboard;
 
 namespace DVLD.WinForms.Common
 {
@@ -20,10 +21,12 @@ namespace DVLD.WinForms.Common
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddHttpClient<ApiClient>();
 
+            services.AddTransient<IAuthService,AuthService>();
 
             services.AddTransient<LoginPresenter>();
 
             services.AddTransient<LoginForm>();
+            services.AddTransient<DashboardForm>();
  
             return services.BuildServiceProvider();
         }
