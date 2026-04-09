@@ -1,4 +1,6 @@
+using DVLD.WinForms.Common;
 using DVLD.WinForms.Features.Auth;
+using Microsoft.Extensions.DependencyInjection;
 namespace DVLD.WinForms
 {
     internal static class Program
@@ -9,10 +11,11 @@ namespace DVLD.WinForms
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
+
             ApplicationConfiguration.Initialize();
-            Application.Run(new LoginForm());
+            var serviceProvider = DependencyContainer.ConfigureServices();
+            var startForm = serviceProvider.GetRequiredService<LoginForm>();
+            Application.Run(startForm);
         }
     }
 }
