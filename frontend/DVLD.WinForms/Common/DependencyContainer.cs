@@ -26,7 +26,7 @@ namespace DVLD.WinForms.Common
             services.AddTransient<LoginPresenter>();
 
             services.AddTransient<LoginForm>();
-            services.AddTransient<DashboardForm>();
+            services.AddTransient<AdminDashboardForm>();
  
             return services.BuildServiceProvider();
         }

@@ -1,5 +1,6 @@
 using DVLD.WinForms.Common;
 using DVLD.WinForms.Features.Auth;
+using DVLD.WinForms.Features.Dashboard;
 using Microsoft.Extensions.DependencyInjection;
 namespace DVLD.WinForms
 {
@@ -15,7 +16,7 @@ namespace DVLD.WinForms
             ApplicationConfiguration.Initialize();
             var serviceProvider = DependencyContainer.ConfigureServices();
             var startForm = serviceProvider.GetRequiredService<LoginForm>();
-            Application.Run(startForm);
+            Application.Run(new AdminDashboardForm());
         }
     }
 }

@@ -56,7 +56,7 @@ namespace DVLD.WinForms.Features.Auth
             _session.Username = result.Data.Username;
 
             _navigationService.HideCurrentForm((System.Windows.Forms.Form)_view);
-            _navigationService.ShowForm<DashboardForm>();
+            _navigationService.ShowForm<AdminDashboardForm>();
 
 
         }
