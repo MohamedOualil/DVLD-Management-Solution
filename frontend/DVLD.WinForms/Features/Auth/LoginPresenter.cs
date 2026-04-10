@@ -36,16 +36,16 @@ namespace DVLD.WinForms.Features.Auth
                 return;
             }
 
-            //_view.ShowLoading(true);
+            _view.ShowLoading(true);
 
             ApiResponse<LoginResponseDto> result = await _authService.LoginAsync(
                 _view.Username, _view.Password);
 
-            //_view.ShowLoading(false);
+            _view.ShowLoading(false);
 
             if (!result.IsSuccess || result.Data is null)
             {
-                _view.ShowError(result.Error);
+                _view.ShowError(result.Error.AllMessages);
                 return;
             }
 
@@ -55,9 +55,9 @@ namespace DVLD.WinForms.Features.Auth
             _session.UserId = result.Data.UserId;
             _session.Username = result.Data.Username;
 
+            _navigationService.HideCurrentForm((System.Windows.Forms.Form)_view);
             _navigationService.ShowForm<DashboardForm>();
 
-            _navigationService.HideCurrentForm((System.Windows.Forms.Form)_view);
 
         }
     }

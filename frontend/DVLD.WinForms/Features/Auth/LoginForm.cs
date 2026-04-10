@@ -38,7 +38,14 @@ namespace DVLD.WinForms.Features.Auth
 
         public void ShowLoading(bool isLoading)
         {
-            throw new NotImplementedException();
+            btnLogin.Enabled = !isLoading;
+
+            if (isLoading)
+            {
+                lblErrorMessage.Visible = false;
+            }
+
+            loader.Visible = isLoading;
         }
 
 

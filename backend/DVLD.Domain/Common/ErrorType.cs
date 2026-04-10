@@ -10,6 +10,8 @@ namespace DVLD.Domain.Common
     {
         None = 0,
         BadRequest = 1,
-        NotFound = 2
+        NotFound = 2,
+        Unauthorized = 3,
+        Conflict = 4,
     }
 }

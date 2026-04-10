@@ -10,7 +10,7 @@ namespace DVLD.WinForms.Common
     {
         public bool IsSuccess { get; set; }
         public T? Data { get; set; }
-        public string Error { get; set; } = string.Empty;
+        public ErrorResponse? Error { get; set; } 
 
         public List<string> Errors { get; set; } = new List<string>();
     }

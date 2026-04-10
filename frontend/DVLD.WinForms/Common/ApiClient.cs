@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
@@ -79,77 +81,67 @@ namespace DVLD.WinForms.Common
             return await ProcessResponse<T>(response);
         }
 
-        private async Task<ApiResponse<T>> ProcessResponse<T>(HttpResponseMessage response)
+        private static async Task<ApiResponse<T>> ProcessResponse<T>(HttpResponseMessage response)
         {
-            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            var json = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
             {
-                return new ApiResponse<T>
+                if (string.IsNullOrWhiteSpace(json))
                 {
-                    IsSuccess = false,
-                    Error = "Your session has expired or you do not have permission. Please log in again."
-                };
-            }
-
-            string rawContent = await response.Content.ReadAsStringAsync();
-
-            try
-            {
-                var options = new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
-                if (response.IsSuccessStatusCode)
-                {
-                    if (!rawContent.TrimStart().StartsWith("{") && !rawContent.TrimStart().StartsWith("["))
-                    {
-                        string cleanString = rawContent.Trim('"');
-
-                        if (typeof(T) == typeof(string))
-                        {
-                            return new ApiResponse<T> { IsSuccess = true, Data = (T)(object)cleanString };
-                        }
-                    }
-
-                    var data = System.Text.Json.JsonSerializer.Deserialize<T>(rawContent, options);
                     return new ApiResponse<T>
                     {
                         IsSuccess = true,
-                        Data = data
+                        Data = default 
                     };
                 }
 
-                var errorResponse = System.Text.Json.JsonSerializer.Deserialize<ApiResponse<T>>(rawContent, options);
-
-                if (errorResponse != null)
+                return new ApiResponse<T>
                 {
-                    if (string.IsNullOrEmpty(errorResponse.Error) && rawContent.Length > 0)
-                        errorResponse.Error = rawContent;
+                    IsSuccess = true,
+                    Data = JsonConvert.DeserializeObject<T>(json)
+                };
+            }
 
-                    return errorResponse;
+            ErrorResponse? errorResponse = null;
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(json))
+                {
+                    errorResponse = CreateFallbackError(response.StatusCode, "The server returned an empty error response.");
+                }
+                else
+                {
+                    errorResponse = JsonConvert.DeserializeObject<ErrorResponse>(json);
                 }
             }
-            catch (System.Text.Json.JsonException)
+            catch
             {
-                return new ApiResponse<T>
-                {
-                    IsSuccess = false,
-                    Error = string.IsNullOrWhiteSpace(rawContent)
-                              ? $"API returned an empty response. Status Code: {response.StatusCode}"
-                              : rawContent
-                };
-            }
-            catch (Exception ex)
-            {
-                return new ApiResponse<T>
-                {
-                    IsSuccess = false,
-                    Error = $"An error occurred parsing the data: {ex.Message}"
-                };
+                errorResponse = CreateFallbackError(response.StatusCode, json);
             }
 
             return new ApiResponse<T>
             {
                 IsSuccess = false,
-                Error = "An unknown error occurred while communicating with the server."
+                Error = errorResponse
             };
         }
+
+
+
+        private static ErrorResponse CreateFallbackError(System.Net.HttpStatusCode statusCode, string message)
+        {
+            return new ErrorResponse
+            {
+                Title = "Error",
+                Status = (int)statusCode,
+                Errors = new List<ErrorDetail>
+                {
+                    new ErrorDetail { Code = "Unknown", Message = message }
+                }
+            };
+        }
+
     }
 }
