@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DVLD.WinForms.Features.Dashboard;
+using DVLD.WinForms.Features.Applications;
 
 namespace DVLD.WinForms.Common
 {
@@ -27,6 +28,10 @@ namespace DVLD.WinForms.Common
 
             services.AddTransient<LoginForm>();
             services.AddTransient<AdminDashboardForm>();
+
+            services.AddTransient<AdminDashboardPresenter>();
+
+            services.AddTransient<ApplicationsControl>();
  
             return services.BuildServiceProvider();
         }

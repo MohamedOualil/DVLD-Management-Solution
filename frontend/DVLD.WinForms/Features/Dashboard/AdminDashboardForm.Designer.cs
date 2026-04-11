@@ -42,6 +42,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdminDashboardForm));
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -50,8 +52,6 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             guna2Elipse1 = new Guna.UI2.WinForms.Guna2Elipse(components);
             PanalLeft = new Guna.UI2.WinForms.Guna2Panel();
             guna2Button4 = new Guna.UI2.WinForms.Guna2Button();
@@ -60,13 +60,13 @@
             ApplicationsButton = new Guna.UI2.WinForms.Guna2Button();
             pictureBox1 = new PictureBox();
             PanalTop = new Guna.UI2.WinForms.Guna2Panel();
+            guna2GradientButton1 = new Guna.UI2.WinForms.Guna2GradientButton();
             guna2ControlBox3 = new Guna.UI2.WinForms.Guna2ControlBox();
             guna2ControlBox2 = new Guna.UI2.WinForms.Guna2ControlBox();
             guna2ControlBox1 = new Guna.UI2.WinForms.Guna2ControlBox();
             guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl(components);
             MainPanal = new Guna.UI2.WinForms.Guna2Panel();
             guna2ShadowForm1 = new Guna.UI2.WinForms.Guna2ShadowForm(components);
-            guna2GradientButton1 = new Guna.UI2.WinForms.Guna2GradientButton();
             PanalLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             PanalTop.SuspendLayout();
@@ -197,6 +197,7 @@
             ApplicationsButton.Size = new Size(205, 50);
             ApplicationsButton.TabIndex = 3;
             ApplicationsButton.Text = "  Applications";
+            ApplicationsButton.Click += ApplicationsButton_Click;
             // 
             // pictureBox1
             // 
@@ -222,6 +223,29 @@
             PanalTop.ShadowDecoration.CustomizableEdges = customizableEdges12;
             PanalTop.Size = new Size(1003, 47);
             PanalTop.TabIndex = 1;
+            // 
+            // guna2GradientButton1
+            // 
+            guna2GradientButton1.BorderRadius = 10;
+            guna2GradientButton1.CustomizableEdges = customizableEdges3;
+            guna2GradientButton1.DisabledState.BorderColor = Color.DarkGray;
+            guna2GradientButton1.DisabledState.CustomBorderColor = Color.DarkGray;
+            guna2GradientButton1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            guna2GradientButton1.DisabledState.FillColor2 = Color.FromArgb(169, 169, 169);
+            guna2GradientButton1.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            guna2GradientButton1.FillColor = Color.FromArgb(37, 99, 235);
+            guna2GradientButton1.FillColor2 = Color.FromArgb(37, 120, 235);
+            guna2GradientButton1.Font = new Font("Segoe UI Semibold", 9.3F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            guna2GradientButton1.ForeColor = Color.White;
+            guna2GradientButton1.Image = Properties.Resources.icons8_add_properties_24;
+            guna2GradientButton1.ImageAlign = HorizontalAlignment.Left;
+            guna2GradientButton1.ImageOffset = new Point(-3, 0);
+            guna2GradientButton1.Location = new Point(631, 4);
+            guna2GradientButton1.Name = "guna2GradientButton1";
+            guna2GradientButton1.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            guna2GradientButton1.Size = new Size(180, 34);
+            guna2GradientButton1.TabIndex = 1;
+            guna2GradientButton1.Text = "   Issue New License";
             // 
             // guna2ControlBox3
             // 
@@ -283,29 +307,6 @@
             // guna2ShadowForm1
             // 
             guna2ShadowForm1.TargetForm = this;
-            // 
-            // guna2GradientButton1
-            // 
-            guna2GradientButton1.BorderRadius = 10;
-            guna2GradientButton1.CustomizableEdges = customizableEdges3;
-            guna2GradientButton1.DisabledState.BorderColor = Color.DarkGray;
-            guna2GradientButton1.DisabledState.CustomBorderColor = Color.DarkGray;
-            guna2GradientButton1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            guna2GradientButton1.DisabledState.FillColor2 = Color.FromArgb(169, 169, 169);
-            guna2GradientButton1.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            guna2GradientButton1.FillColor = Color.FromArgb(37, 99, 235);
-            guna2GradientButton1.FillColor2 = Color.FromArgb(37, 120, 235);
-            guna2GradientButton1.Font = new Font("Segoe UI Semibold", 9.3F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2GradientButton1.ForeColor = Color.White;
-            guna2GradientButton1.Image = Properties.Resources.icons8_add_properties_24;
-            guna2GradientButton1.ImageAlign = HorizontalAlignment.Left;
-            guna2GradientButton1.ImageOffset = new Point(-3, 0);
-            guna2GradientButton1.Location = new Point(631, 4);
-            guna2GradientButton1.Name = "guna2GradientButton1";
-            guna2GradientButton1.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            guna2GradientButton1.Size = new Size(180, 34);
-            guna2GradientButton1.TabIndex = 1;
-            guna2GradientButton1.Text = "   Issue New License";
             // 
             // AdminDashboardForm
             // 

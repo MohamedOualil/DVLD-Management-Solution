@@ -7,22 +7,16 @@ using System.Threading.Tasks;
 
 namespace DVLD.WinForms.Common
 {
-    public class NavigationService : INavigationService
+    public class NavigationService(IServiceProvider serviceProvider) : INavigationService
     {
-        private readonly IServiceProvider _serviceProvider;
-        private Form _form;
+        private readonly IServiceProvider _serviceProvider = serviceProvider;
+        private Form? _form;
 
-        private Control _mainContentPanel;
+        private Control? _mainContentPanel;
 
         // This holds the memory for the CURRENT page. 
         // When we switch pages, we destroy this scope to free up RAM!
-        private IServiceScope _currentPageScope;
-
-        public NavigationService(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
-            
-        }
+        private IServiceScope? _currentPageScope;
 
         public void CloseCurrentForm(Form currentForm)
         {
