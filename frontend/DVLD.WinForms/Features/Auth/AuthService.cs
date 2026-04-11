@@ -9,7 +9,7 @@ namespace DVLD.WinForms.Features.Auth
 {
     public class AuthService : IAuthService
     {
-        private readonly ApiClient _apiClient;
+        private readonly IApiClient _apiClient;
 
         public AuthService(ApiClient apiClient)
         {
