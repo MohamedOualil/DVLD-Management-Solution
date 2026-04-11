@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.WinForms.Common
 {
-    public class ApiClient
+    public class ApiClient : IApiClient
     {
         private readonly HttpClient _httpClient;
         private readonly AppSession _session;

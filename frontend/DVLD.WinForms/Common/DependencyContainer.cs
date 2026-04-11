@@ -20,7 +20,7 @@ namespace DVLD.WinForms.Common
 
             services.AddSingleton<AppSession>();
             services.AddSingleton<INavigationService, NavigationService>();
-            services.AddHttpClient<ApiClient>();
+            services.AddHttpClient<IApiClient,ApiClient>();
 
             services.AddTransient<IAuthService,AuthService>();
 
