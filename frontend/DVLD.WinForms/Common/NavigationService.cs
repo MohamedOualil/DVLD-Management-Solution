@@ -12,6 +12,12 @@ namespace DVLD.WinForms.Common
         private readonly IServiceProvider _serviceProvider;
         private Form _form;
 
+        private Control _mainContentPanel;
+
+        // This holds the memory for the CURRENT page. 
+        // When we switch pages, we destroy this scope to free up RAM!
+        private IServiceScope _currentPageScope;
+
         public NavigationService(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -26,6 +32,36 @@ namespace DVLD.WinForms.Common
         public void HideCurrentForm(Form currentForm)
         {
             currentForm?.Hide();
+        }
+
+        public void NavigateTo<TControl>() where TControl : UserControl
+        {
+            if (_mainContentPanel == null)
+            {
+                throw new InvalidOperationException("Main content panel is not set. Call SetMainContentPanel first.");
+            }
+
+            foreach (Control oldControl in _mainContentPanel.Controls)
+            {
+                oldControl.Dispose();
+            }
+            _mainContentPanel.Controls.Clear();
+
+            _currentPageScope?.Dispose();
+
+            _currentPageScope = _serviceProvider.CreateScope();
+
+            var control = _currentPageScope.ServiceProvider.GetRequiredService<TControl>();
+
+
+            control.Dock = DockStyle.Fill;
+            
+            _mainContentPanel.Controls.Add(control);
+        }
+
+        public void SetMainContentPanel(Control panel)
+        {
+            _mainContentPanel = panel;
         }
 
         public void SetMainForm(Form mainForm)

@@ -16,5 +16,9 @@ namespace DVLD.WinForms.Common
         void HideCurrentForm(Form currentForm);
 
         void CloseCurrentForm(Form currentForm);
+
+        void SetMainContentPanel(Control panel);
+
+        void NavigateTo<TControl>() where TControl : UserControl;
     }
 }
