@@ -28,37 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationsControl));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges23 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             IssueLicenseButton = new Guna.UI2.WinForms.Guna2GradientButton();
             guna2ShadowPanel1 = new Guna.UI2.WinForms.Guna2ShadowPanel();
             guna2ShadowPanel2 = new Guna.UI2.WinForms.Guna2ShadowPanel();
             guna2TabControl1 = new Guna.UI2.WinForms.Guna2TabControl();
             LocalApplicationsTab = new TabPage();
+            lblMessage = new Guna.UI2.WinForms.Guna2HtmlLabel();
             cbStatus = new Guna.UI2.WinForms.Guna2ComboBox();
             txtSearch = new Guna.UI2.WinForms.Guna2TextBox();
             LocalDataGridView = new Guna.UI2.WinForms.Guna2DataGridView();
-            LocalID = new DataGridViewTextBoxColumn();
-            DrivingClass = new DataGridViewTextBoxColumn();
-            NationalNo = new DataGridViewTextBoxColumn();
-            FullName = new DataGridViewTextBoxColumn();
-            ApplicationDate = new DataGridViewTextBoxColumn();
-            Status = new DataGridViewTextBoxColumn();
-            PassedTest = new DataGridViewTextBoxColumn();
             LocalAppActionMenu = new Guna.UI2.WinForms.Guna2ContextMenuStrip();
             ShowApplication = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
@@ -85,7 +79,15 @@
             RenewLicensseButton = new Guna.UI2.WinForms.Guna2GradientButton();
             guna2ShadowPanel5 = new Guna.UI2.WinForms.Guna2ShadowPanel();
             ReplaceButton = new Guna.UI2.WinForms.Guna2GradientButton();
-            lblMessage = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            LocalID = new DataGridViewTextBoxColumn();
+            PassedTestId = new DataGridViewTextBoxColumn();
+            StatusId = new DataGridViewTextBoxColumn();
+            DrivingClass = new DataGridViewTextBoxColumn();
+            NationalNo = new DataGridViewTextBoxColumn();
+            FullName = new DataGridViewTextBoxColumn();
+            ApplicationDate = new DataGridViewTextBoxColumn();
+            Status = new DataGridViewTextBoxColumn();
+            PassedTest = new DataGridViewTextBoxColumn();
             guna2ShadowPanel1.SuspendLayout();
             guna2ShadowPanel2.SuspendLayout();
             guna2TabControl1.SuspendLayout();
@@ -100,7 +102,7 @@
             // IssueLicenseButton
             // 
             IssueLicenseButton.BorderRadius = 10;
-            IssueLicenseButton.CustomizableEdges = customizableEdges13;
+            IssueLicenseButton.CustomizableEdges = customizableEdges1;
             IssueLicenseButton.DisabledState.BorderColor = Color.DarkGray;
             IssueLicenseButton.DisabledState.CustomBorderColor = Color.DarkGray;
             IssueLicenseButton.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -115,7 +117,7 @@
             IssueLicenseButton.ImageOffset = new Point(-3, 0);
             IssueLicenseButton.Location = new Point(3, 3);
             IssueLicenseButton.Name = "IssueLicenseButton";
-            IssueLicenseButton.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            IssueLicenseButton.ShadowDecoration.CustomizableEdges = customizableEdges2;
             IssueLicenseButton.Size = new Size(168, 59);
             IssueLicenseButton.TabIndex = 2;
             IssueLicenseButton.Text = "  + Issue New License";
@@ -194,12 +196,24 @@
             LocalApplicationsTab.Text = "Local Applications";
             LocalApplicationsTab.UseVisualStyleBackColor = true;
             // 
+            // lblMessage
+            // 
+            lblMessage.BackColor = Color.Transparent;
+            lblMessage.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblMessage.ForeColor = Color.FromArgb(37, 99, 235);
+            lblMessage.Location = new Point(387, 166);
+            lblMessage.Name = "lblMessage";
+            lblMessage.Size = new Size(64, 22);
+            lblMessage.TabIndex = 6;
+            lblMessage.Text = "Message";
+            lblMessage.Visible = false;
+            // 
             // cbStatus
             // 
             cbStatus.BackColor = Color.Transparent;
             cbStatus.BorderColor = Color.FromArgb(213, 218, 225);
             cbStatus.BorderRadius = 15;
-            cbStatus.CustomizableEdges = customizableEdges15;
+            cbStatus.CustomizableEdges = customizableEdges3;
             cbStatus.DrawMode = DrawMode.OwnerDrawFixed;
             cbStatus.DropDownStyle = ComboBoxStyle.DropDownList;
             cbStatus.FocusedColor = Color.FromArgb(37, 99, 235);
@@ -209,7 +223,7 @@
             cbStatus.ItemHeight = 30;
             cbStatus.Location = new Point(317, 21);
             cbStatus.Name = "cbStatus";
-            cbStatus.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            cbStatus.ShadowDecoration.CustomizableEdges = customizableEdges4;
             cbStatus.Size = new Size(155, 36);
             cbStatus.TabIndex = 5;
             cbStatus.SelectedIndexChanged += cbStatus_SelectedIndexChanged;
@@ -219,7 +233,7 @@
             txtSearch.AutoRoundedCorners = true;
             txtSearch.BorderRadius = 19;
             txtSearch.Cursor = Cursors.IBeam;
-            txtSearch.CustomizableEdges = customizableEdges17;
+            txtSearch.CustomizableEdges = customizableEdges5;
             txtSearch.DefaultText = "";
             txtSearch.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtSearch.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -236,7 +250,7 @@
             txtSearch.Name = "txtSearch";
             txtSearch.PlaceholderText = "Search ID or Name";
             txtSearch.SelectedText = "";
-            txtSearch.ShadowDecoration.CustomizableEdges = customizableEdges18;
+            txtSearch.ShadowDecoration.CustomizableEdges = customizableEdges6;
             txtSearch.Size = new Size(233, 40);
             txtSearch.TabIndex = 4;
             txtSearch.TextOffset = new Point(5, 0);
@@ -246,28 +260,28 @@
             // 
             LocalDataGridView.AllowUserToAddRows = false;
             LocalDataGridView.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            LocalDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = Color.FromArgb(37, 99, 235);
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle5.ForeColor = Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            LocalDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            LocalDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(37, 99, 235);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            LocalDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             LocalDataGridView.ColumnHeadersHeight = 30;
             LocalDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            LocalDataGridView.Columns.AddRange(new DataGridViewColumn[] { LocalID, DrivingClass, NationalNo, FullName, ApplicationDate, Status, PassedTest });
+            LocalDataGridView.Columns.AddRange(new DataGridViewColumn[] { LocalID, PassedTestId, StatusId, DrivingClass, NationalNo, FullName, ApplicationDate, Status, PassedTest });
             LocalDataGridView.ContextMenuStrip = LocalAppActionMenu;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.White;
-            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle6.ForeColor = Color.FromArgb(71, 69, 94);
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(224, 231, 255);
-            dataGridViewCellStyle6.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            LocalDataGridView.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(71, 69, 94);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(224, 231, 255);
+            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            LocalDataGridView.DefaultCellStyle = dataGridViewCellStyle3;
             LocalDataGridView.GridColor = Color.FromArgb(233, 236, 239);
             LocalDataGridView.Location = new Point(3, 78);
             LocalDataGridView.MultiSelect = false;
@@ -299,51 +313,6 @@
             LocalDataGridView.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(224, 231, 255);
             LocalDataGridView.ThemeStyle.RowsStyle.SelectionForeColor = Color.Black;
             // 
-            // LocalID
-            // 
-            LocalID.FillWeight = 50F;
-            LocalID.HeaderText = "App ID";
-            LocalID.Name = "LocalID";
-            LocalID.ReadOnly = true;
-            // 
-            // DrivingClass
-            // 
-            DrivingClass.HeaderText = "Driving Class";
-            DrivingClass.Name = "DrivingClass";
-            DrivingClass.ReadOnly = true;
-            // 
-            // NationalNo
-            // 
-            NationalNo.HeaderText = "National No";
-            NationalNo.Name = "NationalNo";
-            NationalNo.ReadOnly = true;
-            // 
-            // FullName
-            // 
-            FullName.HeaderText = "Full Name";
-            FullName.Name = "FullName";
-            FullName.ReadOnly = true;
-            // 
-            // ApplicationDate
-            // 
-            ApplicationDate.HeaderText = "Application Date";
-            ApplicationDate.Name = "ApplicationDate";
-            ApplicationDate.ReadOnly = true;
-            // 
-            // Status
-            // 
-            Status.HeaderText = "Status";
-            Status.Name = "Status";
-            Status.ReadOnly = true;
-            Status.Resizable = DataGridViewTriState.True;
-            Status.SortMode = DataGridViewColumnSortMode.NotSortable;
-            // 
-            // PassedTest
-            // 
-            PassedTest.HeaderText = "Passed Test";
-            PassedTest.Name = "PassedTest";
-            PassedTest.ReadOnly = true;
-            // 
             // LocalAppActionMenu
             // 
             LocalAppActionMenu.BackColor = Color.White;
@@ -360,6 +329,7 @@
             LocalAppActionMenu.RenderStyle.SeparatorColor = Color.Gainsboro;
             LocalAppActionMenu.RenderStyle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
             LocalAppActionMenu.Size = new Size(257, 216);
+            LocalAppActionMenu.Opening += LocalAppActionMenu_Opening;
             // 
             // ShowApplication
             // 
@@ -509,7 +479,7 @@
             // InterLicenseButton
             // 
             InterLicenseButton.BorderRadius = 10;
-            InterLicenseButton.CustomizableEdges = customizableEdges19;
+            InterLicenseButton.CustomizableEdges = customizableEdges7;
             InterLicenseButton.DisabledState.BorderColor = Color.DarkGray;
             InterLicenseButton.DisabledState.CustomBorderColor = Color.DarkGray;
             InterLicenseButton.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -524,7 +494,7 @@
             InterLicenseButton.ImageOffset = new Point(-3, 0);
             InterLicenseButton.Location = new Point(3, 3);
             InterLicenseButton.Name = "InterLicenseButton";
-            InterLicenseButton.ShadowDecoration.CustomizableEdges = customizableEdges20;
+            InterLicenseButton.ShadowDecoration.CustomizableEdges = customizableEdges8;
             InterLicenseButton.Size = new Size(168, 59);
             InterLicenseButton.TabIndex = 2;
             InterLicenseButton.Text = " + New International License";
@@ -546,7 +516,7 @@
             // RenewLicensseButton
             // 
             RenewLicensseButton.BorderRadius = 10;
-            RenewLicensseButton.CustomizableEdges = customizableEdges21;
+            RenewLicensseButton.CustomizableEdges = customizableEdges9;
             RenewLicensseButton.DisabledState.BorderColor = Color.DarkGray;
             RenewLicensseButton.DisabledState.CustomBorderColor = Color.DarkGray;
             RenewLicensseButton.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -561,7 +531,7 @@
             RenewLicensseButton.ImageOffset = new Point(-3, 0);
             RenewLicensseButton.Location = new Point(3, 3);
             RenewLicensseButton.Name = "RenewLicensseButton";
-            RenewLicensseButton.ShadowDecoration.CustomizableEdges = customizableEdges22;
+            RenewLicensseButton.ShadowDecoration.CustomizableEdges = customizableEdges10;
             RenewLicensseButton.Size = new Size(168, 59);
             RenewLicensseButton.TabIndex = 2;
             RenewLicensseButton.Text = " Renew Licensse";
@@ -583,7 +553,7 @@
             // ReplaceButton
             // 
             ReplaceButton.BorderRadius = 10;
-            ReplaceButton.CustomizableEdges = customizableEdges23;
+            ReplaceButton.CustomizableEdges = customizableEdges11;
             ReplaceButton.DisabledState.BorderColor = Color.DarkGray;
             ReplaceButton.DisabledState.CustomBorderColor = Color.DarkGray;
             ReplaceButton.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -597,23 +567,69 @@
             ReplaceButton.ImageAlign = HorizontalAlignment.Left;
             ReplaceButton.Location = new Point(3, 3);
             ReplaceButton.Name = "ReplaceButton";
-            ReplaceButton.ShadowDecoration.CustomizableEdges = customizableEdges24;
+            ReplaceButton.ShadowDecoration.CustomizableEdges = customizableEdges12;
             ReplaceButton.Size = new Size(168, 59);
             ReplaceButton.TabIndex = 2;
             ReplaceButton.Text = "     Replace Lost/Dameged";
-            ReplaceButton.Click += guna2GradientButton3_Click;
             // 
-            // lblMessage
+            // LocalID
             // 
-            lblMessage.BackColor = Color.Transparent;
-            lblMessage.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblMessage.ForeColor = Color.FromArgb(37, 99, 235);
-            lblMessage.Location = new Point(387, 166);
-            lblMessage.Name = "lblMessage";
-            lblMessage.Size = new Size(64, 22);
-            lblMessage.TabIndex = 6;
-            lblMessage.Text = "Message";
-            lblMessage.Visible = false;
+            LocalID.FillWeight = 50F;
+            LocalID.HeaderText = "App ID";
+            LocalID.Name = "LocalID";
+            LocalID.ReadOnly = true;
+            // 
+            // PassedTestId
+            // 
+            PassedTestId.HeaderText = "Passed Test Id";
+            PassedTestId.Name = "PassedTestId";
+            PassedTestId.ReadOnly = true;
+            PassedTestId.Visible = false;
+            // 
+            // StatusId
+            // 
+            StatusId.HeaderText = "StatusId";
+            StatusId.Name = "StatusId";
+            StatusId.ReadOnly = true;
+            StatusId.Visible = false;
+            // 
+            // DrivingClass
+            // 
+            DrivingClass.HeaderText = "Driving Class";
+            DrivingClass.Name = "DrivingClass";
+            DrivingClass.ReadOnly = true;
+            // 
+            // NationalNo
+            // 
+            NationalNo.HeaderText = "National No";
+            NationalNo.Name = "NationalNo";
+            NationalNo.ReadOnly = true;
+            // 
+            // FullName
+            // 
+            FullName.HeaderText = "Full Name";
+            FullName.Name = "FullName";
+            FullName.ReadOnly = true;
+            // 
+            // ApplicationDate
+            // 
+            ApplicationDate.HeaderText = "Application Date";
+            ApplicationDate.Name = "ApplicationDate";
+            ApplicationDate.ReadOnly = true;
+            // 
+            // Status
+            // 
+            Status.HeaderText = "Status";
+            Status.Name = "Status";
+            Status.ReadOnly = true;
+            Status.Resizable = DataGridViewTriState.True;
+            Status.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // PassedTest
+            // 
+            PassedTest.HeaderText = "Passed Test";
+            PassedTest.Name = "PassedTest";
+            PassedTest.ReadOnly = true;
             // 
             // ApplicationsControl
             // 
@@ -651,13 +667,6 @@
         private TabPage DetainedLicensesTab;
         private Guna.UI2.WinForms.Guna2Chip guna2Chip1;
         private Guna.UI2.WinForms.Guna2DataGridView LocalDataGridView;
-        private DataGridViewTextBoxColumn LocalID;
-        private DataGridViewTextBoxColumn DrivingClass;
-        private DataGridViewTextBoxColumn NationalNo;
-        private DataGridViewTextBoxColumn FullName;
-        private DataGridViewTextBoxColumn ApplicationDate;
-        private DataGridViewTextBoxColumn Status;
-        private DataGridViewTextBoxColumn PassedTest;
         private Guna.UI2.WinForms.Guna2ComboBox cbStatus;
         private Guna.UI2.WinForms.Guna2TextBox txtSearch;
         private Guna.UI2.WinForms.Guna2ContextMenuStrip LocalAppActionMenu;
@@ -685,5 +694,14 @@
         private Guna.UI2.WinForms.Guna2ShadowPanel guna2ShadowPanel5;
         private Guna.UI2.WinForms.Guna2GradientButton ReplaceButton;
         private Guna.UI2.WinForms.Guna2HtmlLabel lblMessage;
+        private DataGridViewTextBoxColumn LocalID;
+        private DataGridViewTextBoxColumn PassedTestId;
+        private DataGridViewTextBoxColumn StatusId;
+        private DataGridViewTextBoxColumn DrivingClass;
+        private DataGridViewTextBoxColumn NationalNo;
+        private DataGridViewTextBoxColumn FullName;
+        private DataGridViewTextBoxColumn ApplicationDate;
+        private DataGridViewTextBoxColumn Status;
+        private DataGridViewTextBoxColumn PassedTest;
     }
 }
