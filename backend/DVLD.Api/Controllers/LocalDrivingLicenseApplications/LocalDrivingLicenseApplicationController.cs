@@ -60,18 +60,20 @@ namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
             return result.IsSuccess ? Ok(result.Value) : NotFound(result.Errors);
         }
 
-        [HttpGet(Name = "GetLocalDrivingLicenseHistory")]
+        [HttpGet(Name = "GetAllLocalDrivingLicense")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<PagedList<GetAllLocalApplicationsResponse>>> GetLocalDrivingLicenseHistory(
+        public async Task<ActionResult<PagedList<GetAllLocalApplicationsResponse>>> GetAllLocalDrivingLicense(
            [FromQuery] GetAllLocalApplicationsRequest allLocalApplicationsRequest
            , CancellationToken cancellationToken)
         {
             GetAllLocalApplicationsQuery query = new GetAllLocalApplicationsQuery
             {
                 PageNumber = allLocalApplicationsRequest.PageNumber,
-                PageSize = allLocalApplicationsRequest.PageSize
+                PageSize = allLocalApplicationsRequest.PageSize,
+                SearchTerm = allLocalApplicationsRequest.SearchTerm,
+                StatusId = allLocalApplicationsRequest.StatusId,
             };
 
             Result<PagedList<GetAllLocalApplicationsResponse>> result = await _sender.Send(

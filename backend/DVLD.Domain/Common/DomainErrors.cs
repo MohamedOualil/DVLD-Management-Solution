@@ -106,6 +106,8 @@ namespace DVLD.Domain.Common
                 new Error("Application.ApplicationIsCompleted", "The application has already been completed and cannot be modified.", ErrorType.BadRequest);
             public static readonly Error CannotUpdateProcessedApplication =
                 new Error("Application.CannotUpdateProcessedApplication", "The application has already been processed and cannot be updated.", ErrorType.BadRequest);
+            public static readonly Error InvalidStatus =
+                new("Application.InvalidStatus", "The Status is Invalid",ErrorType.BadRequest);
         }
 
         public static class erLocalApplications

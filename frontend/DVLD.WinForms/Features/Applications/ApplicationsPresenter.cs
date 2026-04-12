@@ -24,16 +24,16 @@ namespace DVLD.WinForms.Features.Applications
 
         public async Task LoadDataAsync()
         {
-            var applications = await _applicationsService.GetAllLocalApplicationsAsync(1, 10);
+            var applications = await _applicationsService.GetAllLocalApplicationsAsync(1, 10,string.Empty,1);
             if (!applications.IsSuccess)
             {
 
             }
 
-            if (applications.Data.TotalCount == 0)
-            {
+            //if (applications.Data.TotalCount == 0)
+            //{
 
-            }
+            //}
 
             _view.DisplayLocalApplications(applications.Data.Items);
         }

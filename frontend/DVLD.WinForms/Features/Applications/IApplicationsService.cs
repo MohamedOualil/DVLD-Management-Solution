@@ -11,6 +11,6 @@ namespace DVLD.WinForms.Features.Applications
     public interface IApplicationsService
     {
         Task<ApiResponse<PagedResultDto<LocalApplicationsDto>>> GetAllLocalApplicationsAsync(
-            int PageNumber, int PageSize);
+            int pageNumber, int pageSize, string searchTerm, int statusId);
     }
 }

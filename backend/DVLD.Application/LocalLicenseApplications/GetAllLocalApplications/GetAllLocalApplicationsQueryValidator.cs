@@ -12,7 +12,7 @@ namespace DVLD.Application.LocalLicenseApplications.GetAllLocalApplications
     {
         public Result Validate(GetAllLocalApplicationsQuery request)
         {
-            List<Error> errors = new(2);
+            List<Error> errors = new(3);
 
             if (request.PageNumber <= 0)
                 errors.Add(DomainErrors.erPagedList.InvalidPageNumber);
@@ -20,6 +20,10 @@ namespace DVLD.Application.LocalLicenseApplications.GetAllLocalApplications
                 errors.Add(DomainErrors.erPagedList.InvalidPageSize);
             else if (request.PageSize > 100)
                 errors.Add(DomainErrors.erPagedList.InvalidPageSize);
+
+            if (request.StatusId is not null && request.StatusId <= 0)
+                errors.Add(DomainErrors.erApplications.InvalidStatus);
+
 
 
             return errors.Count > 0 ? Result.Failure(errors) : Result.Success();

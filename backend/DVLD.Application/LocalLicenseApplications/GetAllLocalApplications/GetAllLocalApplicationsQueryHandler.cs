@@ -41,7 +41,9 @@ namespace DVLD.Application.LocalLicenseApplications.GetAllLocalApplications
                 return Result<PagedList<GetAllLocalApplicationsResponse>>.Failure(validation.Errors);
 
             const string sql = @"
-                            ;WITH TestCount AS (
+                            SET @SearchTerm = LTRIM(RTRIM(ISNULL(@SearchTerm, '')));
+							DECLARE @SearchID INT = TRY_CAST(@SearchTerm AS INT);
+							;WITH TestCount AS (
 	                                SELECT 
 		                                TA.LocalDrivingLicenseApplicationId,
 		                                COUNT(*) AS PassedTest 
@@ -50,7 +52,9 @@ namespace DVLD.Application.LocalLicenseApplications.GetAllLocalApplications
 	                                WHERE T.TestResult = 1 AND T.IsDeactivated = 0
 	                                GROUP BY TA.LocalDrivingLicenseApplicationId
 
+									
                                 )
+								
                                 SELECT 
 	                                LD.Id AS LocalApplicationId,
 	                                LC.ClassName AS DrivingClass,
@@ -65,7 +69,14 @@ namespace DVLD.Application.LocalLicenseApplications.GetAllLocalApplications
                                 INNER JOIN Applications A ON A.Id = LD.ApplicationId
                                 INNER JOIN Person P ON P.Id = A.PersonId
                                 LEFT JOIN TestCount  T ON T.LocalDrivingLicenseApplicationId = LD.Id
-                                WHERE LD.IsDeactivated = 0
+								WHERE 
+								LD.IsDeactivated = 0 
+								AND (
+									(@SearchID IS NOT NULL AND LD.Id = @SearchID)
+									OR (CONCAT_WS(' ',FirstName,LastName) LIKE '%'+ @SearchTerm + '%')
+									OR ( P.NationalNo_Number LIKE '%' + @SearchTerm + '%') 
+									)
+								AND (@StatusId IS NULL OR A.Status = @StatusId)
                                 ORDER BY LD.CreatedAt
                                 OFFSET (@PageNumber - 1) * @PageSize ROWS
                                 FETCH NEXT @PageSize ROWS ONLY;";
@@ -75,7 +86,9 @@ namespace DVLD.Application.LocalLicenseApplications.GetAllLocalApplications
             var parameters = new
             {
                 PageNumber = request.PageNumber,
-                PageSize = request.PageSize
+                PageSize = request.PageSize,
+                StatusId = request.StatusId,
+                SearchTerm = request.SearchTerm,
 
             };
 
