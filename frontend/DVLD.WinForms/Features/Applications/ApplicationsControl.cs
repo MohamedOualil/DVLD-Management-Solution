@@ -18,18 +18,19 @@ namespace DVLD.WinForms.Features.Applications
         private ApplicationsPresenter _presenter;
 
         public event EventHandler OnLoadDataRequested;
+        public event EventHandler OnSearchChangeRequested;
         public ApplicationsControl(ApplicationsPresenter presenter)
         {
             InitializeComponent();
+            LoadStatusComboBox();
             _presenter = presenter;
             _presenter.SetView(this);
             LocalAppActionMenu.DropShadowEnabled = true;
 
         }
 
-        //public Panel LocalApplicationsPanel => this.LocalApplicationsTab;
-        //public Panel InternationalLicensesPanel => this.InternationalLicensesTab;
-        //public Panel DetainedLicensesPanel => this.DetainedLicensesTab;
+        public string SearchTerm => this.txtSearch.Text; 
+        public int StatusId => this.cbStatus.SelectedIndex;
 
         public void DisplayLocalApplications(IEnumerable<LocalApplicationsDto> localApplications)
         {
@@ -50,8 +51,6 @@ namespace DVLD.WinForms.Features.Applications
             }
 
         }
-
-
 
         private void ApplicationsControl_Load(object sender, EventArgs e)
         {
@@ -85,6 +84,37 @@ namespace DVLD.WinForms.Features.Applications
         private void guna2GradientButton3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void LoadStatusComboBox()
+        {
+            var statuses = new List<ComboBoxItem>
+            {
+                new ComboBoxItem { Id = 0, Text = "All Statuses" },
+                new ComboBoxItem { Id = 1, Text = "New" },
+                new ComboBoxItem { Id = 2, Text = "Cancelled" },
+                new ComboBoxItem { Id = 3, Text = "Completed" }
+            };
+            cbStatus.DataSource = statuses;
+            cbStatus.DisplayMember = "Text";
+            cbStatus.ValueMember = "Id";
+            cbStatus.SelectedIndex = 0;
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            OnSearchChangeRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void cbStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            OnSearchChangeRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void DisplayMessage(string message)
+        {
+            lblMessage.Text = message;
+            lblMessage.Visible = true;
         }
     }
 }

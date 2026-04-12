@@ -49,7 +49,7 @@
             guna2ShadowPanel2 = new Guna.UI2.WinForms.Guna2ShadowPanel();
             guna2TabControl1 = new Guna.UI2.WinForms.Guna2TabControl();
             LocalApplicationsTab = new TabPage();
-            FilterComboBox = new Guna.UI2.WinForms.Guna2ComboBox();
+            cbStatus = new Guna.UI2.WinForms.Guna2ComboBox();
             txtSearch = new Guna.UI2.WinForms.Guna2TextBox();
             LocalDataGridView = new Guna.UI2.WinForms.Guna2DataGridView();
             LocalID = new DataGridViewTextBoxColumn();
@@ -85,6 +85,7 @@
             RenewLicensseButton = new Guna.UI2.WinForms.Guna2GradientButton();
             guna2ShadowPanel5 = new Guna.UI2.WinForms.Guna2ShadowPanel();
             ReplaceButton = new Guna.UI2.WinForms.Guna2GradientButton();
+            lblMessage = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2ShadowPanel1.SuspendLayout();
             guna2ShadowPanel2.SuspendLayout();
             guna2TabControl1.SuspendLayout();
@@ -181,7 +182,8 @@
             // 
             // LocalApplicationsTab
             // 
-            LocalApplicationsTab.Controls.Add(FilterComboBox);
+            LocalApplicationsTab.Controls.Add(lblMessage);
+            LocalApplicationsTab.Controls.Add(cbStatus);
             LocalApplicationsTab.Controls.Add(txtSearch);
             LocalApplicationsTab.Controls.Add(LocalDataGridView);
             LocalApplicationsTab.Location = new Point(4, 44);
@@ -192,23 +194,25 @@
             LocalApplicationsTab.Text = "Local Applications";
             LocalApplicationsTab.UseVisualStyleBackColor = true;
             // 
-            // FilterComboBox
+            // cbStatus
             // 
-            FilterComboBox.BackColor = Color.Transparent;
-            FilterComboBox.BorderRadius = 20;
-            FilterComboBox.CustomizableEdges = customizableEdges15;
-            FilterComboBox.DrawMode = DrawMode.OwnerDrawFixed;
-            FilterComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            FilterComboBox.FocusedColor = Color.FromArgb(94, 148, 255);
-            FilterComboBox.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            FilterComboBox.Font = new Font("Segoe UI", 10F);
-            FilterComboBox.ForeColor = Color.FromArgb(68, 88, 112);
-            FilterComboBox.ItemHeight = 30;
-            FilterComboBox.Location = new Point(317, 21);
-            FilterComboBox.Name = "FilterComboBox";
-            FilterComboBox.ShadowDecoration.CustomizableEdges = customizableEdges16;
-            FilterComboBox.Size = new Size(155, 36);
-            FilterComboBox.TabIndex = 5;
+            cbStatus.BackColor = Color.Transparent;
+            cbStatus.BorderColor = Color.FromArgb(213, 218, 225);
+            cbStatus.BorderRadius = 15;
+            cbStatus.CustomizableEdges = customizableEdges15;
+            cbStatus.DrawMode = DrawMode.OwnerDrawFixed;
+            cbStatus.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbStatus.FocusedColor = Color.FromArgb(37, 99, 235);
+            cbStatus.FocusedState.BorderColor = Color.FromArgb(37, 99, 235);
+            cbStatus.Font = new Font("Segoe UI", 10F);
+            cbStatus.ForeColor = Color.FromArgb(15, 23, 42);
+            cbStatus.ItemHeight = 30;
+            cbStatus.Location = new Point(317, 21);
+            cbStatus.Name = "cbStatus";
+            cbStatus.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            cbStatus.Size = new Size(155, 36);
+            cbStatus.TabIndex = 5;
+            cbStatus.SelectedIndexChanged += cbStatus_SelectedIndexChanged;
             // 
             // txtSearch
             // 
@@ -236,6 +240,7 @@
             txtSearch.Size = new Size(233, 40);
             txtSearch.TabIndex = 4;
             txtSearch.TextOffset = new Point(5, 0);
+            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // LocalDataGridView
             // 
@@ -598,6 +603,18 @@
             ReplaceButton.Text = "     Replace Lost/Dameged";
             ReplaceButton.Click += guna2GradientButton3_Click;
             // 
+            // lblMessage
+            // 
+            lblMessage.BackColor = Color.Transparent;
+            lblMessage.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblMessage.ForeColor = Color.FromArgb(37, 99, 235);
+            lblMessage.Location = new Point(387, 166);
+            lblMessage.Name = "lblMessage";
+            lblMessage.Size = new Size(64, 22);
+            lblMessage.TabIndex = 6;
+            lblMessage.Text = "Message";
+            lblMessage.Visible = false;
+            // 
             // ApplicationsControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -614,6 +631,7 @@
             guna2ShadowPanel2.ResumeLayout(false);
             guna2TabControl1.ResumeLayout(false);
             LocalApplicationsTab.ResumeLayout(false);
+            LocalApplicationsTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)LocalDataGridView).EndInit();
             LocalAppActionMenu.ResumeLayout(false);
             guna2ShadowPanel3.ResumeLayout(false);
@@ -640,7 +658,7 @@
         private DataGridViewTextBoxColumn ApplicationDate;
         private DataGridViewTextBoxColumn Status;
         private DataGridViewTextBoxColumn PassedTest;
-        private Guna.UI2.WinForms.Guna2ComboBox FilterComboBox;
+        private Guna.UI2.WinForms.Guna2ComboBox cbStatus;
         private Guna.UI2.WinForms.Guna2TextBox txtSearch;
         private Guna.UI2.WinForms.Guna2ContextMenuStrip LocalAppActionMenu;
         private ToolStripMenuItem ShowApplication;
@@ -666,5 +684,6 @@
         private Guna.UI2.WinForms.Guna2GradientButton RenewLicensseButton;
         private Guna.UI2.WinForms.Guna2ShadowPanel guna2ShadowPanel5;
         private Guna.UI2.WinForms.Guna2GradientButton ReplaceButton;
+        private Guna.UI2.WinForms.Guna2HtmlLabel lblMessage;
     }
 }

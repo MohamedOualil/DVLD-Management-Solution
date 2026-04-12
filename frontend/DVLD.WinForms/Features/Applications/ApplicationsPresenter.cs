@@ -20,20 +20,25 @@ namespace DVLD.WinForms.Features.Applications
         {
             _view = view;
             _view.OnLoadDataRequested += async (s, e) => await LoadDataAsync();
+            _view.OnSearchChangeRequested += async (s, e) => await LoadDataAsync();
         }
 
         public async Task LoadDataAsync()
         {
-            var applications = await _applicationsService.GetAllLocalApplicationsAsync(1, 10,string.Empty,1);
+
+            var applications = await _applicationsService.GetAllLocalApplicationsAsync(1, 10,
+                                                        _view.SearchTerm,
+                                                        _view.StatusId);
             if (!applications.IsSuccess)
             {
-
+                return;
             }
 
-            //if (applications.Data.TotalCount == 0)
-            //{
-
-            //}
+            if (applications.Data.TotalCount == 0)
+            {
+                _view.DisplayMessage(applications.Error.AllMessages);
+                return;
+            }
 
             _view.DisplayLocalApplications(applications.Data.Items);
         }
