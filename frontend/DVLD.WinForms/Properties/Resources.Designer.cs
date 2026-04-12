@@ -73,6 +73,16 @@ namespace DVLD.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_date_16 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-date-16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_delete_30 {
             get {
                 object obj = ResourceManager.GetObject("icons8-delete-30", resourceCulture);
@@ -113,6 +123,16 @@ namespace DVLD.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_email_30 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-email-30", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_history_48 {
             get {
                 object obj = ResourceManager.GetObject("icons8-history-48", resourceCulture);
@@ -146,6 +166,16 @@ namespace DVLD.WinForms.Properties {
         internal static System.Drawing.Bitmap icons8_international_48 {
             get {
                 object obj = ResourceManager.GetObject("icons8-international-48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_male_gender_16 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-male-gender-16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
