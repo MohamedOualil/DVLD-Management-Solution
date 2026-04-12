@@ -23,8 +23,10 @@ namespace DVLD.WinForms.Common
             services.AddHttpClient<IApiClient,ApiClient>();
 
             services.AddTransient<IAuthService,AuthService>();
+            services.AddTransient<IApplicationsService,ApplicationsService>();
 
             services.AddTransient<LoginPresenter>();
+            services.AddTransient<ApplicationsPresenter>();
 
             services.AddTransient<LoginForm>();
             services.AddTransient<AdminDashboardForm>();
