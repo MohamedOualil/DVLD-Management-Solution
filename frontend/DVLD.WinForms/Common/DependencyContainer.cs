@@ -33,7 +33,7 @@ namespace DVLD.WinForms.Common
 
             services.AddTransient<AdminDashboardPresenter>();
 
-            services.AddTransient<ApplicationsControl>();
+            services.AddTransient<IApplicationsView,ApplicationsControl>();
  
             return services.BuildServiceProvider();
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using DVLD.WinForms.Shared;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace DVLD.WinForms.Common
             currentForm?.Hide();
         }
 
-        public void NavigateTo<TControl>() where TControl : UserControl
+        public void NavigateTo<TPresenter,TView>() where TPresenter : BasePresenter<TView> where TView : class
         {
             if (_mainContentPanel == null)
             {
@@ -45,12 +46,20 @@ namespace DVLD.WinForms.Common
 
             _currentPageScope = _serviceProvider.CreateScope();
 
-            var control = _currentPageScope.ServiceProvider.GetRequiredService<TControl>();
+            var presenter = _currentPageScope.ServiceProvider.GetRequiredService<TPresenter>();
 
+            if (presenter.ViewInstance is Control control)
+            {
+                control.Dock = DockStyle.Fill;
 
-            control.Dock = DockStyle.Fill;
-            
-            _mainContentPanel.Controls.Add(control);
+                _mainContentPanel.Controls.Add(control);
+            }
+            else
+            {
+                throw new InvalidOperationException("The View must be a WinForms Control.");
+            }
+
+           
         }
 
         public void SetMainContentPanel(Control panel)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DVLD.WinForms.Shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,6 @@ namespace DVLD.WinForms.Common
 
         void SetMainContentPanel(Control panel);
 
-        void NavigateTo<TControl>() where TControl : UserControl;
+        void NavigateTo<TPresenter, TView>() where TPresenter : BasePresenter<TView> where TView : class;
     }
 }
