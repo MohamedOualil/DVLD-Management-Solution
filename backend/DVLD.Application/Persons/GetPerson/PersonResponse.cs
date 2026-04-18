@@ -25,6 +25,7 @@ namespace DVLD.Application.Persons.GetPerson
         public int CountryId { get; init; }
         public required string Phone { get; init; }
         public string? Email { get; init; }
+        public string? ImagePath { get; init; }
         public DateTime CreatedAt { get; init; }
     }
 }
