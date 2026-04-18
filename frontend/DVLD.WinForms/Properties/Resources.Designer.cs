@@ -63,6 +63,26 @@ namespace DVLD.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DefaultAvatar {
+            get {
+                object obj = ResourceManager.GetObject("DefaultAvatar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FemaleIcon {
+            get {
+                object obj = ResourceManager.GetObject("FemaleIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_add_properties_24 {
             get {
                 object obj = ResourceManager.GetObject("icons8-add-properties-24", resourceCulture);
@@ -276,6 +296,16 @@ namespace DVLD.WinForms.Properties {
         internal static System.Drawing.Bitmap icons8_vision_48 {
             get {
                 object obj = ResourceManager.GetObject("icons8-vision-48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MaleIcon {
+            get {
+                object obj = ResourceManager.GetObject("MaleIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

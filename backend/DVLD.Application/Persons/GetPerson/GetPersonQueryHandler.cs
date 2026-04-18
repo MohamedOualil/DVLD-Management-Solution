@@ -48,8 +48,10 @@ namespace DVLD.Application.Persons.GetPerson
 		                        P.State,
 		                        P.ZipCode,
 		                        P.Street,
-                                P.CreatedAt
+                                P.CreatedAt,
+                                C.CountryName
 	                        FROM Person P
+                            INNER JOIN Counties C ON C.Id = P.Address_CountryID
 	                        WHERE P.Id = @PersonId AND P.IsDeactivated = 0";
             using IDbConnection connection = _sqlConnectionFactory.CreateConnection();
 

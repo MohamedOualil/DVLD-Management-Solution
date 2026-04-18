@@ -79,9 +79,11 @@
             // 
             // pbPhoto
             // 
+            pbPhoto.Image = Properties.Resources.DefaultAvatar;
             pbPhoto.Location = new Point(3, 3);
             pbPhoto.Name = "pbPhoto";
             pbPhoto.Size = new Size(108, 126);
+            pbPhoto.SizeMode = PictureBoxSizeMode.CenterImage;
             pbPhoto.TabIndex = 0;
             pbPhoto.TabStop = false;
             // 
@@ -239,7 +241,6 @@
             lblAddress.Size = new Size(143, 65);
             lblAddress.TabIndex = 6;
             lblAddress.Text = "42 Al-Rashid St, District 4, Amman, Jordan";
-            lblAddress.Click += guna2HtmlLabel14_Click;
             // 
             // pictureBox1
             // 
@@ -306,7 +307,7 @@
             // 
             // GenderIcon
             // 
-            GenderIcon.Image = Properties.Resources.icons8_male_gender_16;
+            GenderIcon.Image = Properties.Resources.MaleIcon;
             GenderIcon.Location = new Point(131, 89);
             GenderIcon.Name = "GenderIcon";
             GenderIcon.Size = new Size(16, 16);

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DVLD.Api.Common
 {
+
     public abstract  class ApiController : ControllerBase
     {
         protected  ActionResult HandleFailure (Result result) 
