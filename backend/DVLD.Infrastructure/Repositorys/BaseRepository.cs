@@ -11,20 +11,27 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal abstract class Repositories<T> : IBaseRepository<T> where T : Entity
+    internal abstract class BaseRepository<T> : IBaseRepository<T> where T : Entity
     {
         protected readonly AppDbContext DbContext;
 
-        protected Repositories(AppDbContext dbContext)
+        protected BaseRepository(AppDbContext dbContext)
         {
             DbContext = dbContext;
         }
 
-        public async Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+        public virtual async Task<T?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
             return await DbContext
                 .Set<T>()
-                .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeactivated, cancellationToken);
+                .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+        }
+
+        public virtual async Task<T?> GetByIdAsync(int id)
+        {
+            return await DbContext
+                .Set<T>()
+                .FindAsync(id);
         }
 
         public virtual void Add(T entity)
