@@ -1,10 +1,11 @@
+using DVLD.Application.Abstractions.Interfaces;
 using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DVLD.Infrastructure.Data
 {
-    public class AppDbContext : DbContext, IUnitOfWork
+    public class AppDbContext : DbContext, IUnitOfWork , IApplicationDbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -17,7 +18,7 @@ namespace DVLD.Infrastructure.Data
         public DbSet<Domain.Entities.Application> Applications => base.Set<Domain.Entities.Application>();
         public DbSet<ApplicationType> ApplicationTypes => Set<ApplicationType>();
         public DbSet<LicenseClass> LicenseClasses => Set<LicenseClass>();
-        public DbSet<Country> Counties => Set<Country>();
+        public DbSet<Country> Countries => Set<Country>();
         public DbSet<DetainedLicense> DetainedLicenses => Set<DetainedLicense>();
         public DbSet<LocalDrivingLicenseApplication> LocalDrivingLicenseApplications => Set<LocalDrivingLicenseApplication>();
         public DbSet<TestAppointment> TestAppointments => Set<TestAppointment>();
@@ -26,6 +27,8 @@ namespace DVLD.Infrastructure.Data
         public DbSet<InternationalLicense> InternationalLicenses => Set<InternationalLicense>();
 
         public DbSet<UserSession> UserSession => Set<UserSession>();
+
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
