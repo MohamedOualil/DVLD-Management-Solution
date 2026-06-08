@@ -16,17 +16,22 @@ namespace DVLD.Infrastructure.Data.Configuration
         {
             base.Configure(builder);
 
-            
+            builder.HasIndex(l => l.ApplicationId)
+                .IsUnique()
+                .HasDatabaseName("UQ_LocalDrivingLicenseApplications_ApplicationId");
+
             builder.HasOne(l => l.Application)
                 .WithOne() 
                 .HasForeignKey<LocalDrivingLicenseApplication>(l => l.ApplicationId)
-                .OnDelete(DeleteBehavior.Cascade); 
+                .HasConstraintName("FK_LocalDrivingLicenseApplications_Applications")
+                .OnDelete(DeleteBehavior.Cascade);
 
-            
             builder.HasOne(l => l.LicenseClass)
-                .WithMany() 
+                .WithMany()
                 .HasForeignKey(l => l.LicenseClassId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasConstraintName("FK_LocalDrivingLicenseApplications_LicenseClasses")
+                .OnDelete(DeleteBehavior.NoAction);
+
 
             builder.ToTable("LocalDrivingLicenseApplications");
         }

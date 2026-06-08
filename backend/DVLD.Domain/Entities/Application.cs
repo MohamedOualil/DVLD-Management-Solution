@@ -9,16 +9,16 @@ using DVLD.Domain.ValueObjects;
 
 namespace DVLD.Domain.Entities
 {
-    public class Applications : Entity
+    public class Application : Entity
     {
         public int PersonId { get; private set; }
         public Person Person { get; private set; }
         public DateTime ApplicationDate { get; private set; }
         public int ApplicationTypeId { get; private set; }
         public ApplicationTypeEnum ApplicationTypeEnum => (ApplicationTypeEnum)ApplicationTypeId;
-        public ApplicationTypes ApplicationType { get; private set; }
+        public ApplicationType ApplicationType { get; private set; }
         public ApplicationStatusEnum Status { get; private set; } = ApplicationStatusEnum.New;
-        public DateTime LastStatusDate { get; private set; }
+        public DateTime? LastStatusDate { get; private set; }
         public Money PaidFees { get; private set; }
 
         public int CreatedByUserId { get; private set; }
@@ -28,12 +28,9 @@ namespace DVLD.Domain.Entities
         public User? LastUpdatedBy { get; private set; }
 
 
-        private Applications()
-        {
+        private Application() {}
 
-        }
-
-        private Applications(Person person, ApplicationTypes applicationTypes
+        private Application(Person person, ApplicationType applicationTypes
             , Money paidFees, int createdById)
         {
             PersonId = person.Id;
@@ -48,7 +45,7 @@ namespace DVLD.Domain.Entities
             PaidFees = paidFees;
 
         }
-        private Applications(int personId, ApplicationTypes applicationTypes
+        private Application(int personId, ApplicationType applicationTypes
             , Money paidFees, int createdById)
         {
             PersonId = personId;
@@ -63,22 +60,20 @@ namespace DVLD.Domain.Entities
 
         }
 
-        public static Applications CreateApplication(int personId, ApplicationTypes applicationTypes,
+        public static Application CreateApplication(int personId, ApplicationType applicationTypes,
             int createdById)
         {
-
-
-            return new Applications(personId, applicationTypes, applicationTypes.ApplicationFees, createdById);
+            return new Application(personId, applicationTypes, applicationTypes.ApplicationFees, createdById);
         }
 
-        public static Result<Applications> CreateLocalApplication(Person person, ApplicationTypes applicationTypes,
+        public static Result<Application> CreateLocalApplication(Person person, ApplicationType applicationTypes,
             int createdById)
         {
             if (applicationTypes.Id != (int) Enums.ApplicationTypeEnum.NewLocalDrivingLicenseService)
-                return Result<Applications>.Failure(DomainErrors.erApplications.InvalidApplicationType);
+                return Result<Application>.Failure(DomainErrors.erApplications.InvalidApplicationType);
 
 
-            return Result<Applications>.Success(new Applications(
+            return Result<Application>.Success(new Application(
                 person, applicationTypes, applicationTypes.ApplicationFees, createdById));
         }
 
@@ -105,10 +100,10 @@ namespace DVLD.Domain.Entities
 
         }
 
-        public  Applications LicenseApplication(ApplicationTypes applicationType
+        public  Application LicenseApplication(ApplicationType applicationType
             , int createdById)
         {
-            return new Applications(this.PersonId, applicationType, applicationType.ApplicationFees, createdById);
+            return new Application(this.PersonId, applicationType, applicationType.ApplicationFees, createdById);
         }
 
      

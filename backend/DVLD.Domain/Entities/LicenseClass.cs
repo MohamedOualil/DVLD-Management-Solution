@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Entities
 {
-    public class LicenseClasses : Entity
+    public class LicenseClass : Entity
     {
         public string ClassName { get; private set; }
         public string ClassDescription { get; private set; }
@@ -17,12 +17,12 @@ namespace DVLD.Domain.Entities
         public byte DefaultValidityLength { get; private set; }
         public Money ClassFees { get; private set; }
 
-        private LicenseClasses()
+        private LicenseClass()
         {
             
         }
 
-        private LicenseClasses(string className,string classDescription, byte minimumAllowedAge, byte defaultValidityLength,
+        private LicenseClass(string className,string classDescription, byte minimumAllowedAge, byte defaultValidityLength,
             Money classFees)
         {
             ClassName = className;
@@ -34,11 +34,11 @@ namespace DVLD.Domain.Entities
             
         }
 
-        public static Result<LicenseClasses> Create(string className, string classDescription, byte minimumAllowedAge,
+        public static Result<LicenseClass> Create(string className, string classDescription, byte minimumAllowedAge,
             byte defaultValidityLength,Money classFees)
         {
 
-            return Result<LicenseClasses>.Success(new LicenseClasses(className, classDescription, minimumAllowedAge,
+            return Result<LicenseClass>.Success(new LicenseClass(className, classDescription, minimumAllowedAge,
                                                                         defaultValidityLength,classFees));
         }
     }

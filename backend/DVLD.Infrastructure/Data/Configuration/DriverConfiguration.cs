@@ -18,13 +18,20 @@ namespace DVLD.Infrastructure.Data.Configuration
             builder.HasOne(d => d.Person)
             .WithOne() 
             .HasForeignKey<Driver>(d => d.PersonId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.NoAction);
 
 
             builder.HasOne(d => d.CreatedBy)
                 .WithMany()
                 .HasForeignKey(d => d.CreatedByUserId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Property(d => d.CreateAt)
+               .HasDefaultValueSql("SYSUTCDATETIME()")
+               .ValueGeneratedOnAdd();
+
+            builder.HasIndex(d => d.PersonId).IsUnique()
+                .HasDatabaseName("UQ_Drivers_PersonId");
 
             builder.ToTable("Drivers");
         }

@@ -13,7 +13,7 @@ namespace DVLD.Domain.Entities
     {
         public int TestTypeId { get; private set; }
         public TestTypeEnum TestTypeEnum => (TestTypeEnum)TestTypeId;
-        public TestTypes TestTypes { get; private set; }
+        public TestType TestTypes { get; private set; }
 
         public int LocalDrivingLicenseApplicationId { get; private set; }
         public LocalDrivingLicenseApplication LocalDrivingLicense { get; private set; }
@@ -25,11 +25,13 @@ namespace DVLD.Domain.Entities
 
         public bool IsLocked { get; private set; } = false;
 
+        public DateTime CreateAt { get; private set; }
+
         public Test? Test {  get; private set; }
 
         private TestAppointment() { }
 
-        private TestAppointment(TestTypes testTypes, LocalDrivingLicenseApplication localDrivingLicense,
+        private TestAppointment(TestType testTypes, LocalDrivingLicenseApplication localDrivingLicense,
              DateTime appointmentdate ,int createdById)
         {
             TestTypeId = testTypes.Id;
@@ -46,7 +48,7 @@ namespace DVLD.Domain.Entities
         }
 
         public static TestAppointment Create(
-            TestTypes testType,
+            TestType testType,
             LocalDrivingLicenseApplication localApp,
             DateTime appointmentDate,
             int createdById)

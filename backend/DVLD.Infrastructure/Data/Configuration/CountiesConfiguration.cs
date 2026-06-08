@@ -9,16 +9,17 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Data.Configuration
 {
-    public class CountiesConfiguration : BaseEntityConfiguration<Counties>
+    public class CountiesConfiguration : BaseEntityConfiguration<Country>
     {
-        public override void Configure(EntityTypeBuilder<Counties> builder)
+        public override void Configure(EntityTypeBuilder<Country> builder)
         {
             base.Configure(builder);
 
             builder.Property(p =>p.CountryName).IsRequired()
-                .HasMaxLength(50);
-            builder.Property(p => p.CountryCode).IsRequired()
-                .HasMaxLength(5);
+                .HasMaxLength(100);
+
+            builder.ToTable("Countries");
+
         }
     }
 }

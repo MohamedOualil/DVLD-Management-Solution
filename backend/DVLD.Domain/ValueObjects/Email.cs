@@ -6,7 +6,10 @@ namespace DVLD.Domain.ValueObjects
     {
         public string ?Value { get; init; }
 
-        public Email(string ?value) => Value = value.Trim().ToLowerInvariant() ?? string.Empty;
+        public Email(string? value)
+        {
+            Value = value.Trim().ToLowerInvariant() ?? string.Empty;
+        }
     }
     
 

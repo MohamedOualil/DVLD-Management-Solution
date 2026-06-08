@@ -9,21 +9,18 @@ namespace DVLD.Domain.ValueObjects
         public string City { get; init; }
         public string State { get; init; }
         public string ZipCode { get; init; }
-        public int CountryID { get; init; }
-        public Counties Counties { get; init; }
 
         private Address()
         {
             
         }
 
-        public Address(string street, string city,string state, string zipCode, int countryId)
+        public Address(string street, string city,string state, string zipCode)
         {
             Street = street.Trim();
             State = state.Trim();
             City = city.Trim();
             ZipCode = zipCode;
-            CountryID = countryId;
 
             
         }
@@ -31,7 +28,7 @@ namespace DVLD.Domain.ValueObjects
 
         public override string ToString()
         {
-            return $"{Street}-{State}-{City}-{ZipCode}-{Counties.CountryName}";
+            return $"{Street}-{State}-{City}-{ZipCode}";
         }
     }
 }

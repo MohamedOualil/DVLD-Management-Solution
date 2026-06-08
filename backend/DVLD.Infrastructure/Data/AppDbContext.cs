@@ -14,16 +14,18 @@ namespace DVLD.Infrastructure.Data
         public DbSet<User> Users => Set<User>();
         public DbSet<Driver> Drivers => Set<Driver>();
         public DbSet<DrivingLicense> Licenses => Set<DrivingLicense>();
-        public DbSet<Applications> Applications => Set<Applications>();
-        public DbSet<ApplicationTypes> ApplicationTypes => Set<ApplicationTypes>();
-        public DbSet<LicenseClasses> LicenseClasses => Set<LicenseClasses>();
-        public DbSet<Counties> Counties => Set<Counties>();
+        public DbSet<Domain.Entities.Application> Applications => base.Set<Domain.Entities.Application>();
+        public DbSet<ApplicationType> ApplicationTypes => Set<ApplicationType>();
+        public DbSet<LicenseClass> LicenseClasses => Set<LicenseClass>();
+        public DbSet<Country> Counties => Set<Country>();
         public DbSet<DetainedLicense> DetainedLicenses => Set<DetainedLicense>();
         public DbSet<LocalDrivingLicenseApplication> LocalDrivingLicenseApplications => Set<LocalDrivingLicenseApplication>();
         public DbSet<TestAppointment> TestAppointments => Set<TestAppointment>();
-        public DbSet<TestTypes> TestTypes => Set<TestTypes>();
+        public DbSet<TestType> TestTypes => Set<TestType>();
         public DbSet<Test> Tests => Set<Test>();
         public DbSet<InternationalLicense> InternationalLicenses => Set<InternationalLicense>();
+
+        public DbSet<UserSession> UserSession => Set<UserSession>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

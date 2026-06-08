@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Enums
 {
-    public enum Gender : short
+    public enum Gender : byte
     {
         Male = 1,
         Female = 2,

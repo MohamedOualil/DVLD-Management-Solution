@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Enums
 {
-    public enum  TestResult : byte
+    public enum Role : byte
     {
-        Success = 1,
-        Failure = 0
+        Admin = 1,
+        Employee = 2,
     }
 }

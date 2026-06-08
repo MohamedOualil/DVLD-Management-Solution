@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Data.Configuration
 {
-    public class TestTypesConfiguration : BaseEntityConfiguration<TestTypes>
+    public class TestTypesConfiguration : BaseEntityConfiguration<TestType>
     {
-        public override void Configure(EntityTypeBuilder<TestTypes> builder)
+        public override void Configure(EntityTypeBuilder<TestType> builder)
         {
             base.Configure(builder);
 
-            builder.Property(x => x.TestName)
+            builder.Property(x => x.TestTypeTitle)
                 .IsRequired()
                 .HasMaxLength(100);
 
-            builder.Property(x => x.TestDescription)
+            builder.Property(x => x.TestTypeDescrption)
                 .IsRequired()
                 .HasMaxLength(500);
 
@@ -32,13 +32,13 @@ namespace DVLD.Infrastructure.Data.Configuration
                     .HasPrecision(18, 2)
                     .IsRequired();
 
-                money.Property(m => m.Currency)
-                    .HasMaxLength(3)
-                    .IsRequired()
-                    .HasDefaultValue("USD");
+                money.Ignore(c => c.Currency);
             });
 
-            builder.ToTable("TestTypes");
+            builder.ToTable("TestTypes", t =>
+            {
+                t.HasCheckConstraint("CHK_TestTypes_TestFees", "TestFees >= 0");
+            });
         }
     }
 }

@@ -10,23 +10,9 @@ namespace DVLD.Domain.Common
     {
         public int Id { get; protected set; }
 
-        public bool IsDeactivated { get; private set; }
-        public DateTime CreatedAt { get; private set; }
-        public DateTime? UpdatedAt { get; protected set; }
         protected Entity() { }
 
-        protected void Deactivate()
-        {
-            if (IsDeactivated) return;
-            IsDeactivated = true;
-        }
-
-        protected Entity(DateTime createAt )
-        {
-            CreatedAt = createAt;
-            
-        }
-
+       
         public override int GetHashCode() => Id.GetHashCode();
 
         public bool Equals(Entity? other)

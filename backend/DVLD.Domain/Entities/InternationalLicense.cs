@@ -11,7 +11,7 @@ namespace DVLD.Domain.Entities
     public class InternationalLicense : Entity
     {
         public int ApplicationId { get; private set; }
-        public Applications Application { get; private set; }
+        public Application Application { get; private set; }
         public int DriverId { get; private set; }
         public Driver Driver { get; private set; }
 
@@ -31,7 +31,7 @@ namespace DVLD.Domain.Entities
         
 
         private InternationalLicense(
-            Applications applications, 
+            Application applications, 
             Driver driver, 
             DrivingLicense license,
             IssueReasonEnum issueReason, 
@@ -53,7 +53,7 @@ namespace DVLD.Domain.Entities
         }
 
 
-        public static InternationalLicense IssueLicense(Applications applications, Driver driver,DrivingLicense license, 
+        public static InternationalLicense IssueLicense(Application applications, Driver driver,DrivingLicense license, 
             IssueReasonEnum issueReason, int createdBy)
         {
 

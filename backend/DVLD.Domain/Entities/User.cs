@@ -1,4 +1,5 @@
 ﻿using DVLD.Domain.Common;
+using DVLD.Domain.Enums;
 using DVLD.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,11 @@ namespace DVLD.Domain.Entities
        
         public string UserName { get; private set; }
         public string PasswordHash { get; private set; }
-        public string Role {get; private set; } 
+        public Role Role {get; private set; } 
         public bool IsActive { get; private set; } = true;
+
+        public DateTime CreateAt { get; private set; }
+        public DateTime UpdateAt { get; private set; }
 
 
         private User() 
@@ -29,19 +33,20 @@ namespace DVLD.Domain.Entities
             PasswordHash = string.Empty;
         }
 
-        private User(int personId,string userName,string roles,string passwordhash,bool isActive) : base(DateTime.UtcNow)
+        private User(int personId,string userName,Role roles,string passwordhash,bool isActive) 
         {
             PersonId = personId;
             UserName = userName;
             PasswordHash = passwordhash;
             IsActive = isActive;
             Role = roles;
-            UpdatedAt = DateTime.UtcNow;
+            CreateAt = DateTime.UtcNow;
+
 
         }
 
 
-        public static User CreateUser(int personId,string userName,string password,string roles,bool isActive ,IPasswordHasher passwordHasher)
+        public static User CreateUser(int personId,string userName,string password, Role roles,bool isActive ,IPasswordHasher passwordHasher)
         {
 
             var hash = passwordHasher.HashPassword(password);
@@ -59,21 +64,12 @@ namespace DVLD.Domain.Entities
                 return Result.Failure(DomainErrors.erUser.PasswordMismatch);
 
             this.PasswordHash = passwordHasher.HashPassword(newPassword);
-            UpdatedAt = DateTime.UtcNow;
+            this.UpdateAt = DateTime.UtcNow;
 
             return Result.Success();
         }
 
-       
-
-        private void SetPassword(string password,IPasswordHasher passwordHasher)
-        {
-
-            this.PasswordHash  =  passwordHasher.HashPassword(password);
-
-        }
-
-
+      
         public bool VerifyPassword(string RawPassword, string PasswordHarsh,IPasswordHasher passwordHasher)
         {
             return passwordHasher.VerifyPassword(RawPassword, PasswordHarsh);

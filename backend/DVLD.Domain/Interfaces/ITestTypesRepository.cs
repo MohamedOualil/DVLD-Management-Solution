@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Domain.Interfaces
 {
-    public interface ITestTypesRepository : IBaseRepository<TestTypes>
+    public interface ITestTypesRepository : IBaseRepository<TestType>
     {
     }
 }

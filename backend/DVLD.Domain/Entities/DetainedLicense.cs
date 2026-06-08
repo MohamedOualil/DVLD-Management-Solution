@@ -23,7 +23,7 @@ namespace DVLD.Domain.Entities
         public User? ReleasedBy { get; private set; }
 
         public int? ReleaseApplicationId { get; private set; }
-        public Applications? ReleaseApplication { get; private set; }
+        public Application? ReleaseApplication { get; private set; }
 
         private DetainedLicense() { }
 
@@ -48,7 +48,7 @@ namespace DVLD.Domain.Entities
         }
 
 
-        private void _ReleaseLicense(Applications releaseApplications,int releaseBy)
+        private void _ReleaseLicense(Application releaseApplications,int releaseBy)
         {
 
             IsReleased = true;
@@ -60,7 +60,7 @@ namespace DVLD.Domain.Entities
             License.MarkAsReleased();
         }
 
-        public Result RelaseDrivingLicense(int relaseBy,ApplicationTypes applicationType)
+        public Result RelaseDrivingLicense(int relaseBy,ApplicationType applicationType)
         {
             if (!this.License.IsActive)
                 return Result.Failure(DomainErrors.erLicense.LicenseNotActive);
@@ -68,7 +68,7 @@ namespace DVLD.Domain.Entities
             if (this.IsReleased)
                 return Result.Failure(DomainErrors.erDetainedLicense.LicenseAlreadyReleased);
 
-            Applications? application = Applications.CreateApplication(
+            Application? application = Application.CreateApplication(
                 this.License.Driver.PersonId, 
                 applicationType,
                 relaseBy);

@@ -16,36 +16,64 @@ namespace DVLD.Infrastructure.Data.Configuration
         {
             base.Configure(builder);
 
-            builder.HasOne(x => x.Application)
-                .WithMany()
-                .HasForeignKey(x => x.ApplicationId)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasIndex(i => i.ApplicationId)
+                .IsUnique()
+                .HasDatabaseName("UQ_InternationalLicenses_ApplicationId");
 
-            builder.HasOne(x => x.LocalLicense)
-                .WithMany()
-                .HasForeignKey(x => x.IssuedUsingLocalLicenseId)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(i => i.Application)
+                .WithOne()
+                .HasForeignKey<InternationalLicense>(i => i.ApplicationId)
+                .HasConstraintName("FK_InternationalLicenses_Applications")
+                .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasOne(x => x.Driver)
-                .WithMany()
-                .HasForeignKey(x => x.DriverId)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(i => i.LocalLicense)
+                .WithMany() 
+                .HasForeignKey(i => i.IssuedUsingLocalLicenseId)
+                .HasConstraintName("FK_InternationalLicenses_DrivingLicenses")
+                .OnDelete(DeleteBehavior.NoAction);
 
-            builder.Property(e => e.IssueReason)
+
+            builder.HasOne(i => i.Driver)
+                .WithMany()
+                .HasForeignKey(i => i.DriverId)
+                .HasConstraintName("FK_InternationalLicenses_Drivers")
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(i => i.CreatedBy)
+                .WithMany()
+                .HasForeignKey(i => i.CreatedByUserId)
+                .HasConstraintName("FK_InternationalLicenses_Users")
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Property(i => i.IssueReason)
+                .HasColumnType("TINYINT")
                 .IsRequired()
-                .HasConversion<short>();
+                .HasConversion<byte>();
 
-            builder.HasOne(u => u.CreatedBy)
-                .WithMany()
-                .HasForeignKey(p => p.CreatedByUserId)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.Property(i => i.IssueDate)
+                .HasColumnType("DATETIME2")
+                .IsRequired()
+                .HasDefaultValueSql("SYSUTCDATETIME()")
+                .ValueGeneratedOnAdd();
 
-            builder.Property(x => x.IssueDate).IsRequired();
-            builder.Property(x => x.ExpirationDate).IsRequired();
-            builder.Property(x => x.IsActive).IsRequired().HasDefaultValue(true);
-            builder.Property(x => x.IsDetained).IsRequired().HasDefaultValue(false);
+            builder.Property(i => i.ExpirationDate)
+                .HasColumnType("DATETIME2")
+                .IsRequired();
 
-            builder.ToTable("InternationalLicenses");
+            builder.Property(i => i.IsActive)
+                .IsRequired()
+                .HasDefaultValue(true);
+
+            builder.Property(i => i.IsDetained)
+                .IsRequired()
+                .HasDefaultValue(false);
+
+
+            builder.ToTable("InternationalLicenses", il =>
+            {
+                il.HasCheckConstraint("CK_InternationalLicenses_ExpirationDate", "ExpirationDate > IssueDate");
+                il.HasCheckConstraint("CK_InternationalLicenses_IssueReason", "IssueReason IN (1, 2, 3, 4)");
+            });
         }
     }
 }

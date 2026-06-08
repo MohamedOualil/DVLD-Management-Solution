@@ -41,7 +41,6 @@ namespace DVLD.Infrastructure.DependencyInjection
 
             services.AddDbContext<AppDbContext>(options =>
                options.UseSqlServer(connectionString));
-            services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
 
             services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
@@ -52,7 +51,7 @@ namespace DVLD.Infrastructure.DependencyInjection
             services.AddScoped<IApplicationsRepository, ApplicationsRepository>();
             services.AddScoped<ILicenseClassesRepository, LicenseClassesRepository>();
             services.AddScoped<IDriverRepository, DriverRepository>();
-            services.AddScoped<ILicenseRepository, LicenseRepository>();
+            services.AddScoped<ILicenseRepository, DrivingLicenseRepository>();
             services.AddScoped<IDetainedLicenseRepository, DetainedLicenseRepository>();
             services.AddScoped<ILocalDrivingLicenseApplicationRepository, LocalDrivingLicenseApplicationRepository>();
             services.AddScoped<ITestAppointmentRepository, TestAppointmentRepository>();
@@ -65,7 +64,7 @@ namespace DVLD.Infrastructure.DependencyInjection
             // Validators
             services.AddScoped<IValidate<CreatePersonCommand>, CreatePersonCommandValidator>();
             services.AddScoped<IValidate<UpdatePersonCommand>, UpdatePersonCommandValidator>();
-            services.AddScoped<IValidate<LocalDrivingLicenseApplicationCommand>, LocalDrivingLicenseApplicationCommandValidator>();
+            services.AddScoped<IValidate<CreateLocalApplicationCommand>, CreateLocalApplicationCommandValidator>();
             services.AddScoped<IValidate<CreateTestAppointmentCommand>, CreateTestAppointmentCommandValidator>();
             services.AddScoped<IValidate<TakeTestCommand>, TakeTestCommandValidator>();
             services.AddScoped<IValidate<DetainedDrivingLicenseCommand>, DetainedDrivingLicenseValidator>();

@@ -15,24 +15,39 @@ namespace DVLD.Infrastructure.Data.Configuration
         {
             base.Configure(builder);
 
+            builder.HasIndex(t => t.TestAppointmentId)
+                .IsUnique()
+                .HasDatabaseName("UQ_Tests_TestAppointmentId");
+
             builder.HasOne(t => t.TestAppointment)
                 .WithOne(ta => ta.Test) 
                 .HasForeignKey<Test>(t => t.TestAppointmentId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Property(t => t.TestResult)
-                .IsRequired()
-                .HasConversion<int>();
-
-            builder.Property(t => t.Notes)
-                .HasMaxLength(500);
+                .HasConstraintName("FK_Tests_TestAppointments")
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(t => t.CreatedBy)
-                .WithMany()
-                .HasForeignKey(t => t.CreatedByUserId)
-                .OnDelete(DeleteBehavior.Restrict);
+                 .WithMany()
+                 .HasForeignKey(t => t.CreatedByUserId)
+                 .HasConstraintName("FK_Tests_Users")
+                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.ToTable("Tests");
+            
+            builder.Property(t => t.TestResult)
+                .HasColumnType("TINYINT")
+                .IsRequired()
+                .HasConversion<byte>();
+
+
+            builder.Property(t => t.Notes)
+                .HasColumnType("NVARCHAR(MAX)")
+                .HasMaxLength(500) 
+                .IsRequired(false);
+
+
+            builder.ToTable("Tests", t =>
+            {
+                t.HasCheckConstraint("CK_Tests_TestResult", "TestResult IN (0,1)");
+            });
         }
     }
 }

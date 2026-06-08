@@ -17,14 +17,14 @@ namespace DVLD.Domain.Entities
     public class DrivingLicense : Entity
     {
         public int ApplicationId { get;private set; }
-        public Applications Application { get; private set; }
+        public Application Application { get; private set; }
 
         public int DriverId { get; private set; }
         public Driver Driver { get; private set; }
 
         public int LicenseClassId { get; private set; }
         public LicenseClassEnum LicenseClassEnum => (LicenseClassEnum)LicenseClassId;
-        public LicenseClasses LicenseClass { get; private set; }
+        public LicenseClass LicenseClass { get; private set; }
 
         public DateTime IssueDate { get; private set; }
         public DateTime ExpirationDate { get; private set; }
@@ -42,7 +42,7 @@ namespace DVLD.Domain.Entities
             
         }
 
-        private DrivingLicense(Applications applications,Driver driver,LicenseClasses licenseClass, string? note,
+        private DrivingLicense(Application applications,Driver driver,LicenseClass licenseClass, string? note,
             IssueReasonEnum issueReason,int createdBy)
         {
             ApplicationId = applications.Id;
@@ -63,18 +63,7 @@ namespace DVLD.Domain.Entities
 
         }
 
-
-        //public static License IssueLicense(Applications applications, Driver driver, LicenseClasses licenseClasses, 
-        //    string note,IssueReason issueReason, User createdBy)
-        //{
-
-        //    return new License
-        //                    (applications, driver, licenseClasses,note,issueReason,createdBy);
-
-        //}
-
-
-        public static DrivingLicense IssueLicenseFirstTime(Applications applications, Driver driver,LicenseClasses licenseClasses,
+        public static DrivingLicense IssueLicenseFirstTime(Application applications, Driver driver,LicenseClass licenseClasses,
             string note,int createdBy)
         {
             return new DrivingLicense(
@@ -103,7 +92,7 @@ namespace DVLD.Domain.Entities
 
         public Result<DrivingLicense> Replace(
             int createdBy,
-            ApplicationTypes applicationType,
+            ApplicationType applicationType,
             string? notes)
         {
 
@@ -137,7 +126,7 @@ namespace DVLD.Domain.Entities
         private DrivingLicense _NewDrivingLicense(string? notes,
             int createdBy,
             IssueReasonEnum issueReason,
-            ApplicationTypes applicationType)
+            ApplicationType applicationType)
         {
             var application = this.Application.LicenseApplication(
                 applicationType,
@@ -156,7 +145,7 @@ namespace DVLD.Domain.Entities
 
         public Result<InternationalLicense> IssueInternationalLicense(
             int createdBy,
-            ApplicationTypes applicationTypes)
+            ApplicationType applicationTypes)
         {
             if (!this.IsActive)
                 return Result<InternationalLicense>.Failure(DomainErrors.erLicense.LicenseNotActive);
@@ -176,7 +165,7 @@ namespace DVLD.Domain.Entities
 
         }
 
-        public Result<DrivingLicense> RenewLicense(int createdBy ,ApplicationTypes applicationType,string? notes)
+        public Result<DrivingLicense> RenewLicense(int createdBy ,ApplicationType applicationType,string? notes)
         {
             if (!this.IsActive)
                 return Result<DrivingLicense>.Failure(DomainErrors.erLicense.LicenseNotActive);

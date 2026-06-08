@@ -15,6 +15,8 @@ namespace DVLD.Domain.Entities
         public int CreatedByUserId { get; private set; }
         public User CreatedBy { get; private set; }
 
+        public DateTime CreateAt { get; private set; }
+
 
         private Driver()
         {

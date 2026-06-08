@@ -12,15 +12,15 @@ namespace DVLD.Domain.Entities
     public class LocalDrivingLicenseApplication : Entity
     {
         public int ApplicationId { get; private set; }
-        public Applications Application { get; private set; }
+        public Application Application { get; private set; }
         public int LicenseClassId { get; private set; }
-        public LicenseClasses LicenseClass { get; private set; }
+        public LicenseClass LicenseClass { get; private set; }
 
         public ICollection<TestAppointment> TestAppointments { get; private set; } = new List<TestAppointment>();
 
         private LocalDrivingLicenseApplication() { }
 
-        private LocalDrivingLicenseApplication(Applications application, LicenseClasses licenseClass)
+        private LocalDrivingLicenseApplication(Application application, LicenseClass licenseClass)
         {
             ApplicationId = application.Id;
             Application = application;
@@ -29,8 +29,8 @@ namespace DVLD.Domain.Entities
         }
 
         public static Result<LocalDrivingLicenseApplication> Create(
-            Applications application,
-            LicenseClasses licenseClass)
+            Application application,
+            LicenseClass licenseClass)
         {
             if (application.Person.Age < licenseClass.MinimumAllowedAge)
                 return Result<LocalDrivingLicenseApplication>.Failure(DomainErrors.erLicenseClass.minimumAge);
@@ -38,7 +38,7 @@ namespace DVLD.Domain.Entities
             return Result<LocalDrivingLicenseApplication>.Success(new LocalDrivingLicenseApplication(application, licenseClass));
         }
 
-        public Result UpdateLicenseClass(LicenseClasses licenseClass)
+        public Result UpdateLicenseClass(LicenseClass licenseClass)
         {
             if (Application.Person.Age < licenseClass.MinimumAllowedAge)
                 return Result.Failure(DomainErrors.erLicenseClass.minimumAge);
@@ -48,7 +48,7 @@ namespace DVLD.Domain.Entities
             return Result.Success();
         }
 
-        public Result<TestAppointment> ScheduleTest(TestTypes testType, DateTime appointmentDate, int createdById)
+        public Result<TestAppointment> ScheduleTest(TestType testType, DateTime appointmentDate, int createdById)
         {
             Result canScheduleResult = CanScheduleTest((TestTypeEnum)testType.Id);
             if (canScheduleResult.IsFailure)

@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Data.Configuration
 {
-    public class ApplicationTypesConfiguration : BaseEntityConfiguration<ApplicationTypes>
+    public class ApplicationTypesConfiguration : BaseEntityConfiguration<ApplicationType>
     {
-        public override void Configure(EntityTypeBuilder<ApplicationTypes> builder)
+        public override void Configure(EntityTypeBuilder<ApplicationType> builder)
         {
             base.Configure(builder);
 
-            builder.Property(p => p.ApplicationName)
+            builder.Property(p => p.ApplicationTypeTitle)
                 .IsRequired()
-                .HasMaxLength(150);
+                .HasMaxLength(100);
 
             builder.OwnsOne(x => x.ApplicationFees, money =>
             {
@@ -27,15 +27,15 @@ namespace DVLD.Infrastructure.Data.Configuration
                     .HasPrecision(18, 2)
                     .IsRequired();
 
-                money.Property(m => m.Currency)
-                    .HasMaxLength(3)
-                    .IsRequired()
-                    .HasDefaultValue("USD");
+                money.Ignore(m => m.Currency);
             });
 
             
 
-            builder.ToTable("ApplicationTypes");
+            builder.ToTable("ApplicationTypes",a =>
+            {
+                a.HasCheckConstraint("CHK_ApplicationType_Fees", "ApplicationFees >= 0");
+            });
         }
     }
 }

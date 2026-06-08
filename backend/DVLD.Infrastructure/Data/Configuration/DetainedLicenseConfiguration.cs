@@ -15,53 +15,68 @@ namespace DVLD.Infrastructure.Data.Configuration
         {
             base.Configure(builder);
 
+            builder.HasIndex(d => d.ReleaseApplicationId)
+                .IsUnique()
+                .HasFilter("[ReleaseApplicationId] IS NOT NULL") 
+                .HasDatabaseName("UQ_DetainedLicenses_ReleaseApplicationId");
+
+            builder.HasOne(d => d.ReleaseApplication)
+                .WithOne()
+                .HasForeignKey<DetainedLicense>(d => d.ReleaseApplicationId)
+                .HasConstraintName("FK_DetainedLicenses_Applications")
+                .IsRequired(false) 
+                .OnDelete(DeleteBehavior.NoAction);
+
             builder.HasOne(d => d.License)
                 .WithMany()
                 .HasForeignKey(d => d.LicenseId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasConstraintName("FK_DetainedLicenses_DrivingLicenses")
+                .OnDelete(DeleteBehavior.NoAction);
 
 
             builder.HasOne(d => d.CreatedBy)
                 .WithMany()
                 .HasForeignKey(d => d.CreatedByUserId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasConstraintName("FK_DetainedLicenses_CreatedBy_Users")
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(d => d.ReleasedBy)
                 .WithMany()
                 .HasForeignKey(d => d.ReleasedByUserId)
+                .HasConstraintName("FK_DetainedLicenses_ReleasedBy_Users")
                 .IsRequired(false) 
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasOne(d => d.ReleaseApplication)
-                .WithMany()
-                .HasForeignKey(d => d.ReleaseApplicationId)
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.OwnsOne(d => d.FineFees, money =>
+            builder.OwnsOne(x => x.FineFees, money =>
             {
                 money.Property(m => m.Amount)
-                    .HasColumnName("FineFees")
+                    .HasColumnName("PaidFees") // Maps C# 'FineFees' to SQL 'PaidFees'
                     .HasPrecision(18, 2)
                     .IsRequired();
 
-                money.Property(m => m.Currency)
-                    .HasMaxLength(3)
-                    .IsRequired()
-                    .HasDefaultValue("USD");
+                money.Ignore(m => m.Currency);
             });
 
             builder.Property(d => d.DetainDate)
-                .IsRequired();
+                .HasColumnType("DATETIME2")
+                .IsRequired()
+                .HasDefaultValueSql("SYSUTCDATETIME()")
+                .ValueGeneratedOnAdd();
+
+
+            builder.Property(d => d.ReleaseDate)
+                .HasColumnType("DATETIME2")
+                .IsRequired(false);
 
             builder.Property(d => d.IsReleased)
                 .IsRequired()
                 .HasDefaultValue(false);
 
-            builder.Property(d => d.ReleaseDate)
-                .IsRequired(false);
-
-            builder.ToTable("DetainedLicenses");
+            builder.ToTable("DetainedLicenses", dl =>
+            {
+                dl.HasCheckConstraint("CK_DetainedLicenses_ReleaseDate", "ReleaseDate > DetainDate");
+                dl.HasCheckConstraint("CK_DetainedLicenses_PaidFees", "PaidFees >= 0");
+            });
         }
     }
 }

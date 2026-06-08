@@ -15,34 +15,55 @@ namespace DVLD.Infrastructure.Data.Configuration
         {
             base.Configure(builder);
 
-            
-            builder.HasOne(ta => ta.LocalDrivingLicense)
-                .WithMany(tal => tal.TestAppointments) 
-                .HasForeignKey(ta => ta.LocalDrivingLicenseApplicationId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne(ta => ta.TestTypes)
+            builder.HasOne(t => t.TestTypes)
                 .WithMany()
-                .HasForeignKey(ta => ta.TestTypeId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(t => t.TestTypeId)
+                .HasConstraintName("FK_TestAppointments_TestTypes")
+                .OnDelete(DeleteBehavior.NoAction);
 
-           
-            builder.Property(ta => ta.AppointmentDate).IsRequired();
-            builder.Property(ta => ta.IsLocked).IsRequired().HasDefaultValue(false);
+            builder.HasOne(t => t.LocalDrivingLicense)
+                .WithMany(l => l.TestAppointments)
+                .HasForeignKey(t => t.LocalDrivingLicenseApplicationId)
+                .HasConstraintName("FK_TestAppointments_LDLA")
+                .OnDelete(DeleteBehavior.NoAction);
 
-            
-            builder.OwnsOne(ta => ta.PaidFees, money =>
+            builder.HasOne(t => t.CreatedBy)
+                .WithMany()
+                .HasForeignKey(t => t.CreatedByUserId)
+                .HasConstraintName("FK_TestAppointments_Users")
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.OwnsOne(x => x.PaidFees, money =>
             {
-                money.Property(m => m.Amount).HasColumnName("PaidFees").HasPrecision(18, 2);
-                money.Property(m => m.Currency).HasMaxLength(3).HasDefaultValue("USD");
+                money.Property(m => m.Amount)
+                    .HasColumnName("PaidFees")
+                    .HasPrecision(18, 2)
+                    .IsRequired();
+
+                money.Ignore(m => m.Currency);
             });
 
-            builder.HasOne(ta => ta.CreatedBy)
-                .WithMany()
-                .HasForeignKey(ta => ta.CreatedByUserId)
-                .OnDelete(DeleteBehavior.Restrict);
 
-            builder.ToTable("TestAppointments");
+            builder.Property(t => t.AppointmentDate)
+                .HasColumnType("DATETIME2")
+                .IsRequired();
+
+            builder.Property(t => t.IsLocked)
+                .IsRequired()
+                .HasDefaultValue(false);
+
+            builder.Property(t => t.CreateAt)
+                .HasDefaultValueSql("SYSUTCDATETIME()")
+                .ValueGeneratedOnAdd();
+
+            builder.Ignore(t => t.TestTypeEnum);
+
+
+            builder.ToTable("TestAppointments", t =>
+            {
+                t.HasCheckConstraint("CK_TestAppointments_PaidFees", "PaidFees >= 0");
+                t.HasCheckConstraint("CK_TestAppointments_AppointmentDate", "AppointmentDate > CreateAt");
+            });
         }
     }
 }

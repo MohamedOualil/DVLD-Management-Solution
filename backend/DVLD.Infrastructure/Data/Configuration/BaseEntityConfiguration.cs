@@ -15,13 +15,6 @@ namespace DVLD.Infrastructure.Data.Configuration
         {
             builder.HasKey(x => x.Id);
 
-            builder.Property(p => p.CreatedAt).IsRequired()
-                .HasDefaultValueSql("GETDATE()");
-            builder.Property(p => p.UpdatedAt).IsRequired()
-                .HasDefaultValueSql("GETDATE()");
-            builder.Property(p => p.IsDeactivated).IsRequired()
-                .HasDefaultValue(false);
-
         }
     }
 }

@@ -9,15 +9,16 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Data.Configuration
 {
-    public class LicenseClassesConfiguration : BaseEntityConfiguration<LicenseClasses>
+    public class LicenseClassesConfiguration : BaseEntityConfiguration<LicenseClass>
     {
-        public override void Configure(EntityTypeBuilder<LicenseClasses> builder)
+        public override void Configure(EntityTypeBuilder<LicenseClass> builder)
         {
             base.Configure(builder);
 
             builder.Property(p => p.ClassName)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasMaxLength(100);
+
             builder.Property(p => p.ClassDescription)
                 .IsRequired()
                 .HasMaxLength(500);
@@ -37,13 +38,17 @@ namespace DVLD.Infrastructure.Data.Configuration
                     .HasPrecision(18, 2)
                     .IsRequired();
 
-                money.Property(m => m.Currency)
-                    .HasMaxLength(3)
-                    .IsRequired()
-                    .HasDefaultValue("USD");
+                money.Ignore(m => m.Currency);
             });
 
-            builder.ToTable("LicenseClasses");
+            builder.ToTable("LicenseClasses", l =>
+            {
+                l.HasCheckConstraint("CHK_LicenseClasses_ClassFees", "ClassFees >= 0");
+
+                l.HasCheckConstraint("CHK_LicenseClasses_Validity", "DefaultValidityLength > 0");
+
+                l.HasCheckConstraint("CHK_LicenseClasses_Age", "MinimumAllowedAge > 0");
+            });
         }
     }
 }

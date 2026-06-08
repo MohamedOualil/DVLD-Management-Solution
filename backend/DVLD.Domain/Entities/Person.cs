@@ -11,10 +11,15 @@ namespace DVLD.Domain.Entities
         public NationalNo NationalNo { get; private set; }
         public DateTime DateOfBirth { get; private set; }
         public Gender Gender {  get; private set; }
+        public int NationalityCountryId { get; private set; }
+        public Country NationalityCountry { get; private set; }
         public Address Address { get; private set; }
         public Phone Phone {  get; private set; }
         public Email? Email { get; private set; }
         public string ?ImagePath { get; private set; }
+
+        public DateTime CreateAt { get; private set; }
+        public DateTime UpdateAt { get; private set; }
 
         public int Age => CalculateAge();
 
@@ -58,12 +63,7 @@ namespace DVLD.Domain.Entities
 
 
         }
-       
-        public void Deactivate()
-        {
-            base.Deactivate();
-        }
-
+   
 
     }
 }

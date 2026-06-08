@@ -9,31 +9,35 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Data.Configuration
 {
-    public class ApplicationsConfiguration : BaseEntityConfiguration<Applications>
+    public class ApplicationsConfiguration : BaseEntityConfiguration<Domain.Entities.Application>
     {
-        public override void Configure(EntityTypeBuilder<Applications> builder)
+        public override void Configure(EntityTypeBuilder<Domain.Entities.Application> builder)
         {
             base.Configure(builder);
 
             builder.HasOne(u => u.Person)
                 .WithMany()
                 .HasForeignKey(p => p.PersonId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.Property(p => p.ApplicationDate)
-                .IsRequired();
-
+                .HasDefaultValueSql("SYSUTCDATETIME()")
+                .ValueGeneratedOnAdd();
 
             builder.HasOne(u => u.ApplicationType)
                 .WithMany()
                 .HasForeignKey(u => u.ApplicationTypeId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.Property(s => s.Status)
+                .HasColumnType("TINYINT")
                 .IsRequired()
-                .HasConversion<short>();
+                .HasConversion<byte>();
 
-            builder.Property(p => p.LastStatusDate);
+            builder.Property(p => p.LastStatusDate)
+                .IsRequired()
+                .HasDefaultValueSql("SYSUTCDATETIME()") 
+                .ValueGeneratedOnAdd();
 
             builder.OwnsOne(x => x.PaidFees, money =>
             {
@@ -42,23 +46,25 @@ namespace DVLD.Infrastructure.Data.Configuration
                     .HasPrecision(18, 2)
                     .IsRequired();
 
-                money.Property(m => m.Currency)
-                    .HasMaxLength(3)
-                    .IsRequired()
-                    .HasDefaultValue("USD");
+                money.Ignore(m => m.Currency);
             });
 
             builder.HasOne(u => u.CreatedBy)
                 .WithMany()
                 .HasForeignKey(p => p.CreatedByUserId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(u => u.LastUpdatedBy)
                 .WithMany()
                 .HasForeignKey(p => p.LastUpdatedByUserId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
-            builder.ToTable("Applications");
+            builder.ToTable("Applications",a =>
+            {
+                a.HasCheckConstraint("CK_Applications_Status", "Status IN (1, 2, 3)");
+
+                a.HasCheckConstraint("CK_Applications_PaidFees", "PaidFees >= 0");
+            });
 
         }
     }
