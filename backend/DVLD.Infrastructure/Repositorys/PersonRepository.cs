@@ -1,4 +1,6 @@
-﻿using DVLD.Domain.Entities;
+﻿using DVLD.Application.Persons.GetPerson;
+using DVLD.Domain.Entities;
+using DVLD.Domain.Enums;
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class PersonRepository : Repositories<Person>, IPersonRepository
+    internal sealed class PersonRepository : BaseRepository<Person>, IPersonRepository
     {
         private readonly AppDbContext _context;
         public PersonRepository(AppDbContext appDbContext) : base(appDbContext) 
@@ -23,6 +25,7 @@ namespace DVLD.Infrastructure.Repositorys
             return _context.Persons.AnyAsync(p => p.NationalNo.Number == nationalNo);
 
         }
+        
 
 
     }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace DVLD.Domain.Interfaces
 {
     public interface IPersonRepository : IBaseRepository<Person>
