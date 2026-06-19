@@ -8,7 +8,6 @@ namespace DVLD.WinForms.Features.Persons.Detail
 {
     public interface IPersonDetailView
     {
-        event EventHandler<int> OnPersonIdReceived;
         string FullName { set; }
         string DateofBirth { set; }
         string NationlNo { set; }

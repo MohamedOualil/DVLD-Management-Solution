@@ -20,11 +20,12 @@ namespace DVLD.WinForms.Features.Dashboard
         {
             _view = view;
             _view.OnLoadApplicationsClicked += (s,e) => LoadApplicationsControl();
+            _navigationService.SetMainContentPanel(_view.MainContentPanel);
         }
 
         public void LoadApplicationsControl()
         {
-            _navigationService.NavigateTo<ApplicationsControl>();
+            _navigationService.NavigateTo<ApplicationsPresenter,IApplicationsView>();
         }
     }
 }

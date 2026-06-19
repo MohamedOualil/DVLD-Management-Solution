@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DVLD.WinForms.Shared.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,9 +11,8 @@ using System.Windows.Forms;
 
 namespace DVLD.WinForms.Features.Persons.Detail
 {
-    public partial class PersonDetailControl : UserControl , IPersonDetailView
+    public partial class PersonDetailControl : UserControl 
     {
-        public event EventHandler<int> OnPersonIdReceived;
         public PersonDetailControl()
         {
             InitializeComponent();
@@ -63,9 +63,20 @@ namespace DVLD.WinForms.Features.Persons.Detail
 
         }
 
-        public void LoadPersonData(int personId)
+        public void PersonInitialized(PersonDto personDto)
         {
-            OnPersonIdReceived?.Invoke(this,personId);
+            NationlNo = personDto.NationalNo;
+            DateofBirth = personDto.DateOfBirth.ToString("dd/MM/yyyy");
+            PersonId = personDto.PersonId.ToString();
+            FullName = personDto.FullName;
+            Address = personDto.FullAddress;
+            Email = personDto.Email;
+            Phone = personDto.Phone;
+            ImagePath = personDto.ImagePath;
+            Gender = ((GenderEnum)personDto.Gender).ToString();
         }
+
+
+
     }
 }

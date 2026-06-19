@@ -24,12 +24,11 @@ namespace DVLD.WinForms.Features.Persons.Detail
         {
             _pesronService = pesronService;
 
-            View.OnPersonIdReceived += View_OnPersonIdReceived;
         }
 
-        private async void View_OnPersonIdReceived(object? sender, int e)
+        public async void LoadPersonInfo( int personId)
         {
-            await PersonInitialized(e);
+            await PersonInitialized(personId);
         }
 
         private async Task PersonInitialized(int personId)
@@ -57,7 +56,6 @@ namespace DVLD.WinForms.Features.Persons.Detail
 
         public override void Dispose()
         {
-            View.OnPersonIdReceived -= View_OnPersonIdReceived;
         }
     }
 }
