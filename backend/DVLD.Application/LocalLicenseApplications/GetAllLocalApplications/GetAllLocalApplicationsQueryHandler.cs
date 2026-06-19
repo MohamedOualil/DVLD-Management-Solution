@@ -1,104 +1,84 @@
-﻿using Dapper;
-using DVLD.Application.Abstractions;
-using DVLD.Application.Abstractions.Data;
+﻿using DVLD.Application.Abstractions;        
+using DVLD.Application.Abstractions.Interfaces;
 using DVLD.Application.Abstractions.Messaging;
-using DVLD.Application.Drivers.GetListOfDrivers;
+using DVLD.Application.Users.Login;
 using DVLD.Domain.Common;
-using DVLD.Domain.Entities;
-using DVLD.Domain.ValueObjects;
-using System;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
+
 
 namespace DVLD.Application.LocalLicenseApplications.GetAllLocalApplications
 {
     
     internal sealed class GetAllLocalApplicationsQueryHandler : IQueryHandler<GetAllLocalApplicationsQuery, PagedList<GetAllLocalApplicationsResponse>>
     {
-        private sealed record LocalApplicationRaw : GetAllLocalApplicationsResponse
-        {
-            public int TotalCount { get; init; }
-        }
 
-        private readonly ISqlConnectionFactory _sqlConnectionFactory;
+        private readonly IApplicationDbContext _dbContext;
         private readonly IValidate<GetAllLocalApplicationsQuery> _validator;
+        private readonly ILogger<GetAllLocalApplicationsQuery> _logger;
 
-        public GetAllLocalApplicationsQueryHandler(ISqlConnectionFactory sqlConnectionFactory,
-            IValidate<GetAllLocalApplicationsQuery> validate)
+        public GetAllLocalApplicationsQueryHandler(IApplicationDbContext dbContext, 
+            IValidate<GetAllLocalApplicationsQuery> validator, 
+            ILogger<GetAllLocalApplicationsQuery> logger)
         {
-            _sqlConnectionFactory = sqlConnectionFactory;
-            _validator = validate;
+            _dbContext = dbContext;
+            _validator = validator;
+            _logger = logger;
         }
+
         public async Task<Result<PagedList<GetAllLocalApplicationsResponse>>> Handle(
-            GetAllLocalApplicationsQuery request, 
+            GetAllLocalApplicationsQuery request,
             CancellationToken cancellationToken)
         {
             Result validation = _validator.Validate(request);
             if (validation.IsFailure)
                 return Result<PagedList<GetAllLocalApplicationsResponse>>.Failure(validation.Errors);
 
-            const string sql = @"
-                            SET @SearchTerm = LTRIM(RTRIM(ISNULL(@SearchTerm, '')));
-							DECLARE @SearchID INT = TRY_CAST(@SearchTerm AS INT);
-							;WITH TestCount AS (
-	                                SELECT 
-		                                TA.LocalDrivingLicenseApplicationId,
-		                                COUNT(*) AS PassedTest 
-	                                FROM TestAppointments TA
-	                                INNER JOIN Tests T  ON T.TestAppointmentId = TA.Id
-	                                WHERE T.TestResult = 1 AND T.IsDeactivated = 0
-	                                GROUP BY TA.LocalDrivingLicenseApplicationId
+            string? searchTerm = request.SearchTerm?.Trim();
+            bool hasSearchTerm = !string.IsNullOrWhiteSpace(searchTerm);
+            int? searchId = hasSearchTerm && int.TryParse(searchTerm, out int parsedId) ? parsedId : null;
 
-									
-                                )
-								
-                                SELECT 
-	                                LD.Id AS LocalApplicationId,
-	                                LC.ClassName AS DrivingClass,
-	                                P.NationalNo_Number AS NationalNo,
-	                                CONCAT_WS(' ',P.FirstName,P.LastName) AS FullName,
-	                                A.Status AS StatusId,
-	                                A.ApplicationDate,
-	                                ISNULL(T.PassedTest,0) AS PassedTest,
-	                                Count(*) OVER () AS TotalCount
-                                FROM LocalDrivingLicenseApplications LD
-                                INNER JOIN LicenseClasses LC ON LC.Id = LD.LicenseClassId
-                                INNER JOIN Applications A ON A.Id = LD.ApplicationId
-                                INNER JOIN Person P ON P.Id = A.PersonId
-                                LEFT JOIN TestCount  T ON T.LocalDrivingLicenseApplicationId = LD.Id
-								WHERE 
-								LD.IsDeactivated = 0 
-								AND (
-									(@SearchID IS NOT NULL AND LD.Id = @SearchID)
-									OR (CONCAT_WS(' ',FirstName,LastName) LIKE '%'+ @SearchTerm + '%')
-									OR ( P.NationalNo_Number LIKE '%' + @SearchTerm + '%') 
-									)
-								AND (@StatusId IS NULL OR A.Status = @StatusId)
-                                ORDER BY LD.CreatedAt
-                                OFFSET (@PageNumber - 1) * @PageSize ROWS
-                                FETCH NEXT @PageSize ROWS ONLY;";
+            var query = _dbContext.LocalDrivingLicenseApplications
+                    .AsNoTracking();
 
-            using IDbConnection connection = _sqlConnectionFactory.CreateConnection();
-
-            var parameters = new
+            if (hasSearchTerm)
             {
-                PageNumber = request.PageNumber,
-                PageSize = request.PageSize,
-                StatusId = request.StatusId,
-                SearchTerm = request.SearchTerm,
+                query = query.Where(x => 
+                        (searchId.HasValue && x.Id == searchId) ||
+                        (x.Application.Person.FullName.FirstName + " " + x.Application.Person.FullName.LastName)
+                        .StartsWith(searchTerm) ||
+                         x.Application.Person.NationalNo.Number.StartsWith(searchTerm));
+            }
 
-            };
+            if (request.StatusId.HasValue)
+            {
+                query = query.Where(s => s.Application.Status == (Domain.Enums.ApplicationStatusEnum)request.StatusId);
+            }
 
-            var rawItems = (await connection.QueryAsync<LocalApplicationRaw>(sql, parameters)).AsList();
 
-            int totalCount = rawItems.Count > 0 ? rawItems[0].TotalCount : 0;
+            var totalCount = await query.CountAsync(cancellationToken);
 
-            List< GetAllLocalApplicationsResponse> items = rawItems
-                                        .Cast<GetAllLocalApplicationsResponse>()
-                                        .ToList();
+          
+
+
+            var items = await query
+                 .OrderBy(l => l.Application.ApplicationDate)
+                 .Skip((request.PageNumber - 1) * request.PageSize)
+                 .Take(request.PageSize)
+                 .Select(l => new GetAllLocalApplicationsResponse
+            {
+                DrivingClass = l.LicenseClass.ClassName,
+                ApplicationDate = l.Application.ApplicationDate,
+                LocalApplicationId = l.Id,
+                NationalNo = l.Application.Person.NationalNo.Number,
+                PassedTest = l.TestAppointments.Count(d => d.Test!.TestResult == Domain.Enums.TestResult.Success),
+                StatusId = ((int)l.Application.Status),
+                FullName = l.Application.Person.FullName.FirstName + " " + l.Application.Person.FullName.LastName,
+            })
+            .ToListAsync(cancellationToken);
+
 
             PagedList<GetAllLocalApplicationsResponse> pageResutl = new PagedList<GetAllLocalApplicationsResponse>(
                 items,
