@@ -20,6 +20,6 @@ namespace DVLD.WinForms.Common
 
         void SetMainContentPanel(Control panel);
 
-        void NavigateTo<TPresenter, TView>() where TPresenter : BasePresenter<TView> where TView : class;
+        void NavigateTo<TPresenter, TView>(Action<TPresenter> setup = null) where TPresenter : BasePresenter<TView> where TView : class;
     }
 }

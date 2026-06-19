@@ -29,7 +29,8 @@ namespace DVLD.WinForms.Common
             currentForm?.Hide();
         }
 
-        public void NavigateTo<TPresenter,TView>() where TPresenter : BasePresenter<TView> where TView : class
+        public void NavigateTo<TPresenter,TView>(Action<TPresenter> setup = null) where TPresenter 
+            : BasePresenter<TView> where TView : class
         {
             if (_mainContentPanel == null)
             {
@@ -39,7 +40,9 @@ namespace DVLD.WinForms.Common
             foreach (Control oldControl in _mainContentPanel.Controls)
             {
                 oldControl.Dispose();
+
             }
+
             _mainContentPanel.Controls.Clear();
 
             _currentPageScope?.Dispose();
@@ -47,6 +50,8 @@ namespace DVLD.WinForms.Common
             _currentPageScope = _serviceProvider.CreateScope();
 
             var presenter = _currentPageScope.ServiceProvider.GetRequiredService<TPresenter>();
+
+            setup?.Invoke(presenter);
 
             if (presenter.ViewInstance is Control control)
             {
