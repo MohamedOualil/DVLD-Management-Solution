@@ -1,6 +1,8 @@
 ﻿using DVLD.WinForms.Common;
+using DVLD.WinForms.Features.Applications.Detail;
 using DVLD.WinForms.Features.Auth;
 using DVLD.WinForms.Features.Dashboard;
+using DVLD.WinForms.Shared;
 using DVLD.WinForms.Shared.Enums;
 using DVLD.WinForms.Shared.Events;
 using System;
@@ -8,36 +10,91 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace DVLD.WinForms.Features.Applications
 {
-    public class ApplicationsPresenter(IApplicationsService applicationsService, AppSession session, INavigationService navigationService)
+    public class ApplicationsPresenter : BasePresenter<IApplicationsView>
     {
-        private IApplicationsView? _view;
-        private readonly IApplicationsService _applicationsService = applicationsService;
-        private readonly AppSession _session = session;
-        private readonly INavigationService _navigationService = navigationService;
 
-        public void SetView(IApplicationsView view)
+        private readonly IApplicationsService _applicationsService ;
+
+
+        public ApplicationsPresenter(
+            IApplicationsView view, 
+            IApplicationsService service,
+            AppSession appSession,
+            INavigationService navigationService) 
+            : base(view,appSession,navigationService)
         {
-            _view = view;
-            _view.OnLoadDataRequested += async (s, e) => await LoadDataAsync();
-            _view.OnSearchChangeRequested += async (s, e) => await LoadDataAsync();
-            _view.OnOpeningLocalAppActionMenu += _view_OnOpeningLocalAppActionMenu;
+            _applicationsService = service;
+
+            View.OnLoadDataRequested += View_OnLoadDataRequested; ;
+            View.OnSearchChangeRequested += View_OnLoadDataRequested;
+            View.OnOpeningLocalAppActionMenu += _view_OnOpeningLocalAppActionMenu;
+            View.OnApplicationDetailsRequested += View_OnApplicationDetailsRequested;
+
+            View.OnCancelApplication += View_OnCancelApplication;
+            View.OnDeleteApplication += View_OnDeleteApplication;
+        }
+
+        private void View_OnDeleteApplication(object? sender, int e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private async Task DeleteApplication(int localId)
+        {
+            ApiResponse result =
+                await _applicationsService.DeleteApplication(localId);
+
+            if (result.IsSuccess)
+            {
+                await LoadDataAsync();
+            }
+        }
+
+        private async void View_OnCancelApplication(object? sender, int e)
+        {
+            await CancelApplication(e);
+        }
+
+        private async Task CancelApplication(int applicationId)
+        {
+            ApiResponse result =
+                await _applicationsService.CancelApplication(applicationId, _session.UserId);
+
+            if (result.IsSuccess)
+            {
+                await LoadDataAsync();
+            }
+        }
+
+        private async void View_OnLoadDataRequested(object? sender, EventArgs e)
+        {
+            await LoadDataAsync();
+        }
+
+        private void View_OnApplicationDetailsRequested(object? sender, PageModeEventArgs e)
+        {
+            _navigationService.NavigateTo<ApplicationDetailPresenter, IApplicationDetailView>(presenter =>
+            {
+                presenter.LoadApplicationDetails(e.Id,e.Mode);
+            });
         }
 
         private void _view_OnOpeningLocalAppActionMenu(object? sender, ApplicationMenuEventArgs e)
         {
-            _view.IsEditOptionEnabled = false;
-            _view.IsDeleteOptionEnabled = false;
-            _view.IsCancelOptionEnabled = false;
-            _view.IsScheduleTestOptionEnabled = false;
-            _view.IsIssueLicenseOptionEnabled = false;
-            _view.IsShowLicenceOptionEnabled = false;
+            View.IsEditOptionEnabled = false;
+            View.IsDeleteOptionEnabled = false;
+            View.IsCancelOptionEnabled = false;
+            View.IsScheduleTestOptionEnabled = false;
+            View.IsIssueLicenseOptionEnabled = false;
+            View.IsShowLicenceOptionEnabled = false;
 
-            _view.IsScheduleVisionTestEnabled = false;
-            _view.IsScheduleWrittenTestEnabled = false;
-            _view.IsScheduleStreetTestEnabled = false;
+            View.IsScheduleVisionTestEnabled = false;
+            View.IsScheduleWrittenTestEnabled = false;
+            View.IsScheduleStreetTestEnabled = false;
 
 
             switch (e.Status)
@@ -46,14 +103,14 @@ namespace DVLD.WinForms.Features.Applications
                     break;
 
                 case Shared.Enums.ApplicationStatusEnum.Completed:
-                    _view.IsShowLicenceOptionEnabled = true;
+                    View.IsShowLicenceOptionEnabled = true;
                     break;
 
                 case Shared.Enums.ApplicationStatusEnum.New:
-                    _view.IsEditOptionEnabled = true;
-                    _view.IsDeleteOptionEnabled = true;
-                    _view.IsCancelOptionEnabled = true;
-                    _view.IsScheduleTestOptionEnabled = true;
+                    View.IsEditOptionEnabled = true;
+                    View.IsDeleteOptionEnabled = true;
+                    View.IsCancelOptionEnabled = true;
+                    View.IsScheduleTestOptionEnabled = true;
                     HandleTestMenuPermissions(e.PassedTests);
                     break;
             }
@@ -65,19 +122,19 @@ namespace DVLD.WinForms.Features.Applications
             switch (passedTests)
             {
                 case Shared.Enums.PassedTestEnum.NoTestPass:
-                    _view.IsScheduleVisionTestEnabled = true;
+                    View.IsScheduleVisionTestEnabled = true;
                     break;
 
                 case Shared.Enums.PassedTestEnum.VisionPass:
-                    _view.IsScheduleWrittenTestEnabled = true;
+                    View.IsScheduleWrittenTestEnabled = true;
                     break;
 
                 case Shared.Enums.PassedTestEnum.VisionWritingPass:
-                    _view.IsScheduleStreetTestEnabled = true;
+                    View.IsScheduleStreetTestEnabled = true;
                     break;
 
                 case Shared.Enums.PassedTestEnum.PassAllTest:
-                    _view.IsIssueLicenseOptionEnabled = true;
+                    View.IsIssueLicenseOptionEnabled = true;
                     break;
             }
         }
@@ -86,8 +143,8 @@ namespace DVLD.WinForms.Features.Applications
         {
 
             var applications = await _applicationsService.GetAllLocalApplicationsAsync(1, 10,
-                                                        _view.SearchTerm,
-                                                        _view.cbStatusId);
+                                                        View.SearchTerm,
+                                                        View.cbStatusId);
             if (!applications.IsSuccess)
             {
                 return;
@@ -95,13 +152,19 @@ namespace DVLD.WinForms.Features.Applications
 
             if (applications.Data.TotalCount == 0)
             {
-                _view.DisplayMessage(applications.Error.AllMessages);
+                View.DisplayMessage(applications.Error.AllMessages);
                 return;
             }
 
-            _view.DisplayLocalApplications(applications.Data.Items);
+            View.DisplayLocalApplications(applications.Data.Items);
         }
 
-       
+        public override void Dispose()
+        {
+            View.OnLoadDataRequested -= View_OnLoadDataRequested; ;
+            View.OnSearchChangeRequested -= View_OnLoadDataRequested;
+            View.OnOpeningLocalAppActionMenu -= _view_OnOpeningLocalAppActionMenu;
+            View.OnApplicationDetailsRequested -= View_OnApplicationDetailsRequested;
+        }
     }
 }

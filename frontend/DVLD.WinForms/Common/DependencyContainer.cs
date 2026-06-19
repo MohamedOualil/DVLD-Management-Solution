@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using DVLD.WinForms.Features.Dashboard;
 using DVLD.WinForms.Features.Applications;
+using DVLD.WinForms.Features.Applications.Detail;
+using DVLD.WinForms.Features.Persons;
 
 namespace DVLD.WinForms.Common
 {
@@ -24,6 +26,7 @@ namespace DVLD.WinForms.Common
 
             services.AddTransient<IAuthService,AuthService>();
             services.AddTransient<IApplicationsService,ApplicationsService>();
+            services.AddTransient<IPesronService, PersonService>();
 
             services.AddTransient<LoginPresenter>();
             services.AddTransient<ApplicationsPresenter>();
@@ -34,6 +37,9 @@ namespace DVLD.WinForms.Common
             services.AddTransient<AdminDashboardPresenter>();
 
             services.AddTransient<IApplicationsView,ApplicationsControl>();
+
+            services.AddTransient<IApplicationDetailView,ApplicationDetailControl>();
+            services.AddTransient<ApplicationDetailPresenter>();
  
             return services.BuildServiceProvider();
         }

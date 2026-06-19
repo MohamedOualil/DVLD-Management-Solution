@@ -53,6 +53,15 @@
             cbStatus = new Guna.UI2.WinForms.Guna2ComboBox();
             txtSearch = new Guna.UI2.WinForms.Guna2TextBox();
             LocalDataGridView = new Guna.UI2.WinForms.Guna2DataGridView();
+            LocalID = new DataGridViewTextBoxColumn();
+            PassedTestId = new DataGridViewTextBoxColumn();
+            StatusId = new DataGridViewTextBoxColumn();
+            DrivingClass = new DataGridViewTextBoxColumn();
+            NationalNo = new DataGridViewTextBoxColumn();
+            FullName = new DataGridViewTextBoxColumn();
+            ApplicationDate = new DataGridViewTextBoxColumn();
+            Status = new DataGridViewTextBoxColumn();
+            PassedTest = new DataGridViewTextBoxColumn();
             LocalAppActionMenu = new Guna.UI2.WinForms.Guna2ContextMenuStrip();
             ShowApplication = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
@@ -79,15 +88,6 @@
             RenewLicensseButton = new Guna.UI2.WinForms.Guna2GradientButton();
             guna2ShadowPanel5 = new Guna.UI2.WinForms.Guna2ShadowPanel();
             ReplaceButton = new Guna.UI2.WinForms.Guna2GradientButton();
-            LocalID = new DataGridViewTextBoxColumn();
-            PassedTestId = new DataGridViewTextBoxColumn();
-            StatusId = new DataGridViewTextBoxColumn();
-            DrivingClass = new DataGridViewTextBoxColumn();
-            NationalNo = new DataGridViewTextBoxColumn();
-            FullName = new DataGridViewTextBoxColumn();
-            ApplicationDate = new DataGridViewTextBoxColumn();
-            Status = new DataGridViewTextBoxColumn();
-            PassedTest = new DataGridViewTextBoxColumn();
             guna2ShadowPanel1.SuspendLayout();
             guna2ShadowPanel2.SuspendLayout();
             guna2TabControl1.SuspendLayout();
@@ -313,6 +313,65 @@
             LocalDataGridView.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(224, 231, 255);
             LocalDataGridView.ThemeStyle.RowsStyle.SelectionForeColor = Color.Black;
             // 
+            // LocalID
+            // 
+            LocalID.FillWeight = 50F;
+            LocalID.HeaderText = "App ID";
+            LocalID.Name = "LocalID";
+            LocalID.ReadOnly = true;
+            // 
+            // PassedTestId
+            // 
+            PassedTestId.HeaderText = "Passed Test Id";
+            PassedTestId.Name = "PassedTestId";
+            PassedTestId.ReadOnly = true;
+            PassedTestId.Visible = false;
+            // 
+            // StatusId
+            // 
+            StatusId.HeaderText = "StatusId";
+            StatusId.Name = "StatusId";
+            StatusId.ReadOnly = true;
+            StatusId.Visible = false;
+            // 
+            // DrivingClass
+            // 
+            DrivingClass.HeaderText = "Driving Class";
+            DrivingClass.Name = "DrivingClass";
+            DrivingClass.ReadOnly = true;
+            // 
+            // NationalNo
+            // 
+            NationalNo.HeaderText = "National No";
+            NationalNo.Name = "NationalNo";
+            NationalNo.ReadOnly = true;
+            // 
+            // FullName
+            // 
+            FullName.HeaderText = "Full Name";
+            FullName.Name = "FullName";
+            FullName.ReadOnly = true;
+            // 
+            // ApplicationDate
+            // 
+            ApplicationDate.HeaderText = "Application Date";
+            ApplicationDate.Name = "ApplicationDate";
+            ApplicationDate.ReadOnly = true;
+            // 
+            // Status
+            // 
+            Status.HeaderText = "Status";
+            Status.Name = "Status";
+            Status.ReadOnly = true;
+            Status.Resizable = DataGridViewTriState.True;
+            Status.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // PassedTest
+            // 
+            PassedTest.HeaderText = "Passed Test";
+            PassedTest.Name = "PassedTest";
+            PassedTest.ReadOnly = true;
+            // 
             // LocalAppActionMenu
             // 
             LocalAppActionMenu.BackColor = Color.White;
@@ -340,6 +399,7 @@
             ShowApplication.Name = "ShowApplication";
             ShowApplication.Size = new Size(256, 22);
             ShowApplication.Text = "Show Application Details";
+            ShowApplication.Click += ShowApplication_Click;
             // 
             // toolStripSeparator1
             // 
@@ -352,6 +412,7 @@
             EditApplication.Name = "EditApplication";
             EditApplication.Size = new Size(256, 22);
             EditApplication.Text = "Edit Application";
+            EditApplication.Click += EditApplication_Click;
             // 
             // DeleteApplication
             // 
@@ -359,6 +420,7 @@
             DeleteApplication.Name = "DeleteApplication";
             DeleteApplication.Size = new Size(256, 22);
             DeleteApplication.Text = "Delete Application";
+            DeleteApplication.Click += DeleteApplication_Click;
             // 
             // toolStripSeparator2
             // 
@@ -371,6 +433,7 @@
             CancelApplication.Name = "CancelApplication";
             CancelApplication.Size = new Size(256, 22);
             CancelApplication.Text = "Cancel Application";
+            CancelApplication.Click += CancelApplication_Click;
             // 
             // toolStripSeparator3
             // 
@@ -391,6 +454,7 @@
             ScheduleVisionTest.Name = "ScheduleVisionTest";
             ScheduleVisionTest.Size = new Size(201, 22);
             ScheduleVisionTest.Text = "Schedule Vision Test";
+            ScheduleVisionTest.Click += ScheduleVisionTest_Click;
             // 
             // ScheduleWrittenTest
             // 
@@ -571,65 +635,6 @@
             ReplaceButton.Size = new Size(168, 59);
             ReplaceButton.TabIndex = 2;
             ReplaceButton.Text = "     Replace Lost/Dameged";
-            // 
-            // LocalID
-            // 
-            LocalID.FillWeight = 50F;
-            LocalID.HeaderText = "App ID";
-            LocalID.Name = "LocalID";
-            LocalID.ReadOnly = true;
-            // 
-            // PassedTestId
-            // 
-            PassedTestId.HeaderText = "Passed Test Id";
-            PassedTestId.Name = "PassedTestId";
-            PassedTestId.ReadOnly = true;
-            PassedTestId.Visible = false;
-            // 
-            // StatusId
-            // 
-            StatusId.HeaderText = "StatusId";
-            StatusId.Name = "StatusId";
-            StatusId.ReadOnly = true;
-            StatusId.Visible = false;
-            // 
-            // DrivingClass
-            // 
-            DrivingClass.HeaderText = "Driving Class";
-            DrivingClass.Name = "DrivingClass";
-            DrivingClass.ReadOnly = true;
-            // 
-            // NationalNo
-            // 
-            NationalNo.HeaderText = "National No";
-            NationalNo.Name = "NationalNo";
-            NationalNo.ReadOnly = true;
-            // 
-            // FullName
-            // 
-            FullName.HeaderText = "Full Name";
-            FullName.Name = "FullName";
-            FullName.ReadOnly = true;
-            // 
-            // ApplicationDate
-            // 
-            ApplicationDate.HeaderText = "Application Date";
-            ApplicationDate.Name = "ApplicationDate";
-            ApplicationDate.ReadOnly = true;
-            // 
-            // Status
-            // 
-            Status.HeaderText = "Status";
-            Status.Name = "Status";
-            Status.ReadOnly = true;
-            Status.Resizable = DataGridViewTriState.True;
-            Status.SortMode = DataGridViewColumnSortMode.NotSortable;
-            // 
-            // PassedTest
-            // 
-            PassedTest.HeaderText = "Passed Test";
-            PassedTest.Name = "PassedTest";
-            PassedTest.ReadOnly = true;
             // 
             // ApplicationsControl
             // 

@@ -9,11 +9,14 @@ namespace DVLD.WinForms.Features.Applications
 {
     public interface IApplicationsView
     {
+        event EventHandler<int> OnCancelApplication;
+        event EventHandler<int> OnDeleteApplication;
         string SearchTerm { get; }
         int cbStatusId { get; }
         event EventHandler OnLoadDataRequested;
         event EventHandler OnSearchChangeRequested;
         event EventHandler<ApplicationMenuEventArgs> OnOpeningLocalAppActionMenu;
+        event EventHandler<PageModeEventArgs> OnApplicationDetailsRequested;
 
         bool IsEditOptionEnabled { set; }
         bool IsCancelOptionEnabled { set; }

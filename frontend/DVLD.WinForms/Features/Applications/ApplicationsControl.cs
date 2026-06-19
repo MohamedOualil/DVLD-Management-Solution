@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Common;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -17,17 +18,20 @@ namespace DVLD.WinForms.Features.Applications
 {
     public partial class ApplicationsControl : UserControl, IApplicationsView
     {
-        private ApplicationsPresenter _presenter;
+
 
         public event EventHandler OnLoadDataRequested;
         public event EventHandler OnSearchChangeRequested;
         public event EventHandler<ApplicationMenuEventArgs> OnOpeningLocalAppActionMenu;
-        public ApplicationsControl(ApplicationsPresenter presenter)
+        public event EventHandler<int> OnCancelApplication;
+        public event EventHandler<int> OnDeleteApplication;
+
+        public event EventHandler<PageModeEventArgs> OnApplicationDetailsRequested;
+
+        public ApplicationsControl()
         {
             InitializeComponent();
             LoadStatusComboBox();
-            _presenter = presenter;
-            _presenter.SetView(this);
             LocalAppActionMenu.DropShadowEnabled = true;
 
         }
@@ -73,7 +77,7 @@ namespace DVLD.WinForms.Features.Applications
             LocalDataGridView.Rows[rowIndex2].Cells["FullName"].Value = "ibrahim ahmed";
             LocalDataGridView.Rows[rowIndex2].Cells["Status"].Value = "New";
             LocalDataGridView.Rows[rowIndex2].Cells["StatusId"].Value = 3;
-            LocalDataGridView.Rows[rowIndex2].Cells["ApplicationDate"].Value = DateTime.Now ;
+            LocalDataGridView.Rows[rowIndex2].Cells["ApplicationDate"].Value = DateTime.Now;
             LocalDataGridView.Rows[rowIndex2].Cells["DrivingClass"].Value = "MY calss";
             LocalDataGridView.Rows[rowIndex2].Cells["PassedTest"].Value = $"3/3";
             LocalDataGridView.Rows[rowIndex2].Cells["PassedTestId"].Value = 3;
@@ -157,7 +161,7 @@ namespace DVLD.WinForms.Features.Applications
             }
 
             int PassedTestId = 0;
-            if (row.Cells["PassedTestId"].Value!= null)
+            if (row.Cells["PassedTestId"].Value != null)
             {
                 int.TryParse(row.Cells["PassedTestId"].Value.ToString(), out PassedTestId);
             }
@@ -165,6 +169,50 @@ namespace DVLD.WinForms.Features.Applications
 
             OnOpeningLocalAppActionMenu?.Invoke(this, new ApplicationMenuEventArgs
                                         ((ApplicationStatusEnum)status, (PassedTestEnum)PassedTestId));
+
+        }
+
+        private int SelectedRow(string column)
+        {
+            DataGridViewRow row = LocalDataGridView.SelectedRows[0];
+
+            int id = 0;
+            if (row.Cells[column].Value != null)
+            {
+                int.TryParse(row.Cells[column].Value.ToString(), out id);
+            }
+
+            return id;
+        }
+
+        private void ShowApplication_Click(object sender, EventArgs e)
+        {
+            OnApplicationDetailsRequested?.Invoke(sender,
+                    new PageModeEventArgs(
+                                SelectedRow("LocalId"),
+                                StatusMode.ViewMode));
+        }
+
+        private void EditApplication_Click(object sender, EventArgs e)
+        {
+            OnApplicationDetailsRequested?.Invoke(sender,
+                    new PageModeEventArgs(
+                                SelectedRow("LocalId"),
+                                StatusMode.EditMode));
+        }
+
+        private void CancelApplication_Click(object sender, EventArgs e)
+        {
+            OnCancelApplication?.Invoke(sender, SelectedRow("ApplicationId"));
+        }
+
+        private void DeleteApplication_Click(object sender, EventArgs e)
+        {
+            OnDeleteApplication?.Invoke(sender, SelectedRow("LocalId"));
+        }
+
+        private void ScheduleVisionTest_Click(object sender, EventArgs e)
+        {
 
         }
     }
