@@ -1,5 +1,6 @@
 ﻿using DVLD.WinForms.Features.Persons;
 using DVLD.WinForms.Features.Persons.Detail;
+using DVLD.WinForms.Features.Test.TestTrackingRoadmap;
 using DVLD.WinForms.Shared.Enums;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace DVLD.WinForms.Features.Applications.Detail
         event EventHandler CanacleApplicationRequest;
         event EventHandler SaveEditApplicationRequest;
         void LoadPersonInfo(PersonDto personDto);
+        void LoadTestRoadmap(TestResultsRoadmapDto testResultsRoadmapDto);
 
         void ControlMode(StatusMode mode);
         int ApplicationLicenseClass { set; get; }

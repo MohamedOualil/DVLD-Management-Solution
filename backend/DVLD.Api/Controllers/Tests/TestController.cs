@@ -1,4 +1,7 @@
-﻿using DVLD.Api.Controllers.License;
+﻿using DVLD.Api.Common;
+using DVLD.Api.Controllers.License;
+using DVLD.Application.Persons.GetPerson;
+using DVLD.Application.Tests.GetTestRoadmap;
 using DVLD.Application.Tests.ScheduleTest;
 using DVLD.Application.Tests.TakeTest;
 using DVLD.Domain.Common;
@@ -10,7 +13,7 @@ namespace DVLD.Api.Controllers.Tests
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TestController : ControllerBase
+    public class TestController : ApiController
     {
         private readonly ISender _sender;
         public TestController(ISender sender)
@@ -63,6 +66,20 @@ namespace DVLD.Api.Controllers.Tests
                 return BadRequest(result.Errors);
             }
             return Ok(result);
+        }
+
+
+        [HttpGet("{LocalId}", Name = "GetTestRoadmap")]
+        public async Task<ActionResult<TestRoadmapResponse>> GetTestRoadmap(int LocalId, CancellationToken cancellationToken)
+        {
+            var query = new GetTestRoadmapQuery(LocalId);
+
+            Result<TestRoadmapResponse> result = await _sender.Send(query, cancellationToken);
+
+            if (result.IsFailure)
+                return HandleFailure(result);
+
+            return Ok(result.Value);
         }
     }
 }

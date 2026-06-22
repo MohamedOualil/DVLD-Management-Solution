@@ -1,6 +1,7 @@
 ﻿using DVLD.WinForms.Common;
 using DVLD.WinForms.Features.Persons;
 using DVLD.WinForms.Features.Persons.Detail;
+using DVLD.WinForms.Features.Test.TestTrackingRoadmap;
 using DVLD.WinForms.Shared;
 using DVLD.WinForms.Shared.Enums;
 using System;
@@ -77,10 +78,26 @@ namespace DVLD.WinForms.Features.Applications.Detail
 
         private async Task ApplicationDetailInitialized(int localId)
         {
-            ApiResponse<ApplicationDetailDto>? applicationDetail = await 
+            var applicationDetailTask =  
                      _applicationsService.GetApplicationDetails(localId);
 
-            
+            var testRoadMapTask = 
+                _applicationsService.GetTestResultsRoadmap(localId);
+
+
+            await Task.WhenAll(applicationDetailTask, testRoadMapTask);
+
+            var testRoadMap = testRoadMapTask.Result;
+            var applicationDetail = applicationDetailTask.Result;
+
+
+            if (!testRoadMap.IsSuccess) 
+            {
+                return;
+            }
+
+            View.LoadTestRoadmap(testRoadMap.Data);
+
             if (!applicationDetail.IsSuccess)
             {
                 return;

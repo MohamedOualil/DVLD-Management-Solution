@@ -1,5 +1,6 @@
 ﻿using DVLD.WinForms.Features.Persons;
 using DVLD.WinForms.Features.Persons.Detail;
+using DVLD.WinForms.Features.Test.TestTrackingRoadmap;
 using DVLD.WinForms.Shared.Enums;
 using DVLD.WinForms.Shared.Helpers;
 using System;
@@ -90,6 +91,13 @@ namespace DVLD.WinForms.Features.Applications.Detail
             personDetailControl1.PersonInitialized(personDto);
         }
 
+        public void LoadTestRoadmap(TestResultsRoadmapDto testResultsRoadmapDto)
+        {
+            VisionTestCard.LoadCardData(testResultsRoadmapDto.VisionTest);
+            WritingTestCard.LoadCardData(testResultsRoadmapDto.WrittenTest);
+            StreetTestCard.LoadCardData(testResultsRoadmapDto.StreetTest);
+        }
+
         private void CancelButton_Click(object sender, EventArgs e)
         {
             CanacleApplicationRequest?.Invoke(this, EventArgs.Empty);
@@ -121,15 +129,20 @@ namespace DVLD.WinForms.Features.Applications.Detail
             CancelButton.Visible = true;
             EditButton.Visible = true;
 
-     
+
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
             SaveEditApplicationRequest?.Invoke(this, EventArgs.Empty);
         }
+
+        private void guna2HtmlLabel3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
-    
-    
+
+
 }

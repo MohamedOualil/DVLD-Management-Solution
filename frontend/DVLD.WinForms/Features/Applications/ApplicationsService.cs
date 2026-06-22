@@ -1,6 +1,7 @@
 ﻿using DVLD.WinForms.Common;
 using DVLD.WinForms.Features.Applications.Detail;
 using DVLD.WinForms.Features.Auth;
+using DVLD.WinForms.Features.Test.TestTrackingRoadmap;
 using DVLD.WinForms.Shared.Enums;
 using System;
 using System.Collections.Generic;
@@ -53,6 +54,13 @@ namespace DVLD.WinForms.Features.Applications
         public Task<ApiResponse> DeleteApplication(int localId)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<ApiResponse<TestResultsRoadmapDto>> GetTestResultsRoadmap(int localId)
+        {
+            string endpoint = $"Test/{localId}";
+
+            return await _apiClient.GetAsync<TestResultsRoadmapDto>(endpoint);
         }
     }
 }

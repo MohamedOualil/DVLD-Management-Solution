@@ -1,6 +1,7 @@
 ﻿using DVLD.WinForms.Common;
 using DVLD.WinForms.Features.Applications.Detail;
 using DVLD.WinForms.Features.Auth;
+using DVLD.WinForms.Features.Test.TestTrackingRoadmap;
 using DVLD.WinForms.Shared.Enums;
 using System;
 using System.Collections.Generic;
@@ -19,5 +20,7 @@ namespace DVLD.WinForms.Features.Applications
         Task<ApiResponse> CancelApplication(int applicationId,int CancelBy);
         Task<ApiResponse> UpdateDrivingLicenceApplication(int localApplicationId,LicenseClassEnum licenseType);
         Task<ApiResponse> DeleteApplication(int localId); 
+
+        Task<ApiResponse<TestResultsRoadmapDto>> GetTestResultsRoadmap(int localId);
     }
 }
