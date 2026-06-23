@@ -27,6 +27,7 @@ namespace DVLD.Infrastructure.Data
         public DbSet<InternationalLicense> InternationalLicenses => Set<InternationalLicense>();
 
         public DbSet<UserSession> UserSession => Set<UserSession>();
+        public DbSet<AuditLog> AuditLog => Set<AuditLog>();
 
         
 

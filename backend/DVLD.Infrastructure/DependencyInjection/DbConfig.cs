@@ -1,6 +1,6 @@
 using DVLD.Application.Abstractions;
 using DVLD.Application.Abstractions.Authentication;
-using DVLD.Application.Abstractions.Data;
+using DVLD.Application.Abstractions.Interfaces;
 using DVLD.Application.Drivers.GetListOfDrivers;
 using DVLD.Application.InternationalDrivingLicenses.IssueInternationalLicense;
 using DVLD.Application.Licenses.DetainedDrivingLicense;
@@ -21,6 +21,7 @@ using DVLD.Application.Users.AddUser;
 using DVLD.Application.Users.ChangePassword;
 using DVLD.Application.Users.GetUser;
 using DVLD.Application.Users.GetUsersList;
+using DVLD.Application.Users.Login;
 using DVLD.Domain.Common;
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Authentication;
@@ -30,6 +31,7 @@ using DVLD.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace DVLD.Infrastructure.DependencyInjection
 {
@@ -40,10 +42,13 @@ namespace DVLD.Infrastructure.DependencyInjection
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<AppDbContext>(options =>
-               options.UseSqlServer(connectionString));
+               options.UseSqlServer(connectionString)
+               .LogTo(Console.WriteLine, LogLevel.Information)
+               .EnableSensitiveDataLogging());
+            services.AddScoped<IApplicationDbContext, AppDbContext>();
 
 
-            services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
+            //services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
             // Repositories
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
@@ -59,6 +64,8 @@ namespace DVLD.Infrastructure.DependencyInjection
             services.AddScoped<ITestRepository, TestRepository>();
             services.AddScoped<IInternationalLicenseRepository, InternationalLicenseRepository>();
             services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
+            services.AddScoped<IUserSessionRepository, UserSessionRepository>();
+            services.AddScoped<IAuditService, AuditService>();
 
 
             // Validators
@@ -82,6 +89,7 @@ namespace DVLD.Infrastructure.DependencyInjection
             services.AddScoped<IValidate<GetAllPersonQuery>, GetAllPersonQueryValidator>();
             services.AddScoped<IValidate<ChangePasswordCommand>, ChangePasswordValidator>();
             services.AddScoped<IValidate<GetUserQuery>, GetUserValidator>();
+            services.AddScoped<IValidate<LoginCommand>, LoginCommandValidator>();
 
             services.AddScoped<IJwtProvider, JwtProvider>();
 
