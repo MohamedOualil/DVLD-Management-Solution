@@ -137,7 +137,7 @@ namespace DVLD.WinForms.Features.Applications.Detail
             SaveEditApplicationRequest?.Invoke(this, EventArgs.Empty);
         }
 
-        private void guna2HtmlLabel3_Click(object sender, EventArgs e)
+        private void ShowLicenseButton_Click(object sender, EventArgs e)
         {
 
         }

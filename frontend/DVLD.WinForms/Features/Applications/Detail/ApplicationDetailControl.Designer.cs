@@ -28,19 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationDetailControl));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges23 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             guna2ShadowPanel1 = new Guna.UI2.WinForms.Guna2ShadowPanel();
             personDetailControl1 = new DVLD.WinForms.Features.Persons.Detail.PersonDetailControl();
             EditButton = new Guna.UI2.WinForms.Guna2GradientButton();
@@ -80,7 +80,7 @@
             guna2ShadowPanel1.BackColor = Color.Transparent;
             guna2ShadowPanel1.Controls.Add(personDetailControl1);
             guna2ShadowPanel1.FillColor = Color.White;
-            guna2ShadowPanel1.Location = new Point(477, 43);
+            guna2ShadowPanel1.Location = new Point(491, 85);
             guna2ShadowPanel1.Name = "guna2ShadowPanel1";
             guna2ShadowPanel1.Radius = 5;
             guna2ShadowPanel1.ShadowColor = Color.Black;
@@ -99,7 +99,7 @@
             // EditButton
             // 
             EditButton.BorderRadius = 10;
-            EditButton.CustomizableEdges = customizableEdges13;
+            EditButton.CustomizableEdges = customizableEdges1;
             EditButton.DisabledState.BorderColor = Color.DarkGray;
             EditButton.DisabledState.CustomBorderColor = Color.DarkGray;
             EditButton.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -112,9 +112,9 @@
             EditButton.Image = Properties.Resources.icons8_add_properties_24;
             EditButton.ImageAlign = HorizontalAlignment.Left;
             EditButton.ImageOffset = new Point(-3, 0);
-            EditButton.Location = new Point(884, 3);
+            EditButton.Location = new Point(884, 26);
             EditButton.Name = "EditButton";
-            EditButton.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            EditButton.ShadowDecoration.CustomizableEdges = customizableEdges2;
             EditButton.Size = new Size(83, 35);
             EditButton.TabIndex = 2;
             EditButton.Text = " Edit";
@@ -140,7 +140,7 @@
             guna2ShadowPanel2.Controls.Add(guna2HtmlLabel13);
             guna2ShadowPanel2.Controls.Add(guna2HtmlLabel2);
             guna2ShadowPanel2.FillColor = Color.White;
-            guna2ShadowPanel2.Location = new Point(4, 48);
+            guna2ShadowPanel2.Location = new Point(4, 84);
             guna2ShadowPanel2.Name = "guna2ShadowPanel2";
             guna2ShadowPanel2.Radius = 5;
             guna2ShadowPanel2.ShadowColor = Color.Black;
@@ -152,7 +152,7 @@
             // CombClassLincense
             // 
             CombClassLincense.BackColor = Color.Transparent;
-            CombClassLincense.CustomizableEdges = customizableEdges15;
+            CombClassLincense.CustomizableEdges = customizableEdges3;
             CombClassLincense.DrawMode = DrawMode.OwnerDrawFixed;
             CombClassLincense.DropDownStyle = ComboBoxStyle.DropDownList;
             CombClassLincense.Enabled = false;
@@ -163,14 +163,14 @@
             CombClassLincense.ItemHeight = 30;
             CombClassLincense.Location = new Point(128, 188);
             CombClassLincense.Name = "CombClassLincense";
-            CombClassLincense.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            CombClassLincense.ShadowDecoration.CustomizableEdges = customizableEdges4;
             CombClassLincense.Size = new Size(250, 36);
             CombClassLincense.TabIndex = 11;
             // 
             // statusButton
             // 
             statusButton.BorderRadius = 17;
-            statusButton.CustomizableEdges = customizableEdges17;
+            statusButton.CustomizableEdges = customizableEdges5;
             statusButton.DisabledState.BorderColor = Color.DarkGray;
             statusButton.DisabledState.CustomBorderColor = Color.DarkGray;
             statusButton.DisabledState.FillColor = Color.Lime;
@@ -181,7 +181,7 @@
             statusButton.ForeColor = Color.White;
             statusButton.Location = new Point(352, 12);
             statusButton.Name = "statusButton";
-            statusButton.ShadowDecoration.CustomizableEdges = customizableEdges18;
+            statusButton.ShadowDecoration.CustomizableEdges = customizableEdges6;
             statusButton.Size = new Size(99, 26);
             statusButton.TabIndex = 10;
             statusButton.Text = "Complete";
@@ -347,7 +347,7 @@
             guna2HtmlLabel8.BackColor = Color.Transparent;
             guna2HtmlLabel8.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             guna2HtmlLabel8.ForeColor = Color.Black;
-            guna2HtmlLabel8.Location = new Point(7, 6);
+            guna2HtmlLabel8.Location = new Point(12, 11);
             guna2HtmlLabel8.Name = "guna2HtmlLabel8";
             guna2HtmlLabel8.Size = new Size(220, 34);
             guna2HtmlLabel8.TabIndex = 8;
@@ -356,7 +356,7 @@
             // CancelButton
             // 
             CancelButton.BorderRadius = 10;
-            CancelButton.CustomizableEdges = customizableEdges19;
+            CancelButton.CustomizableEdges = customizableEdges7;
             CancelButton.DisabledState.BorderColor = Color.DarkGray;
             CancelButton.DisabledState.CustomBorderColor = Color.DarkGray;
             CancelButton.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -369,9 +369,9 @@
             CancelButton.Image = Properties.Resources.icons8_delete_30;
             CancelButton.ImageAlign = HorizontalAlignment.Left;
             CancelButton.ImageOffset = new Point(-3, 0);
-            CancelButton.Location = new Point(768, 3);
+            CancelButton.Location = new Point(768, 26);
             CancelButton.Name = "CancelButton";
-            CancelButton.ShadowDecoration.CustomizableEdges = customizableEdges20;
+            CancelButton.ShadowDecoration.CustomizableEdges = customizableEdges8;
             CancelButton.ShadowDecoration.Shadow = new Padding(8);
             CancelButton.Size = new Size(98, 35);
             CancelButton.TabIndex = 2;
@@ -381,7 +381,7 @@
             // ShowLicenseButton
             // 
             ShowLicenseButton.BorderRadius = 10;
-            ShowLicenseButton.CustomizableEdges = customizableEdges21;
+            ShowLicenseButton.CustomizableEdges = customizableEdges9;
             ShowLicenseButton.DisabledState.BorderColor = Color.DarkGray;
             ShowLicenseButton.DisabledState.CustomBorderColor = Color.DarkGray;
             ShowLicenseButton.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -395,12 +395,13 @@
             ShowLicenseButton.Image = (Image)resources.GetObject("ShowLicenseButton.Image");
             ShowLicenseButton.ImageAlign = HorizontalAlignment.Left;
             ShowLicenseButton.ImageOffset = new Point(-3, 0);
-            ShowLicenseButton.Location = new Point(728, 336);
+            ShowLicenseButton.Location = new Point(847, 475);
             ShowLicenseButton.Name = "ShowLicenseButton";
-            ShowLicenseButton.ShadowDecoration.CustomizableEdges = customizableEdges22;
+            ShowLicenseButton.ShadowDecoration.CustomizableEdges = customizableEdges10;
             ShowLicenseButton.Size = new Size(139, 29);
             ShowLicenseButton.TabIndex = 10;
             ShowLicenseButton.Text = "  Show Licence";
+            ShowLicenseButton.Click += ShowLicenseButton_Click;
             // 
             // guna2ShadowPanel3
             // 
@@ -409,7 +410,7 @@
             guna2ShadowPanel3.Controls.Add(WritingTestCard);
             guna2ShadowPanel3.Controls.Add(StreetTestCard);
             guna2ShadowPanel3.FillColor = Color.FromArgb(219, 225, 255);
-            guna2ShadowPanel3.Location = new Point(7, 324);
+            guna2ShadowPanel3.Location = new Point(18, 417);
             guna2ShadowPanel3.Name = "guna2ShadowPanel3";
             guna2ShadowPanel3.ShadowColor = Color.Black;
             guna2ShadowPanel3.ShadowDepth = 50;
@@ -419,6 +420,7 @@
             // 
             // VisionTestCard
             // 
+            VisionTestCard.BackColor = Color.Transparent;
             VisionTestCard.Location = new Point(12, 12);
             VisionTestCard.Name = "VisionTestCard";
             VisionTestCard.Size = new Size(224, 139);
@@ -426,6 +428,7 @@
             // 
             // WritingTestCard
             // 
+            WritingTestCard.BackColor = Color.Transparent;
             WritingTestCard.Location = new Point(244, 12);
             WritingTestCard.Name = "WritingTestCard";
             WritingTestCard.Size = new Size(224, 139);
@@ -433,6 +436,7 @@
             // 
             // StreetTestCard
             // 
+            StreetTestCard.BackColor = Color.Transparent;
             StreetTestCard.Location = new Point(476, 12);
             StreetTestCard.Name = "StreetTestCard";
             StreetTestCard.Size = new Size(224, 139);
@@ -441,7 +445,7 @@
             // SaveButton
             // 
             SaveButton.BorderRadius = 10;
-            SaveButton.CustomizableEdges = customizableEdges23;
+            SaveButton.CustomizableEdges = customizableEdges11;
             SaveButton.DisabledState.BorderColor = Color.DarkGray;
             SaveButton.DisabledState.CustomBorderColor = Color.DarkGray;
             SaveButton.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -453,9 +457,9 @@
             SaveButton.ForeColor = Color.White;
             SaveButton.ImageAlign = HorizontalAlignment.Left;
             SaveButton.ImageOffset = new Point(-3, 0);
-            SaveButton.Location = new Point(884, 417);
+            SaveButton.Location = new Point(884, 578);
             SaveButton.Name = "SaveButton";
-            SaveButton.ShadowDecoration.CustomizableEdges = customizableEdges24;
+            SaveButton.ShadowDecoration.CustomizableEdges = customizableEdges12;
             SaveButton.Size = new Size(83, 35);
             SaveButton.TabIndex = 2;
             SaveButton.Text = "Save";
@@ -468,12 +472,11 @@
             guna2HtmlLabel3.BackColor = Color.Transparent;
             guna2HtmlLabel3.Font = new Font("Segoe UI", 13F, FontStyle.Bold, GraphicsUnit.Point, 0);
             guna2HtmlLabel3.ForeColor = Color.Black;
-            guna2HtmlLabel3.Location = new Point(19, 294);
+            guna2HtmlLabel3.Location = new Point(19, 368);
             guna2HtmlLabel3.Name = "guna2HtmlLabel3";
             guna2HtmlLabel3.Size = new Size(179, 24);
             guna2HtmlLabel3.TabIndex = 8;
             guna2HtmlLabel3.Text = "Test Results Roadmap";
-            guna2HtmlLabel3.Click += guna2HtmlLabel3_Click;
             // 
             // ApplicationDetailControl
             // 
@@ -489,7 +492,7 @@
             Controls.Add(guna2HtmlLabel8);
             Controls.Add(guna2ShadowPanel3);
             Name = "ApplicationDetailControl";
-            Size = new Size(989, 483);
+            Size = new Size(1003, 637);
             guna2ShadowPanel1.ResumeLayout(false);
             guna2ShadowPanel2.ResumeLayout(false);
             guna2ShadowPanel2.PerformLayout();
