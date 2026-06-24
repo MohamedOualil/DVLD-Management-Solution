@@ -15,14 +15,17 @@ namespace DVLD.Application.LocalLicenseApplications.UpdateLocalApplication
         private readonly ILocalDrivingLicenseApplicationRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILicenseClassesRepository _licenseClassesRepository;
+        private readonly IAuditService _auditService;
         public UpdateDrivingLicenceApplicationCommandHandler(
             ILocalDrivingLicenseApplicationRepository repository, 
             IUnitOfWork unitOfWork,
-            ILicenseClassesRepository licenseClassesRepository)
+            ILicenseClassesRepository licenseClassesRepository,
+            IAuditService auditService)
         {
             _repository = repository;
             _unitOfWork = unitOfWork;
             _licenseClassesRepository = licenseClassesRepository;
+            _auditService = auditService;
         }
 
 
@@ -38,17 +41,38 @@ namespace DVLD.Application.LocalLicenseApplications.UpdateLocalApplication
             if (application is null)
                 return Result.Failure(DomainErrors.erLocalApplications.NotFound);
 
-            LicenseClasses? licenseClass = await _licenseClassesRepository.GetByIdAsync(
-                (short)request.LicenseClass, 
-                cancellationToken);
+            LicenseClass? licenseClass = await _licenseClassesRepository.GetByIdAsync(
+                (short)request.LicenseClass, cancellationToken);
+
             if (licenseClass is null)
                 return Result.Failure(DomainErrors.erLocalApplications.InvalidLicenseClassId);
+
+            var oldData = new
+            {
+                application.LicenseClassId,
+            };
+
+            
 
             Result updateResult = application.UpdateLicenseClass(licenseClass);
             if (updateResult.IsFailure)
                 return updateResult;
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            var newData = new
+            {
+                application.LicenseClassId,
+            };
+
+            await _auditService.LogActionAsync(
+                             "Update", 
+                             "LocalDrivingLicenseApplication", 
+                             request.LocalApplicationId.ToString(),
+                             oldData, 
+                             newData, 
+                             true);
+
             return Result.Success();
 
 
