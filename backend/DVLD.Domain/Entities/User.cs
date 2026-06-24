@@ -70,10 +70,6 @@ namespace DVLD.Domain.Entities
         }
 
       
-        public bool VerifyPassword(string RawPassword, string PasswordHarsh,IPasswordHasher passwordHasher)
-        {
-            return passwordHasher.VerifyPassword(RawPassword, PasswordHarsh);
-
-        }
+        
     }
 }

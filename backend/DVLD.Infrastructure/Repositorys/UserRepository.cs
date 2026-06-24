@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class UserRepository : Repositories<User>, IUserRepository
+    internal sealed class UserRepository : BaseRepository<User>, IUserRepository
     {
         private readonly AppDbContext _context;
         public UserRepository(AppDbContext appDbContext) : base(appDbContext)
@@ -28,7 +28,7 @@ namespace DVLD.Infrastructure.Repositorys
             return await _context.Users
                             .AsNoTracking()
                             .SingleOrDefaultAsync(u => u.UserName == username 
-                                                  && !u.IsDeactivated, 
+                                                  , 
                                                  cancellationToken);
         }
 

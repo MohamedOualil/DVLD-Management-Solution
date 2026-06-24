@@ -37,6 +37,10 @@ namespace DVLD.Infrastructure.Data.Configuration
                .HasDefaultValueSql("SYSUTCDATETIME()")
                .ValueGeneratedOnAdd();
 
+            builder.Property(s => s.DeviceId)
+                .IsRequired()
+                .HasMaxLength(255);
+
 
             builder.HasOne(us => us.User)
                .WithMany() 
