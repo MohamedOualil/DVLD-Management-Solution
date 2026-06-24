@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class LocalDrivingLicenseApplicationRepository : Repositories<LocalDrivingLicenseApplication>, ILocalDrivingLicenseApplicationRepository
+    internal sealed class LocalDrivingLicenseApplicationRepository : BaseRepository<LocalDrivingLicenseApplication>, ILocalDrivingLicenseApplicationRepository
     {
 
         private readonly AppDbContext _context;

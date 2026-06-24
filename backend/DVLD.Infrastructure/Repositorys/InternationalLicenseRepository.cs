@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class InternationalLicenseRepository : Repositories<InternationalLicense>, IInternationalLicenseRepository
+    internal sealed class InternationalLicenseRepository : BaseRepository<InternationalLicense>, IInternationalLicenseRepository
     {
         private readonly AppDbContext _context;
         public InternationalLicenseRepository(AppDbContext appDbContext) : base(appDbContext)

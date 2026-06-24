@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class LicenseClassesRepository : Repositories<LicenseClasses>, ILicenseClassesRepository
+    internal sealed class LicenseClassesRepository : BaseRepository<LicenseClass>, ILicenseClassesRepository
     {
 
         private readonly AppDbContext _context;

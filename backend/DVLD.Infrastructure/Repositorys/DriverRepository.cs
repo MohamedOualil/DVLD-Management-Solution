@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class DriverRepository : Repositories<Driver>, IDriverRepository
+    internal sealed class DriverRepository : BaseRepository<Driver>, IDriverRepository
     {
 
         private readonly AppDbContext _context;
@@ -23,8 +23,7 @@ namespace DVLD.Infrastructure.Repositorys
         public async Task<Driver?> GetByPersonIdAsync(int id,CancellationToken cancellationToken)
         {
             return await _context.Drivers.FirstOrDefaultAsync(t => 
-                            t.PersonId == id && 
-                            !t.IsDeactivated, 
+                            t.PersonId == id,
                             cancellationToken);
         }
 

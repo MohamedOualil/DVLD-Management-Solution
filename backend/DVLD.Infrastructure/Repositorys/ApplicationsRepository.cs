@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class ApplicationsRepository : Repositories<Applications> , IApplicationsRepository
+    internal sealed class ApplicationsRepository : BaseRepository<Domain.Entities.Application> , IApplicationsRepository
     {
 
         private readonly AppDbContext _context;
@@ -21,7 +21,7 @@ namespace DVLD.Infrastructure.Repositorys
         }
 
 
-        public Task<IEnumerable<Applications>> GetAllAsync()
+        public Task<IEnumerable<Domain.Entities.Application>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
@@ -32,6 +32,11 @@ namespace DVLD.Infrastructure.Repositorys
                 a.PersonId == personId && 
                 a.ApplicationTypeEnum == applicationTypeEnum && 
                 a.Status == ApplicationStatusEnum.New);
+        }
+
+        public  async Task<Domain.Entities.Application> GetApplications(int Appid,CancellationToken cancellationToken)
+        {
+            return await _context.Applications.FindAsync(Appid, cancellationToken);
         }
 
     }

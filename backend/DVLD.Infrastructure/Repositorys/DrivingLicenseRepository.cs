@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class LicenseRepository : Repositories<DrivingLicense>, ILicenseRepository
+    internal sealed class DrivingLicenseRepository : BaseRepository<DrivingLicense>, ILicenseRepository
     {
 
         private readonly AppDbContext _context;
-        public LicenseRepository(AppDbContext appDbContext) : base(appDbContext)
+        public DrivingLicenseRepository(AppDbContext appDbContext) : base(appDbContext)
         {
             _context = appDbContext;
         }

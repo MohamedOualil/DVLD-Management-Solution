@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class TestAppointmentRepository :Repositories<TestAppointment>, ITestAppointmentRepository
+    internal sealed class TestAppointmentRepository :BaseRepository<TestAppointment>, ITestAppointmentRepository
     {
         private readonly AppDbContext _context;
         public TestAppointmentRepository(AppDbContext appDbContext) : base(appDbContext)

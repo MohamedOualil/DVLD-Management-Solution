@@ -25,30 +25,6 @@ namespace DVLD.Api.Common
 
         }
 
-        protected ActionResult HandleFailure(Result result, Error error)
-        {
-            var errorResponse = new ErrorResponse
-            {
-                Title = GetTitle(error.Type),
-                Status = GetStatusCode(error.Type),
-                Errors = new List<ErrorDetail>
-                {
-                    new ErrorDetail
-                    {
-                        Code    = error.code,
-                        Message = error.Name
-                    }
-                }
-            };
-
-            return errorResponse.Status switch
-            {
-                StatusCodes.Status404NotFound => NotFound(errorResponse),
-                StatusCodes.Status409Conflict => Conflict(errorResponse),
-                _ => BadRequest(errorResponse)
-            };
-        }
-
         private static ErrorResponse BuildErrorResponse (IReadOnlyList<Error> errors)
         {
             ErrorType errorType = errors.Count > 0

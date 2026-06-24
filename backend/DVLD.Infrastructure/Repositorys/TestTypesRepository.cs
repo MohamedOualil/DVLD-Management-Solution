@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class TestTypesRepository : Repositories<TestTypes> ,ITestTypesRepository
+    internal sealed class TestTypesRepository : BaseRepository<TestType> ,ITestTypesRepository
     {
         private readonly AppDbContext _context;
         public TestTypesRepository(AppDbContext appDbContext) : base(appDbContext)

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class ApplicationTypesRepositorys : Repositories<ApplicationTypes> ,IApplicationTypesRepository
+    internal sealed class ApplicationTypesRepositorys : BaseRepository<ApplicationType> ,IApplicationTypesRepository
         
     {
         private readonly AppDbContext _context;

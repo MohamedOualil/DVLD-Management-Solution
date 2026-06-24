@@ -1,5 +1,7 @@
 ﻿using DVLD.Domain.Common;
+using DVLD.Domain.Entities;
 using DVLD.Infrastructure.Data;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -39,17 +41,19 @@ namespace DVLD.Infrastructure.Repositorys
             DbContext.Add(entity);
         }
 
+
+
         public virtual async Task<bool> AnyAsync(
             Expression<Func<T, bool>> predicate,
             CancellationToken cancellationToken = default)
         {
-            return await DbContext.Set<T>().AnyAsync(predicate ,cancellationToken);
+            return await DbContext.Set<T>().AnyAsync(predicate, cancellationToken);
         }
 
-        public virtual async Task<bool> Exist(int id,CancellationToken cancellationToken)
+        public virtual async Task<bool> Exist(int id, CancellationToken cancellationToken)
         {
-            return await DbContext.Set<T>().AnyAsync(p => p.Id == id, cancellationToken );
-        }   
+            return await DbContext.Set<T>().AnyAsync(p => p.Id == id, cancellationToken);
+        }
 
         public virtual void Update(T entity)
         {
@@ -65,7 +69,9 @@ namespace DVLD.Infrastructure.Repositorys
             return await DbContext.Set<T>().AsNoTracking().ToListAsync();
         }
 
+        
 
- 
+
+
     }
 }

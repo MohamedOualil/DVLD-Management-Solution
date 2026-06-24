@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class DetainedLicenseRepository : Repositories<DetainedLicense>, IDetainedLicenseRepository
+    internal sealed class DetainedLicenseRepository : BaseRepository<DetainedLicense>, IDetainedLicenseRepository
     {
         private readonly AppDbContext _context;
         public DetainedLicenseRepository(AppDbContext appDbContext) : base(appDbContext)

@@ -9,7 +9,8 @@ namespace DVLD.Domain.Common
 {
     public interface IBaseRepository<T> where T : Entity
     {
-        void Add(T entity);    
+        void Add(T entity);
+       
 
         void Update(T entity);
 
