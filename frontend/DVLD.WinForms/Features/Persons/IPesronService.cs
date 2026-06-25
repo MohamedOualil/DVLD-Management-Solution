@@ -10,5 +10,6 @@ namespace DVLD.WinForms.Features.Persons
     public interface IPesronService 
     {
         Task<ApiResponse<PersonDto>> GetPerson(int personId);
+        Task<ApiResponse<PersonDto>> GetPersonByNationalNo(string nationalNo);
     }
 }

@@ -18,5 +18,11 @@ namespace DVLD.WinForms.Features.Persons
             string endpoint = $"Person/{personId}";
             return await _apiClient.GetAsync<PersonDto>(endpoint);
         }
+
+        public async Task<ApiResponse<PersonDto>> GetPersonByNationalNo(string nationalNo)
+        {
+            string endpoint = $"Person/{nationalNo}";
+            return await _apiClient.GetAsync<PersonDto>(endpoint);
+        }
     }
 }
