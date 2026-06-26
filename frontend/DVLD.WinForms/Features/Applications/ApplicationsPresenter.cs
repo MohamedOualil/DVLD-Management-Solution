@@ -1,4 +1,5 @@
 ﻿using DVLD.WinForms.Common;
+using DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication;
 using DVLD.WinForms.Features.Applications.Detail;
 using DVLD.WinForms.Features.Auth;
 using DVLD.WinForms.Features.Dashboard;
@@ -36,6 +37,15 @@ namespace DVLD.WinForms.Features.Applications
 
             View.OnCancelApplication += View_OnCancelApplication;
             View.OnDeleteApplication += View_OnDeleteApplication;
+            View.IssueLicenseRequested += View_IssueLicenseRequested;
+        }
+
+        private void View_IssueLicenseRequested(object? sender, EventArgs e)
+        {
+            _navigationService.NavigateTo<NewLocalDrivingLicensePresenter, INewLocalDrivingLicenseView>(presenter =>
+            {
+                presenter.FirstStep();
+            });
         }
 
         private void View_OnDeleteApplication(object? sender, int e)

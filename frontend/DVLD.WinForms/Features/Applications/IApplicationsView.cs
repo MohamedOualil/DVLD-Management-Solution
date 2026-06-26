@@ -17,6 +17,7 @@ namespace DVLD.WinForms.Features.Applications
         event EventHandler OnSearchChangeRequested;
         event EventHandler<ApplicationMenuEventArgs> OnOpeningLocalAppActionMenu;
         event EventHandler<PageModeEventArgs> OnApplicationDetailsRequested;
+        event EventHandler IssueLicenseRequested;
 
         bool IsEditOptionEnabled { set; }
         bool IsCancelOptionEnabled { set; }

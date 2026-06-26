@@ -121,6 +121,7 @@
             IssueLicenseButton.Size = new Size(168, 59);
             IssueLicenseButton.TabIndex = 2;
             IssueLicenseButton.Text = "  + Issue New License";
+            IssueLicenseButton.Click += IssueLicenseButton_Click;
             // 
             // guna2ShadowPanel1
             // 

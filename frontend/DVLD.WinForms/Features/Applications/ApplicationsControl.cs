@@ -25,12 +25,14 @@ namespace DVLD.WinForms.Features.Applications
         public event EventHandler<ApplicationMenuEventArgs> OnOpeningLocalAppActionMenu;
         public event EventHandler<int> OnCancelApplication;
         public event EventHandler<int> OnDeleteApplication;
+        public event EventHandler IssueLicenseRequested;
 
         public event EventHandler<PageModeEventArgs> OnApplicationDetailsRequested;
 
         public ApplicationsControl()
         {
             InitializeComponent();
+            //LocalDataGridView.AutoGenerateColumns = false;
             LoadStatusComboBox();
             LocalAppActionMenu.DropShadowEnabled = true;
 
@@ -59,7 +61,7 @@ namespace DVLD.WinForms.Features.Applications
 
                 int rowIndex = LocalDataGridView.Rows.Add();
 
-                LocalDataGridView.Rows[rowIndex].Cells["LocalId"].Value = app.LocalApplicationId;
+                LocalDataGridView.Rows[rowIndex].Cells["LocalID"].Value = app.LocalApplicationId;
                 LocalDataGridView.Rows[rowIndex].Cells["NationalNo"].Value = app.NationalNo;
                 LocalDataGridView.Rows[rowIndex].Cells["FullName"].Value = app.FullName;
                 LocalDataGridView.Rows[rowIndex].Cells["Status"].Value = app.StatusName;
@@ -69,18 +71,6 @@ namespace DVLD.WinForms.Features.Applications
                 LocalDataGridView.Rows[rowIndex].Cells["PassedTest"].Value = $"{app.PassedTest}/3";
                 LocalDataGridView.Rows[rowIndex].Cells["PassedTestId"].Value = app.PassedTest;
             }
-
-            int rowIndex2 = LocalDataGridView.Rows.Add();
-
-            LocalDataGridView.Rows[rowIndex2].Cells["LocalId"].Value = 4;
-            LocalDataGridView.Rows[rowIndex2].Cells["NationalNo"].Value = "fgdgdg452";
-            LocalDataGridView.Rows[rowIndex2].Cells["FullName"].Value = "ibrahim ahmed";
-            LocalDataGridView.Rows[rowIndex2].Cells["Status"].Value = "New";
-            LocalDataGridView.Rows[rowIndex2].Cells["StatusId"].Value = 3;
-            LocalDataGridView.Rows[rowIndex2].Cells["ApplicationDate"].Value = DateTime.Now;
-            LocalDataGridView.Rows[rowIndex2].Cells["DrivingClass"].Value = "MY calss";
-            LocalDataGridView.Rows[rowIndex2].Cells["PassedTest"].Value = $"3/3";
-            LocalDataGridView.Rows[rowIndex2].Cells["PassedTestId"].Value = 3;
 
 
         }
@@ -215,5 +205,11 @@ namespace DVLD.WinForms.Features.Applications
         {
 
         }
+
+        private void IssueLicenseButton_Click(object sender, EventArgs e)
+        {
+            IssueLicenseRequested?.Invoke(sender,EventArgs.Empty);
+        }
+    
     }
 }

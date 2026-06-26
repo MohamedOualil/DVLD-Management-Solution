@@ -11,6 +11,8 @@ using DVLD.WinForms.Features.Dashboard;
 using DVLD.WinForms.Features.Applications;
 using DVLD.WinForms.Features.Applications.Detail;
 using DVLD.WinForms.Features.Persons;
+using DVLD.WinForms.Features.Persons.SelectPerson;
+using DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication;
 
 namespace DVLD.WinForms.Common
 {
@@ -40,6 +42,12 @@ namespace DVLD.WinForms.Common
 
             services.AddTransient<IApplicationDetailView,ApplicationDetailControl>();
             services.AddTransient<ApplicationDetailPresenter>();
+
+            services.AddTransient<ISelectPersonView,SelectPersonControl>();
+            services.AddTransient<SelectPersonPresenter>();
+
+            services.AddTransient<INewLocalDrivingLicenseView, NewLocalDrivingLicenseControl>(); 
+            services.AddTransient<NewLocalDrivingLicensePresenter>();
  
             return services.BuildServiceProvider();
         }
