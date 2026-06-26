@@ -12,27 +12,28 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DVLD.Application.Persons.GetPerson;
 
-namespace DVLD.Application.Persons.GetPerson
+namespace DVLD.Application.Persons.GetPersonByNationalNo
 {
-    internal sealed class GetPersonQueryHandler : IQueryHandler<GetPersonQuery, PersonResponse>
+    internal sealed class GetPersonByNationalNoQueryHandler : IQueryHandler<GetPersonByNationalNoQuery, PersonResponse>
     {
 
         private readonly IApplicationDbContext _dbContext;
-        public GetPersonQueryHandler(IApplicationDbContext applicationDbContext)
+        public GetPersonByNationalNoQueryHandler(IApplicationDbContext applicationDbContext)
         {
             _dbContext = applicationDbContext;
 
         }
-        public async Task<Result<PersonResponse>> Handle(GetPersonQuery request, CancellationToken cancellationToken)
+        public async Task<Result<PersonResponse>> Handle(GetPersonByNationalNoQuery request, CancellationToken cancellationToken)
         {
 
-            if (request.personId <= 0)
-                return Result<PersonResponse>.Failure(DomainErrors.erPerson.InvalidId);
+            if (string.IsNullOrWhiteSpace(request.nationalNo))
+                return Result<PersonResponse>.Failure(DomainErrors.erPerson.NationalNoRequired);
 
             var personResponseDto =  await _dbContext.Persons
                 .AsNoTracking()
-                .Where(p => p.Id == request.personId)
+                .Where(p => p.NationalNo.Number == request.nationalNo)
                 .Select(p => new PersonResponse
                 {
                     DateOfBirth = p.DateOfBirth,
@@ -41,7 +42,7 @@ namespace DVLD.Application.Persons.GetPerson
                     CountryId = p.NationalityCountryId,
                     CreatedAt = p.CreateAt,
                     ZipCode = p.Address.ZipCode,
-                    Email = p.Email.Value,
+                    Email = p.Email!.Value,
                     FirstName = p.FullName.FirstName,
                     LastName = p.FullName.LastName,
                     SecondName = p.FullName.SecondName,
