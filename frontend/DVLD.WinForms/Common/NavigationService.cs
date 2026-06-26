@@ -18,7 +18,6 @@ namespace DVLD.WinForms.Common
         // This holds the memory for the CURRENT page. 
         // When we switch pages, we destroy this scope to free up RAM!
         private IServiceScope? _currentPageScope;
-
         public void CloseCurrentForm(Form currentForm)
         {
             currentForm?.Close();
@@ -66,6 +65,7 @@ namespace DVLD.WinForms.Common
 
            
         }
+
 
         public void SetMainContentPanel(Control panel)
         {

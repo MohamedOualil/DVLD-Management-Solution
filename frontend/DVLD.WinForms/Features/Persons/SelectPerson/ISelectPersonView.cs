@@ -11,6 +11,7 @@ namespace DVLD.WinForms.Features.Persons.SelectPerson
         event EventHandler SearchRequested;
         string SearchTerm { get; }
         int cbSearchById { get; }
+        bool MessageLabel { set; }
         void LoadPersonInfo(PersonDto personDto);
         void DisplayMessage(string message);
     }

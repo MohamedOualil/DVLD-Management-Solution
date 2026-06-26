@@ -12,10 +12,12 @@ namespace DVLD.WinForms.Features.Persons.SelectPerson
     public class SelectPersonPresenter : BasePresenter<ISelectPersonView>
     {
         private readonly IPesronService _pesronService;
+        public event Action<int>? PersonSelected;
+        public event Action NoPersonSelected;
         public enum SearchBy
         {
-            PersonId = 1,
-            NationalNo = 2,
+            PersonId = 0,
+            NationalNo = 1,
         }
         public SelectPersonPresenter(
             ISelectPersonView view,
@@ -47,10 +49,11 @@ namespace DVLD.WinForms.Features.Persons.SelectPerson
 
             string? searchTerm = View.SearchTerm?.Trim();
 
-
-            if (!string.IsNullOrWhiteSpace(searchTerm))
+            View.MessageLabel = false;
+            if (string.IsNullOrWhiteSpace(searchTerm))
             {
                 View.DisplayMessage("Requered");
+                NoPersonSelected?.Invoke();
                 return;
             }
 
@@ -64,15 +67,22 @@ namespace DVLD.WinForms.Features.Persons.SelectPerson
             };
 
             if (person is null)
+            {
+                NoPersonSelected?.Invoke();
                 return;
+            }
+                
 
             if (!person.IsSuccess)
             {
                 View.DisplayMessage(person.Error!.AllMessages);
+                NoPersonSelected?.Invoke();
                 return;
             }
 
             View.LoadPersonInfo(person.Data!);
+
+            PersonSelected?.Invoke(person.Data!.PersonId);
         }
 
         private async Task<ApiResponse<PersonDto>?> GetPersonByPersonId(string searchTerm)

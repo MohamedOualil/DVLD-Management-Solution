@@ -14,8 +14,15 @@ namespace DVLD.WinForms.Features.Persons.SelectPerson
     public partial class SelectPersonControl : UserControl , ISelectPersonView
     {
         public string SearchTerm => txtSearch.Text;
+        public bool MessageLabel
+        {
+            set
+            {
+                lblMessage.Visible = value;
+            }
+        }
 
-        public int cbSearchById => cbSearchBy.SelectedIndex;
+        public int cbSearchById => this.cbSearchBy.SelectedIndex;
 
         public event EventHandler SearchRequested;
         public SelectPersonControl()
@@ -28,8 +35,8 @@ namespace DVLD.WinForms.Features.Persons.SelectPerson
         {
             var statuses = new List<ComboBoxItem>
             {
-                new ComboBoxItem { Id = 1, Text = "Person Id" },
-                new ComboBoxItem { Id = 2, Text = "National No" },
+                new ComboBoxItem { Id = 0, Text = "Person Id" },
+                new ComboBoxItem { Id = 1, Text = "National No" },
             };
             cbSearchBy.DataSource = statuses;
             cbSearchBy.DisplayMember = "Text";
