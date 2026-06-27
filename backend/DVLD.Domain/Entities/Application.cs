@@ -67,14 +67,17 @@ namespace DVLD.Domain.Entities
         }
 
         public static Result<Application> CreateLocalApplication(Person person, ApplicationType applicationTypes,
-            int createdById)
+            int? createdById)
         {
             if (applicationTypes.Id != (int) Enums.ApplicationTypeEnum.NewLocalDrivingLicenseService)
                 return Result<Application>.Failure(DomainErrors.erApplications.InvalidApplicationType);
 
-
+            if (!createdById.HasValue)
+            {
+                return Result<Application>.Failure(DomainErrors.erUser.InvalidId);
+            }
             return Result<Application>.Success(new Application(
-                person, applicationTypes, applicationTypes.ApplicationFees, createdById));
+                person, applicationTypes, applicationTypes.ApplicationFees, createdById.Value));
         }
 
         public Result CancelApplication(User CancelBy)

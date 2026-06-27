@@ -33,7 +33,7 @@ namespace DVLD.Domain.Entities
             LicenseClass licenseClass)
         {
             if (application.Person.Age < licenseClass.MinimumAllowedAge)
-                return Result<LocalDrivingLicenseApplication>.Failure(DomainErrors.erLicenseClass.minimumAge);
+                return Result<LocalDrivingLicenseApplication>.Failure(DomainErrors.erLicenseClass.MinimumAge);
 
             return Result<LocalDrivingLicenseApplication>.Success(new LocalDrivingLicenseApplication(application, licenseClass));
         }
@@ -41,7 +41,7 @@ namespace DVLD.Domain.Entities
         public Result UpdateLicenseClass(LicenseClass licenseClass)
         {
             if (Application.Person.Age < licenseClass.MinimumAllowedAge)
-                return Result.Failure(DomainErrors.erLicenseClass.minimumAge);
+                return Result.Failure(DomainErrors.erLicenseClass.MinimumAge);
 
             LicenseClassId = licenseClass.Id;
             LicenseClass = licenseClass;

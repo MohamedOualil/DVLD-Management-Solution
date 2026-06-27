@@ -1,6 +1,7 @@
 ﻿using DVLD.Domain.Common;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace DVLD.Domain.Entities
 
         public DateTime CreateAt { get; private set; }
 
+        public ICollection<DrivingLicense> Licenses { get; private set; } = new List<DrivingLicense>();
 
         private Driver()
         {

@@ -37,16 +37,12 @@ namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
             {
                 PersonId = request.PersonId,
                 LicensesClassId = request.LicensesClassId,
-                CreatedBy = request.CreatedBy
             };
 
             Result<int> result = await _sender.Send(command, cancellationToken);
 
             if (result.IsFailure)
-            {
-
-                return BadRequest(result.Errors);
-            }
+                return HandleFailure(result);
 
             return CreatedAtAction(nameof(GetLocalApplication), new { id = result.Value }, result.Value);
         }
