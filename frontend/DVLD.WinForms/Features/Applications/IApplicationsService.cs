@@ -1,4 +1,5 @@
 ﻿using DVLD.WinForms.Common;
+using DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication;
 using DVLD.WinForms.Features.Applications.ApplicationInfo;
 using DVLD.WinForms.Features.Applications.Detail;
 using DVLD.WinForms.Features.Auth;
@@ -24,5 +25,6 @@ namespace DVLD.WinForms.Features.Applications
 
         Task<ApiResponse<TestResultsRoadmapDto>> GetTestResultsRoadmap(int localId);
         Task<ApiResponse<ApplicantSummaryDto>> GetApplicantSummary(int personId, int applicationTypeId);
+        Task<ApiResponse<int>> CreateApplication(CreateLocalDrivingLicenseApplicationRequest request);
     }
 }

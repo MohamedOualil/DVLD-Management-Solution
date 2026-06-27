@@ -14,6 +14,14 @@ namespace DVLD.WinForms.Features.Applications.ApplicationInfo
     public partial class ApplicationInfoControl : UserControl
     {
         public event Action<int> OnLicenseClassSelected;
+
+        public string ApplicationId 
+        { 
+            set
+            {
+                lblApplicationID.Text = value;
+            }
+        }
         public ApplicationInfoControl()
         {
             InitializeComponent();

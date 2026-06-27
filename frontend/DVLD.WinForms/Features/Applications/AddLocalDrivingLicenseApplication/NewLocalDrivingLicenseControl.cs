@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication.NewLocalDrivingLicensePresenter;
 
 namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
 {
@@ -20,6 +21,7 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
                 lblMessage.Visible = value;
             }
         }
+        public event EventHandler? OnNextStepRequsted;
         public NewLocalDrivingLicenseControl()
         {
             InitializeComponent();
@@ -29,13 +31,26 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
 
         private void NextStepButton_Click(object sender, EventArgs e)
         {
-
+            OnNextStepRequsted?.Invoke(this, EventArgs.Empty);
         }
 
         public void DisplayMessage(string message)
         {
             lblMessage.Text = message;
             lblMessage.Visible = true;
+        }
+
+        public void DesignButton(enButtonStatus buttonState)
+        {
+            switch(buttonState) 
+            {
+                case enButtonStatus.Close:
+                    NextStepButton.Text = "Close";
+                    break;
+                case enButtonStatus.Confiramtion:
+                    NextStepButton.Text = "Confiramtion";
+                    break;
+            }
         }
 
         public void ShowChildView(object childView)

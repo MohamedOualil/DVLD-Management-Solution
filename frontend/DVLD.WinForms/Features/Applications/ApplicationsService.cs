@@ -1,4 +1,5 @@
 ﻿using DVLD.WinForms.Common;
+using DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication;
 using DVLD.WinForms.Features.Applications.ApplicationInfo;
 using DVLD.WinForms.Features.Applications.Detail;
 using DVLD.WinForms.Features.Auth;
@@ -57,6 +58,13 @@ namespace DVLD.WinForms.Features.Applications
         public Task<ApiResponse> CancelApplication(int applicationId, int CancelBy)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<ApiResponse<int>> CreateApplication(CreateLocalDrivingLicenseApplicationRequest request)
+        {
+            string endpoint = "LocalDrivingLicenseApplication";
+
+            return await _apiClient.PostAsync<int>(endpoint, request);
         }
 
         public Task<ApiResponse> DeleteApplication(int localId)

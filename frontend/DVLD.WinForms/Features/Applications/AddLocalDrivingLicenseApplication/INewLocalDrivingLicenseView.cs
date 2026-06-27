@@ -12,5 +12,7 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
         void DisplayMessage(string message);
         bool MessageLabel { set; }
         void ShowChildView(object childView);
+        event EventHandler OnNextStepRequsted;
+        void DesignButton(enButtonStatus buttonState);
     }
 }
