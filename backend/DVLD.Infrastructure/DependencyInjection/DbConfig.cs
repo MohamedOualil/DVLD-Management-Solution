@@ -12,6 +12,7 @@ using DVLD.Application.Licenses.RenewLicenseApplication;
 using DVLD.Application.Licenses.ReplacementLicense;
 using DVLD.Application.LocalLicenseApplications.CreateApplication;
 using DVLD.Application.LocalLicenseApplications.GetAllLocalApplications;
+using DVLD.Application.LocalLicenseApplications.GetApplicantSummary;
 using DVLD.Application.Persons.CreatePerson;
 using DVLD.Application.Persons.GetAllPerson;
 using DVLD.Application.Persons.UpdatePerson;
@@ -90,6 +91,7 @@ namespace DVLD.Infrastructure.DependencyInjection
             services.AddScoped<IValidate<ChangePasswordCommand>, ChangePasswordValidator>();
             services.AddScoped<IValidate<GetUserQuery>, GetUserValidator>();
             services.AddScoped<IValidate<LoginCommand>, LoginCommandValidator>();
+            services.AddScoped<IValidate<GetApplicantSummaryQuery>, GetApplicantSummaryQueryValidator>();
 
             services.AddScoped<IJwtProvider, JwtProvider>();
 
