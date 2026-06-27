@@ -280,7 +280,7 @@
             lblEmail.ForeColor = Color.Black;
             lblEmail.Location = new Point(163, 153);
             lblEmail.Name = "lblEmail";
-            lblEmail.Size = new Size(144, 19);
+            lblEmail.Size = new Size(246, 19);
             lblEmail.TabIndex = 6;
             lblEmail.Text = "Email.example.com";
             // 

@@ -28,19 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelectPersonControl));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             personDetailControl1 = new DVLD.WinForms.Features.Persons.Detail.PersonDetailControl();
             guna2ShadowPanel1 = new Guna.UI2.WinForms.Guna2ShadowPanel();
+            cbSearchBy = new Guna.UI2.WinForms.Guna2ComboBox();
             SearchButton = new Guna.UI2.WinForms.Guna2GradientButton();
             txtSearch = new Guna.UI2.WinForms.Guna2TextBox();
             lblMessage = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            cbSearchBy = new Guna.UI2.WinForms.Guna2ComboBox();
             guna2ShadowPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -64,10 +64,29 @@
             guna2ShadowPanel1.Size = new Size(949, 134);
             guna2ShadowPanel1.TabIndex = 1;
             // 
+            // cbSearchBy
+            // 
+            cbSearchBy.BackColor = Color.Transparent;
+            cbSearchBy.BorderColor = Color.FromArgb(213, 218, 225);
+            cbSearchBy.BorderRadius = 15;
+            cbSearchBy.CustomizableEdges = customizableEdges1;
+            cbSearchBy.DrawMode = DrawMode.OwnerDrawFixed;
+            cbSearchBy.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbSearchBy.FocusedColor = Color.FromArgb(37, 99, 235);
+            cbSearchBy.FocusedState.BorderColor = Color.FromArgb(37, 99, 235);
+            cbSearchBy.Font = new Font("Segoe UI", 10F);
+            cbSearchBy.ForeColor = Color.FromArgb(15, 23, 42);
+            cbSearchBy.ItemHeight = 30;
+            cbSearchBy.Location = new Point(430, 58);
+            cbSearchBy.Name = "cbSearchBy";
+            cbSearchBy.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            cbSearchBy.Size = new Size(125, 36);
+            cbSearchBy.TabIndex = 7;
+            // 
             // SearchButton
             // 
             SearchButton.BorderRadius = 10;
-            SearchButton.CustomizableEdges = customizableEdges7;
+            SearchButton.CustomizableEdges = customizableEdges3;
             SearchButton.DisabledState.BorderColor = Color.DarkGray;
             SearchButton.DisabledState.CustomBorderColor = Color.DarkGray;
             SearchButton.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -81,7 +100,7 @@
             SearchButton.ImageOffset = new Point(-3, 0);
             SearchButton.Location = new Point(598, 58);
             SearchButton.Name = "SearchButton";
-            SearchButton.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            SearchButton.ShadowDecoration.CustomizableEdges = customizableEdges4;
             SearchButton.Size = new Size(74, 40);
             SearchButton.TabIndex = 6;
             SearchButton.Text = "Search";
@@ -92,7 +111,7 @@
             txtSearch.AutoRoundedCorners = true;
             txtSearch.BorderRadius = 19;
             txtSearch.Cursor = Cursors.IBeam;
-            txtSearch.CustomizableEdges = customizableEdges9;
+            txtSearch.CustomizableEdges = customizableEdges5;
             txtSearch.DefaultText = "";
             txtSearch.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtSearch.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -109,7 +128,7 @@
             txtSearch.Name = "txtSearch";
             txtSearch.PlaceholderText = "Search ID or Name";
             txtSearch.SelectedText = "";
-            txtSearch.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            txtSearch.ShadowDecoration.CustomizableEdges = customizableEdges6;
             txtSearch.Size = new Size(384, 40);
             txtSearch.TabIndex = 5;
             txtSearch.TextOffset = new Point(5, 0);
@@ -126,25 +145,6 @@
             lblMessage.TabIndex = 7;
             lblMessage.Text = "Message";
             lblMessage.Visible = false;
-            // 
-            // cbSearchBy
-            // 
-            cbSearchBy.BackColor = Color.Transparent;
-            cbSearchBy.BorderColor = Color.FromArgb(213, 218, 225);
-            cbSearchBy.BorderRadius = 15;
-            cbSearchBy.CustomizableEdges = customizableEdges11;
-            cbSearchBy.DrawMode = DrawMode.OwnerDrawFixed;
-            cbSearchBy.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbSearchBy.FocusedColor = Color.FromArgb(37, 99, 235);
-            cbSearchBy.FocusedState.BorderColor = Color.FromArgb(37, 99, 235);
-            cbSearchBy.Font = new Font("Segoe UI", 10F);
-            cbSearchBy.ForeColor = Color.FromArgb(15, 23, 42);
-            cbSearchBy.ItemHeight = 30;
-            cbSearchBy.Location = new Point(430, 58);
-            cbSearchBy.Name = "cbSearchBy";
-            cbSearchBy.ShadowDecoration.CustomizableEdges = customizableEdges12;
-            cbSearchBy.Size = new Size(125, 36);
-            cbSearchBy.TabIndex = 7;
             // 
             // SelectPersonControl
             // 

@@ -117,33 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DwAACw8BkvkDpQAAAZBJREFUSEvllj1LA1EQRQNWghYigqVWlnZ29mqfQkGS2WihneRNEitr8QcoYmNj
-        sZB5EfwJgoW1lhaxtRG084uXdUn2zuqGMF0unGruzYEtNlsqjX2q7DfI+eeI/bcF4beoLuvoUbGU9pEu
-        elT0yAb0qODACvSo4MAK9KjgwAr0qODACvSo4OCXD2p0qHwQT0Ysxzn3QtCjgoMEuUzvdBjPkZN33fmf
-        rCUnOAgQy+Zgh5w/xU4Rg/vc4KCHk930vlO/XiTnH1WngKwlJzjo4fxVeieWJ3UfgqwlJzhIkLf9o3gq
-        3InlTN+LQY8KDvoIh/te62ZmlPc5elRw0EdeK02/EDq1hqxEzr/ozt+gRwUHWeRhuyWzSa+zRM7fEctJ
-        xJ3pmvNbxP5Wb0zE4f9V7isunsddGmJ/jhsTcYJ0q+xXcRsSsVzovpm492XxGSTUbC+Xy/FEeArJ61S+
-        sGsqzpIvGwQ9KjiwAj0qOLACPSo4sAI9KjiwAj0qo7wOixni8zZ8fIeiHo+KdGuuvYae8csP11NKuXYf
-        l/UAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="pictureBox2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DwAACw8BkvkDpQAAAhtJREFUSEvtlrtu1FAQhgMFUBAJKgqgAErgJXgH2sRnsg2IVRR2jgmVyQsgEAhK
-        lAopYmd2lWSpiJLwBlzKtDxAuKQJBE1i7+U/dtY2bJdP+iXLM+f/fS62PDV1wjFEj/Q2eX3uWL6Qlx8m
-        u3asz6jVvoX9/0yz2TtLXl851t/k9aBA++T15d1k5QyOr4WFOpaNnKAiffgv4Y71dY75sXKsL9CnEran
-        Y5a3SPuNuHsT/UpjBynHtJxYnqJfacjL18DQltLr2szC6uVG3L5CXntYT3s+o19pHMsuGposMOuJHupV
-        rB8Gs+yOulWAvP5CwwrBP0fdKmDLhYapehZuoc7r+5y67fEn9CsNsS4FhmXFuoR+pZl73L1ErHuB6Tix
-        7tlY9KsEsTYD4zGai+UB+tTg4JTz+hbNi2S9NgZdamHfXmJZx5BALOu1v9NJkpx2Xrb6M2CN7f5s8uZc
-        0cciVc96rNfGDB5GN80TcwKiVvtOaCrzVjsMZ9kO6izbWaj1Yt08MSeAvCynT5r7OtxbXLvovH7LTO3a
-        7mGfMXgdZRlrI5DvTKd/Fn9mWG5gPYNYo8FsNcJ6hlt8d928jjw701jv4+KOO5qFbGFtmNl5vZAF2zXW
-        h8nOi3ljrc/gUAlhDSHWj7a3eB8ZO5lGq3ut1LJU5H6yct6xfi/cvtIHoQbZgXVen2DNgnf6B2ZSYt3B
-        3KH9naBYNzH3hInzF/zWS/rw0gwSAAAAAElFTkSuQmCC
-</value>
-  </data>
 </root>
