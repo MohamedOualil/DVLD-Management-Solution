@@ -4,6 +4,7 @@ using DVLD.Application.Abstractions;
 using DVLD.Application.Drivers.GetListOfDrivers;
 using DVLD.Application.LocalLicenseApplications.CreateApplication;
 using DVLD.Application.LocalLicenseApplications.GetAllLocalApplications;
+using DVLD.Application.LocalLicenseApplications.GetApplicantSummary;
 using DVLD.Application.LocalLicenseApplications.GetLocalApplication;
 using DVLD.Application.Persons.CreatePerson;
 using DVLD.Application.Persons.GetPerson;
@@ -32,7 +33,7 @@ namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
         CreateLocalDrivingLicenseApplicationRequest request,
         CancellationToken cancellationToken)
         {
-            var command = new LocalDrivingLicenseApplicationCommand
+            var command = new CreateLocalApplicationCommand
             {
                 PersonId = request.PersonId,
                 LicensesClassId = request.LicensesClassId,
@@ -85,5 +86,20 @@ namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
 
             return Ok(result.Value);
         }
+
+
+        [HttpGet("{personId}/type/{applicationTypeId}", Name = "GetApplicantSummary")]
+        public async Task<IActionResult> GetApplicantSummary(int personId,int applicationTypeId, CancellationToken cancellationToken)
+        {
+            var query = new GetApplicantSummaryQuery(personId,applicationTypeId);
+
+            Result<ApplicantSummaryRespond> result = await _sender.Send(query, cancellationToken);
+
+            if (result.IsFailure)
+                return HandleFailure(result);
+
+            return Ok(result.Value);
+        }
+
     }
 }

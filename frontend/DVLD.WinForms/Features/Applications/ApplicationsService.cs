@@ -1,4 +1,5 @@
 ﻿using DVLD.WinForms.Common;
+using DVLD.WinForms.Features.Applications.ApplicationInfo;
 using DVLD.WinForms.Features.Applications.Detail;
 using DVLD.WinForms.Features.Auth;
 using DVLD.WinForms.Features.Test.TestTrackingRoadmap;
@@ -39,6 +40,13 @@ namespace DVLD.WinForms.Features.Applications
             string endpoint = $"LocalDrivingLicenseApplication/{localId}";
 
             return await _apiClient.GetAsync<ApplicationDetailDto>(endpoint);
+        }
+
+        public async Task<ApiResponse<ApplicantSummaryDto>> GetApplicantSummary(int personId,int applicationTypeId)
+        {
+            string endpoint = $"LocalDrivingLicenseApplication/{personId}/type/{applicationTypeId}";
+
+            return await _apiClient.GetAsync<ApplicantSummaryDto>(endpoint);
         }
 
         public Task<ApiResponse> UpdateDrivingLicenceApplication(int localApplicationId, LicenseClassEnum licenseType)

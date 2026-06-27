@@ -1,4 +1,5 @@
 ﻿using DVLD.WinForms.Common;
+using DVLD.WinForms.Features.Applications.ApplicationInfo;
 using DVLD.WinForms.Features.Applications.Detail;
 using DVLD.WinForms.Features.Auth;
 using DVLD.WinForms.Features.Test.TestTrackingRoadmap;
@@ -22,5 +23,6 @@ namespace DVLD.WinForms.Features.Applications
         Task<ApiResponse> DeleteApplication(int localId); 
 
         Task<ApiResponse<TestResultsRoadmapDto>> GetTestResultsRoadmap(int localId);
+        Task<ApiResponse<ApplicantSummaryDto>> GetApplicantSummary(int personId, int applicationTypeId);
     }
 }
