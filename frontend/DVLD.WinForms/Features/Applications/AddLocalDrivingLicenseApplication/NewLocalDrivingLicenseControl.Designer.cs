@@ -28,21 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewLocalDrivingLicenseControl));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges23 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges25 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges26 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges27 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges28 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             NextStepButton = new Guna.UI2.WinForms.Guna2GradientButton();
             BackButton = new Guna.UI2.WinForms.Guna2GradientButton();
             ApplicationPanel = new Guna.UI2.WinForms.Guna2Panel();
@@ -56,7 +56,7 @@
             // NextStepButton
             // 
             NextStepButton.BorderRadius = 10;
-            NextStepButton.CustomizableEdges = customizableEdges15;
+            NextStepButton.CustomizableEdges = customizableEdges1;
             NextStepButton.DisabledState.BorderColor = Color.DarkGray;
             NextStepButton.DisabledState.CustomBorderColor = Color.DarkGray;
             NextStepButton.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -72,7 +72,7 @@
             NextStepButton.ImageOffset = new Point(-3, 0);
             NextStepButton.Location = new Point(849, 571);
             NextStepButton.Name = "NextStepButton";
-            NextStepButton.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            NextStepButton.ShadowDecoration.CustomizableEdges = customizableEdges2;
             NextStepButton.Size = new Size(113, 39);
             NextStepButton.TabIndex = 3;
             NextStepButton.Text = "Next Step     ";
@@ -82,7 +82,7 @@
             // 
             BackButton.BorderColor = Color.White;
             BackButton.BorderRadius = 10;
-            BackButton.CustomizableEdges = customizableEdges17;
+            BackButton.CustomizableEdges = customizableEdges3;
             BackButton.DisabledState.BorderColor = Color.DarkGray;
             BackButton.DisabledState.CustomBorderColor = Color.DarkGray;
             BackButton.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -97,26 +97,27 @@
             BackButton.ImageOffset = new Point(-3, 0);
             BackButton.Location = new Point(14, 571);
             BackButton.Name = "BackButton";
-            BackButton.ShadowDecoration.CustomizableEdges = customizableEdges18;
+            BackButton.ShadowDecoration.CustomizableEdges = customizableEdges4;
             BackButton.Size = new Size(113, 39);
             BackButton.TabIndex = 4;
             BackButton.Text = "Back";
+            BackButton.Click += BackButton_Click;
             // 
             // ApplicationPanel
             // 
-            ApplicationPanel.CustomizableEdges = customizableEdges19;
+            ApplicationPanel.CustomizableEdges = customizableEdges5;
             ApplicationPanel.Location = new Point(0, 104);
             ApplicationPanel.Name = "ApplicationPanel";
-            ApplicationPanel.ShadowDecoration.CustomizableEdges = customizableEdges20;
+            ApplicationPanel.ShadowDecoration.CustomizableEdges = customizableEdges6;
             ApplicationPanel.Size = new Size(1003, 447);
             ApplicationPanel.TabIndex = 5;
             // 
             // StepProgressBar
             // 
-            StepProgressBar.CustomizableEdges = customizableEdges21;
+            StepProgressBar.CustomizableEdges = customizableEdges7;
             StepProgressBar.Location = new Point(14, 67);
             StepProgressBar.Name = "StepProgressBar";
-            StepProgressBar.ShadowDecoration.CustomizableEdges = customizableEdges22;
+            StepProgressBar.ShadowDecoration.CustomizableEdges = customizableEdges8;
             StepProgressBar.Size = new Size(974, 30);
             StepProgressBar.TabIndex = 6;
             StepProgressBar.Text = "guna2ProgressBar1";
@@ -126,7 +127,7 @@
             // 
             guna2Button1.BackColor = Color.Transparent;
             guna2Button1.BorderRadius = 20;
-            guna2Button1.CustomizableEdges = customizableEdges23;
+            guna2Button1.CustomizableEdges = customizableEdges9;
             guna2Button1.DisabledState.BorderColor = Color.DarkGray;
             guna2Button1.DisabledState.CustomBorderColor = Color.DarkGray;
             guna2Button1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -136,7 +137,7 @@
             guna2Button1.ForeColor = Color.White;
             guna2Button1.Location = new Point(111, 41);
             guna2Button1.Name = "guna2Button1";
-            guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges24;
+            guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges10;
             guna2Button1.Size = new Size(40, 40);
             guna2Button1.TabIndex = 7;
             guna2Button1.Text = "1";
@@ -145,7 +146,7 @@
             // 
             guna2Button2.BackColor = Color.Transparent;
             guna2Button2.BorderRadius = 20;
-            guna2Button2.CustomizableEdges = customizableEdges25;
+            guna2Button2.CustomizableEdges = customizableEdges11;
             guna2Button2.DisabledState.BorderColor = Color.DarkGray;
             guna2Button2.DisabledState.CustomBorderColor = Color.DarkGray;
             guna2Button2.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -155,7 +156,7 @@
             guna2Button2.ForeColor = Color.White;
             guna2Button2.Location = new Point(473, 41);
             guna2Button2.Name = "guna2Button2";
-            guna2Button2.ShadowDecoration.CustomizableEdges = customizableEdges26;
+            guna2Button2.ShadowDecoration.CustomizableEdges = customizableEdges12;
             guna2Button2.Size = new Size(40, 40);
             guna2Button2.TabIndex = 7;
             guna2Button2.Text = "1";
@@ -164,7 +165,7 @@
             // 
             guna2Button3.BackColor = Color.Transparent;
             guna2Button3.BorderRadius = 20;
-            guna2Button3.CustomizableEdges = customizableEdges27;
+            guna2Button3.CustomizableEdges = customizableEdges13;
             guna2Button3.DisabledState.BorderColor = Color.DarkGray;
             guna2Button3.DisabledState.CustomBorderColor = Color.DarkGray;
             guna2Button3.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -174,7 +175,7 @@
             guna2Button3.ForeColor = Color.White;
             guna2Button3.Location = new Point(834, 41);
             guna2Button3.Name = "guna2Button3";
-            guna2Button3.ShadowDecoration.CustomizableEdges = customizableEdges28;
+            guna2Button3.ShadowDecoration.CustomizableEdges = customizableEdges14;
             guna2Button3.Size = new Size(40, 40);
             guna2Button3.TabIndex = 7;
             guna2Button3.Text = "1";

@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication.NewLocalDrivingLicensePresenter;
+﻿
 
 namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
 {
@@ -22,6 +13,7 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
             }
         }
         public event EventHandler? OnNextStepRequsted;
+        public event EventHandler? OnGoBackRequested;
         public NewLocalDrivingLicenseControl()
         {
             InitializeComponent();
@@ -40,15 +32,27 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
             lblMessage.Visible = true;
         }
 
-        public void DesignButton(enButtonStatus buttonState)
+        public void UpdateButtonsForState(enButtonStatus buttonState)
         {
-            switch(buttonState) 
+
+            BackButton.Visible = true;
+
+            switch (buttonState)
             {
-                case enButtonStatus.Close:
-                    NextStepButton.Text = "Close";
+                case enButtonStatus.PersonInfoStep:
+                    NextStepButton.Text = "Next Step";
+                    BackButton.Text = "Cancel"; 
                     break;
-                case enButtonStatus.Confiramtion:
-                    NextStepButton.Text = "Confiramtion";
+
+                case enButtonStatus.ApplicantInfoStep:
+                    NextStepButton.Text = "Confirm & Save";
+                    BackButton.Text = "Back";
+                    break;
+
+                case enButtonStatus.CreateApplication:
+                    NextStepButton.Text = "Finish";
+
+                    BackButton.Visible = false;
                     break;
             }
         }
@@ -71,6 +75,11 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
             {
                 throw new InvalidOperationException("The View must be a WinForms Control.");
             }
+        }
+
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            OnGoBackRequested?.Invoke(this, EventArgs.Empty);
         }
     }
 }

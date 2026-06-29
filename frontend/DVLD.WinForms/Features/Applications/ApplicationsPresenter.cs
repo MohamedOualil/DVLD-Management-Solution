@@ -44,7 +44,7 @@ namespace DVLD.WinForms.Features.Applications
         {
             _navigationService.NavigateTo<NewLocalDrivingLicensePresenter, INewLocalDrivingLicenseView>(presenter =>
             {
-                presenter.FirstStep();
+                presenter.LoadPersonInfoStep();
             });
         }
 
