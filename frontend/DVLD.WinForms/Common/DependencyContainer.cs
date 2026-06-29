@@ -1,18 +1,19 @@
-﻿using DVLD.WinForms.Features.Auth;
+﻿using DVLD.WinForms.Common;
+using DVLD.WinForms.Features.Applications;
+using DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication;
+using DVLD.WinForms.Features.Applications.Detail;
+using DVLD.WinForms.Features.Auth;
+using DVLD.WinForms.Features.Dashboard;
+using DVLD.WinForms.Features.Persons;
+using DVLD.WinForms.Features.Persons.SelectPerson;
+using DVLD.WinForms.Features.Test_Appointments;
 using Microsoft.Extensions.DependencyInjection;
-using DVLD.WinForms.Common;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DVLD.WinForms.Features.Dashboard;
-using DVLD.WinForms.Features.Applications;
-using DVLD.WinForms.Features.Applications.Detail;
-using DVLD.WinForms.Features.Persons;
-using DVLD.WinForms.Features.Persons.SelectPerson;
-using DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication;
 
 namespace DVLD.WinForms.Common
 {
@@ -29,6 +30,7 @@ namespace DVLD.WinForms.Common
             services.AddTransient<IAuthService,AuthService>();
             services.AddTransient<IApplicationsService,ApplicationsService>();
             services.AddTransient<IPesronService, PersonService>();
+            services.AddTransient<ITestAppointmentsService, TestAppointmentsService>();
 
             services.AddTransient<LoginPresenter>();
             services.AddTransient<ApplicationsPresenter>();
