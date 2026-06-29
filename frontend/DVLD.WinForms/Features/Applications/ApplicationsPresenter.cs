@@ -3,6 +3,7 @@ using DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication;
 using DVLD.WinForms.Features.Applications.Detail;
 using DVLD.WinForms.Features.Auth;
 using DVLD.WinForms.Features.Dashboard;
+using DVLD.WinForms.Features.Test_Appointments;
 using DVLD.WinForms.Shared;
 using DVLD.WinForms.Shared.Enums;
 using DVLD.WinForms.Shared.Events;
@@ -38,6 +39,16 @@ namespace DVLD.WinForms.Features.Applications
             View.OnCancelApplication += View_OnCancelApplication;
             View.OnDeleteApplication += View_OnDeleteApplication;
             View.IssueLicenseRequested += View_IssueLicenseRequested;
+
+            View.OnScheduleTestRequested += View_OnScheduleTestRequested;
+        }
+
+        private void View_OnScheduleTestRequested(object? sender, ScheduleTestEventArgs e)
+        {
+            _navigationService.NavigateTo<ListTestAppointmentsPresenter, IListTestAppointmentsView>(async presenter =>
+            {
+                await presenter.LoadTestAppointementsAsync(e.LocalApplicationId,e.TestTypeEnum);
+            });
         }
 
         private void View_IssueLicenseRequested(object? sender, EventArgs e)

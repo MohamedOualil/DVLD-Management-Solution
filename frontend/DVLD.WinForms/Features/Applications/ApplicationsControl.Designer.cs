@@ -388,7 +388,7 @@
             LocalAppActionMenu.RenderStyle.SelectionForeColor = Color.FromArgb(15, 23, 42);
             LocalAppActionMenu.RenderStyle.SeparatorColor = Color.Gainsboro;
             LocalAppActionMenu.RenderStyle.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
-            LocalAppActionMenu.Size = new Size(257, 216);
+            LocalAppActionMenu.Size = new Size(257, 238);
             LocalAppActionMenu.Opening += LocalAppActionMenu_Opening;
             // 
             // ShowApplication
@@ -463,6 +463,7 @@
             ScheduleWrittenTest.Name = "ScheduleWrittenTest";
             ScheduleWrittenTest.Size = new Size(201, 22);
             ScheduleWrittenTest.Text = "Schedule Written Test";
+            ScheduleWrittenTest.Click += ScheduleWrittenTest_Click;
             // 
             // ScheduleStreetTest
             // 
@@ -470,6 +471,7 @@
             ScheduleStreetTest.Name = "ScheduleStreetTest";
             ScheduleStreetTest.Size = new Size(201, 22);
             ScheduleStreetTest.Text = "Schedule Street Test";
+            ScheduleStreetTest.Click += ScheduleStreetTest_Click;
             // 
             // toolStripSeparator4
             // 

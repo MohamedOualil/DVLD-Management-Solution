@@ -29,6 +29,8 @@ namespace DVLD.WinForms.Features.Applications
 
         public event EventHandler<PageModeEventArgs> OnApplicationDetailsRequested;
 
+        public event EventHandler<ScheduleTestEventArgs> OnScheduleTestRequested;
+
         public ApplicationsControl()
         {
             InitializeComponent();
@@ -203,13 +205,31 @@ namespace DVLD.WinForms.Features.Applications
 
         private void ScheduleVisionTest_Click(object sender, EventArgs e)
         {
-
+            OnScheduleTestRequested?.Invoke(sender,
+                new ScheduleTestEventArgs(
+                                    SelectedRow("LocalId"),
+                                    TestTypeEnum.VisionTest));
         }
 
         private void IssueLicenseButton_Click(object sender, EventArgs e)
         {
-            IssueLicenseRequested?.Invoke(sender,EventArgs.Empty);
+            IssueLicenseRequested?.Invoke(sender, EventArgs.Empty);
         }
-    
+
+        private void ScheduleWrittenTest_Click(object sender, EventArgs e)
+        {
+            OnScheduleTestRequested?.Invoke(sender,
+                new ScheduleTestEventArgs(
+                                    SelectedRow("LocalId"),
+                                    TestTypeEnum.WrittenTest));
+        }
+
+        private void ScheduleStreetTest_Click(object sender, EventArgs e)
+        {
+            OnScheduleTestRequested?.Invoke(sender,
+                new ScheduleTestEventArgs(
+                                    SelectedRow("LocalId"),
+                                    TestTypeEnum.StreetTest));
+        }
     }
 }

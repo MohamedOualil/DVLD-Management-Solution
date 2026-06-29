@@ -50,6 +50,9 @@ namespace DVLD.WinForms.Common
 
             services.AddTransient<INewLocalDrivingLicenseView, NewLocalDrivingLicenseControl>(); 
             services.AddTransient<NewLocalDrivingLicensePresenter>();
+
+            services.AddTransient<IListTestAppointmentsView,ListTestAppointmentsControl>();
+            services.AddTransient<ListTestAppointmentsPresenter>();
  
             return services.BuildServiceProvider();
         }
