@@ -17,6 +17,7 @@ using DVLD.Application.Persons.CreatePerson;
 using DVLD.Application.Persons.GetAllPerson;
 using DVLD.Application.Persons.UpdatePerson;
 using DVLD.Application.Tests.GetTestAppointments;
+using DVLD.Application.Tests.GetTestDetails;
 using DVLD.Application.Tests.ScheduleTest;
 using DVLD.Application.Tests.TakeTest;
 using DVLD.Application.Users.AddUser;
@@ -94,6 +95,7 @@ namespace DVLD.Infrastructure.DependencyInjection
             services.AddScoped<IValidate<LoginCommand>, LoginCommandValidator>();
             services.AddScoped<IValidate<GetApplicantSummaryQuery>, GetApplicantSummaryQueryValidator>();
             services.AddScoped<IValidate<GetTestAppointmentsQuery>, GetTestAppointmentsQueryValidator>();
+            services.AddScoped<IValidate<GetTestDetailsQuery>,GetTestDetailsQueryValidator>();
 
             services.AddScoped<IJwtProvider, JwtProvider>();
 
