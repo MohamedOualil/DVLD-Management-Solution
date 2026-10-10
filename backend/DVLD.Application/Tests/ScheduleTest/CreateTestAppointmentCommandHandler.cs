@@ -45,7 +45,7 @@ namespace DVLD.Application.Tests.ScheduleTest
             if (!await _userRepository.Exist(request.CreatedById,cancellationToken))
                   return Result<int>.Failure(DomainErrors.erUser.NotFound);
 
-            TestTypes? testType = await _testTypesRepository.GetByIdAsync((int)request.TestType, cancellationToken);
+            TestType? testType = await _testTypesRepository.GetByIdAsync((int)request.TestType, cancellationToken);
             if (testType is null)
                 return Result<int>.Failure(DomainErrors.erTestTypes.NotFound);
 

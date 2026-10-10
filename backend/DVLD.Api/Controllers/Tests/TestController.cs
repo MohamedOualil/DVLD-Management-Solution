@@ -1,6 +1,7 @@
 ﻿using DVLD.Api.Common;
 using DVLD.Api.Controllers.License;
 using DVLD.Application.Persons.GetPerson;
+using DVLD.Application.Tests.GetTestDetails;
 using DVLD.Application.Tests.GetTestRoadmap;
 using DVLD.Application.Tests.ScheduleTest;
 using DVLD.Application.Tests.TakeTest;
@@ -75,6 +76,25 @@ namespace DVLD.Api.Controllers.Tests
             var query = new GetTestRoadmapQuery(LocalId);
 
             Result<TestRoadmapResponse> result = await _sender.Send(query, cancellationToken);
+
+            if (result.IsFailure)
+                return HandleFailure(result);
+
+            return Ok(result.Value);
+        }
+
+
+        [HttpGet("local-applications/{localApplicationId}/test-types/{testTypeId}/details")]
+        [ProducesResponseType(typeof(TestDetailsResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<TestDetailsResponse>> GetTestDetails(
+            [FromRoute] int localApplicationId,
+            [FromRoute] int testTypeId,
+            CancellationToken cancellationToken)
+        {
+            var query = new GetTestDetailsQuery(localApplicationId, testTypeId);
+
+            var result = await _sender.Send(query, cancellationToken);
 
             if (result.IsFailure)
                 return HandleFailure(result);

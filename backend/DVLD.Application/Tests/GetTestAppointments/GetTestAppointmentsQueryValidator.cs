@@ -23,7 +23,7 @@ namespace DVLD.Application.Tests.GetTestAppointments
                 errors.Add(DomainErrors.erTestTypes.InvalidId);
 
 
-            if (Enum.IsDefined(typeof(TestTypeEnum), request.TestTypeId))
+            if (!Enum.IsDefined(typeof(TestTypeEnum), request.TestTypeId))
             {
                 errors.Add(DomainErrors.erTestTypes.InvalidId);
             }

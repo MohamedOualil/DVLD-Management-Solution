@@ -20,7 +20,7 @@ namespace DVLD.Application.Tests.ScheduleTest
                 errors.Add(DomainErrors.erUser.InvalidId);
 
             if (request.AppointmentDate < DateTime.UtcNow)
-                errors.Add(DomainErrors.erTestAppointment.InvalidAppoinmentDate);
+                errors.Add(DomainErrors.erTestAppointment.InvalidAppointmentDate);
 
             if (!Enum.IsDefined(request.TestType))
                 errors.Add(DomainErrors.erTests.InvalidTestType);
