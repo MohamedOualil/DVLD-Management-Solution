@@ -1,5 +1,4 @@
-﻿using DVLD.Application.Abstractions.Data;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Data
 {
-    internal sealed class SqlConnectionFactory : ISqlConnectionFactory
+    internal sealed class SqlConnectionFactory 
     {
         private readonly string _connectionString;
 

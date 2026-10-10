@@ -1,10 +1,11 @@
 ﻿using Dapper;
 using DVLD.Application.Abstractions;
-using DVLD.Application.Abstractions.Data;
+using DVLD.Application.Abstractions.Interfaces;
 using DVLD.Application.Abstractions.Messaging;
 using DVLD.Application.LocalLicenseApplications.GetLocalApplication;
 using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,14 +18,14 @@ namespace DVLD.Application.Drivers.GetListOfDrivers
     internal sealed class GetListOfDriversQueryHandler : IQueryHandler<GetListOfDriversQuery, PagedList<DriversListResponse>>
     {
 
-        private readonly ISqlConnectionFactory _sqlConnectionFactory;
+        private readonly IApplicationDbContext _dbContext;
         private readonly IValidate<GetListOfDriversQuery> _validator;
 
-        public GetListOfDriversQueryHandler(ISqlConnectionFactory sqlConnectionFactory,
+        public GetListOfDriversQueryHandler(IApplicationDbContext dbContext,
             IValidate<GetListOfDriversQuery> validate)
         {
-            _sqlConnectionFactory = sqlConnectionFactory;
             _validator = validate;
+            _dbContext = dbContext;
         }
 
         public async Task<Result<PagedList<DriversListResponse>>> Handle(
@@ -40,61 +41,46 @@ namespace DVLD.Application.Drivers.GetListOfDrivers
             string? nationNo = string.IsNullOrWhiteSpace(request.NationNo) ? null : request.NationNo;
             string? fullName = string.IsNullOrWhiteSpace(request.Name) ? null : request.Name.Trim();
 
-           const string sql = @";
-                WITH ActiveLicense AS (
-			        SELECT 
-			        DriverID ,
-			        COUNT(*) AS NumberOfActiveLicenses
-		        FROM Licenses L 
-		        WHERE IsActive = 1 
-		        GROUP BY L.DriverID
+            var query = _dbContext.Drivers.AsNoTracking();
 
-		        )
-		
-		        SELECT 
-	                 D.Id AS DriverId,
-	                 D.PersonID AS PersonId,
-	                 P.NationalNo_Number AS NationNo,
-	                 CONCAT_WS(' ',FirstName,LastName) AS FullName,
-	                 D.CreatedAt AS CreateDate,
-                     ISNULL(A.NumberOfActiveLicenses, 0) AS ActiveLicenses,
-	                 Count(*) OVER () AS TotalCount
-	               FROM Drivers D
-	               INNER JOIN Person P ON P.Id = D.PersonID
-		           LEFT JOIN ActiveLicense A ON A.DriverId = D.Id
-	               WHERE (@personId IS NULL OR d.PersonID = @personId)
-	               AND (@DriverId IS NULL OR d.Id = @DriverId)
-	               AND (@FullName IS NULL OR  CONCAT_WS(' ',FirstName,LastName) LIKE '%'+ @FullName + '%')
-	               AND (@NationNo IS NULL OR  P.NationalNo_Number LIKE '%' + @NationNo + '%')
-	               ORDER BY D.CreatedAt
-	               OFFSET (@PageNumber - 1) * @PageSize ROWS
-                   FETCH NEXT @PageSize ROWS ONLY;";
-            using IDbConnection connection = _sqlConnectionFactory.CreateConnection();
 
-            var parameters = new
+            if (personId.HasValue)
             {
-                personId,
-                DriverId = driverId,
-                NationNo = nationNo,
-                FullName = fullName,
-                PageNumber = request.PageNumber,
-                PageSize = request.PageSize
+                query = query.Where(d => d.PersonId == personId);
+            }
 
-            };
-      
+            if (driverId.HasValue)
+            {
+                query = query.Where(d => d.Id == driverId);
+            }
 
-             var rawItems = (await connection.QueryAsync<dynamic>(sql, parameters)).AsList();
+            if (fullName is not null)
+            {
+                query = query.Where(d => (d.Person.FullName.FirstName + " " + d.Person.FullName.LastName).StartsWith(fullName));
+            }
 
-             int totalCount = rawItems.Count >0 ? (int)rawItems[0].TotalCount : 0;
+            if (nationNo is not null)
+            {
+                query = query.Where(d => d.Person.NationalNo.Number.StartsWith(nationNo));
+            }
 
-            var items = rawItems.Select(r => new DriversListResponse(
-                r.DriverId,
-                r.PersonId,
-                r.NationNo,
-                r.FullName,
-                r.CreateDate,
-                r.ActiveLicenses
-            )).ToList();
+            var totalCount = await query.CountAsync(cancellationToken);
+
+            var items = await query
+                 .OrderBy(d => d.CreateAt)
+                 .Skip((request.PageNumber - 1) * request.PageSize)
+                 .Take(request.PageSize)
+                 .Select(d => new DriversListResponse
+                 {
+                     DriverId = d.Id,
+                     CreateDate = d.CreateAt,
+                     FullName = d.Person.FullName.FirstName + " " + d.Person.FullName.LastName,
+                     NationNo = d.Person.NationalNo.Number,
+                     PersonId = d.PersonId,
+                     ActiveLicenses = d.Licenses.Count(l => l.IsActive)
+                    
+                 })
+                 .ToListAsync(cancellationToken);
 
             PagedList<DriversListResponse> pageResutl = new PagedList<DriversListResponse>(
                 items,

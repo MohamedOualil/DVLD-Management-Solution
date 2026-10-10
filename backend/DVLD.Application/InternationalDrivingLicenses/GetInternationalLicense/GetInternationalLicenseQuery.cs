@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.Application.InternationalDrivingLicenses.GetInternationalLicense
 {
-    public sealed record GetInternationalLicenseQuery(int internationalLicenseId) : IQuery<GetInternationalLicenseResponse>
+    public sealed record GetInternationalLicenseQuery(int InternationalLicenseId) : IQuery<GetInternationalLicenseResponse>
     {
     }
 }

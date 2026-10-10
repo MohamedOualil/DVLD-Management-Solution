@@ -1,8 +1,10 @@
 ﻿using Dapper;
-using DVLD.Application.Abstractions.Data;
+using DVLD.Application.Abstractions.Interfaces;
 using DVLD.Application.Abstractions.Messaging;
+using DVLD.Application.InternationalDrivingLicenses.GetInternationalLicense;
 using DVLD.Domain.Common;
 using DVLD.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,10 +17,10 @@ namespace DVLD.Application.Licenses.GetLicense
     internal sealed class GetLicenseQueryHandler : IQueryHandler<GetLicenseQuery, GetLicenseResponse>
     {
 
-        private readonly ISqlConnectionFactory _sqlConnectionFactory;
-        public GetLicenseQueryHandler(ISqlConnectionFactory sqlConnectionFactory)
+        private readonly IApplicationDbContext _dbContext;
+        public GetLicenseQueryHandler(IApplicationDbContext DbContext)
         {
-            _sqlConnectionFactory = sqlConnectionFactory;
+            _dbContext = DbContext;
 
         }
         public async Task<Result<GetLicenseResponse>> Handle(
@@ -27,42 +29,38 @@ namespace DVLD.Application.Licenses.GetLicense
         {
             if (request.LicenseId <= 0)
                 return Result<GetLicenseResponse>.Failure(DomainErrors.erLicense.InvalidId);
-            const string sql = @"SELECT 
-		                            L.Id AS LicenseId,
-		                            LC.ClassName,
-		                            CONCAT_WS(' ',p.FirstName,P.LastName) AS FullName,
-		                            P.NationalNo_Number AS NationalNo,
-		                            P.Gender,
-		                            P.DateOfBirth,
-		                            P.ImagePath,
-		                            L.IssueDate,
-		                            L.ExpirationDate,
-		                            L.DriverId,
-		                            L.IsDetained,
-		                            L.IsActive,
-		                            L.Notes,
-		                            L.IssueReason
-	                            FROM Licenses L
-	                            INNER JOIN LicenseClasses LC ON LC.Id = L.LicenseClassId
-	                            INNER JOIN Drivers D ON D.Id = L.DriverId
-	                            INNER JOIN Person P ON P.Id = D.PersonId
-	                            WHERE L.Id = @LicenseId AND L.IsDeactivated = 0";
-            using IDbConnection connection = _sqlConnectionFactory.CreateConnection();
 
-                var command = new CommandDefinition(
-                    sql,
-                    new { LicenseId = request.LicenseId },
-                    cancellationToken: cancellationToken);
+            var licenseResponse = await _dbContext.Licenses
+                    .AsNoTracking()
+                    .Where(i => i.Id == request.LicenseId)
+                    .Select(i => new GetLicenseResponse
+                    {
+                        DateOfBirth = i.Application.Person.DateOfBirth,
+                        DriverId = i.DriverId,
+                        ExpirationDate = i.ExpirationDate,
+                        IsDetained = i.IsDetained,
+                        IssueDate = i.IssueDate,
+                        FullName = i.Application.Person.FullName.FirstName + " " + i.Application.Person.FullName.LastName,
 
-            GetLicenseResponse? getLicenseResponse = await connection.QueryFirstOrDefaultAsync<GetLicenseResponse>(command) ;
-            
+                        Gender = (int)i.Application.Person.Gender,
+                        ImagePath = i.Application.Person.ImagePath,
+                        IsActive = i.IsActive,
+                        IssueReason = i.IssueReason,
+                        LicenseId = i.Id,
+                        NationalNo = i.Application.Person.NationalNo.Number,
+                        ClassName = i.LicenseClass.ClassName,
+                        Notes = i.Notes,
+                        
 
-            
 
-            if (getLicenseResponse is null )
+
+                    })
+                    .FirstOrDefaultAsync(cancellationToken);
+
+            if (licenseResponse is null )
                 return Result<GetLicenseResponse>.Failure(DomainErrors.erLicense.NotFound);
 
-            return Result<GetLicenseResponse>.Success(getLicenseResponse);
+            return Result<GetLicenseResponse>.Success(licenseResponse);
 
         }
     }

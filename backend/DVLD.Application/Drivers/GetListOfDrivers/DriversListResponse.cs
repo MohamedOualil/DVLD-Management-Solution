@@ -6,30 +6,14 @@ using System.Threading.Tasks;
 
 namespace DVLD.Application.Drivers.GetListOfDrivers
 {
-    public sealed class DriversListResponse
+    public record DriversListResponse
     {
-        public DriversListResponse(
-                            int driverId, 
-                            int personId, 
-                            string nationNo, 
-                            string fullName, 
-                            DateTime createDate, 
-                            int activeLicenses)
-        {
-            DriverId = driverId;
-            PersonId = personId;
-            NationNo = nationNo;
-            FullName = fullName;
-            CreateDate = createDate;
-            ActiveLicenses = activeLicenses;
-        }
-
-        public int PersonId { get; init; }
-        public int DriverId { get; init; }
-        public string NationNo { get; init; }
-        public string FullName { get; init; }
-        public DateTime CreateDate { get; init; }
-        public int ActiveLicenses { get; init; }
+        public required int DriverId { get; init; }
+        public required int PersonId { get; init; }
+        public required string NationNo { get; init; }
+        public required string FullName { get; init; }
+        public required DateTime CreateDate { get; init; }
+        public required int ActiveLicenses { get; init; }
 
     }
 }

@@ -1,34 +1,25 @@
-﻿using Dapper;
-using DVLD.Application.Abstractions;
-using DVLD.Application.Abstractions.Data;
+﻿using DVLD.Application.Abstractions;
+using DVLD.Application.Abstractions.Interfaces;
 using DVLD.Application.Abstractions.Messaging;
-using DVLD.Application.LocalLicenseApplications.GetAllLocalApplications;
 using DVLD.Domain.Common;
-using DVLD.Domain.ValueObjects;
-using System;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Application.Licenses.GetInternationalDrivingLicenseHistory
 {
     internal sealed class GetInternationalDrivingLicenseHistoryQueryHandler : IQueryHandler<GetInternationalDrivingLicenseHistoryQuery, PagedList<GetInternationalDrivingLicenseHistoryResponse>>
     {
-        private sealed record InternationalDrivingLicenseHistoryRaw : GetInternationalDrivingLicenseHistoryResponse
-        {
-            public int TotalCount { get; init; }
-        }
+        
 
-        private readonly ISqlConnectionFactory _sqlConnectionFactory;
+        private readonly IApplicationDbContext _dbContext;
         private readonly IValidate<GetInternationalDrivingLicenseHistoryQuery> _validator;
 
-        public GetInternationalDrivingLicenseHistoryQueryHandler(ISqlConnectionFactory sqlConnectionFactory,
+        public GetInternationalDrivingLicenseHistoryQueryHandler(
+            IApplicationDbContext dbContext,
             IValidate<GetInternationalDrivingLicenseHistoryQuery> validate)
         {
-            _sqlConnectionFactory = sqlConnectionFactory;
             _validator = validate;
+            _dbContext = dbContext;
         }
         public async Task<Result<PagedList<GetInternationalDrivingLicenseHistoryResponse>>> Handle(
             GetInternationalDrivingLicenseHistoryQuery request, 
@@ -38,43 +29,36 @@ namespace DVLD.Application.Licenses.GetInternationalDrivingLicenseHistory
             if (validation.IsFailure)
                 return Result<PagedList<GetInternationalDrivingLicenseHistoryResponse>>.Failure(validation.Errors);
 
-            const string sql = @"
-                            SELECT 
-		                        IL.Id AS InternationalLicenseId,
-		                        IL.ApplicationId,
-		                        IL.IssuedUsingLocalLicenseId AS LicenseId,
-		                        IL.IssueDate,
-		                        IL.ExpirationDate,
-		                        IL.IsActive
-	                        FROM InternationalLicenses IL
-	                        INNER JOIN Drivers D ON D.Id = IL.DriverId
-	                        INNER JOIN Person P ON P.Id = D.PersonId
-	                        WHERE P.NationalNo_Number = @NationalNo AND IL.IsDeactivated = 0
-                            ORDER BY IL.CreatedAt
-                            OFFSET (@PageNumber - 1) * @PageSize ROWS
-                            FETCH NEXT @PageSize ROWS ONLY;";
+            string? nationNo = string.IsNullOrWhiteSpace(request.NationalNo) ? null : request.NationalNo;
 
-            using IDbConnection connection = _sqlConnectionFactory.CreateConnection();
+            var query = _dbContext.InternationalLicenses.AsNoTracking();
 
-            var parameters = new
+
+            if (nationNo is not null)
             {
-                NationalNo = request.NationalNo,
-                PageNumber = request.PageNumber,
-                PageSize = request.PageSize
+                query = query.Where(i => i.Application.Person.NationalNo.Number.StartsWith(nationNo));
+            }
 
-            };
+            var totalCount = await query.CountAsync(cancellationToken);
 
-            var rawItems = (await connection.QueryAsync<InternationalDrivingLicenseHistoryRaw>(sql, parameters))
-                .AsList();
+            var items = await query
+                 .OrderBy(i => i.IssueDate)
+                 .Skip((request.PageNumber - 1) * request.PageSize)
+                 .Take(request.PageSize)
+                 .Select(l => new GetInternationalDrivingLicenseHistoryResponse
+                 {
+                     InternationalLicenseId = l.Id,
+                     IssueDate = l.IssueDate,
+                     ExpirationDate = l.ExpirationDate,
+                     ApplicationId = l.ApplicationId,
+                     IsActive = l.IsActive,
+                     LicenseId = l.IssuedUsingLocalLicenseId,
+                 })
+                 .ToListAsync(cancellationToken);
 
-            int totalCount = rawItems.Count > 0 ? rawItems[0].TotalCount : 0;
 
-            List<GetInternationalDrivingLicenseHistoryResponse> items = rawItems
-                                        .Cast<GetInternationalDrivingLicenseHistoryResponse>()
-                                        .ToList();
-
-            PagedList<GetInternationalDrivingLicenseHistoryResponse> pageResutl = new 
-                                                                         PagedList<GetInternationalDrivingLicenseHistoryResponse>(
+            PagedList<GetInternationalDrivingLicenseHistoryResponse> pageResutl = 
+                                        new  PagedList<GetInternationalDrivingLicenseHistoryResponse>(
                 items,
                 request.PageNumber,
                 request.PageSize,

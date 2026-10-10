@@ -1,6 +1,5 @@
 ﻿using DVLD.Application.Abstractions;
 using DVLD.Domain.Common;
-using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;

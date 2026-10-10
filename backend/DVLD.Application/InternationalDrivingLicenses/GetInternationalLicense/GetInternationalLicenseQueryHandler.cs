@@ -1,64 +1,61 @@
-﻿using Dapper;
-using DVLD.Application.Abstractions.Data;
+﻿using DVLD.Application.Abstractions.Interfaces;
 using DVLD.Application.Abstractions.Messaging;
-using DVLD.Application.InternationalDrivingLicenses.GetInternationalLicense;
 using DVLD.Domain.Common;
-using DVLD.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Application.InternationalDrivingLicenses.GetInternationalLicense
 {
     internal sealed class GetInternationalLicenseQueryHandler : IQueryHandler<GetInternationalLicenseQuery, GetInternationalLicenseResponse>
     {
 
-        private readonly ISqlConnectionFactory _sqlConnectionFactory;
-        public GetInternationalLicenseQueryHandler(ISqlConnectionFactory sqlConnectionFactory)
+        private readonly IApplicationDbContext _dbContext;
+        public GetInternationalLicenseQueryHandler(IApplicationDbContext dbContext)
         {
-            _sqlConnectionFactory = sqlConnectionFactory;
+            _dbContext = dbContext;
 
         }
         public async Task<Result<GetInternationalLicenseResponse>> Handle(
             GetInternationalLicenseQuery request, 
             CancellationToken cancellationToken)
         {
-            if (request.internationalLicenseId <= 0)
+            if (request.InternationalLicenseId <= 0)
                 return Result<GetInternationalLicenseResponse>.Failure(DomainErrors.erInternationalLicense.InvalidId);
-            const string sql = @"SELECT
-				                    L.Id AS InternationalLicensesId,
-		                            L.IssuedUsingLocalLicenseId AS LicenseId,
-		                            CONCAT_WS(' ',p.FirstName,P.LastName) AS FullName,
-		                            P.NationalNo_Number AS NationalNo,
-		                            P.Gender,
-		                            P.DateOfBirth,
-		                            P.ImagePath,
-		                            L.IssueDate,
-		                            L.ExpirationDate,
-		                            L.DriverId,
-		                            L.IsDetained,
-		                            L.IsActive,
-		                            L.IssueReason
-	                            FROM InternationalLicenses L
-	                            INNER JOIN Drivers D ON D.Id = L.DriverId
-	                            INNER JOIN Person P ON P.Id = D.PersonId
-	                            WHERE L.Id = @InternationalLicensesId AND L.IsDeactivated = 0";
-            using IDbConnection connection = _sqlConnectionFactory.CreateConnection();
 
-                var command = new CommandDefinition(
-                    sql,
-                    new { InternationalLicensesId = request.internationalLicenseId },
-                    cancellationToken: cancellationToken);
 
-            GetInternationalLicenseResponse? getLicenseResponse = await connection.QueryFirstOrDefaultAsync<GetInternationalLicenseResponse>(command) ;
+            var licenseResponse = await _dbContext.InternationalLicenses
+                    .AsNoTracking()
+                    .Where(i => i.Id == request.InternationalLicenseId)
+                    .Select(i => new GetInternationalLicenseResponse
+                    {
+                        DateOfBirth = i.Application.Person.DateOfBirth,
+                        DriverId = i.DriverId,
+                        ExpirationDate = i.ExpirationDate,
+                        IsDetained = i.IsDetained,
+                        IssueDate = i.IssueDate,
+                        ApplicationId = i.ApplicationId,
+                        FullName = i.Application.Person.FullName.FirstName + " " + i.Application.Person.FullName.LastName,
+
+                        Gender = (int)i.Application.Person.Gender,
+                        ImagePath = i.Application.Person.ImagePath,
+                        InternationalLicenseId = i.Id,
+                        IsActive = i.IsActive,
+                        IssueReason = i.IssueReason,
+                        LicenseId = i.IssuedUsingLocalLicenseId,
+                        NationalNo = i.Application.Person.NationalNo.Number,
+                        
+                        
+                    })
+                    .FirstOrDefaultAsync(cancellationToken);
+
             
-            if (getLicenseResponse is null )
+      
+
+            
+            if (licenseResponse is null )
                 return Result<GetInternationalLicenseResponse>.Failure(DomainErrors.erInternationalLicense.NotFound);
 
-            return Result<GetInternationalLicenseResponse>.Success(getLicenseResponse);
+            return Result<GetInternationalLicenseResponse>.Success(licenseResponse);
 
         }
     }

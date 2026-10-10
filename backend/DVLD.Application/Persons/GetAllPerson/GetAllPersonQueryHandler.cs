@@ -1,35 +1,26 @@
-﻿using Dapper;
-using DVLD.Application.Abstractions;
-using DVLD.Application.Abstractions.Data;
+﻿using DVLD.Application.Abstractions;
+using DVLD.Application.Abstractions.Interfaces;
 using DVLD.Application.Abstractions.Messaging;
-using DVLD.Application.Drivers.GetListOfDrivers;
 using DVLD.Domain.Common;
-using DVLD.Domain.Entities;
-using DVLD.Domain.ValueObjects;
-using System;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DVLD.Application.Persons.GetAllPerson
 {
     
-    internal sealed class GetAllLocalApplicationsQueryHandler : IQueryHandler<GetAllPersonQuery, PagedList<GetAllPersonResponse>>
+    internal sealed class GetAllPersonQueryHandler : IQueryHandler<GetAllPersonQuery, PagedList<GetAllPersonResponse>>
     {
-        private sealed record GetAllPersonRaw : GetAllPersonResponse
-        {
-            public int TotalCount { get; init; }
-        }
+        private readonly IApplicationDbContext _dbContext;
 
-        private readonly ISqlConnectionFactory _sqlConnectionFactory;
         private readonly IValidate<GetAllPersonQuery> _validator;
 
-        public GetAllLocalApplicationsQueryHandler(ISqlConnectionFactory sqlConnectionFactory,
+        public GetAllPersonQueryHandler(
+            IApplicationDbContext dbContext,
             IValidate<GetAllPersonQuery> validate)
         {
-            _sqlConnectionFactory = sqlConnectionFactory;
+            _dbContext = dbContext;
+
             _validator = validate;
         }
         public async Task<Result<PagedList<GetAllPersonResponse>>> Handle(
@@ -40,50 +31,42 @@ namespace DVLD.Application.Persons.GetAllPerson
             if (validation.IsFailure)
                 return Result<PagedList<GetAllPersonResponse>>.Failure(validation.Errors);
 
-            const string sql = @"
-                            	SELECT 
-		                            P.Id AS PersonId,
-		                            P.NationalNo_Number AS NationalNo,
-		                            P.Address_CountryID AS CountryId,
-		                            P.FirstName,
-		                            P.SecondName,
-		                            P.ThirdName,
-		                            P.LastName,
-		                            P.Gender,
-		                            P.DateOfBirth,
-		                            P.Phone,
-		                            P.Email,
-		                            Count(*) OVER () AS TotalCount
-	                            FROM Person P
-	                            WHERE P.IsDeactivated = 0
-	                            ORDER BY P.CreatedAt
-                                OFFSET (@PageNumber - 1) * @PageSize ROWS
-                                FETCH NEXT @PageSize ROWS ONLY;";
+            var totalCount = await _dbContext.Persons.CountAsync(cancellationToken);
 
-            using IDbConnection connection = _sqlConnectionFactory.CreateConnection();
+            var items = await _dbContext.Persons
+                .AsNoTracking()
+                .OrderBy(p => p.Id)
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .Select(p => new GetAllPersonResponse
+                {
+                    DateOfBirth = p.DateOfBirth,
 
-            var parameters = new
-            {
-                PageNumber = request.PageNumber,
-                PageSize = request.PageSize
+                    CountryId = p.NationalityCountryId,
 
-            };
+                    Email = p.Email.Value,
+                    FirstName = p.FullName.FirstName,
+                    LastName = p.FullName.LastName,
+                    SecondName = p.FullName.SecondName,
+                    ThirdName = p.FullName.ThirdName,
+                    Gender = (int)p.Gender,
 
-            var rawItems = (await connection.QueryAsync<GetAllPersonRaw>(sql, parameters)).AsList();
+                    NationalNo = p.NationalNo.Number,
+                    PersonId = p.Id,
+                    Phone = p.Phone.PhoneNumber,
 
-            int totalCount = rawItems.Count > 0 ? rawItems[0].TotalCount : 0;
+                })
+                .ToListAsync(cancellationToken);
 
-            List<GetAllPersonResponse> items = rawItems
-                                        .Cast<GetAllPersonResponse>()
-                                        .ToList();
 
-            PagedList<GetAllPersonResponse> pageResutl = new PagedList<GetAllPersonResponse>(
+            PagedList<GetAllPersonResponse> response = new PagedList<GetAllPersonResponse>(
                 items,
                 request.PageNumber,
                 request.PageSize,
                 totalCount);
 
-            return Result<PagedList<GetAllPersonResponse>>.Success(pageResutl);
+
+            return Result<PagedList<GetAllPersonResponse>>.Success(response);
         }
     }
 }
