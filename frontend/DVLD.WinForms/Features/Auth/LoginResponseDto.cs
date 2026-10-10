@@ -13,6 +13,6 @@ namespace DVLD.WinForms.Features.Auth
         public int UserId { get; set; }
         public required string Role { get; set; }
         public bool IsActive { get; set; }
-        public required string Token { get; set; } 
+        public required TokenResponse Token { get; init; }
     }
 }

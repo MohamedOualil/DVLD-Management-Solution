@@ -49,7 +49,7 @@ namespace DVLD.WinForms.Features.Auth
                 return;
             }
 
-            _session.CurrentToken = result.Data.Token;
+            _session.CurrentToken = result.Data.Token.AccessToken;
             _session.Role = result.Data.Role;
             _session.PersonId = result.Data.PersonId;
             _session.UserId = result.Data.UserId;

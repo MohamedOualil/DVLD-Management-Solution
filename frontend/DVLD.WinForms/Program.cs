@@ -16,8 +16,8 @@ namespace DVLD.WinForms
             ApplicationConfiguration.Initialize();
             var serviceProvider = DependencyContainer.ConfigureServices();
             var startForm = serviceProvider.GetRequiredService<LoginForm>();
-            var adminform = serviceProvider.GetRequiredService<AdminDashboardForm>();
-            Application.Run(adminform);
+            //var adminform = serviceProvider.GetRequiredService<AdminDashboardForm>();
+            Application.Run(startForm);
         }
     }
 }
