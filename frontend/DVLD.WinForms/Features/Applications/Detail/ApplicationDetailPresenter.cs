@@ -109,7 +109,7 @@ namespace DVLD.WinForms.Features.Applications.Detail
             View.StatusDate = applicationData.LastStatusDate.ToString("dd/MM/yyyy");
             View.CreateBy = applicationData.CreatedBy;
             View.ApplicationId = applicationData.ApplicationId.ToString();
-            View.ApplicationType = applicationData.ApplicationName;
+            View.ApplicationType = applicationData.ApplicationType;
             View.ApplicationLicenseClass = applicationData.LicenseClassId;
             View.LocalApplicationId = applicationData.LocalId.ToString();
             View.Fees = applicationData.PaidFees.ToString("C");
