@@ -2,6 +2,7 @@
 using DVLD.WinForms.Features.Applications;
 using DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication;
 using DVLD.WinForms.Features.Applications.Detail;
+using DVLD.WinForms.Features.Applications.IssueDrivingLicence;
 using DVLD.WinForms.Features.Auth;
 using DVLD.WinForms.Features.Dashboard;
 using DVLD.WinForms.Features.Persons;
@@ -48,6 +49,8 @@ namespace DVLD.WinForms.Common
 
             services.AddTransient<IApplicationDetailView,ApplicationDetailControl>();
             services.AddTransient<ApplicationDetailPresenter>();
+            services.AddTransient<IIssueDrivingLicenceView, IssueDrivingLicenceControl>();
+            services.AddTransient<IssueDrivingLicencePresenter>();
 
             services.AddTransient<ISelectPersonView,SelectPersonControl>();
             services.AddTransient<SelectPersonPresenter>();
