@@ -65,6 +65,7 @@ namespace DVLD.Application.LocalLicenseApplications.GetAllLocalApplications
 
             var items = await query
                  .OrderBy(l => l.Application.ApplicationDate)
+                 .ThenBy(l => l.Id)
                  .Skip((request.PageNumber - 1) * request.PageSize)
                  .Take(request.PageSize)
                  .Select(l => new GetAllLocalApplicationsResponse
@@ -81,10 +82,10 @@ namespace DVLD.Application.LocalLicenseApplications.GetAllLocalApplications
 
 
             PagedList<GetAllLocalApplicationsResponse> pageResutl = new PagedList<GetAllLocalApplicationsResponse>(
-                items,
-                request.PageNumber,
-                request.PageSize,
-                totalCount);
+                items: items,
+                totalCount: totalCount,
+                pageNumber: request.PageNumber,
+                pageSize: request.PageSize);
 
             return Result<PagedList<GetAllLocalApplicationsResponse>>.Success(pageResutl);
         }
