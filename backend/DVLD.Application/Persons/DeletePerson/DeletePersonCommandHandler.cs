@@ -4,6 +4,8 @@ using DVLD.Application.Persons.CreatePerson;
 using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
 using DVLD.Domain.Interfaces;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +18,12 @@ namespace DVLD.Application.Persons.DeletePerson
     {
         private readonly IPersonRepository _personRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IValidate<CreatePersonCommand> _validator;
         public DeletePersonCommandHandler(
             IPersonRepository personRepository,
-            IUnitOfWork unitOfWork,
-            IValidate<CreatePersonCommand> validate)
+            IUnitOfWork unitOfWork)
         {
             _personRepository = personRepository;
             _unitOfWork = unitOfWork;
-            _validator = validate;
 
         }
         public async Task<Result> Handle(DeletePersonCommand request, CancellationToken cancellationToken)
@@ -38,13 +37,20 @@ namespace DVLD.Application.Persons.DeletePerson
                 return Result.Failure(DomainErrors.erPerson.NotFound);
 
 
-            person.Deactivate();
+            try
+            {
+                _personRepository.Delete(person);
 
-            _personRepository.Update(person);
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+                return Result.Success();
+            }
+            catch (DbUpdateException ex) when (ex.InnerException is SqlException sqlEx && sqlEx.Number == 547)
+            {
+                return Result<bool>.Failure(DomainErrors.erPerson.CannotDeleteLinkedRecord);
 
-            return Result.Success();
+            }
+
 
         }
     }
