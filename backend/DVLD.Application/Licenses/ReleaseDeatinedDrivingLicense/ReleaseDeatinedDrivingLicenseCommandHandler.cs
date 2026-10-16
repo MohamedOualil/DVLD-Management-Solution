@@ -54,7 +54,7 @@ namespace DVLD.Application.Licenses.ReleaseDeatinedDrivingLicense
             if (detainedLicense is null)
                 return Result.Failure(DomainErrors.erDetainedLicense.LicenseNotDetained);
 
-            ApplicationTypes? applicationType = await _applicationTypesRepository.GetByIdAsync(
+            ApplicationType? applicationType = await _applicationTypesRepository.GetByIdAsync(
                (int)ApplicationTypeEnum.RenewDrivingLicenseService);
             if (applicationType is null)
                 return Result.Failure(DomainErrors.erApplicationTypes.NotFound);

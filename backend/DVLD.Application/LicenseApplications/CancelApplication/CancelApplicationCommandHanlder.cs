@@ -37,7 +37,7 @@ namespace DVLD.Application.LicenseApplications.CancelApplication
             if (user == null)
                 return Result.Failure(DomainErrors.erUser.NotFound);
 
-            Applications? application = await _applicationsRepository.GetByIdAsync(
+            Domain.Entities.Application? application = await _applicationsRepository.GetByIdAsync(
                 request.ApplicationId, 
                 cancellationToken);
 

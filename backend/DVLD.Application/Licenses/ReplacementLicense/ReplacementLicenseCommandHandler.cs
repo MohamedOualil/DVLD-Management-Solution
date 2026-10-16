@@ -60,7 +60,7 @@ namespace DVLD.Application.Licenses.ReplacementLicense
                 ApplicationTypeEnum.Replacement_for_a_LostDrivingLicense : 
                 ApplicationTypeEnum.Replacement_for_a_DamagedDrivingLicense;
 
-            ApplicationTypes? applicationType = await _applicationTypesRepository.GetByIdAsync(
+            ApplicationType? applicationType = await _applicationTypesRepository.GetByIdAsync(
                                     (int)applicationTypeId,
                                     cancellationToken);
             if (applicationType is null)
