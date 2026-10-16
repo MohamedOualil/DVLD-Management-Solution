@@ -1,4 +1,4 @@
-﻿using DVLD.WinForms.Shared.Events;
+using DVLD.WinForms.Shared.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +15,7 @@ namespace DVLD.WinForms.Features.Applications
         int cbStatusId { get; }
         event EventHandler OnLoadDataRequested;
         event EventHandler OnSearchChangeRequested;
+        event EventHandler<int> OnPageRequested;
         event EventHandler<ApplicationMenuEventArgs> OnOpeningLocalAppActionMenu;
         event EventHandler<PageModeEventArgs> OnApplicationDetailsRequested;
         event EventHandler IssueLicenseRequested;
@@ -32,6 +33,8 @@ namespace DVLD.WinForms.Features.Applications
         bool IsScheduleStreetTestEnabled { set; }
 
         void DisplayMessage(string message);
+        void DisplayPagination(int pageNumber, int totalPages, int totalCount);
+        void SetPaginationLoading(bool isLoading);
         void DisplayLocalApplications(IEnumerable<LocalApplicationsDto> localApplications);
     }
 }

@@ -1,4 +1,4 @@
-﻿using DVLD.WinForms.Shared.Enums;
+using DVLD.WinForms.Shared.Enums;
 using DVLD.WinForms.Shared.Events;
 using DVLD.WinForms.Shared.Helpers;
 using Guna.UI2.WinForms;
@@ -18,10 +18,9 @@ namespace DVLD.WinForms.Features.Applications
 {
     public partial class ApplicationsControl : UserControl, IApplicationsView
     {
-
-
         public event EventHandler OnLoadDataRequested;
         public event EventHandler OnSearchChangeRequested;
+        public event EventHandler<int> OnPageRequested;
         public event EventHandler<ApplicationMenuEventArgs> OnOpeningLocalAppActionMenu;
         public event EventHandler<int> OnCancelApplication;
         public event EventHandler<int> OnDeleteApplication;
@@ -34,6 +33,7 @@ namespace DVLD.WinForms.Features.Applications
         public ApplicationsControl()
         {
             InitializeComponent();
+            InitializeAppearance();
             //LocalDataGridView.AutoGenerateColumns = false;
             LoadStatusComboBox();
             LocalAppActionMenu.DropShadowEnabled = true;
@@ -56,6 +56,7 @@ namespace DVLD.WinForms.Features.Applications
 
         public void DisplayLocalApplications(IEnumerable<LocalApplicationsDto> localApplications)
         {
+            lblMessage.Visible = false;
             LocalDataGridView.Rows.Clear();
 
             foreach (var app in localApplications)

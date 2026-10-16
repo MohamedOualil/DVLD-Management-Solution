@@ -1,4 +1,4 @@
-﻿using DVLD.WinForms.Common;
+using DVLD.WinForms.Common;
 using DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication;
 using DVLD.WinForms.Features.Applications.Detail;
 using DVLD.WinForms.Features.Auth;
@@ -20,6 +20,11 @@ namespace DVLD.WinForms.Features.Applications
     {
 
         private readonly IApplicationsService _applicationsService ;
+        private const int PageSize = 10;
+        private int currentPage = 1;
+        private int totalPages = 1;
+        private int loadVersion;
+        private bool disposed;
 
 
         public ApplicationsPresenter(
@@ -31,8 +36,9 @@ namespace DVLD.WinForms.Features.Applications
         {
             _applicationsService = service;
 
-            View.OnLoadDataRequested += View_OnLoadDataRequested; ;
-            View.OnSearchChangeRequested += View_OnLoadDataRequested;
+            View.OnLoadDataRequested += View_OnLoadDataRequested;
+            View.OnSearchChangeRequested += View_OnSearchChangeRequested;
+            View.OnPageRequested += View_OnPageRequested;
             View.OnOpeningLocalAppActionMenu += _view_OnOpeningLocalAppActionMenu;
             View.OnApplicationDetailsRequested += View_OnApplicationDetailsRequested;
 
@@ -94,6 +100,19 @@ namespace DVLD.WinForms.Features.Applications
         private async void View_OnLoadDataRequested(object? sender, EventArgs e)
         {
             await LoadDataAsync();
+        }
+
+        private async void View_OnSearchChangeRequested(object? sender, EventArgs e)
+        {
+            await LoadDataAsync(1);
+        }
+
+        private async void View_OnPageRequested(object? sender, int pageNumber)
+        {
+            if (pageNumber < 1 || pageNumber > totalPages)
+                return;
+
+            await LoadDataAsync(pageNumber);
         }
 
         private void View_OnApplicationDetailsRequested(object? sender, PageModeEventArgs e)
@@ -160,30 +179,73 @@ namespace DVLD.WinForms.Features.Applications
             }
         }
 
-        private async Task LoadDataAsync()
+        private async Task LoadDataAsync(int? requestedPage = null)
         {
-
-            var applications = await _applicationsService.GetAllLocalApplicationsAsync(1, 10,
-                                                        View.SearchTerm,
-                                                        View.cbStatusId);
-            if (!applications.IsSuccess)
-            {
+            if (disposed)
                 return;
-            }
 
-            if (applications.Data.TotalCount == 0)
+            int pageToLoad = requestedPage ?? currentPage;
+            int thisLoad = ++loadVersion;
+            string searchTerm = View.SearchTerm;
+            int statusId = View.cbStatusId;
+            View.SetPaginationLoading(true);
+
+            try
             {
-                View.DisplayMessage(applications.Error.AllMessages);
-                return;
-            }
+                while (true)
+                {
+                    var applications = await _applicationsService.GetAllLocalApplicationsAsync(
+                        pageToLoad, PageSize, searchTerm, statusId);
 
-            View.DisplayLocalApplications(applications.Data.Items);
+                    // Only the newest request may update the view.
+                    if (disposed || thisLoad != loadVersion)
+                        return;
+
+                    if (!applications.IsSuccess || applications.Data is null)
+                    {
+                        View.DisplayMessage(applications.Error?.AllMessages
+                            ?? "Could not load applications.");
+                        return;
+                    }
+
+                    var data = applications.Data;
+                    int availablePages = Math.Max(1, data.TotalPages);
+                    if (pageToLoad > availablePages)
+                    {
+                        pageToLoad = availablePages;
+                        continue;
+                    }
+
+                    currentPage = pageToLoad;
+                    totalPages = availablePages;
+                    View.DisplayLocalApplications(data.Items);
+                    View.DisplayPagination(currentPage, totalPages, data.TotalCount);
+
+                    if (data.TotalCount == 0)
+                        View.DisplayMessage("No applications found.");
+
+                    return;
+                }
+            }
+            catch (Exception)
+            {
+                if (!disposed && thisLoad == loadVersion)
+                    View.DisplayMessage("Could not load applications. Please try again.");
+            }
+            finally
+            {
+                if (!disposed && thisLoad == loadVersion)
+                    View.SetPaginationLoading(false);
+            }
         }
 
         public override void Dispose()
         {
-            View.OnLoadDataRequested -= View_OnLoadDataRequested; ;
-            View.OnSearchChangeRequested -= View_OnLoadDataRequested;
+            disposed = true;
+            ++loadVersion;
+            View.OnLoadDataRequested -= View_OnLoadDataRequested;
+            View.OnSearchChangeRequested -= View_OnSearchChangeRequested;
+            View.OnPageRequested -= View_OnPageRequested;
             View.OnOpeningLocalAppActionMenu -= _view_OnOpeningLocalAppActionMenu;
             View.OnApplicationDetailsRequested -= View_OnApplicationDetailsRequested;
         }
