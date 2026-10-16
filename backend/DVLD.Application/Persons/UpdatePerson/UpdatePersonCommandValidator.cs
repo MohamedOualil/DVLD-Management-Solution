@@ -24,10 +24,8 @@ namespace DVLD.Application.Persons.UpdatePerson
             if (string.IsNullOrWhiteSpace(request.LastName))
                 errors.Add(DomainErrors.erPerson.LastNameRequired);
 
-            if (string.IsNullOrWhiteSpace(request.NationalNo))
-                errors.Add(DomainErrors.erPerson.InvalidNationalId);
 
-            if (request.CountryId <= 0)
+            if (request.NationalityCountry <= 0)
                 errors.Add(DomainErrors.erCountry.InvalidCode);
 
             var validDateOfBirthResult = DateOfBirthValidator.ValidateDateOfBirth(request.DateOfBirth);
@@ -50,7 +48,7 @@ namespace DVLD.Application.Persons.UpdatePerson
                 request.City,
                 request.State,
                 request.ZipCode,
-                request.AddressCountryId);
+                request.NationalityCountry);
             errors.AddRange(addressError);
 
 

@@ -39,18 +39,6 @@ namespace DVLD.Application.Persons.UpdatePerson
 
             if (person is null)
                 return Result.Failure(DomainErrors.erPerson.NotFound);
-
-            Result<NationalNo> nationalNo = NationalNo.Create(
-                request.NationalNo);
-
-            if (nationalNo.IsFailure)
-                return nationalNo;
-
-            if (person.NationalNo != nationalNo.Value)
-            {
-                if (await _personResponse.NationlNoExist(nationalNo.Value!.Number))
-                    return Result.Failure(DomainErrors.erPerson.NationalNoAlreadyExists);
-            }
             
 
 
@@ -58,8 +46,7 @@ namespace DVLD.Application.Persons.UpdatePerson
                 request.Street,
                 request.State,
                 request.City,
-                request.ZipCode,
-                request.CountryId);
+                request.ZipCode);
 
             FullName fullName = new FullName(
                 request.FirstName,
@@ -67,8 +54,8 @@ namespace DVLD.Application.Persons.UpdatePerson
                 request.ThirdName ?? string.Empty,
                 request.LastName);
 
-            person.Update(fullName, 
-                nationalNo.Value!, 
+            person.Update(fullName,
+                request.NationalityCountry,
                 request.DateOfBirth,
                 (Gender)request.Gender ,address, 
                 new Phone (request.Phone), 
