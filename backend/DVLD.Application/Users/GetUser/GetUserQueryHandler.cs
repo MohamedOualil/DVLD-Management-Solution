@@ -1,8 +1,8 @@
 ﻿using Dapper;
 using DVLD.Application.Abstractions;
 using DVLD.Application.Abstractions.Authentication;
-using DVLD.Application.Abstractions.Data;
 using DVLD.Application.Abstractions.Messaging;
+using DVLD.Application.Users.Login;
 using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
 using DVLD.Domain.Interfaces;
@@ -62,7 +62,7 @@ namespace DVLD.Application.Users.GetUser
             LoginResponse result = new LoginResponse
             {
                 Username = user.UserName,
-                Role = user.Role,
+                Role = (int)user.Role,
                 IsActive = user.IsActive,
                 PersonId = user.PersonId,
                 UserId = user.Id,

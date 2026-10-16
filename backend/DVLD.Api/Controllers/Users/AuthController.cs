@@ -1,5 +1,6 @@
 ﻿using DVLD.Api.Common;
 using DVLD.Application.Users.GetUser;
+using DVLD.Application.Users.Login;
 using DVLD.Domain.Common;
 using MediatR;
 using Microsoft.AspNetCore.Http;
