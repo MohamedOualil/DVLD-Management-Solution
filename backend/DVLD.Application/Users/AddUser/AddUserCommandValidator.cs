@@ -25,8 +25,8 @@ namespace DVLD.Application.Users.AddUser
             if (string.IsNullOrWhiteSpace(request.Password))
                 errors.Add(DomainErrors.erUser.PasswordRequired);
 
-            if (string.IsNullOrWhiteSpace(request.Roles))
-                errors.Add(DomainErrors.erUser.RolesRequired);
+            //if (string.IsNullOrWhiteSpace(request.Roles.ToString())
+            //    errors.Add(DomainErrors.erUser.RolesRequired);
 
             if (request.Password.Length < 6)
                 errors.Add(DomainErrors.erUser.PasswordTooShort);

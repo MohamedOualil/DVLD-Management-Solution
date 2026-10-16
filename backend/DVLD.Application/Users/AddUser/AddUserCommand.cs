@@ -13,7 +13,7 @@ namespace DVLD.Application.Users.AddUser
         public required int PersonId { get; init; }
         public required string UserName { get; init; }
         public required string Password { get; init; }
-        public required string Roles { get; init; }
+        public required int Roles { get; init; }
         public required bool IsActive { get; init; }
     }
 }
