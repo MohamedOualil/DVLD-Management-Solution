@@ -48,7 +48,7 @@ namespace DVLD.Application.InternationalDrivingLicenses.IssueInternationalLicens
                 cancellationToken))
                 return Result<int>.Failure(DomainErrors.erInternationalLicense.LicenseAlreadyIssued);
 
-            if (!await _userRepository.AnyAsync(c => c.Id == request.CreatedBy && !c.IsDeactivated, cancellationToken))
+            if (!await _userRepository.AnyAsync(c => c.Id == request.CreatedBy, cancellationToken))
                 return Result<int>.Failure(DomainErrors.erUser.NotFound);
 
             DrivingLicense? license = await _licenseRepository.GetByIdAsync(request.LicenseId);
@@ -56,7 +56,7 @@ namespace DVLD.Application.InternationalDrivingLicenses.IssueInternationalLicens
             if (license is null)
                 return Result<int>.Failure(DomainErrors.erLicense.NotFound);
 
-            ApplicationTypes? applicationType = await _applicationTypeRepository.GetByIdAsync(
+            ApplicationType? applicationType = await _applicationTypeRepository.GetByIdAsync(
                 (int)ApplicationTypeEnum.NewInternationalLicense);
             if (applicationType is null)
                 return Result<int>.Failure(DomainErrors.erApplicationTypes.NotFound);
