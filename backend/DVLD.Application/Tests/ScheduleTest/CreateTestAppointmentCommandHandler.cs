@@ -20,6 +20,7 @@ namespace DVLD.Application.Tests.ScheduleTest
         private readonly ILocalDrivingLicenseApplicationRepository _localApplicationRepository;
         private readonly IValidate<CreateTestAppointmentCommand> _validator;
         private readonly ITestTypesRepository _testTypesRepository;
+        private readonly IApplicationTypesRepository _applicationTypesRepository;
 
         public CreateTestAppointmentCommandHandler(
             IUnitOfWork unitOfWork, 
@@ -27,7 +28,8 @@ namespace DVLD.Application.Tests.ScheduleTest
             ITestTypesRepository testTypesRepository,
             IValidate<CreateTestAppointmentCommand> validator,
             ITestAppointmentRepository testAppoinmentRepository, 
-            ILocalDrivingLicenseApplicationRepository localApplicationRepository)
+            ILocalDrivingLicenseApplicationRepository localApplicationRepository,
+            IApplicationTypesRepository applicationTypesRepository)
         {
             _unitOfWork = unitOfWork;
             _testAppointmentRepository = testAppoinmentRepository;
@@ -35,6 +37,7 @@ namespace DVLD.Application.Tests.ScheduleTest
             _userRepository = userRepository;
             _validator = validator;
             _testTypesRepository = testTypesRepository;
+            _applicationTypesRepository = applicationTypesRepository;
         }
         public async Task<Result<int>> Handle(CreateTestAppointmentCommand request, CancellationToken cancellationToken)
         {
@@ -56,10 +59,22 @@ namespace DVLD.Application.Tests.ScheduleTest
             if (localApplication is null)
                 return Result<int>.Failure(DomainErrors.erLocalApplications.NotFound);
 
+            ApplicationType? retakeApplicationType = null;
+            if (localApplication.TestAppointments.Any(a =>
+                a.TestTypeId == testType.Id && a.Test?.TestResult == TestResult.Failure))
+            {
+                retakeApplicationType = await _applicationTypesRepository.GetByIdAsync(
+                    (int)ApplicationTypeEnum.RetakeTest, cancellationToken);
+
+                if (retakeApplicationType is null)
+                    return Result<int>.Failure(DomainErrors.erApplicationTypes.NotFound);
+            }
+
             Result<TestAppointment> scheduling = localApplication.ScheduleTest(
                 testType,
                 request.AppointmentDate,
-                request.CreatedById);
+                request.CreatedById,
+                retakeApplicationType);
 
             if (scheduling.IsFailure)
                 return Result<int>.Failure(scheduling.Errors);

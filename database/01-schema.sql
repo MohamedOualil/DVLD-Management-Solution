@@ -195,6 +195,7 @@ CREATE TABLE [TestAppointments] (
     [Id] int NOT NULL IDENTITY,
     [TestTypeId] int NOT NULL,
     [LocalDrivingLicenseApplicationId] int NOT NULL,
+    [RetakeTestApplicationId] int NULL,
     [AppointmentDate] DATETIME2 NOT NULL,
     [PaidFees] decimal(18,2) NOT NULL,
     [CreatedByUserId] int NOT NULL,
@@ -204,6 +205,7 @@ CREATE TABLE [TestAppointments] (
     CONSTRAINT [CK_TestAppointments_AppointmentDate] CHECK (AppointmentDate > CreateAt),
     CONSTRAINT [CK_TestAppointments_PaidFees] CHECK (PaidFees >= 0),
     CONSTRAINT [FK_TestAppointments_LDLA] FOREIGN KEY ([LocalDrivingLicenseApplicationId]) REFERENCES [LocalDrivingLicenseApplications] ([Id]),
+    CONSTRAINT [FK_TestAppointments_RetakeApplications] FOREIGN KEY ([RetakeTestApplicationId]) REFERENCES [Applications] ([Id]),
     CONSTRAINT [FK_TestAppointments_TestTypes] FOREIGN KEY ([TestTypeId]) REFERENCES [TestTypes] ([Id]),
     CONSTRAINT [FK_TestAppointments_Users] FOREIGN KEY ([CreatedByUserId]) REFERENCES [Users] ([Id])
 );
@@ -384,6 +386,10 @@ GO
 
 
 CREATE INDEX [IX_TestAppointments_TestTypeId] ON [TestAppointments] ([TestTypeId]);
+
+GO
+
+CREATE INDEX [IX_TestAppointments_RetakeTestApplicationId] ON [TestAppointments] ([RetakeTestApplicationId]);
 GO
 
 

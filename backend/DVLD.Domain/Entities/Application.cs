@@ -42,7 +42,7 @@ namespace DVLD.Domain.Entities
             LastStatusDate = DateTime.UtcNow;
             CreatedByUserId = createdById;
 
-            PaidFees = paidFees;
+            PaidFees = paidFees with { };
 
         }
         private Application(int personId, ApplicationType applicationTypes
@@ -56,7 +56,7 @@ namespace DVLD.Domain.Entities
             LastStatusDate = DateTime.UtcNow;
             CreatedByUserId = createdById;
 
-            PaidFees = paidFees;
+            PaidFees = paidFees with { };
 
         }
 

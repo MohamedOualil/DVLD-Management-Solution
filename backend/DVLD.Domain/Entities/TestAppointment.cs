@@ -19,6 +19,8 @@ namespace DVLD.Domain.Entities
         public LocalDrivingLicenseApplication LocalDrivingLicense { get; private set; }
         public DateTime AppointmentDate { get; private set; }
         public Money PaidFees { get; private set; }
+        public int? RetakeTestApplicationId { get; private set; }
+        public Application? RetakeTestApplication { get; private set; }
 
         public int CreatedByUserId { get; private set; }
         public User CreatedBy { get; private set; }
@@ -32,7 +34,7 @@ namespace DVLD.Domain.Entities
         private TestAppointment() { }
 
         private TestAppointment(TestType testTypes, LocalDrivingLicenseApplication localDrivingLicense,
-             DateTime appointmentdate ,int createdById)
+             DateTime appointmentdate ,int createdById, Application? retakeApplication)
         {
             TestTypeId = testTypes.Id;
             TestTypes = testTypes;
@@ -40,7 +42,9 @@ namespace DVLD.Domain.Entities
             LocalDrivingLicense = localDrivingLicense;
             CreatedByUserId = createdById;
 
-            PaidFees = testTypes.TestFees;
+            PaidFees = testTypes.TestFees with { };
+            RetakeTestApplication = retakeApplication;
+            RetakeTestApplicationId = retakeApplication?.Id;
             AppointmentDate = appointmentdate;
             
             IsLocked = false;
@@ -51,9 +55,10 @@ namespace DVLD.Domain.Entities
             TestType testType,
             LocalDrivingLicenseApplication localApp,
             DateTime appointmentDate,
-            int createdById)
+            int createdById,
+            Application? retakeApplication = null)
         {
-            return new TestAppointment(testType, localApp, appointmentDate, createdById);
+            return new TestAppointment(testType, localApp, appointmentDate, createdById, retakeApplication);
         }
 
         public Result<Test> TakeTest(TestResult testResult,string? notes,int createByid)

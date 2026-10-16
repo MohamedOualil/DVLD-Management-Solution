@@ -15,6 +15,12 @@ namespace DVLD.Infrastructure.Data.Configuration
         {
             base.Configure(builder);
 
+            builder.HasOne(t => t.RetakeTestApplication)
+                .WithMany()
+                .HasForeignKey(t => t.RetakeTestApplicationId)
+                .HasConstraintName("FK_TestAppointments_RetakeApplications")
+                .OnDelete(DeleteBehavior.NoAction);
+
             builder.HasOne(t => t.TestTypes)
                 .WithMany()
                 .HasForeignKey(t => t.TestTypeId)

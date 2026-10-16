@@ -28,6 +28,12 @@ To regenerate SQL files without connecting to SQL Server:
 
 Export is a fresh snapshot of the current EF model, not a migration for an existing database. Commit these setup files with your code. For future schema changes on populated databases, introduce EF migrations rather than recreating the database.
 
+### Retake appointment upgrade
+
+For an existing database, run `upgrades/001-retake-test-applications.sql` against that database before using the updated backend. It adds the nullable retake application link, foreign key, and index without changing existing appointments. It can be run again safely. New databases include this relationship in `01-schema.sql` and the setup tool's EF model.
+
+When scheduling after a failed test of the same type, the backend creates a completed `Applications` record of type `RetakeTest` (7) for the original applicant and links it through `TestAppointments.RetakeTestApplicationId`. Both records save in one transaction. The appointment's `PaidFees` stores the test fee; the linked application's `PaidFees` stores the retake service fee. Their sum is the total charge. First attempts have no retake application. Historical appointments are not backfilled because their actual retake payments are unknown.
+
 ## SQL Server Management Studio alternative
 
 Connect to `.\SQLEXPRESS` with Windows authentication. Execute `00-create-database.sql`, then select `DVLD_DB` and execute `01-schema.sql`, then `02-seed.sql`. Stop if a script fails. The seed script refuses existing data and wraps all inserts in a transaction; the setup tool is preferred because it wraps schema creation and data insertion together.

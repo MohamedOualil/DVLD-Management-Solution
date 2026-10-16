@@ -37,7 +37,11 @@ namespace DVLD.Application.Tests.GetTestDetails
                             t.LocalDrivingLicenseApplicationId == request.LocalApplicationId)
                 .CountAsync(cancellationToken);
 
-            bool isRetake = trials > 0;
+            bool isRetake = await _dbContext.TestAppointments
+                .AsNoTracking()
+                .AnyAsync(t => t.TestTypeId == request.TestTypeId &&
+                    t.LocalDrivingLicenseApplicationId == request.LocalApplicationId &&
+                    t.Test != null && t.Test.TestResult == TestResult.Failure, cancellationToken);
 
             decimal retakeFees = 0;
             if (isRetake)

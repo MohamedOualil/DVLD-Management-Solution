@@ -48,17 +48,33 @@ namespace DVLD.Domain.Entities
             return Result.Success();
         }
 
-        public Result<TestAppointment> ScheduleTest(TestType testType, DateTime appointmentDate, int createdById)
+        public Result<TestAppointment> ScheduleTest(TestType testType, DateTime appointmentDate, int createdById,
+            ApplicationType? retakeApplicationType = null)
         {
             Result canScheduleResult = CanScheduleTest((TestTypeEnum)testType.Id);
             if (canScheduleResult.IsFailure)
                 return Result<TestAppointment>.Failure(canScheduleResult.Errors);
 
+            Application? retakeApplication = null;
+            bool isRetake = TestAppointments.Any(a =>
+                a.TestTypeId == testType.Id && a.Test?.TestResult == TestResult.Failure);
+            if (isRetake)
+            {
+                if (retakeApplicationType is null)
+                    return Result<TestAppointment>.Failure(DomainErrors.erApplicationTypes.NotFound);
+                if (retakeApplicationType.Id != (int)ApplicationTypeEnum.RetakeTest)
+                    return Result<TestAppointment>.Failure(DomainErrors.erApplications.InvalidApplicationType);
+
+                retakeApplication = Application.CreateApplication(
+                    Application.PersonId, retakeApplicationType, createdById);
+            }
+
             TestAppointment newAppointment = TestAppointment.Create(
                 testType,
                 this,
                 appointmentDate,
-                createdById);
+                createdById,
+                retakeApplication);
 
             TestAppointments.Add(newAppointment);
 
