@@ -14,7 +14,9 @@ namespace DVLD.WinForms.Features.Test_Appointments
 
         public async Task<ApiResponse<List<TestAppointmentsRespondDto>>> GetTestAppointmentsAsync(int localApplicationId, TestTypeEnum testType)
         {
-            string endpoint = $"localapplications/{localApplicationId}/test-appointments?testTypeId={(int)testType}";
+
+            string endpoint =$"TestAppointments/{localApplicationId}/test-appointments" +
+                            $"?testTypeId={(int)testType}";
 
             return await _apiClient.GetAsync<List<TestAppointmentsRespondDto>>(endpoint);
         }

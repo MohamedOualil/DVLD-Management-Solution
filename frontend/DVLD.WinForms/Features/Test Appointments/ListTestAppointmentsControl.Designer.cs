@@ -1,244 +1,367 @@
-﻿namespace DVLD.WinForms.Features.Test_Appointments
+#nullable enable
+namespace DVLD.WinForms.Features.Test_Appointments
 {
     partial class ListTestAppointmentsControl
     {
-        /// <summary> 
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        /// <summary> 
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        private System.ComponentModel.IContainer? components;
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
+            if (disposing) components?.Dispose();
             base.Dispose(disposing);
         }
 
-        #region Component Designer generated code
-
-        /// <summary> 
-        /// Required method for Designer support - do not modify 
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListTestAppointmentsControl));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            TestAppointmentsDataGridView = new Guna.UI2.WinForms.Guna2DataGridView();
-            TestAppointmentId = new DataGridViewTextBoxColumn();
-            AppointmentDate = new DataGridViewTextBoxColumn();
-            TestStatus = new DataGridViewTextBoxColumn();
-            PaidFees = new DataGridViewTextBoxColumn();
-            TestResult = new DataGridViewTextBoxColumn();
-            guna2ShadowPanel1 = new Guna.UI2.WinForms.Guna2ShadowPanel();
-            CreateAppointmentButton = new Guna.UI2.WinForms.Guna2GradientButton();
-            pictureBox3 = new PictureBox();
-            guna2HtmlLabel8 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            lblMessage = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            ((System.ComponentModel.ISupportInitialize)TestAppointmentsDataGridView).BeginInit();
-            guna2ShadowPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            components = new System.ComponentModel.Container();
+            var page = new TableLayoutPanel();
+            var heading = new Panel();
+            BackButton = new Button();
+            lblPageTitle = new Label();
+            var subtitle = new Label();
+            var applicantCard = new Guna.UI2.WinForms.Guna2Panel();
+            var applicantLayout = new TableLayoutPanel();
+            var identity = new Panel();
+            avatar = new Label();
+            lblFullName = new Label();
+            lblNationalNo = new Label();
+            var application = new Panel();
+            var applicationCaption = new Label();
+            lblApplicationId = new Label();
+            var licenseClass = new Panel();
+            var classCaption = new Label();
+            lblLicenseClass = new Label();
+            var status = new Panel();
+            var statusCaption = new Label();
+            lblApplicationStatus = new Label();
+            var progressCard = new Guna.UI2.WinForms.Guna2Panel();
+            var progressTitle = new Label();
+            var progressLayout = new TableLayoutPanel();
+            lblVisionProgress = new Label();
+            lblWrittenProgress = new Label();
+            lblStreetProgress = new Label();
+            var historyCard = new Guna.UI2.WinForms.Guna2Panel();
+            var history = new TableLayoutPanel();
+            var historyHeading = new Panel();
+            var historyTitle = new Label();
+            lblAppointmentCount = new Label();
+            CreateAppointmentButton = new Guna.UI2.WinForms.Guna2Button();
+            lblMessage = new Label();
+            TestAppointmentsDataGridView = new DataGridView();
+            var footer = new Label();
+            var idColumn = new DataGridViewTextBoxColumn();
+            var dateColumn = new DataGridViewTextBoxColumn();
+            var statusColumn = new DataGridViewTextBoxColumn();
+            var feesColumn = new DataGridViewTextBoxColumn();
+            var resultColumn = new DataGridViewTextBoxColumn();
+            var detailsColumn = new DataGridViewLinkColumn();
             SuspendLayout();
-            // 
-            // TestAppointmentsDataGridView
-            // 
+            ((System.ComponentModel.ISupportInitialize)TestAppointmentsDataGridView).BeginInit();
+
+            page.Name = "pageLayout";
+            page.Dock = DockStyle.Top;
+            page.AutoSize = true;
+            page.ColumnCount = 1;
+            page.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            page.RowCount = 4;
+            page.RowStyles.Add(new RowStyle(SizeType.Absolute, 92F));
+            page.RowStyles.Add(new RowStyle(SizeType.Absolute, 122F));
+            page.RowStyles.Add(new RowStyle(SizeType.Absolute, 112F));
+            page.RowStyles.Add(new RowStyle(SizeType.Absolute, 300F));
+            page.Padding = new Padding(24, 12, 24, 20);
+            page.Controls.Add(heading, 0, 0);
+            page.Controls.Add(applicantCard, 0, 1);
+            page.Controls.Add(progressCard, 0, 2);
+            page.Controls.Add(historyCard, 0, 3);
+            heading.Dock = DockStyle.Fill;
+            heading.Size = new Size(955, 92);
+            heading.Margin = new Padding(0);
+            heading.Controls.Add(BackButton);
+            heading.Controls.Add(lblPageTitle);
+            heading.Controls.Add(subtitle);
+            BackButton.Name = "BackButton";
+            BackButton.Text = "←  Back to Applications";
+            BackButton.Location = new Point(0, 0);
+            BackButton.Size = new Size(200, 28);
+            BackButton.FlatStyle = FlatStyle.Flat;
+            BackButton.FlatAppearance.BorderSize = 0;
+            BackButton.ForeColor = Color.FromArgb(37, 99, 235);
+            BackButton.TextAlign = ContentAlignment.MiddleLeft;
+            BackButton.Cursor = Cursors.Hand;
+            BackButton.Click += BackButton_Click;
+            lblPageTitle.Name = "lblPageTitle";
+            lblPageTitle.Text = "Test Appointments";
+            lblPageTitle.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            lblPageTitle.Location = new Point(0, 30);
+            lblPageTitle.Size = new Size(850, 36);
+            lblPageTitle.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            subtitle.Text = "Manage bookings and review previous attempts";
+            subtitle.ForeColor = Color.FromArgb(100, 116, 139);
+            subtitle.Location = new Point(2, 68);
+            subtitle.Size = new Size(650, 22);
+
+            applicantCard.Name = "applicantCard";
+            applicantCard.Dock = DockStyle.Fill;
+            applicantCard.Margin = new Padding(0, 6, 0, 8);
+            applicantCard.FillColor = Color.White;
+            applicantCard.BorderRadius = 10;
+            applicantCard.BorderThickness = 1;
+            applicantCard.BorderColor = Color.FromArgb(222, 229, 238);
+            applicantCard.Padding = new Padding(18);
+            applicantCard.Controls.Add(applicantLayout);
+            applicantLayout.Dock = DockStyle.Fill;
+            applicantLayout.BackColor = Color.White;
+            applicantLayout.ColumnCount = 4;
+            applicantLayout.RowCount = 1;
+            applicantLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            applicantLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 36F));
+            applicantLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16F));
+            applicantLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
+            applicantLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18F));
+            applicantLayout.Controls.Add(identity, 0, 0);
+            applicantLayout.Controls.Add(application, 1, 0);
+            applicantLayout.Controls.Add(licenseClass, 2, 0);
+            applicantLayout.Controls.Add(status, 3, 0);
+            identity.Dock = DockStyle.Fill;
+            identity.Size = new Size(324, 66);
+            identity.Controls.Add(avatar);
+            identity.Controls.Add(lblFullName);
+            identity.Controls.Add(lblNationalNo);
+            avatar.Text = "DV";
+            avatar.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            avatar.ForeColor = Color.FromArgb(37, 99, 235);
+            avatar.BackColor = Color.FromArgb(231, 240, 255);
+            avatar.TextAlign = ContentAlignment.MiddleCenter;
+            avatar.Location = new Point(0, 6);
+            avatar.Size = new Size(52, 54);
+            lblFullName.Name = "lblFullName";
+            lblFullName.Text = "Loading applicant…";
+            lblFullName.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            lblFullName.Location = new Point(64, 8);
+            lblFullName.Size = new Size(240, 27);
+            lblFullName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblFullName.AutoEllipsis = true;
+            lblNationalNo.Name = "lblNationalNo";
+            lblNationalNo.Text = "National No: —";
+            lblNationalNo.ForeColor = Color.FromArgb(100, 116, 139);
+            lblNationalNo.Location = new Point(64, 38);
+            lblNationalNo.Size = new Size(240, 24);
+            lblNationalNo.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblNationalNo.AutoEllipsis = true;
+            application.Dock = DockStyle.Fill;
+            application.Controls.Add(lblApplicationId);
+            application.Controls.Add(applicationCaption);
+            applicationCaption.Text = "Application ID";
+            applicationCaption.ForeColor = Color.FromArgb(100, 116, 139);
+            applicationCaption.Dock = DockStyle.Top;
+            applicationCaption.Height = 30;
+            lblApplicationId.Name = "lblApplicationId";
+            lblApplicationId.Text = "—";
+            lblApplicationId.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            lblApplicationId.Dock = DockStyle.Fill;
+            licenseClass.Dock = DockStyle.Fill;
+            licenseClass.Controls.Add(lblLicenseClass);
+            licenseClass.Controls.Add(classCaption);
+            classCaption.Text = "License Class";
+            classCaption.ForeColor = Color.FromArgb(100, 116, 139);
+            classCaption.Dock = DockStyle.Top;
+            classCaption.Height = 30;
+            lblLicenseClass.Name = "lblLicenseClass";
+            lblLicenseClass.Text = "—";
+            lblLicenseClass.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblLicenseClass.Dock = DockStyle.Fill;
+            lblLicenseClass.AutoEllipsis = true;
+            status.Dock = DockStyle.Fill;
+            status.Controls.Add(lblApplicationStatus);
+            status.Controls.Add(statusCaption);
+            statusCaption.Text = "Application Status";
+            statusCaption.ForeColor = Color.FromArgb(100, 116, 139);
+            statusCaption.Dock = DockStyle.Top;
+            statusCaption.Height = 30;
+            lblApplicationStatus.Name = "lblApplicationStatus";
+            lblApplicationStatus.Text = "—";
+            lblApplicationStatus.Dock = DockStyle.Fill;
+            lblApplicationStatus.BackColor = Color.FromArgb(231, 240, 255);
+            lblApplicationStatus.ForeColor = Color.FromArgb(37, 99, 235);
+            lblApplicationStatus.TextAlign = ContentAlignment.MiddleCenter;
+
+            progressCard.Name = "progressCard";
+            progressCard.Dock = DockStyle.Fill;
+            progressCard.Margin = new Padding(0, 0, 0, 12);
+            progressCard.FillColor = Color.White;
+            progressCard.BorderRadius = 10;
+            progressCard.BorderThickness = 1;
+            progressCard.BorderColor = Color.FromArgb(222, 229, 238);
+            progressCard.Padding = new Padding(18, 10, 18, 12);
+            progressCard.Controls.Add(progressLayout);
+            progressCard.Controls.Add(progressTitle);
+            progressTitle.Text = "Test progress";
+            progressTitle.BackColor = Color.White;
+            progressTitle.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            progressTitle.Dock = DockStyle.Top;
+            progressTitle.Height = 26;
+            progressLayout.Dock = DockStyle.Fill;
+            progressLayout.BackColor = Color.White;
+            progressLayout.ColumnCount = 3;
+            progressLayout.RowCount = 1;
+            progressLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+            progressLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+            progressLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.34F));
+            progressLayout.Controls.Add(lblVisionProgress, 0, 0);
+            progressLayout.Controls.Add(lblWrittenProgress, 1, 0);
+            progressLayout.Controls.Add(lblStreetProgress, 2, 0);
+            lblVisionProgress.Name = "lblVisionProgress";
+            lblVisionProgress.Text = "1  Vision\r\nLoading…";
+            lblVisionProgress.Dock = DockStyle.Fill;
+            lblVisionProgress.TextAlign = ContentAlignment.MiddleCenter;
+            lblWrittenProgress.Name = "lblWrittenProgress";
+            lblWrittenProgress.Text = "2  Written\r\nLoading…";
+            lblWrittenProgress.Dock = DockStyle.Fill;
+            lblWrittenProgress.TextAlign = ContentAlignment.MiddleCenter;
+            lblStreetProgress.Name = "lblStreetProgress";
+            lblStreetProgress.Text = "3  Street\r\nLoading…";
+            lblStreetProgress.Dock = DockStyle.Fill;
+            lblStreetProgress.TextAlign = ContentAlignment.MiddleCenter;
+
+            historyCard.Name = "historyCard";
+            historyCard.Dock = DockStyle.Fill;
+            historyCard.Margin = new Padding(0);
+            historyCard.FillColor = Color.White;
+            historyCard.BorderRadius = 10;
+            historyCard.BorderThickness = 1;
+            historyCard.BorderColor = Color.FromArgb(222, 229, 238);
+            historyCard.Padding = new Padding(18, 12, 18, 12);
+            historyCard.Controls.Add(history);
+            history.Dock = DockStyle.Fill;
+            history.BackColor = Color.White;
+            history.ColumnCount = 1;
+            history.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            history.RowCount = 4;
+            history.RowStyles.Add(new RowStyle(SizeType.Absolute, 58F));
+            history.RowStyles.Add(new RowStyle(SizeType.Absolute, 38F));
+            history.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            history.RowStyles.Add(new RowStyle(SizeType.Absolute, 24F));
+            history.Controls.Add(historyHeading, 0, 0);
+            history.Controls.Add(lblMessage, 0, 1);
+            history.Controls.Add(TestAppointmentsDataGridView, 0, 2);
+            history.Controls.Add(footer, 0, 3);
+            historyHeading.Dock = DockStyle.Fill;
+            historyHeading.Margin = new Padding(0);
+            historyHeading.Controls.Add(historyTitle);
+            historyHeading.Controls.Add(lblAppointmentCount);
+            historyHeading.Controls.Add(CreateAppointmentButton);
+            historyTitle.Text = "Appointment History";
+            historyTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            historyTitle.Location = new Point(0, 0);
+            historyTitle.Size = new Size(350, 28);
+            lblAppointmentCount.Name = "lblAppointmentCount";
+            lblAppointmentCount.Text = "Loading appointments…";
+            lblAppointmentCount.ForeColor = Color.FromArgb(100, 116, 139);
+            lblAppointmentCount.Location = new Point(0, 30);
+            lblAppointmentCount.Size = new Size(400, 22);
+            CreateAppointmentButton.Name = "CreateAppointmentButton";
+            CreateAppointmentButton.Text = "+  New Appointment";
+            CreateAppointmentButton.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            CreateAppointmentButton.FillColor = Color.FromArgb(37, 99, 235);
+            CreateAppointmentButton.ForeColor = Color.White;
+            CreateAppointmentButton.BorderRadius = 7;
+            CreateAppointmentButton.Dock = DockStyle.Right;
+            CreateAppointmentButton.Width = 190;
+            CreateAppointmentButton.Enabled = false;
+            CreateAppointmentButton.DisabledState.FillColor = Color.FromArgb(239, 243, 248);
+            CreateAppointmentButton.DisabledState.ForeColor = Color.FromArgb(135, 148, 165);
+            CreateAppointmentButton.Click += CreateAppointmentButton_Click;
+            lblMessage.Name = "lblMessage";
+            lblMessage.Text = "Loading appointment information…";
+            lblMessage.Dock = DockStyle.Fill;
+            lblMessage.Margin = new Padding(0, 2, 0, 6);
+            lblMessage.Padding = new Padding(10, 0, 4, 0);
+            lblMessage.BackColor = Color.FromArgb(231, 240, 255);
+            lblMessage.ForeColor = Color.FromArgb(37, 99, 235);
+            lblMessage.TextAlign = ContentAlignment.MiddleLeft;
+            lblMessage.AutoEllipsis = true;
+
+            TestAppointmentsDataGridView.Name = "TestAppointmentsDataGridView";
+            TestAppointmentsDataGridView.Dock = DockStyle.Fill;
+            TestAppointmentsDataGridView.Margin = new Padding(0, 4, 0, 6);
+            TestAppointmentsDataGridView.BackgroundColor = Color.White;
+            TestAppointmentsDataGridView.BorderStyle = BorderStyle.None;
             TestAppointmentsDataGridView.AllowUserToAddRows = false;
             TestAppointmentsDataGridView.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = Color.White;
-            TestAppointmentsDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(37, 99, 235);
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            TestAppointmentsDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            TestAppointmentsDataGridView.ColumnHeadersHeight = 30;
-            TestAppointmentsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            TestAppointmentsDataGridView.Columns.AddRange(new DataGridViewColumn[] { TestAppointmentId, AppointmentDate, TestStatus, PaidFees, TestResult });
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(224, 231, 255);
-            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            TestAppointmentsDataGridView.DefaultCellStyle = dataGridViewCellStyle3;
-            TestAppointmentsDataGridView.GridColor = Color.FromArgb(233, 236, 239);
-            TestAppointmentsDataGridView.Location = new Point(3, 74);
-            TestAppointmentsDataGridView.MultiSelect = false;
-            TestAppointmentsDataGridView.Name = "TestAppointmentsDataGridView";
+            TestAppointmentsDataGridView.AllowUserToResizeRows = false;
             TestAppointmentsDataGridView.ReadOnly = true;
             TestAppointmentsDataGridView.RowHeadersVisible = false;
-            TestAppointmentsDataGridView.RowTemplate.Height = 30;
-            TestAppointmentsDataGridView.Size = new Size(970, 296);
-            TestAppointmentsDataGridView.TabIndex = 1;
-            TestAppointmentsDataGridView.ThemeStyle.AlternatingRowsStyle.BackColor = Color.White;
-            TestAppointmentsDataGridView.ThemeStyle.AlternatingRowsStyle.Font = null;
-            TestAppointmentsDataGridView.ThemeStyle.AlternatingRowsStyle.ForeColor = Color.Empty;
-            TestAppointmentsDataGridView.ThemeStyle.AlternatingRowsStyle.SelectionBackColor = Color.Empty;
-            TestAppointmentsDataGridView.ThemeStyle.AlternatingRowsStyle.SelectionForeColor = Color.Empty;
-            TestAppointmentsDataGridView.ThemeStyle.BackColor = Color.White;
-            TestAppointmentsDataGridView.ThemeStyle.GridColor = Color.FromArgb(233, 236, 239);
-            TestAppointmentsDataGridView.ThemeStyle.HeaderStyle.BackColor = Color.FromArgb(37, 99, 235);
-            TestAppointmentsDataGridView.ThemeStyle.HeaderStyle.BorderStyle = DataGridViewHeaderBorderStyle.None;
-            TestAppointmentsDataGridView.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 9F);
-            TestAppointmentsDataGridView.ThemeStyle.HeaderStyle.ForeColor = Color.White;
-            TestAppointmentsDataGridView.ThemeStyle.HeaderStyle.HeaightSizeMode = DataGridViewColumnHeadersHeightSizeMode.EnableResizing;
-            TestAppointmentsDataGridView.ThemeStyle.HeaderStyle.Height = 30;
-            TestAppointmentsDataGridView.ThemeStyle.ReadOnly = true;
-            TestAppointmentsDataGridView.ThemeStyle.RowsStyle.BackColor = Color.White;
-            TestAppointmentsDataGridView.ThemeStyle.RowsStyle.BorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            TestAppointmentsDataGridView.ThemeStyle.RowsStyle.Font = new Font("Segoe UI", 9F);
-            TestAppointmentsDataGridView.ThemeStyle.RowsStyle.ForeColor = Color.FromArgb(71, 69, 94);
-            TestAppointmentsDataGridView.ThemeStyle.RowsStyle.Height = 30;
-            TestAppointmentsDataGridView.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(224, 231, 255);
-            TestAppointmentsDataGridView.ThemeStyle.RowsStyle.SelectionForeColor = Color.Black;
-            // 
-            // TestAppointmentId
-            // 
-            TestAppointmentId.FillWeight = 90F;
-            TestAppointmentId.HeaderText = "Appointments ID";
-            TestAppointmentId.Name = "TestAppointmentId";
-            TestAppointmentId.ReadOnly = true;
-            // 
-            // AppointmentDate
-            // 
-            AppointmentDate.HeaderText = "Appointment Date";
-            AppointmentDate.Name = "AppointmentDate";
-            AppointmentDate.ReadOnly = true;
-            // 
-            // TestStatus
-            // 
-            TestStatus.HeaderText = "Status";
-            TestStatus.Name = "TestStatus";
-            TestStatus.ReadOnly = true;
-            TestStatus.Resizable = DataGridViewTriState.True;
-            TestStatus.SortMode = DataGridViewColumnSortMode.NotSortable;
-            // 
-            // PaidFees
-            // 
-            PaidFees.HeaderText = "Paid Fees";
-            PaidFees.Name = "PaidFees";
-            PaidFees.ReadOnly = true;
-            // 
-            // TestResult
-            // 
-            TestResult.HeaderText = "Result";
-            TestResult.Name = "TestResult";
-            TestResult.ReadOnly = true;
-            // 
-            // guna2ShadowPanel1
-            // 
-            guna2ShadowPanel1.BackColor = Color.Transparent;
-            guna2ShadowPanel1.Controls.Add(lblMessage);
-            guna2ShadowPanel1.Controls.Add(CreateAppointmentButton);
-            guna2ShadowPanel1.Controls.Add(pictureBox3);
-            guna2ShadowPanel1.Controls.Add(guna2HtmlLabel8);
-            guna2ShadowPanel1.Controls.Add(TestAppointmentsDataGridView);
-            guna2ShadowPanel1.FillColor = Color.White;
-            guna2ShadowPanel1.Location = new Point(11, 252);
-            guna2ShadowPanel1.Name = "guna2ShadowPanel1";
-            guna2ShadowPanel1.Radius = 6;
-            guna2ShadowPanel1.ShadowColor = Color.Black;
-            guna2ShadowPanel1.ShadowDepth = 50;
-            guna2ShadowPanel1.Size = new Size(976, 373);
-            guna2ShadowPanel1.TabIndex = 2;
-            // 
-            // CreateAppointmentButton
-            // 
-            CreateAppointmentButton.BorderRadius = 10;
-            CreateAppointmentButton.CustomizableEdges = customizableEdges1;
-            CreateAppointmentButton.DisabledState.BorderColor = Color.DarkGray;
-            CreateAppointmentButton.DisabledState.CustomBorderColor = Color.DarkGray;
-            CreateAppointmentButton.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            CreateAppointmentButton.DisabledState.FillColor2 = Color.FromArgb(169, 169, 169);
-            CreateAppointmentButton.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            CreateAppointmentButton.FillColor = Color.Transparent;
-            CreateAppointmentButton.FillColor2 = Color.Transparent;
-            CreateAppointmentButton.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            CreateAppointmentButton.ForeColor = Color.FromArgb(37, 99, 235);
-            CreateAppointmentButton.Image = (Image)resources.GetObject("CreateAppointmentButton.Image");
-            CreateAppointmentButton.ImageAlign = HorizontalAlignment.Left;
-            CreateAppointmentButton.ImageOffset = new Point(-3, 0);
-            CreateAppointmentButton.Location = new Point(777, 19);
-            CreateAppointmentButton.Name = "CreateAppointmentButton";
-            CreateAppointmentButton.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            CreateAppointmentButton.Size = new Size(180, 35);
-            CreateAppointmentButton.TabIndex = 11;
-            CreateAppointmentButton.Text = "   New Appointment";
-            CreateAppointmentButton.Click += CreateAppointmentButton_Click;
-            // 
-            // pictureBox3
-            // 
-            pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(18, 12);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(30, 30);
-            pictureBox3.SizeMode = PictureBoxSizeMode.AutoSize;
-            pictureBox3.TabIndex = 10;
-            pictureBox3.TabStop = false;
-            // 
-            // guna2HtmlLabel8
-            // 
-            guna2HtmlLabel8.BackColor = Color.Transparent;
-            guna2HtmlLabel8.Font = new Font("Segoe UI", 15F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel8.ForeColor = Color.Black;
-            guna2HtmlLabel8.Location = new Point(54, 12);
-            guna2HtmlLabel8.Name = "guna2HtmlLabel8";
-            guna2HtmlLabel8.Size = new Size(203, 30);
-            guna2HtmlLabel8.TabIndex = 9;
-            guna2HtmlLabel8.Text = "Appointment History";
-            // 
-            // lblMessage
-            // 
-            lblMessage.BackColor = Color.Transparent;
-            lblMessage.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblMessage.ForeColor = Color.FromArgb(37, 99, 235);
-            lblMessage.Location = new Point(436, 187);
-            lblMessage.Name = "lblMessage";
-            lblMessage.Size = new Size(64, 22);
-            lblMessage.TabIndex = 12;
-            lblMessage.Text = "Message";
-            lblMessage.Visible = false;
-            // 
-            // ListTestAppointmentsControl
-            // 
+            TestAppointmentsDataGridView.MultiSelect = false;
+            TestAppointmentsDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            TestAppointmentsDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            TestAppointmentsDataGridView.EnableHeadersVisualStyles = false;
+            TestAppointmentsDataGridView.ColumnHeadersHeight = 36;
+            TestAppointmentsDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            TestAppointmentsDataGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(242, 246, 251);
+            TestAppointmentsDataGridView.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(30, 41, 59);
+            TestAppointmentsDataGridView.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            TestAppointmentsDataGridView.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.FromArgb(242, 246, 251);
+            TestAppointmentsDataGridView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            TestAppointmentsDataGridView.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            TestAppointmentsDataGridView.GridColor = Color.FromArgb(226, 232, 240);
+            TestAppointmentsDataGridView.RowTemplate.Height = 40;
+            TestAppointmentsDataGridView.DefaultCellStyle.Font = new Font("Segoe UI", 9F);
+            TestAppointmentsDataGridView.DefaultCellStyle.ForeColor = Color.FromArgb(30, 41, 59);
+            TestAppointmentsDataGridView.DefaultCellStyle.SelectionBackColor = Color.FromArgb(239, 246, 255);
+            TestAppointmentsDataGridView.DefaultCellStyle.SelectionForeColor = Color.FromArgb(30, 41, 59);
+            TestAppointmentsDataGridView.DefaultCellStyle.Padding = new Padding(6, 0, 0, 0);
+            idColumn.Name = "TestAppointmentId";
+            idColumn.HeaderText = "Appointment ID";
+            idColumn.FillWeight = 90;
+            dateColumn.Name = "AppointmentDate";
+            dateColumn.HeaderText = "Appointment Date";
+            dateColumn.FillWeight = 155;
+            dateColumn.DefaultCellStyle.Format = "dd MMM yyyy, HH:mm";
+            statusColumn.Name = "TestStatus";
+            statusColumn.HeaderText = "Status";
+            feesColumn.Name = "PaidFees";
+            feesColumn.HeaderText = "Paid Fees";
+            feesColumn.DefaultCellStyle.Format = "N2";
+            feesColumn.FillWeight = 70;
+            resultColumn.Name = "TestResult";
+            resultColumn.HeaderText = "Result";
+            detailsColumn.Name = "Details";
+            detailsColumn.HeaderText = "Action";
+            detailsColumn.LinkColor = Color.FromArgb(37, 99, 235);
+            detailsColumn.ActiveLinkColor = Color.FromArgb(29, 78, 216);
+            detailsColumn.VisitedLinkColor = Color.FromArgb(37, 99, 235);
+            detailsColumn.LinkBehavior = LinkBehavior.HoverUnderline;
+            TestAppointmentsDataGridView.Columns.AddRange(idColumn, dateColumn, statusColumn, feesColumn, resultColumn, detailsColumn);
+            TestAppointmentsDataGridView.CellContentClick += AppointmentDetails_Click;
+            footer.Text = "Select View details to review an appointment and its result.";
+            footer.ForeColor = Color.FromArgb(100, 116, 139);
+            footer.Dock = DockStyle.Fill;
+            footer.TextAlign = ContentAlignment.MiddleLeft;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(guna2ShadowPanel1);
+            Font = new Font("Segoe UI", 9F);
+            ForeColor = Color.FromArgb(15, 23, 42);
+            BackColor = Color.FromArgb(243, 246, 251);
+            AutoScroll = true;
             Name = "ListTestAppointmentsControl";
-            Size = new Size(1003, 637);
+            Size = new Size(1003, 680);
+            Controls.Add(page);
             ((System.ComponentModel.ISupportInitialize)TestAppointmentsDataGridView).EndInit();
-            guna2ShadowPanel1.ResumeLayout(false);
-            guna2ShadowPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
-            ResumeLayout(false);
+            ResumeLayout(true);
         }
-
-        #endregion
-
-        private Guna.UI2.WinForms.Guna2DataGridView TestAppointmentsDataGridView;
-        private Guna.UI2.WinForms.Guna2ShadowPanel guna2ShadowPanel1;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel8;
-        private PictureBox pictureBox3;
-        private Guna.UI2.WinForms.Guna2GradientButton CreateAppointmentButton;
-        private DataGridViewTextBoxColumn TestAppointmentId;
-        private DataGridViewTextBoxColumn AppointmentDate;
-        private DataGridViewTextBoxColumn TestStatus;
-        private DataGridViewTextBoxColumn PaidFees;
-        private DataGridViewTextBoxColumn TestResult;
-        private Guna.UI2.WinForms.Guna2HtmlLabel lblMessage;
+        private Button BackButton = null!;
+        private Label lblPageTitle = null!;
+        private Label lblFullName = null!;
+        private Label avatar = null!;
+        private Label lblNationalNo = null!;
+        private Label lblApplicationId = null!;
+        private Label lblLicenseClass = null!;
+        private Label lblApplicationStatus = null!;
+        private Label lblVisionProgress = null!;
+        private Label lblWrittenProgress = null!;
+        private Label lblStreetProgress = null!;
+        private Label lblAppointmentCount = null!;
+        private Label lblMessage = null!;
+        private Guna.UI2.WinForms.Guna2Button CreateAppointmentButton = null!;
+        private DataGridView TestAppointmentsDataGridView = null!;
     }
 }

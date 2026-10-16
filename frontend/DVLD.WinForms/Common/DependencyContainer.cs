@@ -6,6 +6,9 @@ using DVLD.WinForms.Features.Auth;
 using DVLD.WinForms.Features.Dashboard;
 using DVLD.WinForms.Features.Persons;
 using DVLD.WinForms.Features.Persons.SelectPerson;
+using DVLD.WinForms.Features.Test;
+using DVLD.WinForms.Features.Test.ScheduleTest;
+using DVLD.WinForms.Features.Test.RecordTestResult;
 using DVLD.WinForms.Features.Test_Appointments;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -31,6 +34,7 @@ namespace DVLD.WinForms.Common
             services.AddTransient<IApplicationsService,ApplicationsService>();
             services.AddTransient<IPesronService, PersonService>();
             services.AddTransient<ITestAppointmentsService, TestAppointmentsService>();
+            services.AddTransient<ITestService, TestService>();
 
             services.AddTransient<LoginPresenter>();
             services.AddTransient<ApplicationsPresenter>();
@@ -53,6 +57,11 @@ namespace DVLD.WinForms.Common
 
             services.AddTransient<IListTestAppointmentsView,ListTestAppointmentsControl>();
             services.AddTransient<ListTestAppointmentsPresenter>();
+
+            services.AddTransient<IScheduleTestView ,ScheduleTestControl>();
+            services.AddTransient<ScheduleTestPresenter>();
+            services.AddTransient<IRecordTestResultView, RecordTestResultControl>();
+            services.AddTransient<RecordTestResultPresenter>();
  
             return services.BuildServiceProvider();
         }
