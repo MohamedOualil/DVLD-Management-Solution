@@ -396,7 +396,6 @@
             NationalNoButton.DisabledState.CustomBorderColor = Color.DarkGray;
             NationalNoButton.DisabledState.FillColor = Color.Lime;
             NationalNoButton.DisabledState.ForeColor = Color.White;
-            NationalNoButton.Enabled = false;
             NationalNoButton.FillColor = Color.FromArgb(219, 225, 255);
             NationalNoButton.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             NationalNoButton.ForeColor = Color.FromArgb(37, 99, 235);
