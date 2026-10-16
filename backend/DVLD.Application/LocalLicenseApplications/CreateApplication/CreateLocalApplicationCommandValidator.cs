@@ -8,19 +8,17 @@ using System.Threading.Tasks;
 
 namespace DVLD.Application.LocalLicenseApplications.CreateApplication
 {
-    public sealed class LocalDrivingLicenseApplicationCommandValidator : IValidate<LocalDrivingLicenseApplicationCommand>
+    public sealed class CreateLocalApplicationCommandValidator : IValidate<CreateLocalApplicationCommand>
     {
-        public Result Validate(LocalDrivingLicenseApplicationCommand request)
+        public Result Validate(CreateLocalApplicationCommand request)
         {
-            List<Error> errors = new(3);
+            List<Error> errors = new(2);
             if (request.PersonId <= 0)
                 errors.Add(DomainErrors.erPerson.InvalidId);
 
             if (request.LicensesClassId <= 0)
                 errors.Add(DomainErrors.erLicenseClass.InvalidId);
 
-            if (request.CreatedBy <= 0)
-                errors.Add(DomainErrors.erUser.InvalidId);
 
             if (errors.Count > 0)
                 return Result.Failure(errors);

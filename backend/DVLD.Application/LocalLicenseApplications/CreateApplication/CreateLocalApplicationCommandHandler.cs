@@ -14,19 +14,19 @@ using static DVLD.Domain.Common.DomainErrors;
 
 namespace DVLD.Application.LocalLicenseApplications.CreateApplication
 {
-    internal sealed class LocalDrivingLicenseApplicationCommandHandler : ICommandHandler<LocalDrivingLicenseApplicationCommand, int>
+    internal sealed class CreateLocalApplicationCommandHandler : ICommandHandler<CreateLocalApplicationCommand, int>
     {
         private readonly ILocalDrivingLicenseApplicationRepository _repository;
         private readonly IPersonRepository _personRepository;
         private readonly ILicenseClassesRepository _licenseClassesRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IValidate<LocalDrivingLicenseApplicationCommand> _validator;
+        private readonly IValidate<CreateLocalApplicationCommand> _validator;
         private readonly IApplicationsRepository _applicationsRepository;
         private readonly IApplicationTypesRepository _applicationTypesRepository;
-        private readonly IUserRepository _userRepository;
         private readonly ILicenseRepository _licenseRepository;
-        public LocalDrivingLicenseApplicationCommandHandler(
-            IUserRepository userRepository,
+        private readonly ICurrentUserService _currentUser;
+        public CreateLocalApplicationCommandHandler(
+            ICurrentUserService currentUserService,
             IApplicationTypesRepository applicationTypesRepository,
             IApplicationsRepository applicationsRepository,
             IPersonRepository personRepository,
@@ -34,9 +34,9 @@ namespace DVLD.Application.LocalLicenseApplications.CreateApplication
             ILicenseClassesRepository licenseClassesRepository,
             IUnitOfWork unitOfWork,
             ILicenseRepository licenseRepository,
-            IValidate<LocalDrivingLicenseApplicationCommand> validate)
+            IValidate<CreateLocalApplicationCommand> validate)
         {
-            _userRepository = userRepository;
+            _currentUser = currentUserService;
             _applicationTypesRepository = applicationTypesRepository;
             _applicationsRepository = applicationsRepository;
             _personRepository = personRepository;
@@ -47,7 +47,7 @@ namespace DVLD.Application.LocalLicenseApplications.CreateApplication
             _licenseRepository = licenseRepository;
 
         }
-        public async Task<Result<int>> Handle(LocalDrivingLicenseApplicationCommand request, CancellationToken cancellationToken)
+        public async Task<Result<int>> Handle(CreateLocalApplicationCommand request, CancellationToken cancellationToken)
         {
             Result validation = _validator.Validate(request);
             if (validation.IsFailure)
@@ -60,8 +60,6 @@ namespace DVLD.Application.LocalLicenseApplications.CreateApplication
                                 cancellationToken))
                 return Result<int>.Failure(DomainErrors.erLicense.ActiveLicenseExist);
 
-            if (!await _userRepository.AnyAsync(c => c.Id == request.CreatedBy && !c.IsDeactivated,cancellationToken))
-                return Result<int>.Failure(DomainErrors.erUser.NotFound);
 
             if (await _repository.AnyAsync(a =>
                                 a.Application.PersonId == request.PersonId &&
@@ -70,7 +68,7 @@ namespace DVLD.Application.LocalLicenseApplications.CreateApplication
                                 cancellationToken))
                 return Result<int>.Failure(DomainErrors.erApplications.ActiveApplicationExist);
 
-            LicenseClasses? licenseClass = await _licenseClassesRepository.GetByIdAsync(request.LicensesClassId);
+            LicenseClass? licenseClass = await _licenseClassesRepository.GetByIdAsync(request.LicensesClassId);
             if (licenseClass is null)
                 return Result<int>.Failure(DomainErrors.erLicenseClass.NotFound);
 
@@ -80,13 +78,13 @@ namespace DVLD.Application.LocalLicenseApplications.CreateApplication
                 return Result<int>.Failure(DomainErrors.erPerson.NotFound);
 
 
-            ApplicationTypes? applicationType = await  _applicationTypesRepository.GetByIdAsync(
+            ApplicationType? applicationType = await  _applicationTypesRepository.GetByIdAsync(
                 (int)ApplicationTypeEnum.NewLocalDrivingLicenseService);
             if (applicationType is null)
                 return Result<int>.Failure(DomainErrors.erApplications.InvalidApplicationType);
 
 
-            var application = Applications.CreateLocalApplication(person, applicationType, request.CreatedBy);
+            var application = Domain.Entities.Application.CreateLocalApplication(person, applicationType, _currentUser.UserId);
             if (application.IsFailure)
                 return Result<int>.Failure(application.Errors);
 

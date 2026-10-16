@@ -1,5 +1,7 @@
 using DVLD.Api.Authorization;
+using DVLD.Api.Services;
 using DVLD.Application;
+using DVLD.Application.Abstractions;
 using DVLD.Infrastructure.DependencyInjection;
 using DVLD.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -102,6 +104,9 @@ builder.Services.AddEndpointsApiExplorer();
 
 
 builder.Services.AddApplication();
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 

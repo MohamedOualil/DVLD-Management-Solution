@@ -8,10 +8,10 @@ using System.Windows.Input;
 
 namespace DVLD.Application.LocalLicenseApplications.CreateApplication
 {
-    public sealed record LocalDrivingLicenseApplicationCommand : ICommand<int>
+    public sealed record CreateLocalApplicationCommand : ICommand<int>
     {
         public int PersonId { get; init; }
         public int LicensesClassId { get; init; }
-        public int CreatedBy { get; init; }
+
     }
 }
