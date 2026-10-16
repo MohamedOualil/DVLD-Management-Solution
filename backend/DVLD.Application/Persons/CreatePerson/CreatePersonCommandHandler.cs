@@ -52,8 +52,7 @@ namespace DVLD.Application.Persons.CreatePerson
                 request.Street, 
                 request.State, 
                 request.City, 
-                request.ZipCode, 
-                request.CountryId);
+                request.ZipCode);
 
             var fullName = new FullName(
                 request.FirstName,

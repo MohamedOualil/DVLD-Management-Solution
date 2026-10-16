@@ -29,7 +29,7 @@ namespace DVLD.Application.Persons.CreatePerson
             if (string.IsNullOrWhiteSpace(request.NationalNo))
                 errors.Add(DomainErrors.erPerson.InvalidNationalId);
 
-            if (request.CountryId <= 0)
+            if (request.NationalityCountryId <= 0)
                 errors.Add(DomainErrors.erCountry.InvalidCode);
 
             var validDateOfBirthResult = DateOfBirthValidator.ValidateDateOfBirth(request.DateOfBirth);
@@ -52,7 +52,7 @@ namespace DVLD.Application.Persons.CreatePerson
                 request.City,
                 request.State,
                 request.ZipCode,
-                request.AddressCountryId);
+                request.NationalityCountryId);
             errors.AddRange(addressError);
 
  
