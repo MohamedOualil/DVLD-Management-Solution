@@ -13,6 +13,5 @@ public interface IIssueDrivingLicenceView
     void DisplayApplication(ApplicationDetailDto application);
     void DisplayEligibility(bool eligible, string title, string description);
     void SetIssueAvailability(bool enabled, string message);
-    void DisplayPerson(PersonDto person);
     void DisplayMessage(string message);
 }

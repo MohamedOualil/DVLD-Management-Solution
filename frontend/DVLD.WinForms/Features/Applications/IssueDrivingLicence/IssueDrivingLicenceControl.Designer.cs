@@ -125,7 +125,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             // 
             // surfacePanel
             // 
-            surfacePanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            surfacePanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             surfacePanel.BorderColor = Color.FromArgb(219, 229, 242);
             surfacePanel.BorderRadius = 10;
             surfacePanel.BorderThickness = 1;
@@ -146,9 +146,10 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             surfacePanel.CustomizableEdges = customizableEdges15;
             surfacePanel.FillColor = Color.White;
             surfacePanel.Location = new Point(16, 16);
+            surfacePanel.MinimumSize = new Size(928, 600);
             surfacePanel.Name = "surfacePanel";
             surfacePanel.ShadowDecoration.CustomizableEdges = customizableEdges16;
-            surfacePanel.Size = new Size(928, 708);
+            surfacePanel.Size = new Size(928, 600);
             surfacePanel.TabIndex = 0;
             // 
             // licenceIcon
@@ -216,10 +217,10 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             eligibilityPanel.Controls.Add(eligibilitySubtitle);
             eligibilityPanel.CustomizableEdges = customizableEdges3;
             eligibilityPanel.FillColor = Color.FromArgb(234, 249, 241);
-            eligibilityPanel.Location = new Point(20, 88);
+            eligibilityPanel.Location = new Point(20, 76);
             eligibilityPanel.Name = "eligibilityPanel";
             eligibilityPanel.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            eligibilityPanel.Size = new Size(888, 64);
+            eligibilityPanel.Size = new Size(888, 56);
             eligibilityPanel.TabIndex = 4;
             // 
             // passedIcon
@@ -273,10 +274,10 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             licencePanel.Controls.Add(classValue);
             licencePanel.CustomizableEdges = customizableEdges5;
             licencePanel.FillColor = Color.White;
-            licencePanel.Location = new Point(20, 166);
+            licencePanel.Location = new Point(20, 144);
             licencePanel.Name = "licencePanel";
             licencePanel.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            licencePanel.Size = new Size(888, 100);
+            licencePanel.Size = new Size(888, 84);
             licencePanel.TabIndex = 5;
             // 
             // licenceHeader
@@ -308,7 +309,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             localIdCaption.BackColor = Color.Transparent;
             localIdCaption.Font = new Font("Segoe UI", 9F);
             localIdCaption.ForeColor = Color.FromArgb(105, 122, 147);
-            localIdCaption.Location = new Point(16, 51);
+            localIdCaption.Location = new Point(16, 44);
             localIdCaption.Name = "localIdCaption";
             localIdCaption.Size = new Size(156, 28);
             localIdCaption.TabIndex = 1;
@@ -321,7 +322,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             localIdValue.BackColor = Color.Transparent;
             localIdValue.Font = new Font("Segoe UI", 10F);
             localIdValue.ForeColor = Color.FromArgb(25, 40, 69);
-            localIdValue.Location = new Point(186, 51);
+            localIdValue.Location = new Point(186, 44);
             localIdValue.Name = "localIdValue";
             localIdValue.Size = new Size(210, 28);
             localIdValue.TabIndex = 2;
@@ -334,7 +335,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             classCaption.BackColor = Color.Transparent;
             classCaption.Font = new Font("Segoe UI", 9F);
             classCaption.ForeColor = Color.FromArgb(105, 122, 147);
-            classCaption.Location = new Point(456, 51);
+            classCaption.Location = new Point(456, 44);
             classCaption.Name = "classCaption";
             classCaption.Size = new Size(120, 28);
             classCaption.TabIndex = 3;
@@ -347,7 +348,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             classValue.BackColor = Color.Transparent;
             classValue.Font = new Font("Segoe UI", 9F);
             classValue.ForeColor = Color.FromArgb(25, 40, 69);
-            classValue.Location = new Point(580, 51);
+            classValue.Location = new Point(580, 44);
             classValue.Name = "classValue";
             classValue.Size = new Size(294, 28);
             classValue.TabIndex = 4;
@@ -380,10 +381,10 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             detailsPanel.Controls.Add(creatorValue);
             detailsPanel.CustomizableEdges = customizableEdges7;
             detailsPanel.FillColor = Color.White;
-            detailsPanel.Location = new Point(20, 280);
+            detailsPanel.Location = new Point(20, 240);
             detailsPanel.Name = "detailsPanel";
             detailsPanel.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            detailsPanel.Size = new Size(888, 228);
+            detailsPanel.Size = new Size(888, 204);
             detailsPanel.TabIndex = 6;
             // 
             // detailsHeader
@@ -415,7 +416,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             applicationIdCaption.BackColor = Color.Transparent;
             applicationIdCaption.Font = new Font("Segoe UI", 9F);
             applicationIdCaption.ForeColor = Color.FromArgb(105, 122, 147);
-            applicationIdCaption.Location = new Point(16, 52);
+            applicationIdCaption.Location = new Point(16, 44);
             applicationIdCaption.Name = "applicationIdCaption";
             applicationIdCaption.Size = new Size(156, 28);
             applicationIdCaption.TabIndex = 1;
@@ -428,7 +429,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             applicationIdValue.BackColor = Color.Transparent;
             applicationIdValue.Font = new Font("Segoe UI", 9F);
             applicationIdValue.ForeColor = Color.FromArgb(25, 40, 69);
-            applicationIdValue.Location = new Point(186, 52);
+            applicationIdValue.Location = new Point(186, 44);
             applicationIdValue.Name = "applicationIdValue";
             applicationIdValue.Size = new Size(250, 28);
             applicationIdValue.TabIndex = 2;
@@ -441,7 +442,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             applicantCaption.BackColor = Color.Transparent;
             applicantCaption.Font = new Font("Segoe UI", 9F);
             applicantCaption.ForeColor = Color.FromArgb(105, 122, 147);
-            applicantCaption.Location = new Point(16, 88);
+            applicantCaption.Location = new Point(16, 76);
             applicantCaption.Name = "applicantCaption";
             applicantCaption.Size = new Size(156, 28);
             applicantCaption.TabIndex = 3;
@@ -454,7 +455,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             applicantValue.BackColor = Color.Transparent;
             applicantValue.Font = new Font("Segoe UI", 9F);
             applicantValue.ForeColor = Color.FromArgb(25, 40, 69);
-            applicantValue.Location = new Point(186, 88);
+            applicantValue.Location = new Point(186, 76);
             applicantValue.Name = "applicantValue";
             applicantValue.Size = new Size(250, 28);
             applicantValue.TabIndex = 4;
@@ -467,7 +468,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             applicationTypeCaption.BackColor = Color.Transparent;
             applicationTypeCaption.Font = new Font("Segoe UI", 9F);
             applicationTypeCaption.ForeColor = Color.FromArgb(105, 122, 147);
-            applicationTypeCaption.Location = new Point(16, 146);
+            applicationTypeCaption.Location = new Point(16, 128);
             applicationTypeCaption.Name = "applicationTypeCaption";
             applicationTypeCaption.Size = new Size(156, 28);
             applicationTypeCaption.TabIndex = 5;
@@ -480,7 +481,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             applicationTypeValue.BackColor = Color.Transparent;
             applicationTypeValue.Font = new Font("Segoe UI", 9F);
             applicationTypeValue.ForeColor = Color.FromArgb(25, 40, 69);
-            applicationTypeValue.Location = new Point(186, 146);
+            applicationTypeValue.Location = new Point(186, 128);
             applicationTypeValue.Name = "applicationTypeValue";
             applicationTypeValue.Size = new Size(250, 28);
             applicationTypeValue.TabIndex = 6;
@@ -493,7 +494,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             feeCaption.BackColor = Color.Transparent;
             feeCaption.Font = new Font("Segoe UI", 9F);
             feeCaption.ForeColor = Color.FromArgb(105, 122, 147);
-            feeCaption.Location = new Point(16, 182);
+            feeCaption.Location = new Point(16, 168);
             feeCaption.Name = "feeCaption";
             feeCaption.Size = new Size(156, 28);
             feeCaption.TabIndex = 7;
@@ -506,7 +507,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             feeValue.BackColor = Color.Transparent;
             feeValue.Font = new Font("Segoe UI", 9F);
             feeValue.ForeColor = Color.FromArgb(25, 40, 69);
-            feeValue.Location = new Point(186, 182);
+            feeValue.Location = new Point(186, 168);
             feeValue.Name = "feeValue";
             feeValue.Size = new Size(250, 28);
             feeValue.TabIndex = 8;
@@ -518,12 +519,13 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             viewPersonLink.BackColor = Color.Transparent;
             viewPersonLink.Font = new Font("Segoe UI", 9F);
             viewPersonLink.LinkColor = Color.FromArgb(0, 91, 255);
-            viewPersonLink.Location = new Point(186, 116);
+            viewPersonLink.Location = new Point(186, 104);
             viewPersonLink.Name = "viewPersonLink";
             viewPersonLink.Size = new Size(230, 22);
             viewPersonLink.TabIndex = 9;
             viewPersonLink.TabStop = true;
             viewPersonLink.Text = "View person info";
+            viewPersonLink.LinkClicked += viewPersonLink_LinkClicked;
             // 
             // statusCaption
             // 
@@ -531,7 +533,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             statusCaption.BackColor = Color.Transparent;
             statusCaption.Font = new Font("Segoe UI", 9F);
             statusCaption.ForeColor = Color.FromArgb(105, 122, 147);
-            statusCaption.Location = new Point(456, 52);
+            statusCaption.Location = new Point(456, 44);
             statusCaption.Name = "statusCaption";
             statusCaption.Size = new Size(146, 28);
             statusCaption.TabIndex = 10;
@@ -544,7 +546,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             statusValue.BackColor = Color.FromArgb(228, 240, 255);
             statusValue.Font = new Font("Segoe UI", 9F);
             statusValue.ForeColor = Color.FromArgb(0, 91, 255);
-            statusValue.Location = new Point(618, 52);
+            statusValue.Location = new Point(618, 44);
             statusValue.Name = "statusValue";
             statusValue.Size = new Size(66, 28);
             statusValue.TabIndex = 11;
@@ -557,7 +559,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             dateCaption.BackColor = Color.Transparent;
             dateCaption.Font = new Font("Segoe UI", 9F);
             dateCaption.ForeColor = Color.FromArgb(105, 122, 147);
-            dateCaption.Location = new Point(456, 96);
+            dateCaption.Location = new Point(456, 84);
             dateCaption.Name = "dateCaption";
             dateCaption.Size = new Size(146, 28);
             dateCaption.TabIndex = 12;
@@ -570,7 +572,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             dateValue.BackColor = Color.Transparent;
             dateValue.Font = new Font("Segoe UI", 9F);
             dateValue.ForeColor = Color.FromArgb(25, 40, 69);
-            dateValue.Location = new Point(618, 96);
+            dateValue.Location = new Point(618, 84);
             dateValue.Name = "dateValue";
             dateValue.Size = new Size(246, 28);
             dateValue.TabIndex = 13;
@@ -583,7 +585,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             statusDateCaption.BackColor = Color.Transparent;
             statusDateCaption.Font = new Font("Segoe UI", 9F);
             statusDateCaption.ForeColor = Color.FromArgb(105, 122, 147);
-            statusDateCaption.Location = new Point(456, 140);
+            statusDateCaption.Location = new Point(456, 124);
             statusDateCaption.Name = "statusDateCaption";
             statusDateCaption.Size = new Size(146, 28);
             statusDateCaption.TabIndex = 14;
@@ -596,7 +598,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             statusDateValue.BackColor = Color.Transparent;
             statusDateValue.Font = new Font("Segoe UI", 9F);
             statusDateValue.ForeColor = Color.FromArgb(25, 40, 69);
-            statusDateValue.Location = new Point(618, 140);
+            statusDateValue.Location = new Point(618, 124);
             statusDateValue.Name = "statusDateValue";
             statusDateValue.Size = new Size(246, 28);
             statusDateValue.TabIndex = 15;
@@ -609,7 +611,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             creatorCaption.BackColor = Color.Transparent;
             creatorCaption.Font = new Font("Segoe UI", 9F);
             creatorCaption.ForeColor = Color.FromArgb(105, 122, 147);
-            creatorCaption.Location = new Point(456, 182);
+            creatorCaption.Location = new Point(456, 168);
             creatorCaption.Name = "creatorCaption";
             creatorCaption.Size = new Size(146, 28);
             creatorCaption.TabIndex = 16;
@@ -622,7 +624,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             creatorValue.BackColor = Color.Transparent;
             creatorValue.Font = new Font("Segoe UI", 9F);
             creatorValue.ForeColor = Color.FromArgb(25, 40, 69);
-            creatorValue.Location = new Point(618, 182);
+            creatorValue.Location = new Point(618, 168);
             creatorValue.Name = "creatorValue";
             creatorValue.Size = new Size(246, 28);
             creatorValue.TabIndex = 17;
@@ -635,7 +637,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             notesLabel.BackColor = Color.Transparent;
             notesLabel.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             notesLabel.ForeColor = Color.FromArgb(25, 40, 69);
-            notesLabel.Location = new Point(20, 516);
+            notesLabel.Location = new Point(20, 452);
             notesLabel.Name = "notesLabel";
             notesLabel.Size = new Size(55, 28);
             notesLabel.TabIndex = 7;
@@ -648,7 +650,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             optionalLabel.BackColor = Color.Transparent;
             optionalLabel.Font = new Font("Segoe UI", 9F);
             optionalLabel.ForeColor = Color.FromArgb(105, 122, 147);
-            optionalLabel.Location = new Point(80, 516);
+            optionalLabel.Location = new Point(80, 452);
             optionalLabel.Name = "optionalLabel";
             optionalLabel.Size = new Size(120, 28);
             optionalLabel.TabIndex = 8;
@@ -657,27 +659,27 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             // 
             // notesTextBox
             // 
-            notesTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            notesTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             notesTextBox.BorderColor = Color.FromArgb(218, 230, 246);
             notesTextBox.BorderRadius = 5;
             notesTextBox.CustomizableEdges = customizableEdges9;
             notesTextBox.DefaultText = "";
             notesTextBox.Font = new Font("Segoe UI", 10F);
-            notesTextBox.Location = new Point(20, 550);
+            notesTextBox.Location = new Point(20, 484);
             notesTextBox.Multiline = true;
             notesTextBox.Name = "notesTextBox";
             notesTextBox.PlaceholderText = "Add any notes about this licence…";
             notesTextBox.ScrollBars = ScrollBars.Vertical;
             notesTextBox.SelectedText = "";
             notesTextBox.ShadowDecoration.CustomizableEdges = customizableEdges10;
-            notesTextBox.Size = new Size(888, 90);
+            notesTextBox.Size = new Size(888, 52);
             notesTextBox.TabIndex = 0;
             // 
             // footerDivider
             // 
             footerDivider.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             footerDivider.BackColor = Color.FromArgb(231, 237, 246);
-            footerDivider.Location = new Point(20, 654);
+            footerDivider.Location = new Point(20, 545);
             footerDivider.Name = "footerDivider";
             footerDivider.Size = new Size(888, 1);
             footerDivider.TabIndex = 9;
@@ -689,7 +691,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             footerHint.BackColor = Color.Transparent;
             footerHint.Font = new Font("Segoe UI", 9F);
             footerHint.ForeColor = Color.FromArgb(105, 122, 147);
-            footerHint.Location = new Point(20, 665);
+            footerHint.Location = new Point(20, 556);
             footerHint.Name = "footerHint";
             footerHint.Size = new Size(550, 30);
             footerHint.TabIndex = 10;
@@ -707,7 +709,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             cancelButton.FillColor = Color.White;
             cancelButton.Font = new Font("Segoe UI", 10F);
             cancelButton.ForeColor = Color.FromArgb(68, 89, 119);
-            cancelButton.Location = new Point(626, 665);
+            cancelButton.Location = new Point(626, 556);
             cancelButton.Name = "cancelButton";
             cancelButton.ShadowDecoration.CustomizableEdges = customizableEdges12;
             cancelButton.Size = new Size(112, 32);
@@ -723,7 +725,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             issueButton.FillColor = Color.FromArgb(0, 91, 255);
             issueButton.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             issueButton.ForeColor = Color.White;
-            issueButton.Location = new Point(750, 665);
+            issueButton.Location = new Point(750, 556);
             issueButton.Name = "issueButton";
             issueButton.ShadowDecoration.CustomizableEdges = customizableEdges14;
             issueButton.Size = new Size(158, 32);
@@ -734,12 +736,13 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoScroll = true;
+            AutoScrollMargin = new Size(16, 16);
             BackColor = Color.FromArgb(240, 245, 251);
             Controls.Add(surfacePanel);
             Font = new Font("Segoe UI", 9F);
-            MinimumSize = new Size(960, 740);
             Name = "IssueDrivingLicenceControl";
-            Size = new Size(960, 740);
+            Size = new Size(960, 632);
             surfacePanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)licenceIcon).EndInit();
             eligibilityPanel.ResumeLayout(false);

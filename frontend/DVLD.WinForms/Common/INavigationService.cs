@@ -10,7 +10,7 @@ namespace DVLD.WinForms.Common
     public interface INavigationService
     {
         void ShowForm<TForm>() where TForm : Form;
-        void ShowDialog<TForm>() where TForm : Form;
+        void ShowDialog<TForm>(Action<TForm>? setup = null) where TForm : Form;
         void SetMainForm(Form mainForm);
         void ShowChildForm<TForm>() where TForm : Form;
 

@@ -16,7 +16,6 @@ public partial class IssueDrivingLicenceControl : UserControl, IIssueDrivingLice
         InitializeComponent();
         issueButton.Click += (_, _) => IssueRequested?.Invoke(this, EventArgs.Empty);
         cancelButton.Click += (_, _) => CancelRequested?.Invoke(this, EventArgs.Empty);
-        viewPersonLink.LinkClicked += (_, _) => ViewPersonRequested?.Invoke(this, EventArgs.Empty);
     }
 
     private void closeButton_Click(object? sender, EventArgs e)
@@ -69,21 +68,12 @@ public partial class IssueDrivingLicenceControl : UserControl, IIssueDrivingLice
         footerHint.Text = message;
     }
 
-    public void DisplayPerson(PersonDto person)
-    {
-        using var detail = new PersonDetailControl();
-        detail.PersonInitialized(person);
-        using var dialog = new Form
-        {
-            Text = "Person information", StartPosition = FormStartPosition.CenterParent,
-            ClientSize = detail.Size, MinimizeBox = false, MaximizeBox = false,
-            ShowInTaskbar = false
-        };
-        detail.Dock = DockStyle.Fill;
-        dialog.Controls.Add(detail);
-        dialog.ShowDialog(this);
-    }
 
     public void DisplayMessage(string message) => MessageBox.Show(this, message,
         "Issue Driving Licence", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+    private void viewPersonLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+        ViewPersonRequested?.Invoke(this, EventArgs.Empty);
+    }
 }

@@ -82,9 +82,18 @@ namespace DVLD.WinForms.Common
             throw new NotImplementedException();
         }
 
-        public void ShowDialog<TForm>() where TForm : Form
+        public void ShowDialog<TForm>(Action<TForm>? setup = null) where TForm : Form
         {
-            throw new NotImplementedException();
+            using var scope = _serviceProvider.CreateScope();
+            var form = scope.ServiceProvider.GetRequiredService<TForm>();
+
+            setup?.Invoke(form);
+
+            var owner = _mainContentPanel?.FindForm() ?? _form;
+            if (owner is { IsDisposed: false, Visible: true })
+                form.ShowDialog(owner);
+            else
+                form.ShowDialog();
         }
 
         public void ShowForm<TForm>() where TForm : Form

@@ -4,6 +4,7 @@ using DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication;
 using DVLD.WinForms.Features.Applications.Detail;
 using DVLD.WinForms.Features.Applications.IssueDrivingLicence;
 using DVLD.WinForms.Features.Auth;
+using DVLD.WinForms.Features.Licenses;
 using DVLD.WinForms.Features.Dashboard;
 using DVLD.WinForms.Features.Persons;
 using DVLD.WinForms.Features.Persons.SelectPerson;
@@ -33,6 +34,7 @@ namespace DVLD.WinForms.Common
 
             services.AddTransient<IAuthService,AuthService>();
             services.AddTransient<IApplicationsService,ApplicationsService>();
+            services.AddTransient<ILicensesService, LicensesService>();
             services.AddTransient<IPesronService, PersonService>();
             services.AddTransient<ITestAppointmentsService, TestAppointmentsService>();
             services.AddTransient<ITestService, TestService>();
@@ -65,6 +67,8 @@ namespace DVLD.WinForms.Common
             services.AddTransient<ScheduleTestPresenter>();
             services.AddTransient<IRecordTestResultView, RecordTestResultControl>();
             services.AddTransient<RecordTestResultPresenter>();
+
+            services.AddTransient<PersonCardForm>();
  
             return services.BuildServiceProvider();
         }

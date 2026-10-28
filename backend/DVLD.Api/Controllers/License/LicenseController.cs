@@ -2,6 +2,7 @@
 using DVLD.Api.Controllers.LocalDrivingLicenseApplications;
 using DVLD.Application.Abstractions;
 using DVLD.Application.Licenses.GetLicense;
+using DVLD.Application.Licenses.IssueLicenseFirstTime;
 using DVLD.Application.Licenses.GetLocalDrivingLicenseHistory;
 using DVLD.Application.LocalLicenseApplications.GetAllLocalApplications;
 using DVLD.Domain.Common;
@@ -27,9 +28,19 @@ namespace DVLD.Api.Controllers.License
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> IssueLicense(IssueNewLicenseRequest issueNewLicense)
+        public async Task<ActionResult<int>> IssueLicense(IssueNewLicenseRequest issueNewLicense, CancellationToken cancellationToken)
         {
-            return 0;
+            var command = new IssueLicenseFirstTimeCommand
+            {
+                LocalApplicationId = issueNewLicense.LocalApplicationId,
+                CreatedByUserId = issueNewLicense.CreatedByUserId,
+                Notes = issueNewLicense.Notes
+            };
+            Result<int> result = await _sender.Send(command, cancellationToken);
+            if (result.IsFailure)
+                return HandleFailure(result);
+
+            return CreatedAtAction(nameof(GetLicense), new { LicenseId = result.Value }, result.Value);
         }
 
         [HttpGet(Name = "GetAllLocalApplications")]
