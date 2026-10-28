@@ -1,6 +1,7 @@
 using DVLD.WinForms.Common;
 using DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication;
 using DVLD.WinForms.Features.Applications.Detail;
+using DVLD.WinForms.Features.Applications.IssueDrivingLicence;
 using DVLD.WinForms.Features.Auth;
 using DVLD.WinForms.Features.Dashboard;
 using DVLD.WinForms.Features.Test_Appointments;
@@ -47,6 +48,15 @@ namespace DVLD.WinForms.Features.Applications
             View.IssueLicenseRequested += View_IssueLicenseRequested;
 
             View.OnScheduleTestRequested += View_OnScheduleTestRequested;
+            View.IssueDrivingLicenceRequested += View_IssueDrivingLicenceRequested;
+        }
+
+        private void View_IssueDrivingLicenceRequested(object? sender, int e)
+        {
+            _navigationService.NavigateTo<IssueDrivingLicencePresenter, IIssueDrivingLicenceView>(async presenter =>
+            {
+                await presenter.LoadAsync(e);
+            });
         }
 
         private void View_OnScheduleTestRequested(object? sender, ScheduleTestEventArgs e)
@@ -248,6 +258,7 @@ namespace DVLD.WinForms.Features.Applications
             View.OnPageRequested -= View_OnPageRequested;
             View.OnOpeningLocalAppActionMenu -= _view_OnOpeningLocalAppActionMenu;
             View.OnApplicationDetailsRequested -= View_OnApplicationDetailsRequested;
+            View.IssueDrivingLicenceRequested -= View_IssueDrivingLicenceRequested;
         }
     }
 }

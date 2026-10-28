@@ -484,6 +484,7 @@
             IssueDrivingLicence.Name = "IssueDrivingLicence";
             IssueDrivingLicence.Size = new Size(256, 22);
             IssueDrivingLicence.Text = "Issue Driving Licence First Time";
+            IssueDrivingLicence.Click += IssueDrivingLicence_Click;
             // 
             // toolStripSeparator5
             // 

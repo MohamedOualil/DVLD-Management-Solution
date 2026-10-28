@@ -15,5 +15,6 @@ namespace DVLD.Application.LocalLicenseApplications.GetApplicantSummary
         public required int Age { get; init; }
         public decimal PaidFees { get; init; }
         public required string ImagePath { get; init; }
+
     }
 }

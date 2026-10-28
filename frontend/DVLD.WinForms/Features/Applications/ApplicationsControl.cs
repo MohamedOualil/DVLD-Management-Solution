@@ -25,6 +25,7 @@ namespace DVLD.WinForms.Features.Applications
         public event EventHandler<int> OnCancelApplication;
         public event EventHandler<int> OnDeleteApplication;
         public event EventHandler IssueLicenseRequested;
+        public event EventHandler<int> IssueDrivingLicenceRequested;
 
         public event EventHandler<PageModeEventArgs> OnApplicationDetailsRequested;
 
@@ -231,6 +232,11 @@ namespace DVLD.WinForms.Features.Applications
                 new ScheduleTestEventArgs(
                                     SelectedRow("LocalId"),
                                     TestTypeEnum.StreetTest));
+        }
+
+        private void IssueDrivingLicence_Click(object sender, EventArgs e)
+        {
+            IssueDrivingLicenceRequested?.Invoke(sender, SelectedRow("LocalId"));
         }
     }
 }

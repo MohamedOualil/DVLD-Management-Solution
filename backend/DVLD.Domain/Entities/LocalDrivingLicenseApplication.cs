@@ -139,11 +139,11 @@ namespace DVLD.Domain.Entities
             if (!passWritingtest)
                 return Result.Failure(DomainErrors.erTests.WrittenTestNotPassed);
 
-            bool passStreettest = TestAppointments.Any(
-                t => t.TestTypeEnum == TestTypeEnum.WrittenTest);
+            bool passStreettest = passTests.Any(
+                t => t.TestTypeEnum == TestTypeEnum.StreetTest);
 
             if (!passStreettest)
-                return Result.Failure(DomainErrors.erTests.WrittenTestNotPassed);
+                return Result.Failure(new Error("Test.StreetTestNotPassed", "The street test must be passed before issuing a licence.", ErrorType.BadRequest));
 
             return Result.Success();
         }

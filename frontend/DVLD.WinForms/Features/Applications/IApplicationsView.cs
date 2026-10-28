@@ -20,6 +20,7 @@ namespace DVLD.WinForms.Features.Applications
         event EventHandler<PageModeEventArgs> OnApplicationDetailsRequested;
         event EventHandler IssueLicenseRequested;
         event EventHandler<ScheduleTestEventArgs> OnScheduleTestRequested;
+        event EventHandler<int> IssueDrivingLicenceRequested;
 
         bool IsEditOptionEnabled { set; }
         bool IsCancelOptionEnabled { set; }
