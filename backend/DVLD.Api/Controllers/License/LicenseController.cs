@@ -2,6 +2,7 @@
 using DVLD.Api.Controllers.LocalDrivingLicenseApplications;
 using DVLD.Application.Abstractions;
 using DVLD.Application.Licenses.GetLicense;
+using DVLD.Application.Licenses.GetLicenseByLocalApplicationId;
 using DVLD.Application.Licenses.IssueLicenseFirstTime;
 using DVLD.Application.Licenses.GetLocalDrivingLicenseHistory;
 using DVLD.Application.LocalLicenseApplications.GetAllLocalApplications;
@@ -67,6 +68,22 @@ namespace DVLD.Api.Controllers.License
 
             if (result.Value.Items.Count == 0)
                 return NotFound();
+
+            return Ok(result.Value);
+        }
+
+        [HttpGet("by-local-application/{localApplicationId}", Name = "GetLicenseByLocalApplicationId")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<GetLicenseResponse>> GetLicenseByLocalApplicationId(
+            int localApplicationId, CancellationToken cancellationToken)
+        {
+            var query = new GetLicenseByLocalApplicationIdQuery(localApplicationId);
+            Result<GetLicenseResponse> result = await _sender.Send(query, cancellationToken);
+
+            if (result.IsFailure)
+                return HandleFailure(result);
 
             return Ok(result.Value);
         }

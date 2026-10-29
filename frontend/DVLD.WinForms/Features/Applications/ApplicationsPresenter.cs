@@ -4,6 +4,8 @@ using DVLD.WinForms.Features.Applications.Detail;
 using DVLD.WinForms.Features.Applications.IssueDrivingLicence;
 using DVLD.WinForms.Features.Auth;
 using DVLD.WinForms.Features.Dashboard;
+using DVLD.WinForms.Features.Licenses;
+using DVLD.WinForms.Features.Licenses.LicenseDetails;
 using DVLD.WinForms.Features.Test_Appointments;
 using DVLD.WinForms.Shared;
 using DVLD.WinForms.Shared.Enums;
@@ -21,6 +23,8 @@ namespace DVLD.WinForms.Features.Applications
     {
 
         private readonly IApplicationsService _applicationsService ;
+        private readonly ILicensesService _licensesService;
+        private bool _loadingLicence;
         private const int PageSize = 10;
         private int currentPage = 1;
         private int totalPages = 1;
@@ -31,11 +35,13 @@ namespace DVLD.WinForms.Features.Applications
         public ApplicationsPresenter(
             IApplicationsView view, 
             IApplicationsService service,
+            ILicensesService licensesService,
             AppSession appSession,
             INavigationService navigationService) 
             : base(view,appSession,navigationService)
         {
             _applicationsService = service;
+            _licensesService = licensesService;
 
             View.OnLoadDataRequested += View_OnLoadDataRequested;
             View.OnSearchChangeRequested += View_OnSearchChangeRequested;
@@ -49,6 +55,38 @@ namespace DVLD.WinForms.Features.Applications
 
             View.OnScheduleTestRequested += View_OnScheduleTestRequested;
             View.IssueDrivingLicenceRequested += View_IssueDrivingLicenceRequested;
+            View.ShowLicenceRequested += View_ShowLicenceRequested;
+        }
+
+        private async void View_ShowLicenceRequested(object? sender, int localApplicationId)
+        {
+            if (disposed || _loadingLicence || localApplicationId <= 0)
+                return;
+
+            _loadingLicence = true;
+            try
+            {
+                var response = await _licensesService.GetLicenseByLocalApplicationIdAsync(localApplicationId);
+                if (disposed)
+                    return;
+
+                if (!response.IsSuccess || response.Data is null)
+                {
+                    View.DisplayMessage(response.Error?.AllMessages ?? "Unable to load licence details.");
+                    return;
+                }
+
+                _navigationService.ShowDialog<LicenseCardForm>(form => form.DisplayLicense(response.Data));
+            }
+            catch (Exception)
+            {
+                if (!disposed)
+                    View.DisplayMessage("Unable to load licence details. Please try again.");
+            }
+            finally
+            {
+                _loadingLicence = false;
+            }
         }
 
         private void View_IssueDrivingLicenceRequested(object? sender, int e)
@@ -259,6 +297,7 @@ namespace DVLD.WinForms.Features.Applications
             View.OnOpeningLocalAppActionMenu -= _view_OnOpeningLocalAppActionMenu;
             View.OnApplicationDetailsRequested -= View_OnApplicationDetailsRequested;
             View.IssueDrivingLicenceRequested -= View_IssueDrivingLicenceRequested;
+            View.ShowLicenceRequested -= View_ShowLicenceRequested;
         }
     }
 }

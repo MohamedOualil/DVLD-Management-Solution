@@ -5,6 +5,7 @@ using DVLD.WinForms.Features.Applications.Detail;
 using DVLD.WinForms.Features.Applications.IssueDrivingLicence;
 using DVLD.WinForms.Features.Auth;
 using DVLD.WinForms.Features.Licenses;
+using DVLD.WinForms.Features.Licenses.LicenseDetails;
 using DVLD.WinForms.Features.Dashboard;
 using DVLD.WinForms.Features.Persons;
 using DVLD.WinForms.Features.Persons.SelectPerson;
@@ -69,6 +70,7 @@ namespace DVLD.WinForms.Common
             services.AddTransient<RecordTestResultPresenter>();
 
             services.AddTransient<PersonCardForm>();
+            services.AddTransient<LicenseCardForm>();
  
             return services.BuildServiceProvider();
         }

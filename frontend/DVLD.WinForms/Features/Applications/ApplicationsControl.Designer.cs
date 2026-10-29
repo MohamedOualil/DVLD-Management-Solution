@@ -497,6 +497,7 @@
             ShowLicence.Name = "ShowLicence";
             ShowLicence.Size = new Size(256, 22);
             ShowLicence.Text = "Show Licence";
+            ShowLicence.Click += ShowLicence_Click;
             // 
             // toolStripSeparator6
             // 

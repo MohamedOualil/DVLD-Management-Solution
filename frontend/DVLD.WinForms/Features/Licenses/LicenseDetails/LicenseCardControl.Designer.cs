@@ -521,7 +521,7 @@ namespace DVLD.WinForms.Features.Licenses.LicenseDetails
             lblClassDesc.BackColor = Color.Transparent;
             lblClassDesc.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblClassDesc.ForeColor = Color.FromArgb(219, 234, 254);
-            lblClassDesc.Location = new Point(548, 50);
+            lblClassDesc.Location = new Point(548, 53);
             lblClassDesc.Name = "lblClassDesc";
             lblClassDesc.Size = new Size(196, 16);
             lblClassDesc.TabIndex = 5;
@@ -532,11 +532,11 @@ namespace DVLD.WinForms.Features.Licenses.LicenseDetails
             // 
             lblClassName.AutoSize = false;
             lblClassName.BackColor = Color.Transparent;
-            lblClassName.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblClassName.Font = new Font("Segoe UI", 15F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblClassName.ForeColor = Color.White;
-            lblClassName.Location = new Point(548, 14);
+            lblClassName.Location = new Point(576, 3);
             lblClassName.Name = "lblClassName";
-            lblClassName.Size = new Size(196, 34);
+            lblClassName.Size = new Size(181, 45);
             lblClassName.TabIndex = 4;
             lblClassName.Text = "CLASS 3";
             lblClassName.TextAlignment = ContentAlignment.MiddleRight;

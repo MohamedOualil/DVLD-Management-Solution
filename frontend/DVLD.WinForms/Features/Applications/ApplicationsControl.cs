@@ -26,6 +26,7 @@ namespace DVLD.WinForms.Features.Applications
         public event EventHandler<int> OnDeleteApplication;
         public event EventHandler IssueLicenseRequested;
         public event EventHandler<int> IssueDrivingLicenceRequested;
+        public event EventHandler<int>? ShowLicenceRequested;
 
         public event EventHandler<PageModeEventArgs> OnApplicationDetailsRequested;
 
@@ -237,6 +238,21 @@ namespace DVLD.WinForms.Features.Applications
         private void IssueDrivingLicence_Click(object sender, EventArgs e)
         {
             IssueDrivingLicenceRequested?.Invoke(sender, SelectedRow("LocalId"));
+        }
+
+        private void ShowLicence_Click(object sender, EventArgs e)
+        {
+            if (LocalDataGridView.SelectedRows.Count == 0)
+                return;
+
+            int localApplicationId = SelectedRow("LocalId");
+            if (localApplicationId <= 0)
+            {
+                DisplayMessage("Select a valid local driving licence application.");
+                return;
+            }
+
+            ShowLicenceRequested?.Invoke(this, localApplicationId);
         }
     }
 }

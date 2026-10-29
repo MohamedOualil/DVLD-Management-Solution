@@ -21,6 +21,7 @@ namespace DVLD.WinForms.Features.Applications
         event EventHandler IssueLicenseRequested;
         event EventHandler<ScheduleTestEventArgs> OnScheduleTestRequested;
         event EventHandler<int> IssueDrivingLicenceRequested;
+        event EventHandler<int>? ShowLicenceRequested;
 
         bool IsEditOptionEnabled { set; }
         bool IsCancelOptionEnabled { set; }
