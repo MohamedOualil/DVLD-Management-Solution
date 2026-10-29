@@ -1,536 +1,775 @@
-﻿namespace DVLD.WinForms.Features.Applications.Detail
+namespace DVLD.WinForms.Features.Applications.Detail
 {
     partial class ApplicationDetailControl
     {
-        /// <summary> 
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
-            {
+            if (disposing && components != null)
                 components.Dispose();
-            }
             base.Dispose(disposing);
         }
 
         #region Component Designer generated code
 
-        /// <summary> 
-        /// Required method for Designer support - do not modify 
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationDetailControl));
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            guna2ShadowPanel1 = new Guna.UI2.WinForms.Guna2ShadowPanel();
-            personDetailControl1 = new DVLD.WinForms.Features.Persons.Detail.PersonDetailControl();
-            EditButton = new Guna.UI2.WinForms.Guna2GradientButton();
-            guna2ShadowPanel2 = new Guna.UI2.WinForms.Guna2ShadowPanel();
-            CombClassLincense = new Guna.UI2.WinForms.Guna2ComboBox();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            pageLayout = new TableLayoutPanel();
+            headerPanel = new Panel();
+            BackButton = new Guna.UI2.WinForms.Guna2Button();
+            pageTitle = new Label();
+            pageSubtitle = new Label();
             statusButton = new Guna.UI2.WinForms.Guna2Button();
-            lblApplicationType = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            lblCreateby = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            lblFees = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            lblLocalApplicationID = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            lblStatusDate = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            lblApplicationID = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            lblEmail = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel11 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel6 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel4 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel9 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel13 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel8 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             CancelButton = new Guna.UI2.WinForms.Guna2GradientButton();
-            ShowLicenseButton = new Guna.UI2.WinForms.Guna2GradientButton();
-            guna2ShadowPanel3 = new Guna.UI2.WinForms.Guna2ShadowPanel();
+            EditButton = new Guna.UI2.WinForms.Guna2GradientButton();
+            detailsLayout = new TableLayoutPanel();
+            applicationPanel = new Guna.UI2.WinForms.Guna2Panel();
+            applicationIcon = new PictureBox();
+            applicationHeading = new Label();
+            applicationDivider = new Panel();
+            applicationIdCaption = new Label();
+            localIdCaption = new Label();
+            statusDateCaption = new Label();
+            creatorCaption = new Label();
+            feesCaption = new Label();
+            applicationTypeCaption = new Label();
+            lblApplicationID = new Label();
+            lblLocalApplicationID = new Label();
+            lblStatusDate = new Label();
+            lblCreateby = new Label();
+            lblFees = new Label();
+            lblApplicationType = new Label();
+            licenceDivider = new Panel();
+            licenceClassCaption = new Label();
+            CombClassLincense = new Guna.UI2.WinForms.Guna2ComboBox();
+            applicantPanel = new Guna.UI2.WinForms.Guna2Panel();
+            personDetailControl1 = new DVLD.WinForms.Features.Persons.Detail.PersonDetailControl();
+            testsPanel = new Guna.UI2.WinForms.Guna2Panel();
+            testsIcon = new PictureBox();
+            testsHeading = new Label();
+            testsDivider = new Panel();
+            testCardsLayout = new TableLayoutPanel();
             VisionTestCard = new DVLD.WinForms.Features.Test.TestTrackingRoadmap.TestResultCard();
             WritingTestCard = new DVLD.WinForms.Features.Test.TestTrackingRoadmap.TestResultCard();
             StreetTestCard = new DVLD.WinForms.Features.Test.TestTrackingRoadmap.TestResultCard();
+            footerPanel = new Guna.UI2.WinForms.Guna2Panel();
+            footerHint = new Label();
+            ShowLicenseButton = new Guna.UI2.WinForms.Guna2GradientButton();
             SaveButton = new Guna.UI2.WinForms.Guna2GradientButton();
-            guna2HtmlLabel3 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2ShadowPanel1.SuspendLayout();
-            guna2ShadowPanel2.SuspendLayout();
-            guna2ShadowPanel3.SuspendLayout();
+            pageLayout.SuspendLayout();
+            headerPanel.SuspendLayout();
+            detailsLayout.SuspendLayout();
+            applicationPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)applicationIcon).BeginInit();
+            applicantPanel.SuspendLayout();
+            testsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)testsIcon).BeginInit();
+            testCardsLayout.SuspendLayout();
+            footerPanel.SuspendLayout();
             SuspendLayout();
             // 
-            // guna2ShadowPanel1
+            // pageLayout
             // 
-            guna2ShadowPanel1.BackColor = Color.Transparent;
-            guna2ShadowPanel1.Controls.Add(personDetailControl1);
-            guna2ShadowPanel1.FillColor = Color.White;
-            guna2ShadowPanel1.Location = new Point(491, 85);
-            guna2ShadowPanel1.Name = "guna2ShadowPanel1";
-            guna2ShadowPanel1.Radius = 5;
-            guna2ShadowPanel1.ShadowColor = Color.Black;
-            guna2ShadowPanel1.ShadowDepth = 50;
-            guna2ShadowPanel1.ShadowShift = 4;
-            guna2ShadowPanel1.Size = new Size(501, 276);
-            guna2ShadowPanel1.TabIndex = 4;
+            pageLayout.AutoSize = true;
+            pageLayout.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            pageLayout.ColumnCount = 1;
+            pageLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            pageLayout.Controls.Add(headerPanel, 0, 0);
+            pageLayout.Controls.Add(detailsLayout, 0, 1);
+            pageLayout.Controls.Add(testsPanel, 0, 3);
+            pageLayout.Controls.Add(footerPanel, 0, 5);
+            pageLayout.Dock = DockStyle.Top;
+            pageLayout.Location = new Point(0, 0);
+            pageLayout.Margin = new Padding(0);
+            pageLayout.MinimumSize = new Size(1000, 0);
+            pageLayout.Name = "pageLayout";
+            pageLayout.Padding = new Padding(16);
+            pageLayout.RowCount = 6;
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 64F));
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 289F));
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 8F));
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 188F));
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 8F));
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 48F));
+            pageLayout.Size = new Size(1003, 637);
+            pageLayout.TabIndex = 0;
             // 
-            // personDetailControl1
+            // headerPanel
             // 
-            personDetailControl1.Location = new Point(6, 6);
-            personDetailControl1.Name = "personDetailControl1";
-            personDetailControl1.Size = new Size(489, 265);
-            personDetailControl1.TabIndex = 0;
+            headerPanel.Controls.Add(statusButton);
+            headerPanel.Controls.Add(BackButton);
+            headerPanel.Controls.Add(pageTitle);
+            headerPanel.Controls.Add(pageSubtitle);
+            headerPanel.Controls.Add(CancelButton);
+            headerPanel.Controls.Add(EditButton);
+            headerPanel.Dock = DockStyle.Fill;
+            headerPanel.Location = new Point(16, 16);
+            headerPanel.Margin = new Padding(0);
+            headerPanel.Name = "headerPanel";
+            headerPanel.Size = new Size(971, 64);
+            headerPanel.TabIndex = 0;
             // 
-            // EditButton
+            // BackButton
             // 
-            EditButton.BorderRadius = 10;
-            EditButton.CustomizableEdges = customizableEdges1;
-            EditButton.DisabledState.BorderColor = Color.DarkGray;
-            EditButton.DisabledState.CustomBorderColor = Color.DarkGray;
-            EditButton.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            EditButton.DisabledState.FillColor2 = Color.FromArgb(169, 169, 169);
-            EditButton.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            EditButton.FillColor = Color.FromArgb(37, 99, 235);
-            EditButton.FillColor2 = Color.FromArgb(37, 120, 235);
-            EditButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            EditButton.ForeColor = Color.White;
-            EditButton.Image = Properties.Resources.icons8_add_properties_24;
-            EditButton.ImageAlign = HorizontalAlignment.Left;
-            EditButton.ImageOffset = new Point(-3, 0);
-            EditButton.Location = new Point(884, 26);
-            EditButton.Name = "EditButton";
-            EditButton.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            EditButton.Size = new Size(83, 35);
-            EditButton.TabIndex = 2;
-            EditButton.Text = " Edit";
-            EditButton.Click += EditButton_Click;
+            BackButton.AccessibleName = "Back to applications";
+            BackButton.BorderColor = Color.FromArgb(219, 229, 242);
+            BackButton.BorderRadius = 7;
+            BackButton.BorderThickness = 1;
+            BackButton.CustomizableEdges = customizableEdges3;
+            BackButton.FillColor = Color.White;
+            BackButton.Font = new Font("Segoe UI", 10F);
+            BackButton.ForeColor = Color.FromArgb(51, 65, 85);
+            BackButton.Location = new Point(0, 4);
+            BackButton.Name = "BackButton";
+            BackButton.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            BackButton.Size = new Size(88, 36);
+            BackButton.TabIndex = 0;
+            BackButton.Text = "← Back";
+            BackButton.Click += BackButton_Click;
             // 
-            // guna2ShadowPanel2
+            // pageTitle
             // 
-            guna2ShadowPanel2.BackColor = Color.Transparent;
-            guna2ShadowPanel2.Controls.Add(CombClassLincense);
-            guna2ShadowPanel2.Controls.Add(statusButton);
-            guna2ShadowPanel2.Controls.Add(lblApplicationType);
-            guna2ShadowPanel2.Controls.Add(lblCreateby);
-            guna2ShadowPanel2.Controls.Add(lblFees);
-            guna2ShadowPanel2.Controls.Add(lblLocalApplicationID);
-            guna2ShadowPanel2.Controls.Add(lblStatusDate);
-            guna2ShadowPanel2.Controls.Add(lblApplicationID);
-            guna2ShadowPanel2.Controls.Add(lblEmail);
-            guna2ShadowPanel2.Controls.Add(guna2HtmlLabel11);
-            guna2ShadowPanel2.Controls.Add(guna2HtmlLabel6);
-            guna2ShadowPanel2.Controls.Add(guna2HtmlLabel4);
-            guna2ShadowPanel2.Controls.Add(guna2HtmlLabel9);
-            guna2ShadowPanel2.Controls.Add(guna2HtmlLabel1);
-            guna2ShadowPanel2.Controls.Add(guna2HtmlLabel13);
-            guna2ShadowPanel2.Controls.Add(guna2HtmlLabel2);
-            guna2ShadowPanel2.FillColor = Color.White;
-            guna2ShadowPanel2.Location = new Point(4, 84);
-            guna2ShadowPanel2.Name = "guna2ShadowPanel2";
-            guna2ShadowPanel2.Radius = 5;
-            guna2ShadowPanel2.ShadowColor = Color.Black;
-            guna2ShadowPanel2.ShadowDepth = 50;
-            guna2ShadowPanel2.ShadowShift = 4;
-            guna2ShadowPanel2.Size = new Size(467, 243);
-            guna2ShadowPanel2.TabIndex = 4;
+            pageTitle.AutoSize = true;
+            pageTitle.Font = new Font("Segoe UI", 21F, FontStyle.Bold);
+            pageTitle.ForeColor = Color.FromArgb(15, 23, 42);
+            pageTitle.Location = new Point(104, 0);
+            pageTitle.Name = "pageTitle";
+            pageTitle.Size = new Size(262, 38);
+            pageTitle.TabIndex = 1;
+            pageTitle.Text = "Application details";
             // 
-            // CombClassLincense
+            // pageSubtitle
             // 
-            CombClassLincense.BackColor = Color.Transparent;
-            CombClassLincense.CustomizableEdges = customizableEdges3;
-            CombClassLincense.DrawMode = DrawMode.OwnerDrawFixed;
-            CombClassLincense.DropDownStyle = ComboBoxStyle.DropDownList;
-            CombClassLincense.Enabled = false;
-            CombClassLincense.FocusedColor = Color.FromArgb(94, 148, 255);
-            CombClassLincense.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            CombClassLincense.Font = new Font("Segoe UI", 10F);
-            CombClassLincense.ForeColor = Color.FromArgb(68, 88, 112);
-            CombClassLincense.ItemHeight = 30;
-            CombClassLincense.Location = new Point(128, 188);
-            CombClassLincense.Name = "CombClassLincense";
-            CombClassLincense.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            CombClassLincense.Size = new Size(250, 36);
-            CombClassLincense.TabIndex = 11;
+            pageSubtitle.AutoSize = true;
+            pageSubtitle.Font = new Font("Segoe UI", 10F);
+            pageSubtitle.ForeColor = Color.FromArgb(100, 116, 139);
+            pageSubtitle.Location = new Point(106, 39);
+            pageSubtitle.Name = "pageSubtitle";
+            pageSubtitle.Size = new Size(200, 19);
+            pageSubtitle.TabIndex = 2;
+            pageSubtitle.Text = "Local driving licence application";
             // 
             // statusButton
             // 
-            statusButton.BorderRadius = 17;
-            statusButton.CustomizableEdges = customizableEdges5;
-            statusButton.DisabledState.BorderColor = Color.DarkGray;
-            statusButton.DisabledState.CustomBorderColor = Color.DarkGray;
-            statusButton.DisabledState.FillColor = Color.Lime;
+            statusButton.BorderRadius = 12;
+            statusButton.CustomizableEdges = customizableEdges1;
+            statusButton.DisabledState.FillColor = Color.FromArgb(100, 116, 139);
             statusButton.DisabledState.ForeColor = Color.White;
             statusButton.Enabled = false;
-            statusButton.FillColor = Color.FromArgb(0, 192, 0);
-            statusButton.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            statusButton.FillColor = Color.FromArgb(100, 116, 139);
+            statusButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             statusButton.ForeColor = Color.White;
-            statusButton.Location = new Point(352, 12);
+            statusButton.Location = new Point(350, 35);
             statusButton.Name = "statusButton";
-            statusButton.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            statusButton.Size = new Size(99, 26);
-            statusButton.TabIndex = 10;
-            statusButton.Text = "Complete";
-            // 
-            // lblApplicationType
-            // 
-            lblApplicationType.AutoSize = false;
-            lblApplicationType.BackColor = Color.Transparent;
-            lblApplicationType.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblApplicationType.ForeColor = Color.Black;
-            lblApplicationType.Location = new Point(128, 160);
-            lblApplicationType.Name = "lblApplicationType";
-            lblApplicationType.Size = new Size(273, 23);
-            lblApplicationType.TabIndex = 9;
-            lblApplicationType.Text = "New Local Driving License \r\n";
-            // 
-            // lblCreateby
-            // 
-            lblCreateby.BackColor = Color.Transparent;
-            lblCreateby.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblCreateby.ForeColor = Color.Black;
-            lblCreateby.Location = new Point(100, 124);
-            lblCreateby.Name = "lblCreateby";
-            lblCreateby.Size = new Size(95, 19);
-            lblCreateby.TabIndex = 9;
-            lblCreateby.Text = "Admin_J.Smith";
-            // 
-            // lblFees
-            // 
-            lblFees.BackColor = Color.Transparent;
-            lblFees.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblFees.ForeColor = Color.Black;
-            lblFees.Location = new Point(389, 123);
-            lblFees.Name = "lblFees";
-            lblFees.Size = new Size(24, 19);
-            lblFees.TabIndex = 9;
-            lblFees.Text = "10$";
-            // 
-            // lblLocalApplicationID
-            // 
-            lblLocalApplicationID.BackColor = Color.Transparent;
-            lblLocalApplicationID.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblLocalApplicationID.ForeColor = Color.Black;
-            lblLocalApplicationID.Location = new Point(389, 87);
-            lblLocalApplicationID.Name = "lblLocalApplicationID";
-            lblLocalApplicationID.Size = new Size(32, 19);
-            lblLocalApplicationID.TabIndex = 9;
-            lblLocalApplicationID.Text = "#125";
-            // 
-            // lblStatusDate
-            // 
-            lblStatusDate.BackColor = Color.Transparent;
-            lblStatusDate.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblStatusDate.ForeColor = Color.Black;
-            lblStatusDate.Location = new Point(100, 85);
-            lblStatusDate.Name = "lblStatusDate";
-            lblStatusDate.Size = new Size(78, 19);
-            lblStatusDate.TabIndex = 9;
-            lblStatusDate.Text = "Oct 24, 2023";
-            // 
-            // lblApplicationID
-            // 
-            lblApplicationID.BackColor = Color.Transparent;
-            lblApplicationID.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblApplicationID.ForeColor = Color.Black;
-            lblApplicationID.Location = new Point(100, 47);
-            lblApplicationID.Name = "lblApplicationID";
-            lblApplicationID.Size = new Size(102, 19);
-            lblApplicationID.TabIndex = 9;
-            lblApplicationID.Text = "#APP-2023-9842";
-            // 
-            // lblEmail
-            // 
-            lblEmail.AutoSize = false;
-            lblEmail.BackColor = Color.Transparent;
-            lblEmail.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblEmail.ForeColor = Color.Black;
-            lblEmail.Location = new Point(15, 12);
-            lblEmail.Name = "lblEmail";
-            lblEmail.Size = new Size(144, 19);
-            lblEmail.TabIndex = 8;
-            lblEmail.Text = "Application Info";
-            // 
-            // guna2HtmlLabel11
-            // 
-            guna2HtmlLabel11.BackColor = Color.Transparent;
-            guna2HtmlLabel11.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel11.ForeColor = Color.Black;
-            guna2HtmlLabel11.Location = new Point(15, 197);
-            guna2HtmlLabel11.Name = "guna2HtmlLabel11";
-            guna2HtmlLabel11.Size = new Size(102, 15);
-            guna2HtmlLabel11.TabIndex = 7;
-            guna2HtmlLabel11.Text = "Applied For Licence";
-            // 
-            // guna2HtmlLabel6
-            // 
-            guna2HtmlLabel6.BackColor = Color.Transparent;
-            guna2HtmlLabel6.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel6.ForeColor = Color.Black;
-            guna2HtmlLabel6.Location = new Point(15, 160);
-            guna2HtmlLabel6.Name = "guna2HtmlLabel6";
-            guna2HtmlLabel6.Size = new Size(89, 15);
-            guna2HtmlLabel6.TabIndex = 7;
-            guna2HtmlLabel6.Text = "Application Type";
-            // 
-            // guna2HtmlLabel4
-            // 
-            guna2HtmlLabel4.BackColor = Color.Transparent;
-            guna2HtmlLabel4.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel4.ForeColor = Color.Black;
-            guna2HtmlLabel4.Location = new Point(15, 124);
-            guna2HtmlLabel4.Name = "guna2HtmlLabel4";
-            guna2HtmlLabel4.Size = new Size(59, 15);
-            guna2HtmlLabel4.TabIndex = 7;
-            guna2HtmlLabel4.Text = "Created By";
-            // 
-            // guna2HtmlLabel9
-            // 
-            guna2HtmlLabel9.BackColor = Color.Transparent;
-            guna2HtmlLabel9.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel9.ForeColor = Color.Black;
-            guna2HtmlLabel9.Location = new Point(352, 124);
-            guna2HtmlLabel9.Name = "guna2HtmlLabel9";
-            guna2HtmlLabel9.Size = new Size(26, 15);
-            guna2HtmlLabel9.TabIndex = 7;
-            guna2HtmlLabel9.Text = "Fees";
-            // 
-            // guna2HtmlLabel1
-            // 
-            guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel1.ForeColor = Color.Black;
-            guna2HtmlLabel1.Location = new Point(15, 85);
-            guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(61, 15);
-            guna2HtmlLabel1.TabIndex = 7;
-            guna2HtmlLabel1.Text = "Status Date";
-            // 
-            // guna2HtmlLabel13
-            // 
-            guna2HtmlLabel13.BackColor = Color.Transparent;
-            guna2HtmlLabel13.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel13.ForeColor = Color.Black;
-            guna2HtmlLabel13.Location = new Point(274, 89);
-            guna2HtmlLabel13.Name = "guna2HtmlLabel13";
-            guna2HtmlLabel13.Size = new Size(104, 15);
-            guna2HtmlLabel13.TabIndex = 7;
-            guna2HtmlLabel13.Text = "Local Application ID";
-            // 
-            // guna2HtmlLabel2
-            // 
-            guna2HtmlLabel2.BackColor = Color.Transparent;
-            guna2HtmlLabel2.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel2.ForeColor = Color.Black;
-            guna2HtmlLabel2.Location = new Point(15, 47);
-            guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            guna2HtmlLabel2.Size = new Size(75, 15);
-            guna2HtmlLabel2.TabIndex = 7;
-            guna2HtmlLabel2.Text = "Application ID";
-            // 
-            // guna2HtmlLabel8
-            // 
-            guna2HtmlLabel8.BackColor = Color.Transparent;
-            guna2HtmlLabel8.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel8.ForeColor = Color.Black;
-            guna2HtmlLabel8.Location = new Point(12, 11);
-            guna2HtmlLabel8.Name = "guna2HtmlLabel8";
-            guna2HtmlLabel8.Size = new Size(220, 34);
-            guna2HtmlLabel8.TabIndex = 8;
-            guna2HtmlLabel8.Text = "Application Details";
+            statusButton.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            statusButton.Size = new Size(110, 24);
+            statusButton.TabIndex = 3;
+            statusButton.TabStop = false;
+            statusButton.Text = "Status";
             // 
             // CancelButton
             // 
-            CancelButton.BorderRadius = 10;
-            CancelButton.CustomizableEdges = customizableEdges7;
-            CancelButton.DisabledState.BorderColor = Color.DarkGray;
-            CancelButton.DisabledState.CustomBorderColor = Color.DarkGray;
-            CancelButton.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            CancelButton.DisabledState.FillColor2 = Color.FromArgb(169, 169, 169);
-            CancelButton.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            CancelButton.FillColor = Color.FromArgb(219, 225, 255);
-            CancelButton.FillColor2 = Color.FromArgb(238, 240, 255);
+            CancelButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            CancelButton.BorderColor = Color.FromArgb(220, 38, 38);
+            CancelButton.BorderRadius = 7;
+            CancelButton.BorderThickness = 1;
+            CancelButton.CustomizableEdges = customizableEdges5;
+            CancelButton.DisabledState.BorderColor = Color.FromArgb(226, 232, 240);
+            CancelButton.DisabledState.FillColor = Color.FromArgb(241, 245, 249);
+            CancelButton.DisabledState.FillColor2 = Color.FromArgb(241, 245, 249);
+            CancelButton.DisabledState.ForeColor = Color.FromArgb(148, 163, 184);
+            CancelButton.FillColor = Color.White;
+            CancelButton.FillColor2 = Color.White;
             CancelButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            CancelButton.ForeColor = Color.FromArgb(37, 99, 235);
-            CancelButton.Image = Properties.Resources.icons8_delete_30;
-            CancelButton.ImageAlign = HorizontalAlignment.Left;
-            CancelButton.ImageOffset = new Point(-3, 0);
-            CancelButton.Location = new Point(768, 26);
+            CancelButton.ForeColor = Color.FromArgb(185, 28, 28);
+            CancelButton.Location = new Point(677, 4);
             CancelButton.Name = "CancelButton";
-            CancelButton.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            CancelButton.ShadowDecoration.Shadow = new Padding(8);
-            CancelButton.Size = new Size(98, 35);
+            CancelButton.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            CancelButton.Size = new Size(178, 36);
             CancelButton.TabIndex = 2;
-            CancelButton.Text = " Canacel";
+            CancelButton.Text = "Cancel application";
             CancelButton.Click += CancelButton_Click;
             // 
-            // ShowLicenseButton
+            // EditButton
             // 
-            ShowLicenseButton.BorderRadius = 10;
-            ShowLicenseButton.CustomizableEdges = customizableEdges9;
-            ShowLicenseButton.DisabledState.BorderColor = Color.DarkGray;
-            ShowLicenseButton.DisabledState.CustomBorderColor = Color.DarkGray;
-            ShowLicenseButton.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            ShowLicenseButton.DisabledState.FillColor2 = Color.FromArgb(169, 169, 169);
-            ShowLicenseButton.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            ShowLicenseButton.Enabled = false;
-            ShowLicenseButton.FillColor = Color.FromArgb(98, 117, 175);
-            ShowLicenseButton.FillColor2 = Color.FromArgb(150, 169, 231);
-            ShowLicenseButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            ShowLicenseButton.ForeColor = Color.White;
-            ShowLicenseButton.Image = (Image)resources.GetObject("ShowLicenseButton.Image");
-            ShowLicenseButton.ImageAlign = HorizontalAlignment.Left;
-            ShowLicenseButton.ImageOffset = new Point(-3, 0);
-            ShowLicenseButton.Location = new Point(847, 475);
-            ShowLicenseButton.Name = "ShowLicenseButton";
-            ShowLicenseButton.ShadowDecoration.CustomizableEdges = customizableEdges10;
-            ShowLicenseButton.Size = new Size(139, 29);
-            ShowLicenseButton.TabIndex = 10;
-            ShowLicenseButton.Text = "  Show Licence";
-            ShowLicenseButton.Click += ShowLicenseButton_Click;
+            EditButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            EditButton.BorderRadius = 7;
+            EditButton.CustomizableEdges = customizableEdges7;
+            EditButton.DisabledState.FillColor = Color.FromArgb(226, 232, 240);
+            EditButton.DisabledState.FillColor2 = Color.FromArgb(226, 232, 240);
+            EditButton.DisabledState.ForeColor = Color.FromArgb(148, 163, 184);
+            EditButton.FillColor = Color.FromArgb(37, 99, 235);
+            EditButton.FillColor2 = Color.FromArgb(37, 99, 235);
+            EditButton.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            EditButton.ForeColor = Color.White;
+            EditButton.Image = Properties.Resources.icons8_edit_30;
+            EditButton.ImageSize = new Size(18, 18);
+            EditButton.Location = new Point(867, 4);
+            EditButton.Name = "EditButton";
+            EditButton.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            EditButton.Size = new Size(104, 36);
+            EditButton.TabIndex = 1;
+            EditButton.Text = "Edit";
+            EditButton.Click += EditButton_Click;
             // 
-            // guna2ShadowPanel3
+            // detailsLayout
             // 
-            guna2ShadowPanel3.BackColor = Color.Transparent;
-            guna2ShadowPanel3.Controls.Add(VisionTestCard);
-            guna2ShadowPanel3.Controls.Add(WritingTestCard);
-            guna2ShadowPanel3.Controls.Add(StreetTestCard);
-            guna2ShadowPanel3.FillColor = Color.FromArgb(219, 225, 255);
-            guna2ShadowPanel3.Location = new Point(18, 417);
-            guna2ShadowPanel3.Name = "guna2ShadowPanel3";
-            guna2ShadowPanel3.ShadowColor = Color.Black;
-            guna2ShadowPanel3.ShadowDepth = 50;
-            guna2ShadowPanel3.ShadowShift = 4;
-            guna2ShadowPanel3.Size = new Size(715, 156);
-            guna2ShadowPanel3.TabIndex = 11;
+            detailsLayout.ColumnCount = 2;
+            detailsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            detailsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 560F));
+            detailsLayout.Controls.Add(applicationPanel, 0, 0);
+            detailsLayout.Controls.Add(applicantPanel, 1, 0);
+            detailsLayout.Dock = DockStyle.Fill;
+            detailsLayout.Location = new Point(16, 80);
+            detailsLayout.Margin = new Padding(0);
+            detailsLayout.Name = "detailsLayout";
+            detailsLayout.RowCount = 1;
+            detailsLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            detailsLayout.Size = new Size(971, 289);
+            detailsLayout.TabIndex = 1;
+            // 
+            // applicationPanel
+            // 
+            applicationPanel.BorderColor = Color.FromArgb(219, 229, 242);
+            applicationPanel.BorderRadius = 8;
+            applicationPanel.BorderThickness = 1;
+            applicationPanel.Controls.Add(applicationIcon);
+            applicationPanel.Controls.Add(applicationHeading);
+            applicationPanel.Controls.Add(applicationDivider);
+            applicationPanel.Controls.Add(applicationIdCaption);
+            applicationPanel.Controls.Add(localIdCaption);
+            applicationPanel.Controls.Add(statusDateCaption);
+            applicationPanel.Controls.Add(creatorCaption);
+            applicationPanel.Controls.Add(feesCaption);
+            applicationPanel.Controls.Add(applicationTypeCaption);
+            applicationPanel.Controls.Add(lblApplicationID);
+            applicationPanel.Controls.Add(lblLocalApplicationID);
+            applicationPanel.Controls.Add(lblStatusDate);
+            applicationPanel.Controls.Add(lblCreateby);
+            applicationPanel.Controls.Add(lblFees);
+            applicationPanel.Controls.Add(lblApplicationType);
+            applicationPanel.Controls.Add(licenceDivider);
+            applicationPanel.Controls.Add(licenceClassCaption);
+            applicationPanel.Controls.Add(CombClassLincense);
+            applicationPanel.CustomizableEdges = customizableEdges11;
+            applicationPanel.Dock = DockStyle.Fill;
+            applicationPanel.FillColor = Color.White;
+            applicationPanel.Location = new Point(0, 0);
+            applicationPanel.Margin = new Padding(0);
+            applicationPanel.Name = "applicationPanel";
+            applicationPanel.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            applicationPanel.Size = new Size(411, 289);
+            applicationPanel.TabIndex = 0;
+            // 
+            // applicationIcon
+            // 
+            applicationIcon.BackColor = Color.Transparent;
+            applicationIcon.Image = Properties.Resources.icons8_note_48;
+            applicationIcon.Location = new Point(16, 10);
+            applicationIcon.Name = "applicationIcon";
+            applicationIcon.Size = new Size(22, 22);
+            applicationIcon.SizeMode = PictureBoxSizeMode.Zoom;
+            applicationIcon.TabIndex = 0;
+            applicationIcon.TabStop = false;
+            // 
+            // applicationHeading
+            // 
+            applicationHeading.AutoSize = true;
+            applicationHeading.BackColor = Color.Transparent;
+            applicationHeading.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            applicationHeading.ForeColor = Color.FromArgb(15, 23, 42);
+            applicationHeading.Location = new Point(48, 10);
+            applicationHeading.Name = "applicationHeading";
+            applicationHeading.Size = new Size(177, 20);
+            applicationHeading.TabIndex = 1;
+            applicationHeading.Text = "Application information";
+            // 
+            // applicationDivider
+            // 
+            applicationDivider.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            applicationDivider.BackColor = Color.FromArgb(231, 237, 246);
+            applicationDivider.Location = new Point(1, 40);
+            applicationDivider.Name = "applicationDivider";
+            applicationDivider.Size = new Size(409, 1);
+            applicationDivider.TabIndex = 2;
+            // 
+            // applicationIdCaption
+            // 
+            applicationIdCaption.BackColor = Color.Transparent;
+            applicationIdCaption.ForeColor = Color.FromArgb(100, 116, 139);
+            applicationIdCaption.Location = new Point(20, 52);
+            applicationIdCaption.Name = "applicationIdCaption";
+            applicationIdCaption.Size = new Size(132, 22);
+            applicationIdCaption.TabIndex = 3;
+            applicationIdCaption.Text = "Application ID";
+            // 
+            // localIdCaption
+            // 
+            localIdCaption.BackColor = Color.Transparent;
+            localIdCaption.ForeColor = Color.FromArgb(100, 116, 139);
+            localIdCaption.Location = new Point(20, 76);
+            localIdCaption.Name = "localIdCaption";
+            localIdCaption.Size = new Size(132, 22);
+            localIdCaption.TabIndex = 4;
+            localIdCaption.Text = "Local application ID";
+            // 
+            // statusDateCaption
+            // 
+            statusDateCaption.BackColor = Color.Transparent;
+            statusDateCaption.ForeColor = Color.FromArgb(100, 116, 139);
+            statusDateCaption.Location = new Point(20, 100);
+            statusDateCaption.Name = "statusDateCaption";
+            statusDateCaption.Size = new Size(132, 22);
+            statusDateCaption.TabIndex = 5;
+            statusDateCaption.Text = "Last status update";
+            // 
+            // creatorCaption
+            // 
+            creatorCaption.BackColor = Color.Transparent;
+            creatorCaption.ForeColor = Color.FromArgb(100, 116, 139);
+            creatorCaption.Location = new Point(20, 124);
+            creatorCaption.Name = "creatorCaption";
+            creatorCaption.Size = new Size(132, 22);
+            creatorCaption.TabIndex = 6;
+            creatorCaption.Text = "Created by";
+            // 
+            // feesCaption
+            // 
+            feesCaption.BackColor = Color.Transparent;
+            feesCaption.ForeColor = Color.FromArgb(100, 116, 139);
+            feesCaption.Location = new Point(20, 148);
+            feesCaption.Name = "feesCaption";
+            feesCaption.Size = new Size(132, 22);
+            feesCaption.TabIndex = 7;
+            feesCaption.Text = "Paid fees";
+            // 
+            // applicationTypeCaption
+            // 
+            applicationTypeCaption.BackColor = Color.Transparent;
+            applicationTypeCaption.ForeColor = Color.FromArgb(100, 116, 139);
+            applicationTypeCaption.Location = new Point(20, 172);
+            applicationTypeCaption.Name = "applicationTypeCaption";
+            applicationTypeCaption.Size = new Size(132, 22);
+            applicationTypeCaption.TabIndex = 8;
+            applicationTypeCaption.Text = "Application type";
+            // 
+            // lblApplicationID
+            // 
+            lblApplicationID.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblApplicationID.AutoEllipsis = true;
+            lblApplicationID.BackColor = Color.Transparent;
+            lblApplicationID.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblApplicationID.ForeColor = Color.FromArgb(15, 23, 42);
+            lblApplicationID.Location = new Point(158, 52);
+            lblApplicationID.Name = "lblApplicationID";
+            lblApplicationID.Size = new Size(233, 22);
+            lblApplicationID.TabIndex = 9;
+            lblApplicationID.Text = "—";
+            // 
+            // lblLocalApplicationID
+            // 
+            lblLocalApplicationID.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblLocalApplicationID.AutoEllipsis = true;
+            lblLocalApplicationID.BackColor = Color.Transparent;
+            lblLocalApplicationID.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblLocalApplicationID.ForeColor = Color.FromArgb(15, 23, 42);
+            lblLocalApplicationID.Location = new Point(158, 76);
+            lblLocalApplicationID.Name = "lblLocalApplicationID";
+            lblLocalApplicationID.Size = new Size(233, 22);
+            lblLocalApplicationID.TabIndex = 10;
+            lblLocalApplicationID.Text = "—";
+            // 
+            // lblStatusDate
+            // 
+            lblStatusDate.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblStatusDate.AutoEllipsis = true;
+            lblStatusDate.BackColor = Color.Transparent;
+            lblStatusDate.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblStatusDate.ForeColor = Color.FromArgb(15, 23, 42);
+            lblStatusDate.Location = new Point(158, 100);
+            lblStatusDate.Name = "lblStatusDate";
+            lblStatusDate.Size = new Size(233, 22);
+            lblStatusDate.TabIndex = 11;
+            lblStatusDate.Text = "—";
+            // 
+            // lblCreateby
+            // 
+            lblCreateby.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblCreateby.AutoEllipsis = true;
+            lblCreateby.BackColor = Color.Transparent;
+            lblCreateby.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblCreateby.ForeColor = Color.FromArgb(15, 23, 42);
+            lblCreateby.Location = new Point(158, 124);
+            lblCreateby.Name = "lblCreateby";
+            lblCreateby.Size = new Size(233, 22);
+            lblCreateby.TabIndex = 12;
+            lblCreateby.Text = "—";
+            // 
+            // lblFees
+            // 
+            lblFees.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblFees.AutoEllipsis = true;
+            lblFees.BackColor = Color.Transparent;
+            lblFees.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblFees.ForeColor = Color.FromArgb(15, 23, 42);
+            lblFees.Location = new Point(158, 148);
+            lblFees.Name = "lblFees";
+            lblFees.Size = new Size(233, 22);
+            lblFees.TabIndex = 13;
+            lblFees.Text = "—";
+            // 
+            // lblApplicationType
+            // 
+            lblApplicationType.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblApplicationType.AutoEllipsis = true;
+            lblApplicationType.BackColor = Color.Transparent;
+            lblApplicationType.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblApplicationType.ForeColor = Color.FromArgb(15, 23, 42);
+            lblApplicationType.Location = new Point(158, 172);
+            lblApplicationType.Name = "lblApplicationType";
+            lblApplicationType.Size = new Size(233, 30);
+            lblApplicationType.TabIndex = 14;
+            lblApplicationType.Text = "—";
+            // 
+            // licenceDivider
+            // 
+            licenceDivider.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            licenceDivider.BackColor = Color.FromArgb(231, 237, 246);
+            licenceDivider.Location = new Point(20, 205);
+            licenceDivider.Name = "licenceDivider";
+            licenceDivider.Size = new Size(371, 1);
+            licenceDivider.TabIndex = 15;
+            // 
+            // licenceClassCaption
+            // 
+            licenceClassCaption.BackColor = Color.Transparent;
+            licenceClassCaption.ForeColor = Color.FromArgb(100, 116, 139);
+            licenceClassCaption.Location = new Point(20, 215);
+            licenceClassCaption.Name = "licenceClassCaption";
+            licenceClassCaption.Size = new Size(200, 20);
+            licenceClassCaption.TabIndex = 16;
+            licenceClassCaption.Text = "Licence class";
+            // 
+            // CombClassLincense
+            // 
+            CombClassLincense.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            CombClassLincense.BackColor = Color.Transparent;
+            CombClassLincense.BorderColor = Color.FromArgb(203, 213, 225);
+            CombClassLincense.BorderRadius = 5;
+            CombClassLincense.CustomizableEdges = customizableEdges9;
+            CombClassLincense.DisabledState.BorderColor = Color.FromArgb(219, 229, 242);
+            CombClassLincense.DisabledState.FillColor = Color.FromArgb(241, 246, 252);
+            CombClassLincense.DisabledState.ForeColor = Color.FromArgb(51, 65, 85);
+            CombClassLincense.DrawMode = DrawMode.OwnerDrawFixed;
+            CombClassLincense.DropDownStyle = ComboBoxStyle.DropDownList;
+            CombClassLincense.Enabled = false;
+            CombClassLincense.FocusedColor = Color.FromArgb(37, 99, 235);
+            CombClassLincense.FocusedState.BorderColor = Color.FromArgb(37, 99, 235);
+            CombClassLincense.Font = new Font("Segoe UI", 9F);
+            CombClassLincense.ForeColor = Color.FromArgb(15, 23, 42);
+            CombClassLincense.ItemHeight = 30;
+            CombClassLincense.Location = new Point(20, 239);
+            CombClassLincense.Name = "CombClassLincense";
+            CombClassLincense.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            CombClassLincense.Size = new Size(371, 36);
+            CombClassLincense.TabIndex = 0;
+            // 
+            // applicantPanel
+            // 
+            applicantPanel.BorderColor = Color.FromArgb(219, 229, 242);
+            applicantPanel.BorderRadius = 8;
+            applicantPanel.BorderThickness = 1;
+            applicantPanel.Controls.Add(personDetailControl1);
+            applicantPanel.CustomizableEdges = customizableEdges13;
+            applicantPanel.Dock = DockStyle.Fill;
+            applicantPanel.FillColor = Color.White;
+            applicantPanel.Location = new Point(427, 0);
+            applicantPanel.Margin = new Padding(16, 0, 0, 0);
+            applicantPanel.Name = "applicantPanel";
+            applicantPanel.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            applicantPanel.Size = new Size(544, 289);
+            applicantPanel.TabIndex = 1;
+            // 
+            // personDetailControl1
+            // 
+            personDetailControl1.BackColor = Color.White;
+            personDetailControl1.Location = new Point(12, 12);
+            personDetailControl1.Name = "personDetailControl1";
+            personDetailControl1.Size = new Size(520, 265);
+            personDetailControl1.TabIndex = 0;
+            // 
+            // testsPanel
+            // 
+            testsPanel.BorderColor = Color.FromArgb(219, 229, 242);
+            testsPanel.BorderRadius = 8;
+            testsPanel.BorderThickness = 1;
+            testsPanel.Controls.Add(testsIcon);
+            testsPanel.Controls.Add(testsHeading);
+            testsPanel.Controls.Add(testsDivider);
+            testsPanel.Controls.Add(testCardsLayout);
+            testsPanel.CustomizableEdges = customizableEdges15;
+            testsPanel.Dock = DockStyle.Fill;
+            testsPanel.FillColor = Color.White;
+            testsPanel.Location = new Point(16, 377);
+            testsPanel.Margin = new Padding(0);
+            testsPanel.Name = "testsPanel";
+            testsPanel.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            testsPanel.Size = new Size(971, 188);
+            testsPanel.TabIndex = 2;
+            // 
+            // testsIcon
+            // 
+            testsIcon.BackColor = Color.Transparent;
+            testsIcon.Image = Properties.Resources.icons8_test_48;
+            testsIcon.Location = new Point(16, 8);
+            testsIcon.Name = "testsIcon";
+            testsIcon.Size = new Size(20, 20);
+            testsIcon.SizeMode = PictureBoxSizeMode.Zoom;
+            testsIcon.TabIndex = 0;
+            testsIcon.TabStop = false;
+            // 
+            // testsHeading
+            // 
+            testsHeading.AutoSize = true;
+            testsHeading.BackColor = Color.Transparent;
+            testsHeading.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            testsHeading.ForeColor = Color.FromArgb(15, 23, 42);
+            testsHeading.Location = new Point(48, 8);
+            testsHeading.Name = "testsHeading";
+            testsHeading.Size = new Size(89, 20);
+            testsHeading.TabIndex = 1;
+            testsHeading.Text = "Test results";
+            // 
+            // testsDivider
+            // 
+            testsDivider.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            testsDivider.BackColor = Color.FromArgb(231, 237, 246);
+            testsDivider.Location = new Point(1, 37);
+            testsDivider.Name = "testsDivider";
+            testsDivider.Size = new Size(969, 1);
+            testsDivider.TabIndex = 2;
+            // 
+            // testCardsLayout
+            // 
+            testCardsLayout.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            testCardsLayout.BackColor = Color.White;
+            testCardsLayout.ColumnCount = 3;
+            testCardsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33333F));
+            testCardsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33333F));
+            testCardsLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33334F));
+            testCardsLayout.Controls.Add(VisionTestCard, 0, 0);
+            testCardsLayout.Controls.Add(WritingTestCard, 1, 0);
+            testCardsLayout.Controls.Add(StreetTestCard, 2, 0);
+            testCardsLayout.Location = new Point(16, 44);
+            testCardsLayout.Margin = new Padding(0);
+            testCardsLayout.Name = "testCardsLayout";
+            testCardsLayout.RowCount = 1;
+            testCardsLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            testCardsLayout.Size = new Size(939, 139);
+            testCardsLayout.TabIndex = 0;
             // 
             // VisionTestCard
             // 
             VisionTestCard.BackColor = Color.Transparent;
-            VisionTestCard.Location = new Point(12, 12);
+            VisionTestCard.Dock = DockStyle.Fill;
+            VisionTestCard.Font = new Font("Segoe UI", 9F);
+            VisionTestCard.Location = new Point(0, 0);
+            VisionTestCard.Margin = new Padding(0, 0, 12, 0);
+            VisionTestCard.MinimumSize = new Size(224, 139);
             VisionTestCard.Name = "VisionTestCard";
-            VisionTestCard.Size = new Size(224, 139);
+            VisionTestCard.Size = new Size(300, 139);
             VisionTestCard.TabIndex = 0;
             // 
             // WritingTestCard
             // 
             WritingTestCard.BackColor = Color.Transparent;
-            WritingTestCard.Location = new Point(244, 12);
+            WritingTestCard.Dock = DockStyle.Fill;
+            WritingTestCard.Font = new Font("Segoe UI", 9F);
+            WritingTestCard.Location = new Point(312, 0);
+            WritingTestCard.Margin = new Padding(0, 0, 12, 0);
+            WritingTestCard.MinimumSize = new Size(224, 139);
             WritingTestCard.Name = "WritingTestCard";
-            WritingTestCard.Size = new Size(224, 139);
-            WritingTestCard.TabIndex = 0;
+            WritingTestCard.Size = new Size(300, 139);
+            WritingTestCard.TabIndex = 1;
             // 
             // StreetTestCard
             // 
             StreetTestCard.BackColor = Color.Transparent;
-            StreetTestCard.Location = new Point(476, 12);
+            StreetTestCard.Dock = DockStyle.Fill;
+            StreetTestCard.Font = new Font("Segoe UI", 9F);
+            StreetTestCard.Location = new Point(624, 0);
+            StreetTestCard.Margin = new Padding(0);
+            StreetTestCard.MinimumSize = new Size(224, 139);
             StreetTestCard.Name = "StreetTestCard";
-            StreetTestCard.Size = new Size(224, 139);
-            StreetTestCard.TabIndex = 0;
+            StreetTestCard.Size = new Size(315, 139);
+            StreetTestCard.TabIndex = 2;
+            // 
+            // footerPanel
+            // 
+            footerPanel.BorderColor = Color.FromArgb(219, 229, 242);
+            footerPanel.BorderRadius = 8;
+            footerPanel.BorderThickness = 1;
+            footerPanel.Controls.Add(footerHint);
+            footerPanel.Controls.Add(ShowLicenseButton);
+            footerPanel.Controls.Add(SaveButton);
+            footerPanel.CustomizableEdges = customizableEdges21;
+            footerPanel.Dock = DockStyle.Fill;
+            footerPanel.FillColor = Color.White;
+            footerPanel.Location = new Point(16, 573);
+            footerPanel.Margin = new Padding(0);
+            footerPanel.Name = "footerPanel";
+            footerPanel.ShadowDecoration.CustomizableEdges = customizableEdges22;
+            footerPanel.Size = new Size(971, 48);
+            footerPanel.TabIndex = 3;
+            // 
+            // footerHint
+            // 
+            footerHint.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            footerHint.BackColor = Color.Transparent;
+            footerHint.ForeColor = Color.FromArgb(100, 116, 139);
+            footerHint.Location = new Point(16, 15);
+            footerHint.Name = "footerHint";
+            footerHint.Size = new Size(743, 22);
+            footerHint.TabIndex = 0;
+            footerHint.Text = "Licence details are available after the application is completed.";
+            // 
+            // ShowLicenseButton
+            // 
+            ShowLicenseButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            ShowLicenseButton.BorderRadius = 7;
+            ShowLicenseButton.CustomizableEdges = customizableEdges17;
+            ShowLicenseButton.DisabledState.FillColor = Color.FromArgb(241, 245, 249);
+            ShowLicenseButton.DisabledState.FillColor2 = Color.FromArgb(241, 245, 249);
+            ShowLicenseButton.DisabledState.ForeColor = Color.FromArgb(148, 163, 184);
+            ShowLicenseButton.Enabled = false;
+            ShowLicenseButton.FillColor = Color.FromArgb(37, 99, 235);
+            ShowLicenseButton.FillColor2 = Color.FromArgb(37, 99, 235);
+            ShowLicenseButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            ShowLicenseButton.ForeColor = Color.White;
+            ShowLicenseButton.Image = Properties.Resources.icons8_id_card_30;
+            ShowLicenseButton.ImageSize = new Size(18, 18);
+            ShowLicenseButton.Location = new Point(777, 6);
+            ShowLicenseButton.Name = "ShowLicenseButton";
+            ShowLicenseButton.ShadowDecoration.CustomizableEdges = customizableEdges18;
+            ShowLicenseButton.Size = new Size(178, 36);
+            ShowLicenseButton.TabIndex = 0;
+            ShowLicenseButton.Text = "Show licence";
+            ShowLicenseButton.Click += ShowLicenseButton_Click;
             // 
             // SaveButton
             // 
-            SaveButton.BorderRadius = 10;
-            SaveButton.CustomizableEdges = customizableEdges11;
-            SaveButton.DisabledState.BorderColor = Color.DarkGray;
-            SaveButton.DisabledState.CustomBorderColor = Color.DarkGray;
-            SaveButton.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            SaveButton.DisabledState.FillColor2 = Color.FromArgb(169, 169, 169);
-            SaveButton.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            SaveButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            SaveButton.BorderRadius = 7;
+            SaveButton.CustomizableEdges = customizableEdges19;
+            SaveButton.DisabledState.FillColor = Color.FromArgb(226, 232, 240);
+            SaveButton.DisabledState.FillColor2 = Color.FromArgb(226, 232, 240);
+            SaveButton.DisabledState.ForeColor = Color.FromArgb(148, 163, 184);
             SaveButton.FillColor = Color.FromArgb(37, 99, 235);
-            SaveButton.FillColor2 = Color.FromArgb(37, 120, 235);
+            SaveButton.FillColor2 = Color.FromArgb(37, 99, 235);
             SaveButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             SaveButton.ForeColor = Color.White;
-            SaveButton.ImageAlign = HorizontalAlignment.Left;
-            SaveButton.ImageOffset = new Point(-3, 0);
-            SaveButton.Location = new Point(884, 578);
+            SaveButton.Location = new Point(777, 6);
             SaveButton.Name = "SaveButton";
-            SaveButton.ShadowDecoration.CustomizableEdges = customizableEdges12;
-            SaveButton.Size = new Size(83, 35);
-            SaveButton.TabIndex = 2;
-            SaveButton.Text = "Save";
+            SaveButton.ShadowDecoration.CustomizableEdges = customizableEdges20;
+            SaveButton.Size = new Size(178, 36);
+            SaveButton.TabIndex = 1;
+            SaveButton.Text = "Save changes";
             SaveButton.Visible = false;
             SaveButton.Click += SaveButton_Click;
-            // 
-            // guna2HtmlLabel3
-            // 
-            guna2HtmlLabel3.AutoSize = false;
-            guna2HtmlLabel3.BackColor = Color.Transparent;
-            guna2HtmlLabel3.Font = new Font("Segoe UI", 13F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel3.ForeColor = Color.Black;
-            guna2HtmlLabel3.Location = new Point(19, 368);
-            guna2HtmlLabel3.Name = "guna2HtmlLabel3";
-            guna2HtmlLabel3.Size = new Size(179, 24);
-            guna2HtmlLabel3.TabIndex = 8;
-            guna2HtmlLabel3.Text = "Test Results Roadmap";
             // 
             // ApplicationDetailControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(ShowLicenseButton);
-            Controls.Add(CancelButton);
-            Controls.Add(SaveButton);
-            Controls.Add(EditButton);
-            Controls.Add(guna2ShadowPanel2);
-            Controls.Add(guna2ShadowPanel1);
-            Controls.Add(guna2HtmlLabel3);
-            Controls.Add(guna2HtmlLabel8);
-            Controls.Add(guna2ShadowPanel3);
+            AutoScroll = true;
+            BackColor = Color.FromArgb(246, 249, 253);
+            Controls.Add(pageLayout);
+            Font = new Font("Segoe UI", 9F);
             Name = "ApplicationDetailControl";
             Size = new Size(1003, 637);
-            guna2ShadowPanel1.ResumeLayout(false);
-            guna2ShadowPanel2.ResumeLayout(false);
-            guna2ShadowPanel2.PerformLayout();
-            guna2ShadowPanel3.ResumeLayout(false);
+            pageLayout.ResumeLayout(false);
+            headerPanel.ResumeLayout(false);
+            headerPanel.PerformLayout();
+            detailsLayout.ResumeLayout(false);
+            applicationPanel.ResumeLayout(false);
+            applicationPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)applicationIcon).EndInit();
+            applicantPanel.ResumeLayout(false);
+            testsPanel.ResumeLayout(false);
+            testsPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)testsIcon).EndInit();
+            testCardsLayout.ResumeLayout(false);
+            footerPanel.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Guna.UI2.WinForms.Guna2ShadowPanel guna2ShadowPanel1;
-        private Guna.UI2.WinForms.Guna2GradientButton EditButton;
-        private Guna.UI2.WinForms.Guna2ShadowPanel guna2ShadowPanel2;
-        private Persons.Detail.PersonDetailControl personDetailControl1;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
-        private Guna.UI2.WinForms.Guna2HtmlLabel lblEmail;
-        private Guna.UI2.WinForms.Guna2HtmlLabel lblStatusDate;
-        private Guna.UI2.WinForms.Guna2HtmlLabel lblApplicationID;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
-        private Guna.UI2.WinForms.Guna2HtmlLabel lblApplicationType;
-        private Guna.UI2.WinForms.Guna2HtmlLabel lblCreateby;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel6;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel4;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel8;
+        private TableLayoutPanel pageLayout;
+        private Panel headerPanel;
+        private Guna.UI2.WinForms.Guna2Button BackButton;
+        private Label pageTitle;
+        private Label pageSubtitle;
         private Guna.UI2.WinForms.Guna2Button statusButton;
-        private Guna.UI2.WinForms.Guna2HtmlLabel lblFees;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel9;
-        private Guna.UI2.WinForms.Guna2HtmlLabel lblLocalApplicationID;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel11;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel13;
-        private Guna.UI2.WinForms.Guna2ComboBox CombClassLincense;
+        private Guna.UI2.WinForms.Guna2GradientButton EditButton;
         private Guna.UI2.WinForms.Guna2GradientButton CancelButton;
-        private Guna.UI2.WinForms.Guna2GradientButton ShowLicenseButton;
-        private Guna.UI2.WinForms.Guna2ShadowPanel guna2ShadowPanel3;
-        private Guna.UI2.WinForms.Guna2GradientButton SaveButton;
+        private TableLayoutPanel detailsLayout;
+        private Guna.UI2.WinForms.Guna2Panel applicationPanel;
+        private PictureBox applicationIcon;
+        private Label applicationHeading;
+        private Panel applicationDivider;
+        private Label applicationIdCaption;
+        private Label localIdCaption;
+        private Label statusDateCaption;
+        private Label creatorCaption;
+        private Label feesCaption;
+        private Label applicationTypeCaption;
+        private Label lblApplicationID;
+        private Label lblLocalApplicationID;
+        private Label lblStatusDate;
+        private Label lblCreateby;
+        private Label lblFees;
+        private Label lblApplicationType;
+        private Panel licenceDivider;
+        private Label licenceClassCaption;
+        private Guna.UI2.WinForms.Guna2ComboBox CombClassLincense;
+        private Guna.UI2.WinForms.Guna2Panel applicantPanel;
+        private Persons.Detail.PersonDetailControl personDetailControl1;
+        private Guna.UI2.WinForms.Guna2Panel testsPanel;
+        private PictureBox testsIcon;
+        private Label testsHeading;
+        private Panel testsDivider;
+        private TableLayoutPanel testCardsLayout;
         private Test.TestTrackingRoadmap.TestResultCard VisionTestCard;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel3;
         private Test.TestTrackingRoadmap.TestResultCard WritingTestCard;
         private Test.TestTrackingRoadmap.TestResultCard StreetTestCard;
+        private Guna.UI2.WinForms.Guna2Panel footerPanel;
+        private Label footerHint;
+        private Guna.UI2.WinForms.Guna2GradientButton ShowLicenseButton;
+        private Guna.UI2.WinForms.Guna2GradientButton SaveButton;
     }
 }

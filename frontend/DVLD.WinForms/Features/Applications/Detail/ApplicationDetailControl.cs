@@ -19,6 +19,8 @@ namespace DVLD.WinForms.Features.Applications.Detail
     public partial class ApplicationDetailControl : UserControl, IApplicationDetailView
     {
         public event EventHandler CanacleApplicationRequest;
+        public event EventHandler ShowLicenses;
+        public event EventHandler BackToApplications;
 
         public event EventHandler SaveEditApplicationRequest;
         public string ApplicationId { set => lblApplicationID.Text = value; get => lblApplicationID.Text; }
@@ -30,15 +32,11 @@ namespace DVLD.WinForms.Features.Applications.Detail
 
         public int ApplicationLicenseClass
         {
-            set
-            {
-                CombClassLincense.SelectedIndex = value - 1;
-            }
+            get => CombClassLincense.SelectedValue is LicenseClassEnum value
+                ? (int)value
+                : 0;
 
-            get
-            {
-                return CombClassLincense.SelectedIndex;
-            }
+            set => CombClassLincense.SelectedValue = (LicenseClassEnum)value;
         }
         public ApplicationStatusEnum ApplicationStatus
         {
@@ -66,6 +64,22 @@ namespace DVLD.WinForms.Features.Applications.Detail
         {
             InitializeComponent();
             LoadLicenseClass();
+        }
+
+        public void DisplayMessage(string message)
+        {
+            MessageBox.Show(
+                this,
+                message,
+                "Application details",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+        }
+
+        public void SetBusy(bool busy)
+        {
+            pageLayout.Enabled = !busy;
+            UseWaitCursor = busy;
         }
 
         public void LoadLicenseClass()
@@ -139,7 +153,12 @@ namespace DVLD.WinForms.Features.Applications.Detail
 
         private void ShowLicenseButton_Click(object sender, EventArgs e)
         {
+            ShowLicenses?.Invoke(this, EventArgs.Empty);
+        }
 
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            BackToApplications?.Invoke(this, EventArgs.Empty);
         }
     }
 

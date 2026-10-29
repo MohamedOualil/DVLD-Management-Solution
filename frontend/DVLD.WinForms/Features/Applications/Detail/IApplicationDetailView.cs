@@ -14,8 +14,14 @@ namespace DVLD.WinForms.Features.Applications.Detail
     {
         event EventHandler CanacleApplicationRequest;
         event EventHandler SaveEditApplicationRequest;
+
+        event EventHandler ShowLicenses;
+        event EventHandler BackToApplications;
         void LoadPersonInfo(PersonDto personDto);
         void LoadTestRoadmap(TestResultsRoadmapDto testResultsRoadmapDto);
+
+        void DisplayMessage(string message);
+        void SetBusy(bool busy);
 
         void ControlMode(StatusMode mode);
         int ApplicationLicenseClass { set; get; }

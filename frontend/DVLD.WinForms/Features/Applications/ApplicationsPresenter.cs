@@ -165,9 +165,9 @@ namespace DVLD.WinForms.Features.Applications
 
         private void View_OnApplicationDetailsRequested(object? sender, PageModeEventArgs e)
         {
-            _navigationService.NavigateTo<ApplicationDetailPresenter, IApplicationDetailView>(presenter =>
+            _navigationService.NavigateTo<ApplicationDetailPresenter, IApplicationDetailView>(async presenter =>
             {
-                presenter.LoadApplicationDetails(e.Id,e.Mode);
+                await presenter.LoadApplicationDetails(e.Id,e.Mode);
             });
         }
 

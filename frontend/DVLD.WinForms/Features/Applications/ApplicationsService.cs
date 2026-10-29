@@ -50,14 +50,18 @@ namespace DVLD.WinForms.Features.Applications
             return await _apiClient.GetAsync<ApplicantSummaryDto>(endpoint);
         }
 
-        public Task<ApiResponse> UpdateDrivingLicenceApplication(int localApplicationId, LicenseClassEnum licenseType)
+        public async Task<ApiResponse> UpdateDrivingLicenceApplication(int localApplicationId, LicenseClassEnum licenseType)
         {
-            throw new NotImplementedException();
+            return await _apiClient.PutAsync<object>(
+                $"LocalDrivingLicenseApplication/{localApplicationId}",
+                new { LicenseClass = licenseType });
         }
 
-        public Task<ApiResponse> CancelApplication(int applicationId, int CancelBy)
+        public async Task<ApiResponse> CancelApplication(int applicationId, int CancelBy)
         {
-            throw new NotImplementedException();
+            return await _apiClient.PostAsync<object>(
+                $"Application/{applicationId}/cancel",
+                new { CancelBy });
         }
 
         public async Task<ApiResponse<int>> CreateApplication(CreateLocalDrivingLicenseApplicationRequest request)
