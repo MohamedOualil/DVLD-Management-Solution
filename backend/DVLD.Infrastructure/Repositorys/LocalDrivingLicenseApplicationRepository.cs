@@ -26,6 +26,7 @@ namespace DVLD.Infrastructure.Repositorys
         {
             return await _context.LocalDrivingLicenseApplications
                 .Include(a => a.Application)
+                    .ThenInclude(a => a.Person)
                 .Include(a => a.LicenseClass)
                 .Include(t => t.TestAppointments)
                     .ThenInclude(ts => ts.Test)

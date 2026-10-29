@@ -6,6 +6,7 @@ using DVLD.Application.LocalLicenseApplications.CreateApplication;
 using DVLD.Application.LocalLicenseApplications.GetAllLocalApplications;
 using DVLD.Application.LocalLicenseApplications.GetApplicantSummary;
 using DVLD.Application.LocalLicenseApplications.GetLocalApplication;
+using DVLD.Application.LocalLicenseApplications.UpdateLocalApplication;
 using DVLD.Application.Persons.CreatePerson;
 using DVLD.Application.Persons.GetPerson;
 using DVLD.Domain.Common;
@@ -45,6 +46,25 @@ namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
                 return HandleFailure(result);
 
             return CreatedAtAction(nameof(GetLocalApplication), new { id = result.Value }, result.Value);
+        }
+
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Update(
+            int id,
+            UpdateLocalDrivingLicenseApplicationRequest request,
+            CancellationToken cancellationToken)
+        {
+            var command = new UpdateDrivingLicenceApplicationCommand
+            {
+                LocalApplicationId = id,
+                LicenseClass = request.LicenseClass
+            };
+
+            Result result = await _sender.Send(command, cancellationToken);
+            return result.IsFailure ? HandleFailure(result) : NoContent();
         }
 
         [HttpGet("{id}")]

@@ -34,12 +34,18 @@ namespace DVLD.Application.LocalLicenseApplications.UpdateLocalApplication
             if (request.LocalApplicationId <= 0)
                 return Result.Failure(DomainErrors.erLocalApplications.InvalidId);
 
-            LocalDrivingLicenseApplication? application = await _repository.GetByIdAsync(
+            if (!Enum.IsDefined(typeof(DVLD.Domain.Enums.LicenseClassEnum), request.LicenseClass))
+                return Result.Failure(DomainErrors.erLocalApplications.InvalidLicenseClassId);
+
+            LocalDrivingLicenseApplication? application = await _repository.GetWithDetailsAsync(
                 request.LocalApplicationId, 
                 cancellationToken);
 
             if (application is null)
                 return Result.Failure(DomainErrors.erLocalApplications.NotFound);
+
+            if (application.Application.Status != DVLD.Domain.Enums.ApplicationStatusEnum.New)
+                return Result.Failure(DomainErrors.erApplications.CannotUpdateProcessedApplication);
 
             LicenseClass? licenseClass = await _licenseClassesRepository.GetByIdAsync(
                 (short)request.LicenseClass, cancellationToken);
