@@ -11,9 +11,13 @@ namespace DVLD.WinForms.Features.Persons.SelectPerson
 {
     public class SelectPersonPresenter : BasePresenter<ISelectPersonView>
     {
-        private readonly IPesronService _pesronService;
+        private readonly IPesronService _personService;
+
+        private bool _disposed;
+        private bool _searching;
+
         public event Action<int>? PersonSelected;
-        public event Action NoPersonSelected;
+        public event Action? NoPersonSelected;
         public enum SearchBy
         {
             PersonId = 0,
@@ -26,64 +30,128 @@ namespace DVLD.WinForms.Features.Persons.SelectPerson
             INavigationService navigationService) :
             base(view, session, navigationService)
         {
-            _pesronService = pesronService;
+            _personService = pesronService;
 
             View.SearchRequested += View_SearchRequested;
+            View.SearchCriteriaChanged += View_SearchCriteriaChanged;
+
+
+            View.ClearPersonInfo();
+            View.SetBusy(false);
+        }
+
+        private void View_SearchCriteriaChanged(object? sender, EventArgs e)
+        {
+            if (_disposed || _searching)
+                return;
+
+            ClearSelection();
         }
 
         private async void View_SearchRequested(object? sender, EventArgs e)
         {
-            try
-            {
-                await SearchForPersonCardAsync();
-            }
-            catch (Exception)
-            {
-                View.DisplayMessage("An unexpected error occurred during the search.");
-            }
+
+            await SearchForPersonCardAsync();
+
         }
 
 
         private async Task SearchForPersonCardAsync()
         {
-
-            string? searchTerm = View.SearchTerm?.Trim();
-
-            View.MessageLabel = false;
-            if (string.IsNullOrWhiteSpace(searchTerm))
-            {
-                View.DisplayMessage("Requered");
-                NoPersonSelected?.Invoke();
+            if (_disposed || _searching)
                 return;
+            _searching = true;
+            try
+            {
+                View.SetBusy(true);
+
+                ClearSelection();
+                string? searchTerm = View.SearchTerm?.Trim();
+                var searchBy = (SearchBy)View.cbSearchById;
+
+                View.MessageLabel = false;
+                if (string.IsNullOrWhiteSpace(searchTerm))
+                {
+                    View.DisplayMessage(
+                        "Enter a person ID or national number.");
+                    return;
+                }
+
+                ApiResponse<PersonDto> response;
+
+                switch (searchBy)
+                {
+                    case SearchBy.PersonId:
+                        if (!int.TryParse(searchTerm, out int personId) ||
+                            personId <= 0)
+                        {
+                            View.DisplayMessage(
+                                "Enter a valid positive person ID.");
+                            return;
+                        }
+
+                        response = await _personService.GetPerson(personId);
+                        break;
+
+                    case SearchBy.NationalNo:
+                        response =
+                            await _personService.GetPersonByNationalNo(
+                                searchTerm);
+                        break;
+
+                    default:
+                        View.DisplayMessage("Select a valid search option.");
+                        return;
+                }
+
+                if (_disposed)
+                    return;
+
+                if (!response.IsSuccess)
+                {
+                    string? message = response.Error?.AllMessages;
+
+                    View.DisplayMessage(
+                        string.IsNullOrWhiteSpace(message)
+                            ? "Unable to find the applicant."
+                            : message);
+
+                    return;
+                }
+
+                if (response.Data is null || response.Data.PersonId <= 0)
+                {
+                    View.DisplayMessage(
+                        "The search returned invalid applicant information.");
+                    return;
+                }
+
+                View.LoadPersonInfo(response.Data);
+                PersonSelected?.Invoke(response.Data.PersonId);
             }
 
-            var searchBy = (SearchBy)View.cbSearchById;
-
-            ApiResponse<PersonDto>? person = searchBy switch
+            catch (Exception)
             {
-                SearchBy.PersonId => await GetPersonByPersonId(searchTerm),
-                SearchBy.NationalNo => await _pesronService.GetPersonByNationalNo(searchTerm),
-                _ => null
-            };
+                if (!_disposed)
+                {
+                    ClearSelection();
 
-            if (person is null)
-            {
-                NoPersonSelected?.Invoke();
-                return;
+                    View.DisplayMessage(
+                        "Unable to complete the search. Please try again.");
+                }
             }
-                
-
-            if (!person.IsSuccess)
+            finally
             {
-                View.DisplayMessage(person.Error!.AllMessages);
-                NoPersonSelected?.Invoke();
-                return;
+                _searching = false;
+
+                if (!_disposed)
+                    View.SetBusy(false);
             }
 
-            View.LoadPersonInfo(person.Data!);
 
-            PersonSelected?.Invoke(person.Data!.PersonId);
         }
+
+
 
         private async Task<ApiResponse<PersonDto>?> GetPersonByPersonId(string searchTerm)
         {
@@ -93,14 +161,26 @@ namespace DVLD.WinForms.Features.Persons.SelectPerson
                 return null;
             }
 
-            return await _pesronService.GetPerson(personId);
+            return await _personService.GetPerson(personId);
 
         }
 
 
+        private void ClearSelection()
+        {
+            View.ClearPersonInfo();
+            NoPersonSelected?.Invoke();
+        }
+
         public override void Dispose()
         {
+            if (_disposed)
+                return;
+
+            _disposed = true;
+
             View.SearchRequested -= View_SearchRequested;
+            View.SearchCriteriaChanged -= View_SearchCriteriaChanged;
         }
     }
 }
