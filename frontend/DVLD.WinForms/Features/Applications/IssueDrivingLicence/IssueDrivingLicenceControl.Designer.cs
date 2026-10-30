@@ -182,7 +182,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             subtitleLabel.BackColor = Color.Transparent;
             subtitleLabel.Font = new Font("Segoe UI", 10F);
             subtitleLabel.ForeColor = Color.FromArgb(105, 122, 147);
-            subtitleLabel.Location = new Point(84, 49);
+            subtitleLabel.Location = new Point(84, 51);
             subtitleLabel.Name = "subtitleLabel";
             subtitleLabel.Size = new Size(680, 23);
             subtitleLabel.TabIndex = 2;

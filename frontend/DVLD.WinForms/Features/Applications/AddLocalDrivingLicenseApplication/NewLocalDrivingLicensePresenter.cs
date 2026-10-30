@@ -24,10 +24,14 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
         private readonly string _CreatedBy;
         private Action? _cleanupOldEvents;
 
-        private enButtonStatus _buttonStatus = enButtonStatus.PersonInfoStep;
+        private enButtonStatus _step = enButtonStatus.PersonInfoStep;
 
         public event Action<int> SetApplicationId;
-        
+
+        private bool _busy;
+        private bool _disposed;
+        private bool _saveUncertain;
+
         public NewLocalDrivingLicensePresenter(
             IApplicationsService applicationsService,
             IServiceProvider serviceProvider,
@@ -45,70 +49,143 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
 
         private void View_OnGoBackRequested(object? sender, EventArgs e)
         {
-            switch (_buttonStatus)
+            if (_disposed || _busy)
+                return;
+
+            try
             {
-                case enButtonStatus.PersonInfoStep:
+                if (_saveUncertain ||
+                    _step != enButtonStatus.ApplicantInfoStep)
+                {
                     ReturnToApplicationsList();
-                    break;
-                case enButtonStatus.ApplicantInfoStep:
-                    LoadPersonInfoStep();
-                    ResetUiDisplay(enButtonStatus.PersonInfoStep);
-                    break;
-                case enButtonStatus.CreateApplication:
-                    break;
+                    return;
+                }
+
+                LoadPersonInfoStep();
             }
+            catch (Exception)
+            {
+                if (!_disposed)
+                    View.DisplayMessage(
+                        "Unable to return to the previous page.");
+            }
+
         }
 
         private async void View_OnNextStepRequsted(object? sender, EventArgs e)
         {
+            if (_disposed || _busy)
+                return;
+
+            bool saving = _step == enButtonStatus.ApplicantInfoStep;
 
             try
             {
-                switch (_buttonStatus)
+                if (_step == enButtonStatus.CreateApplication)
+                {
+                    ReturnToApplicationsList();
+                    return;
+                }
+
+                if (_saveUncertain)
+                    return;
+
+                _busy = true;
+
+                View.SetBusy(true);
+                View.MessageLabel = false;
+
+                switch (_step)
                 {
                     case enButtonStatus.PersonInfoStep:
+                        await LoadApplicantInfoStepAsync();
+                        break;
 
-                        await LoadApplicantInfoStep();
-                        break;
                     case enButtonStatus.ApplicantInfoStep:
-                        await CreateLocalDrivingLicenseApplication();
-                        break;
-                    case enButtonStatus.CreateApplication:
-                        ReturnToApplicationsList();
+                        await CreateApplicationAsync();
                         break;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                View.DisplayMessage($"Error: {ex.Message}");
+                if (_disposed)
+                    return;
+
+                if (saving)
+                    ShowUncertainSave();
+                else
+                    View.DisplayMessage(
+                        "Unable to load applicant information. Please try again.");
+            }
+            finally
+            {
+                _busy = false;
+
+                if (!_disposed)
+                {
+                    View.SetBusy(false);
+                    RefreshNextButton();
+                }
             }
 
         }
 
-        private async Task CreateLocalDrivingLicenseApplication()
+        private async Task CreateApplicationAsync()
         {
+            int personId = _selectedPersonId.GetValueOrDefault();
+            int classId = _selectedLicenseClassId.GetValueOrDefault();
 
-            if (!_selectedLicenseClassId.HasValue)
+            if (personId <= 0)
             {
-                View.DisplayMessage("Please select a License Class.");
+                View.DisplayMessage("Select a valid applicant.");
                 return;
             }
+
+            if (!Enum.IsDefined(typeof(LicenseClassEnum), classId))
+            {
+                View.DisplayMessage("Select a valid licence class.");
+                return;
+            }
+
             var request = new CreateLocalDrivingLicenseApplicationRequest
             {
-                LicensesClassId = _selectedLicenseClassId.Value,
-                PersonId = _selectedPersonId.Value,
+                PersonId = personId,
+                LicensesClassId = classId
             };
-            var appId = await _applicationsService.CreateApplication(request);
 
-            if (!appId.IsSuccess)
+            var response =
+                await _applicationsService.CreateApplication(request);
+
+            if (_disposed)
+                return;
+
+            if (!response.IsSuccess)
             {
-                View.DisplayMessage(appId.Error!.AllMessages);
+                // These failures may leave the save outcome unknown.
+                int status = response.Error?.Status ?? 0;
+
+                if (status <= 0 || status == 408 || status >= 500)
+                {
+                    ShowUncertainSave();
+                    return;
+                }
+
+                View.DisplayMessage(GetErrorMessage(
+                    response,
+                    "Unable to create the application."));
+
                 return;
             }
 
-            View.UpdateButtonsForState(enButtonStatus.CreateApplication);
-            SetApplicationId?.Invoke(appId.Data);
+            if (response.Data <= 0)
+            {
+                ShowUncertainSave();
+                return;
+            }
 
+            // Update both presenter state and UI.
+            SetStep(enButtonStatus.CreateApplication);
+            View.ShowCreatedApplication(response.Data);
         }
 
         private void ReturnToApplicationsList()
@@ -118,100 +195,158 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
 
         public void LoadPersonInfoStep()
         {
-            DisplayTo<SelectPersonPresenter, ISelectPersonView>(presenter =>
+
+            if (_disposed || _busy)
+                return;
+
+            ClearOldScope();
+
+            _selectedPersonId = null;
+            _selectedLicenseClassId = null;
+            _saveUncertain = false;
+
+            _currentPageScope = _serviceProvider.CreateScope();
+
+            try
             {
+                var presenter = _currentPageScope.ServiceProvider
+                    .GetRequiredService<SelectPersonPresenter>();
+
                 presenter.PersonSelected += Presenter_PersonSelected;
                 presenter.NoPersonSelected += Presenter_NoPersonSelected;
 
-                _cleanupOldEvents = () =>  
+                _cleanupOldEvents = () =>
                 {
                     presenter.PersonSelected -= Presenter_PersonSelected;
                     presenter.NoPersonSelected -= Presenter_NoPersonSelected;
                 };
-            });
+
+                View.ShowChildView(presenter.ViewInstance);
+                SetStep(enButtonStatus.PersonInfoStep);
+            }
+            catch
+            {
+                ClearOldScope();
+                throw;
+            }
 
 
         }
 
         private void Presenter_NoPersonSelected()
         {
+            if (_disposed || _busy)
+                return;
+
             _selectedPersonId = null;
             _selectedLicenseClassId = null;
 
-            View.IsEnableNextStepButton = false;
+            RefreshNextButton();
+
         }
 
-        private void ResetUiDisplay(enButtonStatus newStatus)
+        private async Task LoadApplicantInfoStepAsync()
         {
-            _buttonStatus = newStatus;
-            View.UpdateButtonsForState(_buttonStatus);
-            View.IsEnableNextStepButton = false;
-        }
-      
-        private async Task LoadApplicantInfoStep()
-        {
+            int personId = _selectedPersonId.GetValueOrDefault();
 
-            ResetUiDisplay(enButtonStatus.ApplicantInfoStep);
-
-            ApiResponse<ApplicantSummaryDto>? result =
-                await _applicationsService.GetApplicantSummary(
-                    _selectedPersonId.Value,
-                    (int)ApplicationTypeEnum.NewLocalDrivingLicenseService);
-
-            if (!result.IsSuccess)
+            if (personId <= 0)
             {
-                View.DisplayMessage(result.Error!.AllMessages);
+                View.DisplayMessage("Select an applicant first.");
                 return;
             }
 
-            this.ClearOldScope();
-            ApplicationInfoControl applicationInfo = new ApplicationInfoControl();
+            var response = await _applicationsService.GetApplicantSummary(
+                personId,
+                (int)ApplicationTypeEnum.NewLocalDrivingLicenseService);
 
-            Action<int> updateApplicationIdAction = (int id) =>
+            if (_disposed)
+                return;
+
+            if (!response.IsSuccess || response.Data is null)
             {
-                applicationInfo.ApplicationId = id.ToString();
-            };
+                View.DisplayMessage(GetErrorMessage(
+                    response,
+                    "Unable to load applicant information."));
 
-            SetApplicationId += updateApplicationIdAction;
-            applicationInfo.LoadApplicantData(result.Data!,_CreatedBy);
+                return;
+            }
 
+            if (response.Data.PersonId != personId)
+            {
+                View.DisplayMessage(
+                    "The returned information does not match the applicant.");
+                return;
+            }
 
-            applicationInfo.OnLicenseClassSelected += ApplicationInfo_OnLicenseClassSelected;
+            var applicationInfo = new ApplicationInfoControl();
+
+            try
+            {
+                applicationInfo.LoadApplicantData(
+                    response.Data,
+                    _session.Username);
+
+                View.ShowChildView(applicationInfo);
+            }
+            catch
+            {
+                applicationInfo.Dispose();
+                throw;
+            }
+
+            ClearOldScope();
+
+            applicationInfo.OnLicenseClassSelected +=
+                ApplicationInfo_OnLicenseClassSelected;
+
             _cleanupOldEvents = () =>
             {
-                applicationInfo.OnLicenseClassSelected -= ApplicationInfo_OnLicenseClassSelected;
-
-                SetApplicationId -= updateApplicationIdAction;
+                applicationInfo.OnLicenseClassSelected -=
+                    ApplicationInfo_OnLicenseClassSelected;
             };
-            View.ShowChildView(applicationInfo);
+
+            _selectedLicenseClassId = null;
+
+            // Move to step 2 only after loading and displaying succeeded.
+            SetStep(enButtonStatus.ApplicantInfoStep);
         }
 
-        
 
-        private void ApplicationInfo_OnLicenseClassSelected(int obj)
+
+        private void ApplicationInfo_OnLicenseClassSelected(int classId)
         {
-            _selectedLicenseClassId = obj;
-            View.IsEnableNextStepButton = true;
-        }
 
-        private void Presenter_PersonSelected(int newPersonId)
-        {
-            View.MessageLabel = false;
-
-            if (_selectedPersonId != newPersonId)
+            if (_disposed || _busy ||
+               _step != enButtonStatus.ApplicantInfoStep)
             {
-                _selectedLicenseClassId = null;
-            }
-
-            _selectedPersonId = newPersonId;
-
-            View.IsEnableNextStepButton = true;
-
-            if (!_selectedPersonId.HasValue)
-            {
-                View.DisplayMessage("Select The Person");
                 return;
             }
+
+            _selectedLicenseClassId =
+                Enum.IsDefined(typeof(LicenseClassEnum), classId)
+                    ? classId
+                    : null;
+
+            View.MessageLabel = false;
+            RefreshNextButton();
+        }
+
+        private void Presenter_PersonSelected(int personId)
+        {
+
+            if (_disposed || _busy ||
+                _step != enButtonStatus.PersonInfoStep)
+            {
+                return;
+            }
+
+            _selectedPersonId = personId > 0 ? personId : null;
+            _selectedLicenseClassId = null;
+
+            View.MessageLabel = false;
+            RefreshNextButton();
+
+
         }
 
         private void ClearOldScope()
@@ -220,26 +355,70 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
             _cleanupOldEvents = null;
 
             _currentPageScope?.Dispose();
+            _currentPageScope = null;
         }
 
         public override void Dispose()
         {
-            ClearOldScope();
+
+            if (_disposed)
+                return;
+
+            _disposed = true;
+
             View.OnNextStepRequsted -= View_OnNextStepRequsted;
             View.OnGoBackRequested -= View_OnGoBackRequested;
-        }
-        private void DisplayTo<TPresenter, TView>(Action<TPresenter> setup = null) where TPresenter
-            : BasePresenter<TView> where TView : class
-        {
 
             ClearOldScope();
-            _currentPageScope = _serviceProvider.CreateScope();
+        }
 
-            var presenter = _currentPageScope.ServiceProvider.GetRequiredService<TPresenter>();
 
-            setup?.Invoke(presenter);
+        private void SetStep(enButtonStatus step)
+        {
+            _step = step;
 
-            View.ShowChildView(presenter.ViewInstance);
+            View.MessageLabel = false;
+            View.UpdateButtonsForState(step);
+
+            RefreshNextButton();
+        }
+
+        private void RefreshNextButton()
+        {
+            View.IsEnableNextStepButton = _step switch
+            {
+                enButtonStatus.PersonInfoStep =>
+                    _selectedPersonId is > 0,
+
+                enButtonStatus.ApplicantInfoStep =>
+                    _selectedPersonId is > 0 &&
+                    _selectedLicenseClassId is > 0 &&
+                    !_saveUncertain,
+
+                enButtonStatus.CreateApplication => true,
+
+                _ => false
+            };
+        }
+
+        private void ShowUncertainSave()
+        {
+            _saveUncertain = true;
+
+            View.DisplayMessage(
+                "Unable to confirm whether the application was saved. " +
+                "Use Back to return to the list and check before trying again.");
+        }
+
+        private static string GetErrorMessage(
+            ApiResponse response,
+            string fallback)
+        {
+            string? message = response.Error?.AllMessages;
+
+            return string.IsNullOrWhiteSpace(message)
+                ? fallback
+                : message;
         }
 
     }
