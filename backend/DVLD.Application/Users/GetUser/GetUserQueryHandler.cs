@@ -1,4 +1,5 @@
-﻿using Dapper;
+using DVLD.Contracts.Auth;
+using Dapper;
 using DVLD.Application.Abstractions;
 using DVLD.Application.Abstractions.Authentication;
 using DVLD.Application.Abstractions.Messaging;

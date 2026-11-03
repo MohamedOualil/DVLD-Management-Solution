@@ -1,4 +1,5 @@
-﻿using DVLD.Application.Abstractions.Authentication;
+using DVLD.Contracts.Auth;
+using DVLD.Application.Abstractions.Authentication;
 using DVLD.Domain.Entities;
 using DVLD.Infrastructure.Services;
 using Microsoft.Extensions.Options;
@@ -50,12 +51,13 @@ namespace DVLD.Infrastructure.Authentication
             );
 
             string accessToken = new JwtSecurityTokenHandler().WriteToken(token);
+            var accessExpiry = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiresInMinutes);
 
             string refreshToken = GenerateRefreshToken();
 
             DateTime refreshTokenExpiresInDays = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpiresInDays);
 
-            return new TokenResponse(accessToken, refreshToken, refreshTokenExpiresInDays);
+            return new TokenResponse(accessToken, refreshToken, refreshTokenExpiresInDays, accessExpiry);
         }
 
         private  string GenerateRefreshToken()

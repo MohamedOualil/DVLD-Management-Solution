@@ -1,4 +1,5 @@
-﻿using DVLD.Domain.Entities;
+using DVLD.Contracts.Auth;
+using DVLD.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

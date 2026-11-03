@@ -1,3 +1,4 @@
+using DVLD.Contracts.Licenses;
 using DVLD.WinForms.Common;
 using DVLD.WinForms.Features.Licenses;
 using DVLD.WinForms.Features.Persons;

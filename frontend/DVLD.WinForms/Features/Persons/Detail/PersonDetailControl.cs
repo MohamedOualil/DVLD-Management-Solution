@@ -1,4 +1,7 @@
-﻿using DVLD.WinForms.Shared.Enums;
+using DVLD.Contracts.Enums;
+using DVLD.Contracts.Persons;
+using DVLD.WinForms.Shared.Helpers;
+using DVLD.WinForms.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -63,17 +66,17 @@ namespace DVLD.WinForms.Features.Persons.Detail
 
         }
 
-        public void PersonInitialized(PersonDto personDto)
+        public void PersonInitialized(PersonResponse personDto)
         {
             NationlNo = personDto.NationalNo;
             DateofBirth = personDto.DateOfBirth.ToString("dd/MM/yyyy");
             PersonId = personDto.PersonId.ToString();
-            FullName = personDto.FullName;
-            Address = personDto.FullAddress;
+            FullName = personDto.GetFullName();
+            Address = personDto.GetFullAddress();
             Email = personDto.Email;
             Phone = personDto.Phone;
             ImagePath = personDto.ImagePath;
-            Gender = ((GenderEnum)personDto.Gender).ToString();
+            Gender = ((Gender)personDto.Gender).ToString();
         }
 
 

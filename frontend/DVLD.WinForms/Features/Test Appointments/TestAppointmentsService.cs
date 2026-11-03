@@ -1,4 +1,6 @@
-﻿using DVLD.WinForms.Common;
+using DVLD.Contracts.Enums;
+using DVLD.Contracts.Tests;
+using DVLD.WinForms.Common;
 using DVLD.WinForms.Shared.Enums;
 using System;
 using System.Collections.Generic;
@@ -12,13 +14,13 @@ namespace DVLD.WinForms.Features.Test_Appointments
     {
         private readonly IApiClient _apiClient = apiClient;
 
-        public async Task<ApiResponse<List<TestAppointmentsRespondDto>>> GetTestAppointmentsAsync(int localApplicationId, TestTypeEnum testType)
+        public async Task<ApiResponse<List<TestAppointmentsRespond>>> GetTestAppointmentsAsync(int localApplicationId, TestTypeEnum testType)
         {
 
             string endpoint =$"TestAppointments/{localApplicationId}/test-appointments" +
                             $"?testTypeId={(int)testType}";
 
-            return await _apiClient.GetAsync<List<TestAppointmentsRespondDto>>(endpoint);
+            return await _apiClient.GetAsync<List<TestAppointmentsRespond>>(endpoint);
         }
     }
 }

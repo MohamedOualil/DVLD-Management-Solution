@@ -1,4 +1,7 @@
-﻿using DVLD.WinForms.Common;
+using DVLD.Contracts.Enums;
+using DVLD.Contracts.Persons;
+using DVLD.WinForms.Shared.Helpers;
+using DVLD.WinForms.Common;
 using DVLD.WinForms.Features.Auth;
 using DVLD.WinForms.Features.Dashboard;
 using DVLD.WinForms.Shared;
@@ -33,24 +36,24 @@ namespace DVLD.WinForms.Features.Persons.Detail
 
         private async Task PersonInitialized(int personId)
         {
-            ApiResponse<PersonDto>? person = await _pesronService.GetPerson(personId);
+            ApiResponse<PersonResponse>? person = await _pesronService.GetPerson(personId);
 
             if (!person.IsSuccess)
             {
                 return;
             }
 
-            PersonDto ?personDto = person.Data;
+            PersonResponse ?personDto = person.Data;
             View.NationlNo = personDto.NationalNo;
             View.DateofBirth = personDto.DateOfBirth.ToString("dd/MM/yyyy");
             View.PersonId = personDto.PersonId.ToString();
-            View.FullName = personDto.FullName;
-            View.Address = personDto.FullAddress;
+            View.FullName = personDto.GetFullName();
+            View.Address = personDto.GetFullAddress();
             View.Email = personDto.Email;
             View.Phone = personDto.Phone;
             View.Gender = personDto.Gender.ToString();
             View.ImagePath = personDto.ImagePath;
-            View.Gender = ((GenderEnum)personDto.Gender).ToString();
+            View.Gender = ((Gender)personDto.Gender).ToString();
 
         }
 

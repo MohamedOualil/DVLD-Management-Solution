@@ -1,4 +1,5 @@
-﻿using DVLD.WinForms.Common;
+using DVLD.Contracts.Persons;
+using DVLD.WinForms.Common;
 using DVLD.WinForms.Features.Auth;
 using System;
 using System.Collections.Generic;
@@ -13,16 +14,16 @@ namespace DVLD.WinForms.Features.Persons
     public class PersonService(IApiClient apiClient) : IPesronService
     {
         private readonly IApiClient _apiClient = apiClient;
-        public async Task<ApiResponse<PersonDto>> GetPerson(int personId)
+        public async Task<ApiResponse<PersonResponse>> GetPerson(int personId)
         {
             string endpoint = $"Person/{personId}";
-            return await _apiClient.GetAsync<PersonDto>(endpoint);
+            return await _apiClient.GetAsync<PersonResponse>(endpoint);
         }
 
-        public async Task<ApiResponse<PersonDto>> GetPersonByNationalNo(string nationalNo)
+        public async Task<ApiResponse<PersonResponse>> GetPersonByNationalNo(string nationalNo)
         {
             string endpoint = $"Person/NationalNo/{nationalNo}";
-            return await _apiClient.GetAsync<PersonDto>(endpoint);
+            return await _apiClient.GetAsync<PersonResponse>(endpoint);
         }
     }
 }

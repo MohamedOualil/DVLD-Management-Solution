@@ -1,4 +1,5 @@
-﻿using DVLD.Application.Abstractions.Messaging;
+using DVLD.Contracts.LocalLicenseApplications;
+using DVLD.Application.Abstractions.Messaging;
 using DVLD.Application.LocalLicenseApplications.GetLocalApplication;
 using System;
 using System.Collections.Generic;

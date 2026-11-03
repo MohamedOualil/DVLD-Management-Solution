@@ -1,4 +1,6 @@
-﻿using System;
+using DVLD.Contracts.Enums;
+using DVLD.Contracts.Tests;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -117,10 +119,10 @@ namespace DVLD.WinForms.Features.Test.RecordTestResult
                 return;
             }
 
-            var request = new RecordTestResultRequest
+            var request = new TakeTestRequest
             {
                 TestAppointmentId = _appointmentId,
-                Result = passed.Value ? 1 : 0,
+                Result = passed.Value ? TestResult.Success : TestResult.Failure,
                 Notes = string.IsNullOrWhiteSpace(View.Notes) ? null : View.Notes,
                 CreateById = _session.UserId
             };

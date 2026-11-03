@@ -1,3 +1,6 @@
+using DVLD.Contracts.Enums;
+using DVLD.Contracts.LocalLicenseApplications;
+using DVLD.Contracts.Tests;
 using DVLD.WinForms.Features.Applications.Detail;
 using DVLD.WinForms.Features.Test_Appointments;
 using DVLD.WinForms.Shared.Enums;
@@ -20,7 +23,7 @@ namespace DVLD.WinForms.Features.Test.RecordTestResult
             SetRecordingAvailability(false, "Loading appointment information…");
         }
 
-        public void DisplayApplication(ApplicationDetailDto application)
+        public void DisplayApplication(LocalApplicationResponse application)
         {
             lblFullName.Text = application.FullName;
             lblNationalNo.Text = $"National number: {application.NationalNo}";
@@ -28,7 +31,7 @@ namespace DVLD.WinForms.Features.Test.RecordTestResult
             lblLicenseClass.Text = application.LicenseClassName;
         }
 
-        public void DisplayAppointment(TestAppointmentsRespondDto appointment,TestTypeEnum type, int attempt)
+        public void DisplayAppointment(TestAppointmentsRespond appointment,TestTypeEnum type, int attempt)
         {
             string name = type switch
             {

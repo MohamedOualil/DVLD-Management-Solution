@@ -1,4 +1,6 @@
-﻿using DVLD.Application.Abstractions;
+using DVLD.Contracts.Common;
+using DVLD.Contracts.Persons;
+using DVLD.Application.Abstractions;
 using DVLD.Application.Abstractions.Messaging;
 using System;
 using System.Collections.Generic;

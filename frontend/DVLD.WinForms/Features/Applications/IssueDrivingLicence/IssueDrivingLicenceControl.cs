@@ -1,3 +1,4 @@
+using DVLD.Contracts.LocalLicenseApplications;
 using DVLD.WinForms.Features.Applications.Detail;
 using DVLD.WinForms.Features.Persons;
 using DVLD.WinForms.Features.Persons.Detail;
@@ -35,7 +36,7 @@ public partial class IssueDrivingLicenceControl : UserControl, IIssueDrivingLice
         DisplayEligibility(false, "Loading application information…", "Please wait.");
     }
 
-    public void DisplayApplication(ApplicationDetailDto application)
+    public void DisplayApplication(LocalApplicationResponse application)
     {
         localIdValue.Text = application.LocalId.ToString();
         classValue.Text = application.LicenseClassName;
@@ -45,7 +46,7 @@ public partial class IssueDrivingLicenceControl : UserControl, IIssueDrivingLice
         feeValue.Text = application.PaidFees.ToString("0.00");
         statusValue.Text = application.Status;
         dateValue.Text = application.ApplicationDate.ToString("dd MMM yyyy");
-        statusDateValue.Text = application.LastStatusDate.ToString("dd MMM yyyy");
+        statusDateValue.Text = application.LastStatusDate?.ToString("dd MMM yyyy") ?? "—";
         creatorValue.Text = application.CreatedBy;
         viewPersonLink.Enabled = application.PersonId > 0;
     }

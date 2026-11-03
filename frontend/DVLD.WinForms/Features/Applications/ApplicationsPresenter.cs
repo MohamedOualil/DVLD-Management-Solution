@@ -1,3 +1,4 @@
+using DVLD.Contracts.Enums;
 using DVLD.WinForms.Common;
 using DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication;
 using DVLD.WinForms.Features.Applications.Detail;
@@ -187,14 +188,14 @@ namespace DVLD.WinForms.Features.Applications
 
             switch (e.Status)
             {
-                case Shared.Enums.ApplicationStatusEnum.Cancelled:
+                case DVLD.Contracts.Enums.ApplicationStatusEnum.Cancelled:
                     break;
 
-                case Shared.Enums.ApplicationStatusEnum.Completed:
+                case DVLD.Contracts.Enums.ApplicationStatusEnum.Completed:
                     View.IsShowLicenceOptionEnabled = true;
                     break;
 
-                case Shared.Enums.ApplicationStatusEnum.New:
+                case DVLD.Contracts.Enums.ApplicationStatusEnum.New:
                     View.IsEditOptionEnabled = true;
                     View.IsDeleteOptionEnabled = true;
                     View.IsCancelOptionEnabled = true;

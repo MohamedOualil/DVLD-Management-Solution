@@ -1,3 +1,6 @@
+using DVLD.Contracts.Enums;
+using DVLD.Contracts.LocalLicenseApplications;
+using DVLD.Contracts.Tests;
 using DVLD.WinForms.Common;
 using DVLD.WinForms.Features.Applications;
 using DVLD.WinForms.Features.Applications.Detail;
@@ -107,8 +110,8 @@ namespace DVLD.WinForms.Features.Test_Appointments
             }
         }
 
-        private static string? GetSchedulingRestriction(ApplicationDetailDto application,
-            TestResultsRoadmapDto roadmap, List<TestAppointmentsRespondDto> appointments, TestTypeEnum type)
+        private static string? GetSchedulingRestriction(LocalApplicationResponse application,
+            TestRoadmapResponse roadmap, List<TestAppointmentsRespond> appointments, TestTypeEnum type)
         {
             if (!Enum.IsDefined(type)) return "This test type is unavailable.";
 

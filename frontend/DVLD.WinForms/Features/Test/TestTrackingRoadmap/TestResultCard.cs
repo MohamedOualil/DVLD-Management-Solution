@@ -1,4 +1,6 @@
-﻿using DVLD.WinForms.Features.Persons;
+using DVLD.Contracts.Enums;
+using DVLD.Contracts.Tests;
+using DVLD.WinForms.Features.Persons;
 using DVLD.WinForms.Shared.Enums;
 using System;
 using System.Collections.Generic;

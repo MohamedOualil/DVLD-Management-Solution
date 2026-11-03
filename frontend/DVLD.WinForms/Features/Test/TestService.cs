@@ -1,4 +1,5 @@
-﻿using DVLD.WinForms.Common;
+using DVLD.Contracts.Tests;
+using DVLD.WinForms.Common;
 using DVLD.WinForms.Features.Test.ScheduleTest;
 using DVLD.WinForms.Features.Test.RecordTestResult;
 using System;
@@ -12,7 +13,7 @@ namespace DVLD.WinForms.Features.Test
     public class TestService(IApiClient apiClient) : ITestService
     {
         private readonly IApiClient _apiClient = apiClient;
-        public Task<ApiResponse<RecordTestResultResponse>> RecordTestResultAsync(RecordTestResultRequest request) =>
+        public Task<ApiResponse<RecordTestResultResponse>> RecordTestResultAsync(TakeTestRequest request) =>
             _apiClient.PostAsync<RecordTestResultResponse>("Test/Take", request);
 
 
@@ -26,7 +27,7 @@ namespace DVLD.WinForms.Features.Test
         }
 
         public Task<ApiResponse<int>> CreateAppointmentAsync(
-                CreateTestAppointmentRequest request)
+                CreateTestRequest request)
         {
             return _apiClient.PostAsync<int>(
                 "Test/appointments",

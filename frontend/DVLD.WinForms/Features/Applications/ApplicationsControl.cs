@@ -1,3 +1,5 @@
+using DVLD.Contracts.Enums;
+using DVLD.Contracts.LocalLicenseApplications;
 using DVLD.WinForms.Shared.Enums;
 using DVLD.WinForms.Shared.Events;
 using DVLD.WinForms.Shared.Helpers;
@@ -56,7 +58,7 @@ namespace DVLD.WinForms.Features.Applications
         public bool IsScheduleWrittenTestEnabled { set => ScheduleWrittenTest.Enabled = value; }
         public bool IsScheduleStreetTestEnabled { set => ScheduleStreetTest.Enabled = value; }
 
-        public void DisplayLocalApplications(IEnumerable<LocalApplicationsDto> localApplications)
+        public void DisplayLocalApplications(IEnumerable<GetAllLocalApplicationsResponse> localApplications)
         {
             lblMessage.Visible = false;
             LocalDataGridView.Rows.Clear();

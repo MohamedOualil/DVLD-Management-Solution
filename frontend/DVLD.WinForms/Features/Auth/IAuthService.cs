@@ -1,4 +1,5 @@
-﻿using DVLD.WinForms.Common;
+using DVLD.Contracts.Auth;
+using DVLD.WinForms.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace DVLD.WinForms.Features.Auth
 {
     public interface IAuthService
     {
-        Task<ApiResponse<LoginResponseDto>> LoginAsync(
+        Task<ApiResponse<LoginResponse>> LoginAsync(
             string username, string password);
     }
 }

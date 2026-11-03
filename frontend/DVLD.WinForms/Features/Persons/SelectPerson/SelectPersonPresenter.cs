@@ -1,4 +1,5 @@
-﻿using DVLD.WinForms.Common;
+using DVLD.Contracts.Persons;
+using DVLD.WinForms.Common;
 using DVLD.WinForms.Features.Applications;
 using DVLD.WinForms.Shared;
 using System;
@@ -77,7 +78,7 @@ namespace DVLD.WinForms.Features.Persons.SelectPerson
                     return;
                 }
 
-                ApiResponse<PersonDto> response;
+                ApiResponse<PersonResponse> response;
 
                 switch (searchBy)
                 {
@@ -153,7 +154,7 @@ namespace DVLD.WinForms.Features.Persons.SelectPerson
 
 
 
-        private async Task<ApiResponse<PersonDto>?> GetPersonByPersonId(string searchTerm)
+        private async Task<ApiResponse<PersonResponse>?> GetPersonByPersonId(string searchTerm)
         {
             if (!int.TryParse(searchTerm, out int personId) || personId <= 0)
             {

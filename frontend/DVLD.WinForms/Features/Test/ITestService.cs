@@ -1,4 +1,5 @@
-﻿using DVLD.WinForms.Common;
+using DVLD.Contracts.Tests;
+using DVLD.WinForms.Common;
 using DVLD.WinForms.Features.Test.ScheduleTest;
 using DVLD.WinForms.Features.Test.RecordTestResult;
 using System;
@@ -11,9 +12,9 @@ namespace DVLD.WinForms.Features.Test
 {
     public interface ITestService
     {
-        Task<ApiResponse<RecordTestResultResponse>> RecordTestResultAsync(RecordTestResultRequest request);
+        Task<ApiResponse<RecordTestResultResponse>> RecordTestResultAsync(TakeTestRequest request);
         Task<ApiResponse<TestDetailsResponse>> GetTestDetailsAsync(int localApplicationId, int testTypeId);
         Task<ApiResponse<int>> CreateAppointmentAsync(
-    CreateTestAppointmentRequest request);
+    CreateTestRequest request);
     }
 }

@@ -1,3 +1,5 @@
+using DVLD.Contracts.Enums;
+using DVLD.Contracts.Licenses;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -80,7 +82,7 @@ namespace DVLD.WinForms.Features.Licenses.LicenseDetails
             }
         }
 
-        public void LicenseInitialized(LicenseDto licenseDto)
+        public void LicenseInitialized(GetLicenseResponse licenseDto)
         {
             ArgumentNullException.ThrowIfNull(licenseDto);
 
@@ -93,8 +95,8 @@ namespace DVLD.WinForms.Features.Licenses.LicenseDetails
             DriverId = licenseDto.DriverId.ToString();
             Gender = licenseDto.Gender switch
             {
-                (int)GenderEnum.Male => "Male",
-                (int)GenderEnum.Female => "Female",
+                (int)DVLD.Contracts.Enums.Gender.Male => "Male",
+                (int)DVLD.Contracts.Enums.Gender.Female => "Female",
                 _ => "Unknown"
             };
             DateOfBirth = licenseDto.DateOfBirth.ToString("dd/MM/yyyy");
@@ -102,10 +104,10 @@ namespace DVLD.WinForms.Features.Licenses.LicenseDetails
             ExpirationDate = licenseDto.ExpirationDate.ToString("dd/MM/yyyy");
             IssueReason = licenseDto.IssueReason switch
             {
-                1 => "First Time",
-                2 => "Renewal",
-                3 => "Damaged Replacement",
-                4 => "Lost Replacement",
+                IssueReasonEnum.FirstTime => "First Time",
+                IssueReasonEnum.Renew => "Renewal",
+                IssueReasonEnum.DamagedReplacement => "Damaged Replacement",
+                IssueReasonEnum.LostReplacement => "Lost Replacement",
                 _ => "Unknown"
             };
             Notes = string.IsNullOrWhiteSpace(licenseDto.Notes) ? "No notes." : licenseDto.Notes;

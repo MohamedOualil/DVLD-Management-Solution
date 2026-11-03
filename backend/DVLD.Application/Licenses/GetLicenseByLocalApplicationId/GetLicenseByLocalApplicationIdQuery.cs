@@ -1,3 +1,4 @@
+using DVLD.Contracts.Licenses;
 using DVLD.Application.Abstractions.Messaging;
 using DVLD.Application.Licenses.GetLicense;
 

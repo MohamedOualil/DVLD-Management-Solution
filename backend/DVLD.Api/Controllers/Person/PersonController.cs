@@ -1,4 +1,6 @@
-﻿using DVLD.Api.Common;
+using DVLD.Contracts.Common;
+using DVLD.Contracts.Persons;
+using DVLD.Api.Common;
 using DVLD.Api.Controllers.LocalDrivingLicenseApplications;
 using DVLD.Application.Abstractions;
 using DVLD.Application.LocalLicenseApplications.GetAllLocalApplications;

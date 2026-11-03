@@ -1,4 +1,5 @@
-﻿using DVLD.Application.Abstractions.Interfaces;
+using DVLD.Contracts.InternationalLicenses;
+using DVLD.Application.Abstractions.Interfaces;
 using DVLD.Application.Abstractions.Messaging;
 using DVLD.Domain.Common;
 using Microsoft.EntityFrameworkCore;
@@ -40,7 +41,7 @@ namespace DVLD.Application.InternationalDrivingLicenses.GetInternationalLicense
                         ImagePath = i.Application.Person.ImagePath,
                         InternationalLicenseId = i.Id,
                         IsActive = i.IsActive,
-                        IssueReason = i.IssueReason,
+                        IssueReason = (DVLD.Contracts.Enums.IssueReasonEnum)i.IssueReason,
                         LicenseId = i.IssuedUsingLocalLicenseId,
                         NationalNo = i.Application.Person.NationalNo.Number,
                         

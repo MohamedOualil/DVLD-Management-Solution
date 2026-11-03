@@ -1,3 +1,4 @@
+using DVLD.Contracts.Licenses;
 using DVLD.WinForms.Common;
 using DVLD.WinForms.Features.Licenses.LicenseDetails;
 
@@ -8,9 +9,9 @@ public class LicensesService(IApiClient apiClient) : ILicensesService
     public Task<ApiResponse<int>> IssueDrivingLicenceAsync(IssueNewLicenseRequest request)
         => apiClient.PostAsync<int>("License", request);
 
-    public Task<ApiResponse<LicenseDto>> GetLicenseAsync(int licenseId)
-        => apiClient.GetAsync<LicenseDto>($"License/{licenseId}");
+    public Task<ApiResponse<GetLicenseResponse>> GetLicenseAsync(int licenseId)
+        => apiClient.GetAsync<GetLicenseResponse>($"License/{licenseId}");
 
-    public Task<ApiResponse<LicenseDto>> GetLicenseByLocalApplicationIdAsync(int localApplicationId)
-        => apiClient.GetAsync<LicenseDto>($"License/by-local-application/{localApplicationId}");
+    public Task<ApiResponse<GetLicenseResponse>> GetLicenseByLocalApplicationIdAsync(int localApplicationId)
+        => apiClient.GetAsync<GetLicenseResponse>($"License/by-local-application/{localApplicationId}");
 }

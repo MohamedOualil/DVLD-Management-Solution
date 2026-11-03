@@ -1,4 +1,5 @@
-﻿using DVLD.WinForms.Shared.Enums;
+using DVLD.Contracts.Enums;
+using DVLD.WinForms.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

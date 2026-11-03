@@ -1,4 +1,5 @@
-﻿using DVLD.Application.Abstractions.Interfaces;
+using DVLD.Contracts.LocalLicenseApplications;
+using DVLD.Application.Abstractions.Interfaces;
 using DVLD.Application.Abstractions.Messaging;
 using DVLD.Domain.Common;
 using Microsoft.EntityFrameworkCore;

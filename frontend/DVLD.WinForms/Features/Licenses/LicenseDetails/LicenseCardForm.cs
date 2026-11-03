@@ -1,3 +1,4 @@
+using DVLD.Contracts.Licenses;
 namespace DVLD.WinForms.Features.Licenses.LicenseDetails
 {
     public partial class LicenseCardForm : Form
@@ -7,7 +8,7 @@ namespace DVLD.WinForms.Features.Licenses.LicenseDetails
             InitializeComponent();
         }
 
-        public void DisplayLicense(LicenseDto licenseDto)
+        public void DisplayLicense(GetLicenseResponse licenseDto)
         {
             ArgumentNullException.ThrowIfNull(licenseDto);
             licenseCardControl1.LicenseInitialized(licenseDto);

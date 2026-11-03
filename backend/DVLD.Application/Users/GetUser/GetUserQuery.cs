@@ -1,4 +1,5 @@
-﻿using DVLD.Application.Abstractions.Messaging;
+using DVLD.Contracts.Auth;
+using DVLD.Application.Abstractions.Messaging;
 using DVLD.Application.Users.Login;
 using System;
 using System.Collections.Generic;

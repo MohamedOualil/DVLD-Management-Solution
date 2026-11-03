@@ -1,3 +1,4 @@
+using DVLD.Contracts.LocalLicenseApplications;
 using DVLD.WinForms.Shared.Events;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,6 @@ namespace DVLD.WinForms.Features.Applications
         void DisplayMessage(string message);
         void DisplayPagination(int pageNumber, int totalPages, int totalCount);
         void SetPaginationLoading(bool isLoading);
-        void DisplayLocalApplications(IEnumerable<LocalApplicationsDto> localApplications);
+        void DisplayLocalApplications(IEnumerable<GetAllLocalApplicationsResponse> localApplications);
     }
 }

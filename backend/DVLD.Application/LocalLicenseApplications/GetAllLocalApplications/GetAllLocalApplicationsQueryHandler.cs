@@ -1,4 +1,6 @@
-﻿using DVLD.Application.Abstractions;        
+using DVLD.Contracts.Common;
+using DVLD.Contracts.LocalLicenseApplications;
+using DVLD.Application.Abstractions;
 using DVLD.Application.Abstractions.Interfaces;
 using DVLD.Application.Abstractions.Messaging;
 using DVLD.Application.Users.Login;
@@ -11,7 +13,7 @@ using System.Diagnostics;
 
 namespace DVLD.Application.LocalLicenseApplications.GetAllLocalApplications
 {
-    
+
     internal sealed class GetAllLocalApplicationsQueryHandler : IQueryHandler<GetAllLocalApplicationsQuery, PagedList<GetAllLocalApplicationsResponse>>
     {
 
@@ -19,8 +21,8 @@ namespace DVLD.Application.LocalLicenseApplications.GetAllLocalApplications
         private readonly IValidate<GetAllLocalApplicationsQuery> _validator;
         private readonly ILogger<GetAllLocalApplicationsQuery> _logger;
 
-        public GetAllLocalApplicationsQueryHandler(IApplicationDbContext dbContext, 
-            IValidate<GetAllLocalApplicationsQuery> validator, 
+        public GetAllLocalApplicationsQueryHandler(IApplicationDbContext dbContext,
+            IValidate<GetAllLocalApplicationsQuery> validator,
             ILogger<GetAllLocalApplicationsQuery> logger)
         {
             _dbContext = dbContext;
@@ -45,7 +47,7 @@ namespace DVLD.Application.LocalLicenseApplications.GetAllLocalApplications
 
             if (hasSearchTerm)
             {
-                query = query.Where(x => 
+                query = query.Where(x =>
                         (searchId.HasValue && x.Id == searchId) ||
                         (x.Application.Person.FullName.FirstName + " " + x.Application.Person.FullName.LastName)
                         .StartsWith(searchTerm) ||
@@ -60,7 +62,7 @@ namespace DVLD.Application.LocalLicenseApplications.GetAllLocalApplications
 
             var totalCount = await query.CountAsync(cancellationToken);
 
-          
+
 
 
             var items = await query

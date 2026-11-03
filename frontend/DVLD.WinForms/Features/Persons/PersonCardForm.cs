@@ -1,4 +1,5 @@
-﻿using System;
+using DVLD.Contracts.Persons;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,7 +18,7 @@ namespace DVLD.WinForms.Features.Persons
             InitializeComponent();
         }
 
-        public void DisplayPerson(PersonDto personDto)
+        public void DisplayPerson(PersonResponse personDto)
         {
             ArgumentNullException.ThrowIfNull(personDto);
             personDetailControl1.PersonInitialized(personDto);

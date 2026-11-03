@@ -1,4 +1,6 @@
-﻿using System;
+using DVLD.Contracts.Enums;
+using DVLD.Contracts.Tests;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -172,12 +174,12 @@ namespace DVLD.WinForms.Features.Test.ScheduleTest
 
             try
             {
-                var request = new CreateTestAppointmentRequest
+                var request = new CreateTestRequest
                 {
                     LocalApplicationId = _localApplicationId,
                     CreatedById = _session.UserId,
                     AppointmentDate = appointmentDate,
-                    TestType = (int)_testType
+                    TestType = _testType
                 };
 
                 var response = await _testService.CreateAppointmentAsync(request);

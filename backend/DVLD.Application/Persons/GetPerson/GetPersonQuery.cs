@@ -1,4 +1,5 @@
-﻿using DVLD.Domain.Entities;
+using DVLD.Contracts.Persons;
+using DVLD.Domain.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;

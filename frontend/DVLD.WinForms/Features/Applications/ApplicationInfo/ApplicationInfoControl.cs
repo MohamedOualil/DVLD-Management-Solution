@@ -1,4 +1,6 @@
-﻿using System;
+using DVLD.Contracts.Enums;
+using DVLD.Contracts.LocalLicenseApplications;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -52,7 +54,7 @@ namespace DVLD.WinForms.Features.Applications.ApplicationInfo
             ApplicationId = string.Empty;
         }
 
-        public void LoadApplicantData(ApplicantSummaryDto applicant,string createdBy)
+        public void LoadApplicantData(ApplicantSummaryRespond applicant,string createdBy)
         {
  
             ArgumentNullException.ThrowIfNull(applicant);

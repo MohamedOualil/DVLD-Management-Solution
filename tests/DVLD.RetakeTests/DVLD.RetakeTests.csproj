@@ -7,5 +7,9 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../../backend/DVLD.Infrastructure/DVLD.Infrastructure.csproj" />
+    <ProjectReference Include="../../shared/DVLD.Contracts/DVLD.Contracts.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 </Project>

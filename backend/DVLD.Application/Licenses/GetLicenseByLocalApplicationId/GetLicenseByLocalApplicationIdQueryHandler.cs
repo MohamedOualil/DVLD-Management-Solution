@@ -1,3 +1,4 @@
+using DVLD.Contracts.Licenses;
 using DVLD.Application.Abstractions.Interfaces;
 using DVLD.Application.Abstractions.Messaging;
 using DVLD.Application.Licenses.GetLicense;
@@ -43,7 +44,7 @@ internal sealed class GetLicenseByLocalApplicationIdQueryHandler
                 ImagePath = license.Application.Person.ImagePath,
                 IssueDate = license.IssueDate,
                 ExpirationDate = license.ExpirationDate,
-                IssueReason = license.IssueReason,
+                IssueReason = (DVLD.Contracts.Enums.IssueReasonEnum)license.IssueReason,
                 Notes = license.Notes,
                 DriverId = license.DriverId,
                 IsActive = license.IsActive,

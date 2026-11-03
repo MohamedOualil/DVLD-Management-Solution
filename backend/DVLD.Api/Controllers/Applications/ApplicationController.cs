@@ -1,3 +1,4 @@
+using DVLD.Contracts.Applications;
 using DVLD.Api.Common;
 using DVLD.Application.LicenseApplications.CancelApplication;
 using DVLD.Domain.Common;

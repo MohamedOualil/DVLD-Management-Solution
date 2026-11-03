@@ -1,4 +1,5 @@
-﻿using DVLD.Application.Abstractions;
+using DVLD.Contracts.Auth;
+using DVLD.Application.Abstractions;
 using DVLD.Application.Abstractions.Authentication;
 using DVLD.Application.Abstractions.Messaging;
 using DVLD.Application.Users.GetUser;

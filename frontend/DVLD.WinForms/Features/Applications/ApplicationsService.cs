@@ -1,4 +1,9 @@
-﻿using DVLD.WinForms.Common;
+using DVLD.Contracts.Common;
+using DVLD.Contracts.Applications;
+using DVLD.Contracts.Enums;
+using DVLD.Contracts.LocalLicenseApplications;
+using DVLD.Contracts.Tests;
+using DVLD.WinForms.Common;
 using DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication;
 using DVLD.WinForms.Features.Applications.ApplicationInfo;
 using DVLD.WinForms.Features.Applications.Detail;
@@ -22,7 +27,7 @@ namespace DVLD.WinForms.Features.Applications
 
 
 
-        public async Task<ApiResponse<PagedResultDto<LocalApplicationsDto>>> GetAllLocalApplicationsAsync(int pageNumber, int pageSize,string searchTerm,int statusId)
+        public async Task<ApiResponse<PagedList<GetAllLocalApplicationsResponse>>> GetAllLocalApplicationsAsync(int pageNumber, int pageSize,string searchTerm,int statusId)
         {
             string endpoint = $"LocalDrivingLicenseApplication?pageNumber={pageNumber}&pageSize={pageSize}";
             if (!string.IsNullOrWhiteSpace(searchTerm))
@@ -33,35 +38,35 @@ namespace DVLD.WinForms.Features.Applications
             {
                 endpoint += $"&statusId={statusId}";
             }
-            return await _apiClient.GetAsync<PagedResultDto<LocalApplicationsDto>>(endpoint);
+            return await _apiClient.GetAsync<PagedList<GetAllLocalApplicationsResponse>>(endpoint);
         }
 
-        public async Task<ApiResponse<ApplicationDetailDto>> GetApplicationDetails(int localId)
+        public async Task<ApiResponse<LocalApplicationResponse>> GetApplicationDetails(int localId)
         {
             string endpoint = $"LocalDrivingLicenseApplication/{localId}";
 
-            return await _apiClient.GetAsync<ApplicationDetailDto>(endpoint);
+            return await _apiClient.GetAsync<LocalApplicationResponse>(endpoint);
         }
 
-        public async Task<ApiResponse<ApplicantSummaryDto>> GetApplicantSummary(int personId,int applicationTypeId)
+        public async Task<ApiResponse<ApplicantSummaryRespond>> GetApplicantSummary(int personId,int applicationTypeId)
         {
             string endpoint = $"LocalDrivingLicenseApplication/{personId}/type/{applicationTypeId}";
 
-            return await _apiClient.GetAsync<ApplicantSummaryDto>(endpoint);
+            return await _apiClient.GetAsync<ApplicantSummaryRespond>(endpoint);
         }
 
         public async Task<ApiResponse> UpdateDrivingLicenceApplication(int localApplicationId, LicenseClassEnum licenseType)
         {
             return await _apiClient.PutAsync<object>(
                 $"LocalDrivingLicenseApplication/{localApplicationId}",
-                new { LicenseClass = licenseType });
+                new UpdateLocalDrivingLicenseApplicationRequest { LicenseClass = licenseType });
         }
 
         public async Task<ApiResponse> CancelApplication(int applicationId, int CancelBy)
         {
             return await _apiClient.PostAsync<object>(
                 $"Application/{applicationId}/cancel",
-                new { CancelBy });
+                new CancelApplicationRequest { CancelBy = CancelBy });
         }
 
         public async Task<ApiResponse<int>> CreateApplication(CreateLocalDrivingLicenseApplicationRequest request)
@@ -76,11 +81,11 @@ namespace DVLD.WinForms.Features.Applications
             throw new NotImplementedException();
         }
 
-        public async Task<ApiResponse<TestResultsRoadmapDto>> GetTestResultsRoadmap(int localId)
+        public async Task<ApiResponse<TestRoadmapResponse>> GetTestResultsRoadmap(int localId)
         {
             string endpoint = $"Test/{localId}";
 
-            return await _apiClient.GetAsync<TestResultsRoadmapDto>(endpoint);
+            return await _apiClient.GetAsync<TestRoadmapResponse>(endpoint);
         }
     }
 }

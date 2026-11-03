@@ -1,4 +1,7 @@
-﻿using DVLD.WinForms.Features.Persons;
+using DVLD.Contracts.Enums;
+using DVLD.Contracts.Persons;
+using DVLD.Contracts.Tests;
+using DVLD.WinForms.Features.Persons;
 using DVLD.WinForms.Features.Persons.Detail;
 using DVLD.WinForms.Features.Test.TestTrackingRoadmap;
 using DVLD.WinForms.Shared.Enums;
@@ -100,12 +103,12 @@ namespace DVLD.WinForms.Features.Applications.Detail
             CombClassLincense.ValueMember = "id";
             CombClassLincense.SelectedIndex = 2;
         }
-        public void LoadPersonInfo(PersonDto personDto)
+        public void LoadPersonInfo(PersonResponse personDto)
         {
             personDetailControl1.PersonInitialized(personDto);
         }
 
-        public void LoadTestRoadmap(TestResultsRoadmapDto testResultsRoadmapDto)
+        public void LoadTestRoadmap(TestRoadmapResponse testResultsRoadmapDto)
         {
             VisionTestCard.LoadCardData(testResultsRoadmapDto.VisionTest);
             WritingTestCard.LoadCardData(testResultsRoadmapDto.WrittenTest);

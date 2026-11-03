@@ -1,3 +1,6 @@
+using DVLD.Contracts.Enums;
+using DVLD.Contracts.LocalLicenseApplications;
+using DVLD.Contracts.Tests;
 using DVLD.WinForms.Features.Applications.Detail;
 using DVLD.WinForms.Features.Test_Appointments;
 using DVLD.WinForms.Shared.Enums;
@@ -15,8 +18,8 @@ namespace DVLD.WinForms.Features.Test.RecordTestResult
         event EventHandler? CancelRequested;
         bool? Passed { get; }
         string Notes { get; }
-        void DisplayApplication(ApplicationDetailDto application);
-        void DisplayAppointment(TestAppointmentsRespondDto appointment,
+        void DisplayApplication(LocalApplicationResponse application);
+        void DisplayAppointment(TestAppointmentsRespond appointment,
             TestTypeEnum type, int attempt);
         void SetRecordingAvailability(bool allowed, string message);
         void SetSaving(bool saving);

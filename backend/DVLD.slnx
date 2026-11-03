@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="../frontend/DVLD.WinForms/DVLD.WinForms.csproj" Id="a2d0852e-6565-4bbb-996e-9c05cfbc7326" />
+  <Project Path="../shared/DVLD.Contracts/DVLD.Contracts.csproj" Id="71537659-ce5c-42e7-a990-5dac8a6e6c07" />
   <Project Path="DVLD.Api/DVLD.Api.csproj" />
   <Project Path="DVLD.Application/DVLD.Application.csproj" />
   <Project Path="DVLD.Domain/DVLD.Domain.csproj" />

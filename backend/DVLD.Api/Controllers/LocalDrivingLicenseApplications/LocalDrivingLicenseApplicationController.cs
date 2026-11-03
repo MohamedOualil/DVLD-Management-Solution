@@ -1,4 +1,6 @@
-﻿using DVLD.Api.Common;
+using DVLD.Contracts.Common;
+using DVLD.Contracts.LocalLicenseApplications;
+using DVLD.Api.Common;
 using DVLD.Api.Controllers.Drivers;
 using DVLD.Application.Abstractions;
 using DVLD.Application.Drivers.GetListOfDrivers;
@@ -60,7 +62,7 @@ namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
             var command = new UpdateDrivingLicenceApplicationCommand
             {
                 LocalApplicationId = id,
-                LicenseClass = request.LicenseClass
+                LicenseClass = (DVLD.Domain.Enums.LicenseClassEnum)request.LicenseClass
             };
 
             Result result = await _sender.Send(command, cancellationToken);

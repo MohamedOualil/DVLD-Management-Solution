@@ -1,3 +1,4 @@
+using DVLD.Contracts.LocalLicenseApplications;
 using DVLD.WinForms.Features.Applications.Detail;
 using DVLD.WinForms.Features.Persons;
 
@@ -10,7 +11,7 @@ public interface IIssueDrivingLicenceView
     event EventHandler? ViewPersonRequested;
     string Notes { get; }
     void ResetApplication();
-    void DisplayApplication(ApplicationDetailDto application);
+    void DisplayApplication(LocalApplicationResponse application);
     void DisplayEligibility(bool eligible, string title, string description);
     void SetIssueAvailability(bool enabled, string message);
     void DisplayMessage(string message);

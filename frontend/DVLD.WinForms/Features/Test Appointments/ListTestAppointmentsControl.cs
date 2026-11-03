@@ -1,3 +1,6 @@
+using DVLD.Contracts.Enums;
+using DVLD.Contracts.LocalLicenseApplications;
+using DVLD.Contracts.Tests;
 using DVLD.WinForms.Features.Applications.Detail;
 using DVLD.WinForms.Features.Test.TestTrackingRoadmap;
 using DVLD.WinForms.Shared.Enums;
@@ -22,7 +25,7 @@ namespace DVLD.WinForms.Features.Test_Appointments
         private void BackButton_Click(object? sender, EventArgs e) =>
             BackRequested?.Invoke(this, EventArgs.Empty);
 
-        public void DisplayApplication(ApplicationDetailDto application, TestTypeEnum testType)
+        public void DisplayApplication(LocalApplicationResponse application, TestTypeEnum testType)
         {
             _testName = testType switch
             {
@@ -46,7 +49,7 @@ namespace DVLD.WinForms.Features.Test_Appointments
             lblApplicationStatus.Text = application.Status;
         }
 
-        public void DisplayProgress(TestResultsRoadmapDto roadmap)
+        public void DisplayProgress(TestRoadmapResponse roadmap)
         {
             DisplayStep(lblVisionProgress, "1  Vision", roadmap.VisionTest);
             DisplayStep(lblWrittenProgress, "2  Written", roadmap.WrittenTest);
@@ -77,7 +80,7 @@ namespace DVLD.WinForms.Features.Test_Appointments
                 ? Color.FromArgb(240, 253, 244) : Color.FromArgb(248, 250, 252);
         }
 
-        public void DisplayTestAppointments(IEnumerable<TestAppointmentsRespondDto> testAppointments)
+        public void DisplayTestAppointments(IEnumerable<TestAppointmentsRespond> testAppointments)
         {
             TestAppointmentsDataGridView.Rows.Clear();
             foreach (var appointment in testAppointments.OrderBy(a => a.AppointmentDate))

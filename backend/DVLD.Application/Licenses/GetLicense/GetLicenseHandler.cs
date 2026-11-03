@@ -1,4 +1,5 @@
-﻿using Dapper;
+using DVLD.Contracts.Licenses;
+using Dapper;
 using DVLD.Application.Abstractions.Interfaces;
 using DVLD.Application.Abstractions.Messaging;
 using DVLD.Application.InternationalDrivingLicenses.GetInternationalLicense;
@@ -45,7 +46,7 @@ namespace DVLD.Application.Licenses.GetLicense
                         Gender = (int)i.Application.Person.Gender,
                         ImagePath = i.Application.Person.ImagePath,
                         IsActive = i.IsActive,
-                        IssueReason = i.IssueReason,
+                        IssueReason = (DVLD.Contracts.Enums.IssueReasonEnum)i.IssueReason,
                         LicenseId = i.Id,
                         NationalNo = i.Application.Person.NationalNo.Number,
                         ClassName = i.LicenseClass.ClassName,

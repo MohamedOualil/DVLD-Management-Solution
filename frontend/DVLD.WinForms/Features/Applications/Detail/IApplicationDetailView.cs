@@ -1,4 +1,7 @@
-﻿using DVLD.WinForms.Features.Persons;
+using DVLD.Contracts.Enums;
+using DVLD.Contracts.Persons;
+using DVLD.Contracts.Tests;
+using DVLD.WinForms.Features.Persons;
 using DVLD.WinForms.Features.Persons.Detail;
 using DVLD.WinForms.Features.Test.TestTrackingRoadmap;
 using DVLD.WinForms.Shared.Enums;
@@ -17,8 +20,8 @@ namespace DVLD.WinForms.Features.Applications.Detail
 
         event EventHandler ShowLicenses;
         event EventHandler BackToApplications;
-        void LoadPersonInfo(PersonDto personDto);
-        void LoadTestRoadmap(TestResultsRoadmapDto testResultsRoadmapDto);
+        void LoadPersonInfo(PersonResponse personDto);
+        void LoadTestRoadmap(TestRoadmapResponse testResultsRoadmapDto);
 
         void DisplayMessage(string message);
         void SetBusy(bool busy);

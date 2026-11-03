@@ -1,4 +1,5 @@
-﻿using DVLD.Domain.Common;
+using DVLD.Contracts.Auth;
+using DVLD.Domain.Common;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 

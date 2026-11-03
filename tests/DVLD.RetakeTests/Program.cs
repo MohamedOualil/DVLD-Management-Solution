@@ -5,8 +5,13 @@ using DVLD.Domain.ValueObjects;
 using DVLD.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Application = DVLD.Domain.Entities.Application;
+using DVLD.Contracts.Auth;
+using DVLD.Contracts.Common;
+using DVLD.Contracts.LocalLicenseApplications;
+using System.Text.Json;
+using Newtonsoft.Json;
 
-// Dependency-free regression runner: dotnet run --project tests/DVLD.RetakeTests
+// Console regression runner: dotnet run --project tests/DVLD.RetakeTests
 var vision = TestType.Create("Vision", "Vision test", Money.Create(20).Value!);
 Set(vision, nameof(Entity.Id), 1);
 var retakeType = ApplicationType.Create("Retake", Money.Create(5).Value!);
@@ -77,6 +82,90 @@ Check(appointmentModel.GetForeignKeys().Any(f => f.Properties.Single().Name == "
     f.PrincipalEntityType.ClrType == typeof(Application) && f.DeleteBehavior == DeleteBehavior.NoAction),
     "Retake application FK is mapped without cascading deletes");
 Console.WriteLine("All retake regression checks passed.");
+
+// The API uses System.Text.Json; WinForms uses Newtonsoft.Json.
+var webJson = new JsonSerializerOptions(JsonSerializerDefaults.Web);
+var contractPage = new PagedList<GetAllLocalApplicationsResponse>(
+    new List<GetAllLocalApplicationsResponse>
+    {
+        new()
+        {
+            LocalApplicationId = 10,
+            DrivingClass = "Ordinary",
+            NationalNo = "TEST-42",
+            FullName = "Test Person",
+            StatusId = 3,
+            PassedTest = 3
+        }
+    },
+    totalCount: 21,
+    pageNumber: 2,
+    pageSize: 10);
+var pageJson = System.Text.Json.JsonSerializer.Serialize(contractPage, webJson);
+var clientPage = JsonConvert.DeserializeObject<PagedList<GetAllLocalApplicationsResponse>>(pageJson)!;
+Check(clientPage.Items.Single().LocalApplicationId == 10 &&
+    clientPage.Items.Single().StatusName == "Completed" && clientPage.TotalCount == 21 &&
+    clientPage.PageNumber == 2 && clientPage.PageSize == 10 && clientPage.TotalPages == 3 &&
+    clientPage.HasNextPage && clientPage.HasPreviousPage,
+    "WinForms reads the shared API page, items, computed status, and pagination metadata");
+var systemPage = System.Text.Json.JsonSerializer.Deserialize<PagedList<GetAllLocalApplicationsResponse>>(
+    pageJson, webJson)!;
+Check(systemPage.Items.Single().LocalApplicationId == 10 && systemPage.TotalPages == 3,
+    "Shared pagination also round-trips through System.Text.Json");
+
+var expiresAt = DateTime.UtcNow.AddMinutes(10);
+var loginContract = new LoginResponse
+{
+    Username = "test-user",
+    UserId = 7,
+    PersonId = 42,
+    IsActive = true,
+    Role = 1,
+    Token = new TokenResponse("access", "refresh", expiresAt.AddDays(7), expiresAt)
+};
+var loginJson = System.Text.Json.JsonSerializer.Serialize(loginContract, webJson);
+var clientLogin = JsonConvert.DeserializeObject<LoginResponse>(loginJson)!;
+Check(clientLogin.Role == 1 && clientLogin.Token.AccessToken == "access" &&
+    clientLogin.Token.RefreshToken == "refresh" && clientLogin.Token.AccessTokenExpiresAt == expiresAt &&
+    ((DVLD.Contracts.Enums.Role)clientLogin.Role).ToString() == "Admin",
+    "WinForms reads the numeric API role and both token expiration fields");
+
+var detailContract = new LocalApplicationResponse
+{
+    LocalId = 10,
+    ApplicationId = 10,
+    LicenseClassId = 3,
+    PaidFees = 15,
+    ApplicationType = "Local license",
+    LicenseClassName = "Ordinary",
+    CreatedBy = "test-user",
+    ApplicationDate = DateTime.UtcNow,
+    LastStatusDate = null,
+    Status = "New",
+    PersonId = 42,
+    PersonImagePath = "",
+    FullName = "Test Person",
+    NationalNo = "TEST-42",
+    Age = 25
+};
+var detailJson = System.Text.Json.JsonSerializer.Serialize(detailContract, webJson);
+Check(JsonConvert.DeserializeObject<LocalApplicationResponse>(detailJson)!.LastStatusDate is null,
+    "WinForms accepts an application with no last-status date");
+
+foreach (var enumName in new[]
+{
+    "Role", "Gender", "ApplicationStatusEnum", "ApplicationTypeEnum",
+    "LicenseClassEnum", "IssueReasonEnum", "TestTypeEnum", "TestResult"
+})
+{
+    var domainEnum = typeof(Role).Assembly.GetType($"DVLD.Domain.Enums.{enumName}")!;
+    var contractEnum = typeof(DVLD.Contracts.Enums.Role).Assembly.GetType($"DVLD.Contracts.Enums.{enumName}")!;
+    Check(Enum.GetNames(domainEnum).SequenceEqual(Enum.GetNames(contractEnum)) &&
+        Enum.GetValues(domainEnum).Cast<object>().Select(Convert.ToInt64).SequenceEqual(
+            Enum.GetValues(contractEnum).Cast<object>().Select(Convert.ToInt64)),
+        $"Domain and contract {enumName} preserve the same wire values");
+}
+Console.WriteLine("All shared-contract regression checks passed.");
 
 LocalDrivingLicenseApplication Fixture()
 {

@@ -1,4 +1,5 @@
-﻿using System;
+using DVLD.Contracts.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -356,7 +357,7 @@ namespace DVLD.WinForms.Features.Applications.Detail
                 // All required data is available. Update the screen.
                 View.ApplicationStatus = status;
                 View.StatusDate =
-                    application.LastStatusDate.ToString("dd/MM/yyyy");
+                    application.LastStatusDate?.ToString("dd/MM/yyyy") ?? "—";
                 View.CreateBy = application.CreatedBy;
                 View.ApplicationId = application.ApplicationId.ToString();
                 View.LocalApplicationId = application.LocalId.ToString();

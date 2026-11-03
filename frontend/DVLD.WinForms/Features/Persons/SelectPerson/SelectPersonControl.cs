@@ -1,4 +1,5 @@
-﻿using DVLD.WinForms.Shared.Helpers;
+using DVLD.Contracts.Persons;
+using DVLD.WinForms.Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -56,7 +57,7 @@ namespace DVLD.WinForms.Features.Persons.SelectPerson
                 SearchRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        public void LoadPersonInfo(PersonDto person)
+        public void LoadPersonInfo(PersonResponse person)
         {
             ArgumentNullException.ThrowIfNull(person);
             personDetailControl1.PersonInitialized(person);

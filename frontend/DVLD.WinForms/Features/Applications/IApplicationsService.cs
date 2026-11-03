@@ -1,4 +1,8 @@
-﻿using DVLD.WinForms.Common;
+using DVLD.Contracts.Common;
+using DVLD.Contracts.Enums;
+using DVLD.Contracts.LocalLicenseApplications;
+using DVLD.Contracts.Tests;
+using DVLD.WinForms.Common;
 using DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication;
 using DVLD.WinForms.Features.Applications.ApplicationInfo;
 using DVLD.WinForms.Features.Applications.Detail;
@@ -15,16 +19,16 @@ namespace DVLD.WinForms.Features.Applications
 {
     public interface IApplicationsService
     {
-        Task<ApiResponse<PagedResultDto<LocalApplicationsDto>>> GetAllLocalApplicationsAsync(
+        Task<ApiResponse<PagedList<GetAllLocalApplicationsResponse>>> GetAllLocalApplicationsAsync(
             int pageNumber, int pageSize, string searchTerm, int statusId);
 
-        Task<ApiResponse<ApplicationDetailDto>> GetApplicationDetails(int localId);
+        Task<ApiResponse<LocalApplicationResponse>> GetApplicationDetails(int localId);
         Task<ApiResponse> CancelApplication(int applicationId,int CancelBy);
         Task<ApiResponse> UpdateDrivingLicenceApplication(int localApplicationId,LicenseClassEnum licenseType);
         Task<ApiResponse> DeleteApplication(int localId); 
 
-        Task<ApiResponse<TestResultsRoadmapDto>> GetTestResultsRoadmap(int localId);
-        Task<ApiResponse<ApplicantSummaryDto>> GetApplicantSummary(int personId, int applicationTypeId);
+        Task<ApiResponse<TestRoadmapResponse>> GetTestResultsRoadmap(int localId);
+        Task<ApiResponse<ApplicantSummaryRespond>> GetApplicantSummary(int personId, int applicationTypeId);
         Task<ApiResponse<int>> CreateApplication(CreateLocalDrivingLicenseApplicationRequest request);
     }
 }

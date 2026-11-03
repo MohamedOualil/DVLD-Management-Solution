@@ -1,4 +1,5 @@
-﻿using DVLD.WinForms.Common;
+using DVLD.Contracts.Auth;
+using DVLD.WinForms.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,13 @@ namespace DVLD.WinForms.Features.Auth
         private readonly IApiClient _apiClient = apiClient;
 
 
-        public async Task<ApiResponse<LoginResponseDto>> LoginAsync(string username, string password)
+        public async Task<ApiResponse<LoginResponse>> LoginAsync(string username, string password)
         {
-            return await _apiClient.PostAsync<LoginResponseDto>("auth/login", new { username, password });
+            return await _apiClient.PostAsync<LoginResponse>("auth/login", new LoginRequest
+            {
+                Username = username,
+                Password = password
+            });
         }
     }
 }
