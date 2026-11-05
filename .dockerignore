@@ -1,0 +1,15 @@
+**/bin/
+**/obj/
+.vs/
+.vscode/
+.idea/
+.git/
+artifacts/
+frontend/
+tests/
+database/
+.github/
+*.slnx
+*.user
+*.md
+.env

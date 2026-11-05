@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace DVLD.WinForms.Common
 {
@@ -17,7 +18,12 @@ namespace DVLD.WinForms.Common
         private readonly HttpClient _httpClient;
         private readonly AppSession _session;
 
-        private const string BaseUrl = "https://localhost:7261/api/";
+        private const string DockerUrl = "http://localhost:5000/api/";
+        private const string LocalUrl = "https://localhost:7261/api/";
+
+
+        private const string BaseUrl = LocalUrl;  
+
 
         public ApiClient(AppSession session,HttpClient httpClient)
         {
