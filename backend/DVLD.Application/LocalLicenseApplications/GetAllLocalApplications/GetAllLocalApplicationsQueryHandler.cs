@@ -1,3 +1,4 @@
+using DVLD.Contracts.Enums;
 using DVLD.Contracts.Common;
 using DVLD.Contracts.LocalLicenseApplications;
 using DVLD.Application.Abstractions;
@@ -56,7 +57,7 @@ namespace DVLD.Application.LocalLicenseApplications.GetAllLocalApplications
 
             if (request.StatusId.HasValue)
             {
-                query = query.Where(s => s.Application.Status == (Domain.Enums.ApplicationStatusEnum)request.StatusId);
+                query = query.Where(s => s.Application.Status == (ApplicationStatusEnum)request.StatusId);
             }
 
 
@@ -76,7 +77,7 @@ namespace DVLD.Application.LocalLicenseApplications.GetAllLocalApplications
                 ApplicationDate = l.Application.ApplicationDate,
                 LocalApplicationId = l.Id,
                 NationalNo = l.Application.Person.NationalNo.Number,
-                PassedTest = l.TestAppointments.Count(d => d.Test!.TestResult == Domain.Enums.TestResult.Success),
+                PassedTest = l.TestAppointments.Count(d => d.Test!.TestResult == TestResult.Success),
                 StatusId = ((int)l.Application.Status),
                 FullName = l.Application.Person.FullName.FirstName + " " + l.Application.Person.FullName.LastName,
             })

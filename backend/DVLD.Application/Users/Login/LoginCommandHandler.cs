@@ -106,7 +106,7 @@ namespace DVLD.Application.Users.Login
             LoginResponse result = new LoginResponse
             {
                 Username = user.UserName,
-                Role = (int)user.Role,
+                Role = user.Role,
                 IsActive = user.IsActive,
                 PersonId = user.PersonId,
                 UserId = user.Id,

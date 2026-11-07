@@ -1,5 +1,5 @@
-﻿using DVLD.Domain.Entities;
-using DVLD.Domain.Enums;
+using DVLD.Domain.Entities;
+using DVLD.Contracts.Enums;
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
 using System;

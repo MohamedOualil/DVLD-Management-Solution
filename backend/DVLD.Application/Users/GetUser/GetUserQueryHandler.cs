@@ -1,4 +1,5 @@
 using DVLD.Contracts.Auth;
+using DVLD.Contracts.Enums;
 using Dapper;
 using DVLD.Application.Abstractions;
 using DVLD.Application.Abstractions.Authentication;
@@ -18,14 +19,13 @@ namespace DVLD.Application.Users.GetUser
 {
     internal sealed class GetUserQueryHandler : IQueryHandler<GetUserQuery, LoginResponse>
     {
-
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IValidate<GetUserQuery> _validator;
         private readonly IJwtProvider _jwtProvider;
 
         public GetUserQueryHandler(
-            IUserRepository userRepository, 
+            IUserRepository userRepository,
             IPasswordHasher passwordHasher,
             IValidate<GetUserQuery> validate,
             IJwtProvider jwtProvider)
@@ -37,7 +37,7 @@ namespace DVLD.Application.Users.GetUser
         }
 
         public async Task<Result<LoginResponse>> Handle(
-            GetUserQuery request, 
+            GetUserQuery request,
             CancellationToken cancellationToken)
         {
             Result validation = _validator.Validate(request);
@@ -50,10 +50,8 @@ namespace DVLD.Application.Users.GetUser
             if (user is null)
                 return Result<LoginResponse>.Failure(DomainErrors.erUser.UsernameOrPasswordWrong);
 
-            //if (!user.VerifyPassword(request.Password, 
-            //                         user.PasswordHash,
-            //                         _passwordHasher))
-            //    return Result<LoginResponse>.Failure(DomainErrors.erUser.UsernameOrPasswordWrong);
+            if (!_passwordHasher.VerifyPassword(request.Password, user.PasswordHash))
+                return Result<LoginResponse>.Failure(DomainErrors.erUser.UsernameOrPasswordWrong);
 
             if (!user.IsActive)
                 return Result<LoginResponse>.Failure(DomainErrors.erUser.Deactivated);
@@ -63,17 +61,14 @@ namespace DVLD.Application.Users.GetUser
             LoginResponse result = new LoginResponse
             {
                 Username = user.UserName,
-                Role = (int)user.Role,
+                Role = user.Role,
                 IsActive = user.IsActive,
                 PersonId = user.PersonId,
                 UserId = user.Id,
                 Token = tokon,
-          
             };
 
             return Result<LoginResponse>.Success(result);
-
-
         }
     }
 }

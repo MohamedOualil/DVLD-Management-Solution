@@ -1,5 +1,5 @@
-﻿using DVLD.Application.Abstractions.Messaging;
-using DVLD.Domain.Enums;
+using DVLD.Application.Abstractions.Messaging;
+using DVLD.Contracts.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,5 @@
-﻿using DVLD.Domain.Common;
-using DVLD.Domain.Enums;
+using DVLD.Domain.Common;
+using DVLD.Contracts.Enums;
 
 namespace DVLD.Domain.Entities
 {

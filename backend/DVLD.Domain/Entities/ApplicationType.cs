@@ -1,5 +1,5 @@
-﻿using DVLD.Domain.Common;
-using DVLD.Domain.Enums;
+using DVLD.Domain.Common;
+using DVLD.Contracts.Enums;
 using DVLD.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;

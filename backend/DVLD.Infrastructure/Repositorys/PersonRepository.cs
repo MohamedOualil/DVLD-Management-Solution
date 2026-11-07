@@ -1,7 +1,7 @@
-﻿using DVLD.Application.Persons.GetPerson;
+using DVLD.Application.Persons.GetPerson;
 using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
-using DVLD.Domain.Enums;
+using DVLD.Contracts.Enums;
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
 using Microsoft.Data.SqlClient;

@@ -19,7 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DVLD.Api.Controllers.Users
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ApiController

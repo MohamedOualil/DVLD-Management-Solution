@@ -1,7 +1,7 @@
-﻿using DVLD.Application.Abstractions;
+using DVLD.Application.Abstractions;
 using DVLD.Application.LocalLicenseApplications.GetApplicantSummary;
 using DVLD.Domain.Common;
-using DVLD.Domain.Enums;
+using DVLD.Contracts.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

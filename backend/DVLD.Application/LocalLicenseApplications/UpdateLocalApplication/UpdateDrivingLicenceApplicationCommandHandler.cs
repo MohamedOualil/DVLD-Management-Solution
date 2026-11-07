@@ -1,4 +1,4 @@
-﻿using DVLD.Application.Abstractions.Messaging;
+using DVLD.Application.Abstractions.Messaging;
 using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
 using DVLD.Domain.Interfaces;
@@ -34,7 +34,7 @@ namespace DVLD.Application.LocalLicenseApplications.UpdateLocalApplication
             if (request.LocalApplicationId <= 0)
                 return Result.Failure(DomainErrors.erLocalApplications.InvalidId);
 
-            if (!Enum.IsDefined(typeof(DVLD.Domain.Enums.LicenseClassEnum), request.LicenseClass))
+            if (!Enum.IsDefined(typeof(DVLD.Contracts.Enums.LicenseClassEnum), request.LicenseClass))
                 return Result.Failure(DomainErrors.erLocalApplications.InvalidLicenseClassId);
 
             LocalDrivingLicenseApplication? application = await _repository.GetWithDetailsAsync(
@@ -44,7 +44,7 @@ namespace DVLD.Application.LocalLicenseApplications.UpdateLocalApplication
             if (application is null)
                 return Result.Failure(DomainErrors.erLocalApplications.NotFound);
 
-            if (application.Application.Status != DVLD.Domain.Enums.ApplicationStatusEnum.New)
+            if (application.Application.Status != DVLD.Contracts.Enums.ApplicationStatusEnum.New)
                 return Result.Failure(DomainErrors.erApplications.CannotUpdateProcessedApplication);
 
             LicenseClass? licenseClass = await _licenseClassesRepository.GetByIdAsync(

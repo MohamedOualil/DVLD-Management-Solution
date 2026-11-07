@@ -62,7 +62,7 @@ namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
             var command = new UpdateDrivingLicenceApplicationCommand
             {
                 LocalApplicationId = id,
-                LicenseClass = (DVLD.Domain.Enums.LicenseClassEnum)request.LicenseClass
+                LicenseClass = (DVLD.Contracts.Enums.LicenseClassEnum)request.LicenseClass
             };
 
             Result result = await _sender.Send(command, cancellationToken);
