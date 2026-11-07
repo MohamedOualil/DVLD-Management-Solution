@@ -37,8 +37,8 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
         public NewLocalDrivingLicensePresenter(
             IApplicationsService applicationsService,
             IServiceProvider serviceProvider,
-            INewLocalDrivingLicenseView view, 
-            AppSession session, 
+            INewLocalDrivingLicenseView view,
+            AppSession session,
             INavigationService navigationService) : base(view, session, navigationService)
         {
             _serviceProvider = serviceProvider;

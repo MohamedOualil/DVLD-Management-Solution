@@ -23,9 +23,9 @@ namespace DVLD.WinForms.Features.Applications
             int pageNumber, int pageSize, string searchTerm, int statusId);
 
         Task<ApiResponse<LocalApplicationResponse>> GetApplicationDetails(int localId);
-        Task<ApiResponse> CancelApplication(int applicationId,int CancelBy);
-        Task<ApiResponse> UpdateDrivingLicenceApplication(int localApplicationId,LicenseClassEnum licenseType);
-        Task<ApiResponse> DeleteApplication(int localId); 
+        Task<ApiResponse> CancelApplication(int applicationId, int CancelBy);
+        Task<ApiResponse> UpdateDrivingLicenceApplication(int localApplicationId, LicenseClassEnum licenseType);
+        Task<ApiResponse> DeleteApplication(int localId);
 
         Task<ApiResponse<TestRoadmapResponse>> GetTestResultsRoadmap(int localId);
         Task<ApiResponse<ApplicantSummaryRespond>> GetApplicantSummary(int personId, int applicationTypeId);

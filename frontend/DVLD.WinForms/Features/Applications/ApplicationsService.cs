@@ -27,7 +27,7 @@ namespace DVLD.WinForms.Features.Applications
 
 
 
-        public async Task<ApiResponse<PagedList<GetAllLocalApplicationsResponse>>> GetAllLocalApplicationsAsync(int pageNumber, int pageSize,string searchTerm,int statusId)
+        public async Task<ApiResponse<PagedList<GetAllLocalApplicationsResponse>>> GetAllLocalApplicationsAsync(int pageNumber, int pageSize, string searchTerm, int statusId)
         {
             string endpoint = $"LocalDrivingLicenseApplication?pageNumber={pageNumber}&pageSize={pageSize}";
             if (!string.IsNullOrWhiteSpace(searchTerm))
@@ -48,7 +48,7 @@ namespace DVLD.WinForms.Features.Applications
             return await _apiClient.GetAsync<LocalApplicationResponse>(endpoint);
         }
 
-        public async Task<ApiResponse<ApplicantSummaryRespond>> GetApplicantSummary(int personId,int applicationTypeId)
+        public async Task<ApiResponse<ApplicantSummaryRespond>> GetApplicantSummary(int personId, int applicationTypeId)
         {
             string endpoint = $"LocalDrivingLicenseApplication/{personId}/type/{applicationTypeId}";
 

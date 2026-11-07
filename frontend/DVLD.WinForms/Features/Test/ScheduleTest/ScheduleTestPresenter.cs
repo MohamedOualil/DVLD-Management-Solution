@@ -26,10 +26,10 @@ namespace DVLD.WinForms.Features.Test.ScheduleTest
         private bool _saved;
 
         public ScheduleTestPresenter(
-            IApplicationsService applicationsService, 
+            IApplicationsService applicationsService,
             ITestService testService,
-            IScheduleTestView view, 
-            AppSession session, 
+            IScheduleTestView view,
+            AppSession session,
             INavigationService navigationService) : base(view, session, navigationService)
         {
             _applicationsService = applicationsService;
@@ -126,7 +126,7 @@ namespace DVLD.WinForms.Features.Test.ScheduleTest
                     "An unexpected error occurred while loading test information.");
             }
 
-            
+
         }
 
         private string TestName(TestTypeEnum testTypeEnum)

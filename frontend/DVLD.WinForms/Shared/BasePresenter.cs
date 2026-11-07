@@ -16,18 +16,18 @@ namespace DVLD.WinForms.Shared
 
         public TView ViewInstance => View;
 
-        protected readonly AppSession _session ;
-        protected readonly INavigationService _navigationService ;
+        protected readonly AppSession _session;
+        protected readonly INavigationService _navigationService;
 
         protected BasePresenter(
             TView view,
-            AppSession session, 
+            AppSession session,
             INavigationService navigationService)
         {
             View = view;
             _session = session;
             _navigationService = navigationService;
-            
+
         }
         public abstract void Dispose();
     }

@@ -1,0 +1,151 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  prepare:
+    name: Prepare release
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      prerelease: ${{ steps.version.outputs.prerelease }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ensure tag points to a commit on main
+        run: |
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::Tag $GITHUB_REF_NAME is not on main. Releases must be cut from main."
+            exit 1
+          fi
+
+      - name: Parse version
+        id: version
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          if [[ "$VERSION" == *-* ]]; then
+            echo "prerelease=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "prerelease=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  backend-release:
+    name: Promote backend image
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+      packages: write
+    env:
+      VERSION: ${{ needs.prepare.outputs.version }}
+      PRERELEASE: ${{ needs.prepare.outputs.prerelease }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compute image name
+        run: echo "IMAGE=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/dvld-api" >> "$GITHUB_ENV"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Promote existing image (or build if missing)
+        run: |
+          set -euo pipefail
+          SRC="$IMAGE:sha-$GITHUB_SHA"
+          TAGS=(-t "$IMAGE:$VERSION")
+          if [ "$PRERELEASE" = "false" ]; then
+            TAGS+=(-t "$IMAGE:${VERSION%.*}" -t "$IMAGE:latest")
+          fi
+
+          if docker buildx imagetools inspect "$SRC" > /dev/null 2>&1; then
+            echo "Promoting tested image $SRC"
+            docker buildx imagetools create "${TAGS[@]}" "$SRC"
+          else
+            echo "::warning::No image found for $GITHUB_SHA. Building a fresh one."
+            docker buildx build . \
+              -f backend/DVLD.Api/Dockerfile \
+              "${TAGS[@]}" -t "$SRC" \
+              --provenance=mode=max --sbom=true \
+              --push
+          fi
+
+  winforms-release:
+    name: Package WinForms
+    needs: prepare
+    runs-on: windows-latest
+    timeout-minutes: 20
+    env:
+      VERSION: ${{ needs.prepare.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-dotnet
+
+      - name: Publish client
+        run: dotnet publish frontend/DVLD.WinForms/DVLD.WinForms.csproj -c Release -r win-x64 --self-contained false -p:Version=${{ env.VERSION }} -o out/winforms
+
+      - name: Zip and checksum
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          $zip = "dist/dvld-winforms-$env:VERSION-win-x64.zip"
+          Compress-Archive -Path out/winforms/* -DestinationPath $zip
+          $hash = (Get-FileHash $zip -Algorithm SHA256).Hash.ToLower()
+          "$hash  $(Split-Path $zip -Leaf)" | Out-File "$zip.sha256" -Encoding ascii
+
+      - name: Upload release package
+        uses: actions/upload-artifact@v4
+        with:
+          name: winforms-release
+          path: dist/
+          retention-days: 7
+          if-no-files-found: error
+
+  github-release:
+    name: Create GitHub Release
+    needs: [prepare, backend-release, winforms-release]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: winforms-release
+          path: dist
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PRERELEASE: ${{ needs.prepare.outputs.prerelease }}
+        run: |
+          FLAGS=(--generate-notes --verify-tag --title "DVLD $GITHUB_REF_NAME")
+          if [ "$PRERELEASE" = "true" ]; then
+            FLAGS+=(--prerelease)
+          fi
+          gh release create "$GITHUB_REF_NAME" dist/* "${FLAGS[@]}" --repo "$GITHUB_REPOSITORY"

@@ -31,10 +31,10 @@ namespace DVLD.WinForms.Common
 
             services.AddSingleton<AppSession>();
             services.AddSingleton<INavigationService, NavigationService>();
-            services.AddHttpClient<IApiClient,ApiClient>();
+            services.AddHttpClient<IApiClient, ApiClient>();
 
-            services.AddTransient<IAuthService,AuthService>();
-            services.AddTransient<IApplicationsService,ApplicationsService>();
+            services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<IApplicationsService, ApplicationsService>();
             services.AddTransient<ILicensesService, LicensesService>();
             services.AddTransient<IPesronService, PersonService>();
             services.AddTransient<ITestAppointmentsService, TestAppointmentsService>();
@@ -48,30 +48,30 @@ namespace DVLD.WinForms.Common
 
             services.AddTransient<AdminDashboardPresenter>();
 
-            services.AddTransient<IApplicationsView,ApplicationsControl>();
+            services.AddTransient<IApplicationsView, ApplicationsControl>();
 
-            services.AddTransient<IApplicationDetailView,ApplicationDetailControl>();
+            services.AddTransient<IApplicationDetailView, ApplicationDetailControl>();
             services.AddTransient<ApplicationDetailPresenter>();
             services.AddTransient<IIssueDrivingLicenceView, IssueDrivingLicenceControl>();
             services.AddTransient<IssueDrivingLicencePresenter>();
 
-            services.AddTransient<ISelectPersonView,SelectPersonControl>();
+            services.AddTransient<ISelectPersonView, SelectPersonControl>();
             services.AddTransient<SelectPersonPresenter>();
 
-            services.AddTransient<INewLocalDrivingLicenseView, NewLocalDrivingLicenseControl>(); 
+            services.AddTransient<INewLocalDrivingLicenseView, NewLocalDrivingLicenseControl>();
             services.AddTransient<NewLocalDrivingLicensePresenter>();
 
-            services.AddTransient<IListTestAppointmentsView,ListTestAppointmentsControl>();
+            services.AddTransient<IListTestAppointmentsView, ListTestAppointmentsControl>();
             services.AddTransient<ListTestAppointmentsPresenter>();
 
-            services.AddTransient<IScheduleTestView ,ScheduleTestControl>();
+            services.AddTransient<IScheduleTestView, ScheduleTestControl>();
             services.AddTransient<ScheduleTestPresenter>();
             services.AddTransient<IRecordTestResultView, RecordTestResultControl>();
             services.AddTransient<RecordTestResultPresenter>();
 
             services.AddTransient<PersonCardForm>();
             services.AddTransient<LicenseCardForm>();
- 
+
             return services.BuildServiceProvider();
         }
     }

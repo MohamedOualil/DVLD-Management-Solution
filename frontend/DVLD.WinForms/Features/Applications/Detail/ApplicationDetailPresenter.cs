@@ -94,7 +94,7 @@ namespace DVLD.WinForms.Features.Applications.Detail
                     View.SetBusy(false);
             }
 
-            
+
         }
 
         private async void View_SaveEditApplicationRequest(object? sender, EventArgs e)
@@ -143,7 +143,7 @@ namespace DVLD.WinForms.Features.Applications.Detail
 
                 View.ControlMode(StatusMode.ViewMode);
 
- 
+
             }
             catch (Exception)
             {
@@ -254,7 +254,7 @@ namespace DVLD.WinForms.Features.Applications.Detail
 
         private async Task ApplicationDetailInitialized(int localApplicationId)
         {
-            if (_disposed || _saving ) return;
+            if (_disposed || _saving) return;
 
             _localApplicationId = 0;
             _applicationId = 0;
@@ -314,7 +314,7 @@ namespace DVLD.WinForms.Features.Applications.Detail
                     return;
                 }
 
-                if (!Enum.TryParse<ApplicationStatusEnum>( application.Status,
+                if (!Enum.TryParse<ApplicationStatusEnum>(application.Status,
                 ignoreCase: true,
                 out var status) ||
                         !Enum.IsDefined(typeof(ApplicationStatusEnum), status))

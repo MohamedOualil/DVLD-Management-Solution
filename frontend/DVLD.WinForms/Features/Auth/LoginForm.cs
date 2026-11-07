@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace DVLD.WinForms.Features.Auth
 {
-    public partial class LoginForm : Form , ILoginView
+    public partial class LoginForm : Form, ILoginView
     {
         public event EventHandler<EventArgs> OnLogin;
         private readonly LoginPresenter _presenter;

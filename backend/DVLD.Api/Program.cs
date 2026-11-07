@@ -26,24 +26,24 @@ var jwtSettings = builder.Configuration.GetSection(JwtSettings.SectionName).Get<
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
 
-        ValidateAudience = true,
+            ValidateAudience = true,
 
-        ValidateLifetime = true,
+            ValidateLifetime = true,
 
 
-        ValidateIssuerSigningKey = true,
+            ValidateIssuerSigningKey = true,
 
-        ValidIssuer = jwtSettings!.Issuer,
+            ValidIssuer = jwtSettings!.Issuer,
 
-        ValidAudience = jwtSettings.Audience,
+            ValidAudience = jwtSettings.Audience,
 
-        IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
-    };
+            IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
+        };
     });
 
 builder.Services.AddAuthorization();

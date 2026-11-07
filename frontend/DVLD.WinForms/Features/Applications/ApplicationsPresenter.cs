@@ -23,7 +23,7 @@ namespace DVLD.WinForms.Features.Applications
     public class ApplicationsPresenter : BasePresenter<IApplicationsView>
     {
 
-        private readonly IApplicationsService _applicationsService ;
+        private readonly IApplicationsService _applicationsService;
         private readonly ILicensesService _licensesService;
         private bool _loadingLicence;
         private const int PageSize = 10;
@@ -34,12 +34,12 @@ namespace DVLD.WinForms.Features.Applications
 
 
         public ApplicationsPresenter(
-            IApplicationsView view, 
+            IApplicationsView view,
             IApplicationsService service,
             ILicensesService licensesService,
             AppSession appSession,
-            INavigationService navigationService) 
-            : base(view,appSession,navigationService)
+            INavigationService navigationService)
+            : base(view, appSession, navigationService)
         {
             _applicationsService = service;
             _licensesService = licensesService;
@@ -102,7 +102,7 @@ namespace DVLD.WinForms.Features.Applications
         {
             _navigationService.NavigateTo<ListTestAppointmentsPresenter, IListTestAppointmentsView>(async presenter =>
             {
-                await presenter.LoadTestAppointementsAsync(e.LocalApplicationId,e.TestTypeEnum);
+                await presenter.LoadTestAppointementsAsync(e.LocalApplicationId, e.TestTypeEnum);
             });
         }
 
@@ -168,7 +168,7 @@ namespace DVLD.WinForms.Features.Applications
         {
             _navigationService.NavigateTo<ApplicationDetailPresenter, IApplicationDetailView>(async presenter =>
             {
-                await presenter.LoadApplicationDetails(e.Id,e.Mode);
+                await presenter.LoadApplicationDetails(e.Id, e.Mode);
             });
         }
 

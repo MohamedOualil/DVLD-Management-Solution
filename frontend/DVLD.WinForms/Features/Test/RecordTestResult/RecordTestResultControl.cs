@@ -6,7 +6,7 @@ using DVLD.WinForms.Features.Test_Appointments;
 using DVLD.WinForms.Shared.Enums;
 namespace DVLD.WinForms.Features.Test.RecordTestResult
 {
-    public partial class RecordTestResultControl : UserControl , IRecordTestResultView
+    public partial class RecordTestResultControl : UserControl, IRecordTestResultView
     {
         private bool _canRecord;
         public event EventHandler? SaveRequested;
@@ -31,7 +31,7 @@ namespace DVLD.WinForms.Features.Test.RecordTestResult
             lblLicenseClass.Text = application.LicenseClassName;
         }
 
-        public void DisplayAppointment(TestAppointmentsRespond appointment,TestTypeEnum type, int attempt)
+        public void DisplayAppointment(TestAppointmentsRespond appointment, TestTypeEnum type, int attempt)
         {
             string name = type switch
             {

@@ -4,9 +4,9 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
 {
     public partial class NewLocalDrivingLicenseControl : UserControl, INewLocalDrivingLicenseView
     {
-        public bool IsEnableNextStepButton 
-        { 
-            set 
+        public bool IsEnableNextStepButton
+        {
+            set
             {
                 _canContinue = value;
                 ApplyButtonState();
@@ -100,7 +100,7 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
             }
         }
 
-        
+
 
         private void BackButton_Click(object sender, EventArgs e)
         {

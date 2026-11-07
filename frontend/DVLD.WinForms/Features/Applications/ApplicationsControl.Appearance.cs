@@ -56,13 +56,18 @@ namespace DVLD.WinForms.Features.Applications
             };
             recordsLabel = new Label
             {
-                Text = "Showing 0 records", AutoSize = true, ForeColor = SecondaryInk,
-                Font = new Font("Segoe UI", 8.5F), Location = new Point(16, 14)
+                Text = "Showing 0 records",
+                AutoSize = true,
+                ForeColor = SecondaryInk,
+                Font = new Font("Segoe UI", 8.5F),
+                Location = new Point(16, 14)
             };
             var pages = new FlowLayoutPanel
             {
-                Size = new Size(110, 34), Location = new Point(0, 5),
-                WrapContents = false, Margin = Padding.Empty
+                Size = new Size(110, 34),
+                Location = new Point(0, 5),
+                WrapContents = false,
+                Margin = Padding.Empty
             };
             // Navigation stays disabled until the view/presenter supplies pagination metadata.
             previousPageButton = CreatePageButton("‹", false);
@@ -85,10 +90,16 @@ namespace DVLD.WinForms.Features.Applications
             var fill = current ? PrimaryBlue : Color.White;
             return new Guna2Button
             {
-                Text = text, Size = new Size(30, 30), Margin = new Padding(0, 0, 6, 0),
-                BorderRadius = 6, BorderThickness = 1, BorderColor = current ? PrimaryBlue : Outline,
-                FillColor = fill, ForeColor = current ? Color.White : SecondaryInk,
-                Font = new Font("Segoe UI", 9F), Enabled = false,
+                Text = text,
+                Size = new Size(30, 30),
+                Margin = new Padding(0, 0, 6, 0),
+                BorderRadius = 6,
+                BorderThickness = 1,
+                BorderColor = current ? PrimaryBlue : Outline,
+                FillColor = fill,
+                ForeColor = current ? Color.White : SecondaryInk,
+                Font = new Font("Segoe UI", 9F),
+                Enabled = false,
                 DisabledState =
                 {
                     FillColor = fill, BorderColor = current ? PrimaryBlue : Outline,

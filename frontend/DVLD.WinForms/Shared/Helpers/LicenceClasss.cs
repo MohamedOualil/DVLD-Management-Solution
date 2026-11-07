@@ -10,5 +10,5 @@ namespace DVLD.WinForms.Shared.Helpers
 {
     public record LicenceClass(string Name, LicenseClassEnum id);
 
-    
+
 }

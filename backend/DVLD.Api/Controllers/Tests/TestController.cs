@@ -23,7 +23,7 @@ namespace DVLD.Api.Controllers.Tests
             _sender = sender;
         }
 
-        [HttpPost("appointments",Name = "CreateTestAppointment")]
+        [HttpPost("appointments", Name = "CreateTestAppointment")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -46,7 +46,7 @@ namespace DVLD.Api.Controllers.Tests
             return Ok(result);
         }
 
-        [HttpPost("Take",Name = "TakeTest")]
+        [HttpPost("Take", Name = "TakeTest")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

@@ -1,0 +1,28 @@
+name: Setup .NET with NuGet cache
+description: Installs the .NET SDK and restores a cached NuGet package folder.
+
+inputs:
+  dotnet-version:
+    description: .NET SDK version to install
+    required: false
+    default: '8.0.x'
+
+runs:
+  using: composite
+  steps:
+    - name: Configure NuGet cache location
+      shell: bash
+      run: echo "NUGET_PACKAGES=${{ runner.temp }}/nuget" >> "$GITHUB_ENV"
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ inputs.dotnet-version }}
+
+    - name: Cache NuGet packages
+      uses: actions/cache@v4
+      with:
+        path: ${{ runner.temp }}/nuget
+        key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj', '**/Directory.*.props', '**/global.json') }}
+        restore-keys: |
+          nuget-${{ runner.os }}-

@@ -84,8 +84,8 @@ namespace DVLD.Api.Controllers.Users
         [HttpPatch("{userId}/change-password", Name = "ChangePassword")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> ChangePassword([FromRoute]int userId,
-            [FromBody]ChangePasswordRequest request)
+        public async Task<IActionResult> ChangePassword([FromRoute] int userId,
+            [FromBody] ChangePasswordRequest request)
         {
             ChangePasswordCommand command = new ChangePasswordCommand
             {
