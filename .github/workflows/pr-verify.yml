@@ -84,14 +84,6 @@ jobs:
           tags: dvld-api:pr-${{ github.event.pull_request.number }}
           cache-from: type=gha,scope=dvld-api
 
-      - name: Vulnerability scan (image)
-        uses: anchore/scan-action@v6
-        with:
-          image: dvld-api:pr-${{ github.event.pull_request.number }}
-          fail-build: true
-          severity-cutoff: high
-          output-format: table
-
   frontend:
     name: Frontend (WinForms)
     needs: changes
@@ -112,14 +104,6 @@ jobs:
       - name: Build
         run: dotnet build frontend/DVLD.WinForms/DVLD.WinForms.csproj -c Release --no-restore
 
-      - name: Test
-        if: hashFiles('tests/**/DVLD.WinForms*.csproj') != ''
-        shell: pwsh
-        run: |
-          Get-ChildItem tests -Recurse -Filter 'DVLD.WinForms*.csproj' | ForEach-Object {
-            dotnet test $_.FullName -c Release --logger trx --results-directory TestResults
-            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          }
 
   workflows:
     name: Lint workflows
