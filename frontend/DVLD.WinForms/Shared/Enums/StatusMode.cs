@@ -8,7 +8,7 @@ namespace DVLD.WinForms.Shared.Enums
 {
     public enum StatusMode
     {
-        ViewMode ,
+        ViewMode,
         EditMode
     }
 }

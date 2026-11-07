@@ -54,9 +54,9 @@ namespace DVLD.WinForms.Features.Applications.ApplicationInfo
             ApplicationId = string.Empty;
         }
 
-        public void LoadApplicantData(ApplicantSummaryRespond applicant,string createdBy)
+        public void LoadApplicantData(ApplicantSummaryRespond applicant, string createdBy)
         {
- 
+
             ArgumentNullException.ThrowIfNull(applicant);
 
             var culture = CultureInfo.CurrentCulture;

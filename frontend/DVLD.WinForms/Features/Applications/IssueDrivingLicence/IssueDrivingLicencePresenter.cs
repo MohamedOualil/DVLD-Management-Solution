@@ -87,7 +87,7 @@ public class IssueDrivingLicencePresenter : BasePresenter<IIssueDrivingLicenceVi
         }
         catch (Exception)
         {
-            if (!_disposed )
+            if (!_disposed)
                 ShowLoadError("Unable to load application information. Go back and try again.");
         }
     }
@@ -156,7 +156,7 @@ public class IssueDrivingLicencePresenter : BasePresenter<IIssueDrivingLicenceVi
         try
         {
             var response = await _personService.GetPerson(_personId);
-            if (_disposed ) return;
+            if (_disposed) return;
 
             if (response.IsSuccess && response.Data is not null)
                 _navigationService.ShowDialog<PersonCardForm>(form => form.DisplayPerson(response.Data));

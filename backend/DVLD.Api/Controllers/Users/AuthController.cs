@@ -21,7 +21,7 @@ namespace DVLD.Api.Controllers.Users
 
         }
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest request,CancellationToken cancellationToken)
+        public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken cancellationToken)
         {
             GetUserQuery query = new GetUserQuery
             {

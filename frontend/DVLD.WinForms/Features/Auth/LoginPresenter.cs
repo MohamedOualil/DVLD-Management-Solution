@@ -12,12 +12,12 @@ namespace DVLD.WinForms.Features.Auth
 {
     public class LoginPresenter
     {
-        private  ILoginView _view;
+        private ILoginView _view;
         private readonly IAuthService _authService;
         private readonly AppSession _session;
         private readonly INavigationService _navigationService;
 
-        public LoginPresenter(IAuthService authService, AppSession session,INavigationService navigationService)
+        public LoginPresenter(IAuthService authService, AppSession session, INavigationService navigationService)
         {
             _authService = authService;
             _session = session;
@@ -31,7 +31,7 @@ namespace DVLD.WinForms.Features.Auth
         }
         public async Task LoginAsync()
         {
-            if (string.IsNullOrWhiteSpace(_view.Username) || 
+            if (string.IsNullOrWhiteSpace(_view.Username) ||
                 string.IsNullOrWhiteSpace(_view.Password))
             {
                 _view.ShowError("Please enter both username and password.");

@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace DVLD.Api.Common
 {
 
-    public abstract  class ApiController : ControllerBase
+    public abstract class ApiController : ControllerBase
     {
-        protected  ActionResult HandleFailure (Result result) 
+        protected ActionResult HandleFailure(Result result)
         {
             if (result.IsSuccess)
                 throw new InvalidOperationException(
@@ -26,7 +26,7 @@ namespace DVLD.Api.Common
 
         }
 
-        private static ErrorResponse BuildErrorResponse (IReadOnlyList<Error> errors)
+        private static ErrorResponse BuildErrorResponse(IReadOnlyList<Error> errors)
         {
             ErrorType errorType = errors.Count > 0
                 ? errors[0].Type

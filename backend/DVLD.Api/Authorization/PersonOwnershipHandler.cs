@@ -3,10 +3,10 @@ using System.Security.Claims;
 
 namespace DVLD.Api.Authorization
 {
-    public class PersonOwnershipHandler : AuthorizationHandler<PersonOwnershipRequirement,int>
+    public class PersonOwnershipHandler : AuthorizationHandler<PersonOwnershipRequirement, int>
     {
         protected override Task HandleRequirementAsync(
-            AuthorizationHandlerContext context, 
+            AuthorizationHandlerContext context,
             PersonOwnershipRequirement requirement,
             int requestedPersonId)
         {

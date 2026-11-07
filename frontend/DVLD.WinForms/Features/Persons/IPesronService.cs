@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DVLD.WinForms.Features.Persons
 {
-    public interface IPesronService 
+    public interface IPesronService
     {
         Task<ApiResponse<PersonResponse>> GetPerson(int personId);
         Task<ApiResponse<PersonResponse>> GetPersonByNationalNo(string nationalNo);

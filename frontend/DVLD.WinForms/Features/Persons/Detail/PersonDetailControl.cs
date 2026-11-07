@@ -14,18 +14,18 @@ using System.Windows.Forms;
 
 namespace DVLD.WinForms.Features.Persons.Detail
 {
-    public partial class PersonDetailControl : UserControl 
+    public partial class PersonDetailControl : UserControl
     {
         public PersonDetailControl()
         {
             InitializeComponent();
-            
+
         }
 
         public string FullName { set => lblFullName.Text = value; }
         public string DateofBirth { set => lblDateOfBirth.Text = value; }
         public string NationlNo { set => lblNationalNo.Text = value; }
-        public string Gender 
+        public string Gender
         {
             set
             {
@@ -49,7 +49,7 @@ namespace DVLD.WinForms.Features.Persons.Detail
         public string Email { set => lblEmail.Text = value; }
         public string Address { set => lblAddress.Text = value; }
         public string PersonId { set => lblPersonId.Text = value; }
-        public string ImagePath 
+        public string ImagePath
         {
             set
             {

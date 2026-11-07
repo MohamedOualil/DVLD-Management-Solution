@@ -28,8 +28,8 @@ namespace DVLD.WinForms.Features.Applications
         bool IsCancelOptionEnabled { set; }
         bool IsDeleteOptionEnabled { set; }
         bool IsIssueLicenseOptionEnabled { set; }
-        public bool IsScheduleTestOptionEnabled {  set; }
-        public bool IsShowLicenceOptionEnabled {  set; }
+        public bool IsScheduleTestOptionEnabled { set; }
+        public bool IsShowLicenceOptionEnabled { set; }
 
         bool IsScheduleVisionTestEnabled { set; }
         bool IsScheduleWrittenTestEnabled { set; }

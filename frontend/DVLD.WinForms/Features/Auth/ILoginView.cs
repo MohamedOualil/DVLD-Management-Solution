@@ -10,8 +10,8 @@ namespace DVLD.WinForms.Features.Auth
     {
         string Username { get; }
         string Password { get; }
-        void ShowError (string message);
-        void ShowLoading (bool isLoading);
+        void ShowError(string message);
+        void ShowLoading(bool isLoading);
 
         event EventHandler<EventArgs> OnLogin;
     }

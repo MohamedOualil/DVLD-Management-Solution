@@ -19,13 +19,13 @@ namespace DVLD.WinForms.Features.Dashboard
         public void SetView(IAdminDashboardView view)
         {
             _view = view;
-            _view.OnLoadApplicationsClicked += (s,e) => LoadApplicationsControl();
+            _view.OnLoadApplicationsClicked += (s, e) => LoadApplicationsControl();
             _navigationService.SetMainContentPanel(_view.MainContentPanel);
         }
 
         public void LoadApplicationsControl()
         {
-            _navigationService.NavigateTo<ApplicationsPresenter,IApplicationsView>();
+            _navigationService.NavigateTo<ApplicationsPresenter, IApplicationsView>();
         }
     }
 }

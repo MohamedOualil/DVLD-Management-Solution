@@ -21,10 +21,10 @@ namespace DVLD.Api.Controllers.Drivers
         public DriverController(ISender sender)
         {
             _sender = sender;
-            
+
         }
- 
-        [HttpGet( Name = "GetDriversList")]
+
+        [HttpGet(Name = "GetDriversList")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<PagedList<DriversListResponse>>> GetDriversList(
@@ -42,7 +42,7 @@ namespace DVLD.Api.Controllers.Drivers
             };
 
             Result<PagedList<DriversListResponse>> result = await _sender.Send(
-                query, 
+                query,
                 cancellationToken);
 
             if (result.IsFailure)

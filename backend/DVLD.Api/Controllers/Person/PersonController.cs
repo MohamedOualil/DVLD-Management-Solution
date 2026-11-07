@@ -33,7 +33,7 @@ namespace DVLD.Api.Controllers.Person
             _authorizationService = authorizationService;
         }
 
-        [HttpGet("{id:int}",Name = "GetPerson")]
+        [HttpGet("{id:int}", Name = "GetPerson")]
         public async Task<IActionResult> GetPerson(int id, CancellationToken cancellationToken)
         {
             //var authResult = await _authorizationService.AuthorizeAsync(
@@ -83,7 +83,7 @@ namespace DVLD.Api.Controllers.Person
 
         [Authorize(Roles = "Admin,Employee")]
         [HttpPost]
-        public async Task<IActionResult> CreatePerson(  
+        public async Task<IActionResult> CreatePerson(
         CreatePersonRequest request,
         CancellationToken cancellationToken)
         {
@@ -125,7 +125,7 @@ namespace DVLD.Api.Controllers.Person
         public async Task<IActionResult> DeletePerson(int id, CancellationToken cancellationToken)
         {
             var command = new DeletePersonCommand(id);
-            Result result = await _sender.Send(command,cancellationToken);
+            Result result = await _sender.Send(command, cancellationToken);
 
             if (result.IsFailure)
             {
@@ -141,7 +141,7 @@ namespace DVLD.Api.Controllers.Person
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateStudent(
-            int id, 
+            int id,
             UpdatePersonRequest request,
             CancellationToken cancellationToken)
         {

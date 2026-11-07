@@ -34,9 +34,9 @@ namespace DVLD.WinForms.Features.Applications.Detail
         string ApplicationType { set; }
         string LocalApplicationId { set; get; }
         string Fees { set; }
-        ApplicationStatusEnum ApplicationStatus { set;  }
+        ApplicationStatusEnum ApplicationStatus { set; }
 
-       
+
 
     }
 }

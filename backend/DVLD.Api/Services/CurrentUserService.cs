@@ -29,5 +29,5 @@ namespace DVLD.Api.Services
         public string? DeviceInfo => _http.HttpContext?.Request?.Headers["X-Device-Info"].FirstOrDefault();
 
     }
-    
+
 }

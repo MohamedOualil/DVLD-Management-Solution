@@ -107,9 +107,9 @@ namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
 
 
         [HttpGet("{personId}/type/{applicationTypeId}", Name = "GetApplicantSummary")]
-        public async Task<IActionResult> GetApplicantSummary(int personId,int applicationTypeId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetApplicantSummary(int personId, int applicationTypeId, CancellationToken cancellationToken)
         {
-            var query = new GetApplicantSummaryQuery(personId,applicationTypeId);
+            var query = new GetApplicantSummaryQuery(personId, applicationTypeId);
 
             Result<ApplicantSummaryRespond> result = await _sender.Send(query, cancellationToken);
 

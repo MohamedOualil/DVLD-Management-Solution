@@ -18,18 +18,18 @@ namespace DVLD.WinForms.Features.Persons.Detail
 {
     public class PersonDetailPersenter : BasePresenter<IPersonDetailView>
     {
-        private readonly IPesronService _pesronService ;
-        public PersonDetailPersenter(IPersonDetailView view, 
-            AppSession appSession, 
+        private readonly IPesronService _pesronService;
+        public PersonDetailPersenter(IPersonDetailView view,
+            AppSession appSession,
             INavigationService navigationService,
             IPesronService pesronService)
-            :base(view,appSession,navigationService)
+            : base(view, appSession, navigationService)
         {
             _pesronService = pesronService;
 
         }
 
-        public async void LoadPersonInfo( int personId)
+        public async void LoadPersonInfo(int personId)
         {
             await PersonInitialized(personId);
         }
@@ -43,7 +43,7 @@ namespace DVLD.WinForms.Features.Persons.Detail
                 return;
             }
 
-            PersonResponse ?personDto = person.Data;
+            PersonResponse? personDto = person.Data;
             View.NationlNo = personDto.NationalNo;
             View.DateofBirth = personDto.DateOfBirth.ToString("dd/MM/yyyy");
             View.PersonId = personDto.PersonId.ToString();

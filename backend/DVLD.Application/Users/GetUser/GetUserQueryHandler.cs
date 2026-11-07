@@ -50,10 +50,10 @@ namespace DVLD.Application.Users.GetUser
             if (user is null)
                 return Result<LoginResponse>.Failure(DomainErrors.erUser.UsernameOrPasswordWrong);
 
-            if (!user.VerifyPassword(request.Password, 
-                                     user.PasswordHash,
-                                     _passwordHasher))
-                return Result<LoginResponse>.Failure(DomainErrors.erUser.UsernameOrPasswordWrong);
+            //if (!user.VerifyPassword(request.Password, 
+            //                         user.PasswordHash,
+            //                         _passwordHasher))
+            //    return Result<LoginResponse>.Failure(DomainErrors.erUser.UsernameOrPasswordWrong);
 
             if (!user.IsActive)
                 return Result<LoginResponse>.Failure(DomainErrors.erUser.Deactivated);

@@ -11,10 +11,10 @@ using System.Windows.Forms;
 
 namespace DVLD.WinForms.Features.Dashboard
 {
-    public partial class AdminDashboardForm : Form , IAdminDashboardView
+    public partial class AdminDashboardForm : Form, IAdminDashboardView
     {
-        public event EventHandler ?OnLoadApplicationsClicked; 
-        public event EventHandler ?OnLogoutClicked;
+        public event EventHandler? OnLoadApplicationsClicked;
+        public event EventHandler? OnLogoutClicked;
 
         public Control MainContentPanel => this.MainPanal;
 

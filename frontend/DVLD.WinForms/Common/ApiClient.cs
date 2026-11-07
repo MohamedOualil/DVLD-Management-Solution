@@ -22,10 +22,10 @@ namespace DVLD.WinForms.Common
         private const string LocalUrl = "https://localhost:7261/api/";
 
 
-        private const string BaseUrl = LocalUrl;  
+        private const string BaseUrl = LocalUrl;
 
 
-        public ApiClient(AppSession session,HttpClient httpClient)
+        public ApiClient(AppSession session, HttpClient httpClient)
         {
             _session = session;
             _httpClient = httpClient;
@@ -99,7 +99,7 @@ namespace DVLD.WinForms.Common
                     return new ApiResponse<T>
                     {
                         IsSuccess = true,
-                        Data = default 
+                        Data = default
                     };
                 }
 

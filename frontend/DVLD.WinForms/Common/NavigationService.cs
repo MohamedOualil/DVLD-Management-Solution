@@ -28,7 +28,7 @@ namespace DVLD.WinForms.Common
             currentForm?.Hide();
         }
 
-        public void NavigateTo<TPresenter,TView>(Action<TPresenter> setup = null) where TPresenter 
+        public void NavigateTo<TPresenter, TView>(Action<TPresenter> setup = null) where TPresenter
             : BasePresenter<TView> where TView : class
         {
             if (_mainContentPanel == null)
@@ -63,7 +63,7 @@ namespace DVLD.WinForms.Common
                 throw new InvalidOperationException("The View must be a WinForms Control.");
             }
 
-           
+
         }
 
 
