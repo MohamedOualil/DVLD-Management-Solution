@@ -1,4 +1,4 @@
-﻿using DVLD.Application.Abstractions;
+using DVLD.Application.Abstractions;
 using DVLD.Domain.Common;
 using System;
 using System.Collections.Generic;
@@ -12,18 +12,14 @@ namespace DVLD.Application.Tests.TakeTest
     {
         public Result Validate(TakeTestCommand request)
         {
-            List<Error> errors = new(3);
+            List<Error> errors = new(2);
             if (request.TestAppointmentId <= 0)
                 errors.Add(DomainErrors.erTestAppointment.InvalidId);
 
-            if (request.CreateById <= 0)
-                errors.Add(DomainErrors.erUser.InvalidId);
-
-            if(!Enum.IsDefined(request.Result))
+            if (!Enum.IsDefined(request.Result))
                 errors.Add(DomainErrors.erTestTypes.InvalidId);
 
             return errors.Count == 0 ? Result.Success() : Result.Failure(errors);
-
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using DVLD.Application.Abstractions;
+using DVLD.Application.Abstractions;
 using DVLD.Domain.Common;
 using System;
 using System.Collections.Generic;
@@ -12,16 +12,11 @@ namespace DVLD.Application.Licenses.IssueLicenseFirstTime
     {
         public Result Validate(IssueLicenseFirstTimeCommand request)
         {
-            List<Error> errors = new(2);
+            List<Error> errors = new(1);
             if (request.LocalApplicationId <= 0)
                 errors.Add(DomainErrors.erLocalApplications.InvalidId);
-            if (request.CreatedByUserId <= 0)
-                errors.Add(DomainErrors.erUser.InvalidId);
 
             return errors.Count == 0 ? Result.Success() : Result.Failure(errors);
-
-
-
         }   
     }
 }

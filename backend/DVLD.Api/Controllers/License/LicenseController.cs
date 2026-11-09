@@ -41,7 +41,6 @@ namespace DVLD.Api.Controllers.License
             var command = new IssueLicenseFirstTimeCommand
             {
                 LocalApplicationId = issueNewLicense.LocalApplicationId,
-                CreatedByUserId = issueNewLicense.CreatedByUserId,
                 Notes = issueNewLicense.Notes
             };
             Result<int> result = await _sender.Send(command, cancellationToken);

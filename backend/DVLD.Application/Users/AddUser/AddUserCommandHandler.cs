@@ -19,18 +19,21 @@ namespace DVLD.Application.Users.AddUser
         private readonly IUserRepository _userRepository;
         private readonly IPersonRepository _personRepository;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IAuditService _auditService;
 
         public AddUserCommandHandler(IUnitOfWork unitOfWork, 
             IValidate<AddUserCommand> validator, 
             IUserRepository userRepository, 
             IPersonRepository personRepository, 
-            IPasswordHasher passwordHasher)
+            IPasswordHasher passwordHasher,
+            IAuditService auditService)
         {
             _unitOfWork = unitOfWork;
             _validator = validator;
             _userRepository = userRepository;
             _personRepository = personRepository;
             _passwordHasher = passwordHasher;
+            _auditService = auditService;
         }
         public async Task<Result<int>> Handle(AddUserCommand request, CancellationToken cancellationToken)
         {
@@ -48,12 +51,27 @@ namespace DVLD.Application.Users.AddUser
                                         request.PersonId, 
                                         request.UserName, 
                                         request.Password,
-                                        (Role)request.Roles,
+                                        request.Roles,
                                         request.IsActive,
                                         _passwordHasher);
 
             _userRepository.Add(newUser);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            await _auditService.LogActionAsync(
+                action: "Create",
+                entityName: "User",
+                entityId: newUser.Id.ToString(),
+                oldValues: null,
+                newValues: new
+                {
+                    newUser.Id,
+                    newUser.PersonId,
+                    newUser.UserName,
+                    Role = newUser.Role.ToString(),
+                    newUser.IsActive
+                },
+                isSuccess: true);
 
             return Result<int>.Success(newUser.Id);
 

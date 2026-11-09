@@ -1,4 +1,4 @@
-﻿using DVLD.Application.Abstractions;
+using DVLD.Application.Abstractions;
 using DVLD.Application.Abstractions.Messaging;
 using DVLD.Application.Users.AddUser;
 using DVLD.Domain.Common;
@@ -18,17 +18,20 @@ namespace DVLD.Application.Users.ChangePassword
         private readonly IValidate<ChangePasswordCommand> _validator;
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IAuditService _auditService;
 
         public ChangePasswordCommandHandler(
             IUnitOfWork unitOfWork, 
             IValidate<ChangePasswordCommand> validator, 
             IUserRepository userRepository, 
-            IPasswordHasher passwordHasher)
+            IPasswordHasher passwordHasher,
+            IAuditService auditService)
         {
             _unitOfWork = unitOfWork;
             _validator = validator;
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
+            _auditService = auditService;
         }
 
         public async Task<Result> Handle(
@@ -52,9 +55,28 @@ namespace DVLD.Application.Users.ChangePassword
                                         _passwordHasher);
              
             if (result.IsFailure)
+            {
+                await _auditService.LogActionAsync(
+                    action: "ChangePassword",
+                    entityName: "User",
+                    entityId: user.Id.ToString(),
+                    oldValues: null,
+                    newValues: null,
+                    isSuccess: false,
+                    failureReason: result.Errors.FirstOrDefault()?.Name ?? "Password change failed");
+
                 return result;
+            }
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            await _auditService.LogActionAsync(
+                action: "ChangePassword",
+                entityName: "User",
+                entityId: user.Id.ToString(),
+                oldValues: null,
+                newValues: new { PasswordChangedAt = DateTime.UtcNow },
+                isSuccess: true);
 
             return Result.Success();
         }

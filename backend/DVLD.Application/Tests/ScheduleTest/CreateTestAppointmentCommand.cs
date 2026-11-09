@@ -11,7 +11,6 @@ namespace DVLD.Application.Tests.ScheduleTest
     public sealed record CreateTestAppointmentCommand : ICommand<int>
     {
         public int LocalApplicationId { get; init; }
-        public int CreatedById { get; init; }
         public DateTime AppointmentDate { get; init; }
         public TestTypeEnum TestType { get; init; }
     }

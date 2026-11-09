@@ -1,4 +1,4 @@
-﻿using DVLD.Application.Abstractions;
+using DVLD.Application.Abstractions;
 using DVLD.Application.Abstractions.Messaging;
 using DVLD.Application.Persons.CreatePerson;
 using DVLD.Domain.Common;
@@ -18,14 +18,18 @@ namespace DVLD.Application.Persons.DeletePerson
     {
         private readonly IPersonRepository _personRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IAuditService _auditService;
+
         public DeletePersonCommandHandler(
             IPersonRepository personRepository,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IAuditService auditService)
         {
             _personRepository = personRepository;
             _unitOfWork = unitOfWork;
-
+            _auditService = auditService;
         }
+
         public async Task<Result> Handle(DeletePersonCommand request, CancellationToken cancellationToken)
         {
             if (request.Id <= 0)
@@ -36,6 +40,12 @@ namespace DVLD.Application.Persons.DeletePerson
             if (person is null)
                 return Result.Failure(DomainErrors.erPerson.NotFound);
 
+            var deletedData = new
+            {
+                person.Id,
+                NationalNo = person.NationalNo.Number,
+                FullName = $"{person.FullName.FirstName} {person.FullName.LastName}"
+            };
 
             try
             {
@@ -43,15 +53,29 @@ namespace DVLD.Application.Persons.DeletePerson
 
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 
+                await _auditService.LogActionAsync(
+                    action: "Delete",
+                    entityName: "Person",
+                    entityId: request.Id.ToString(),
+                    oldValues: deletedData,
+                    newValues: null,
+                    isSuccess: true);
+
                 return Result.Success();
             }
             catch (DbUpdateException ex) when (ex.InnerException is SqlException sqlEx && sqlEx.Number == 547)
             {
+                await _auditService.LogActionAsync(
+                    action: "Delete",
+                    entityName: "Person",
+                    entityId: request.Id.ToString(),
+                    oldValues: deletedData,
+                    newValues: null,
+                    isSuccess: false,
+                    failureReason: DomainErrors.erPerson.CannotDeleteLinkedRecord.Name);
+
                 return Result<bool>.Failure(DomainErrors.erPerson.CannotDeleteLinkedRecord);
-
             }
-
-
         }
     }
 }

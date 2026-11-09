@@ -80,7 +80,7 @@ namespace DVLD.Domain.Entities
                 person, applicationTypes, applicationTypes.ApplicationFees, createdById.Value));
         }
 
-        public Result CancelApplication(User CancelBy)
+        public Result CancelApplication(int? cancelledByUserId)
         {
             if (Status == ApplicationStatusEnum.Cancelled)
                 return Result.Failure(DomainErrors.erApplications.ApplicationAlreadyCancelled);
@@ -89,8 +89,7 @@ namespace DVLD.Domain.Entities
 
             Status = ApplicationStatusEnum.Cancelled;
             LastStatusDate = DateTime.UtcNow;
-            LastUpdatedBy = CancelBy;
-            LastUpdatedByUserId = CancelBy.Id;
+            LastUpdatedByUserId = cancelledByUserId;
 
             return Result.Success();
         }

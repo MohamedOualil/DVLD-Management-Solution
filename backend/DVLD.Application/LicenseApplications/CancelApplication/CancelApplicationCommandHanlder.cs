@@ -1,4 +1,5 @@
-﻿using DVLD.Application.Abstractions.Messaging;
+using DVLD.Application.Abstractions;
+using DVLD.Application.Abstractions.Messaging;
 using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
 using DVLD.Domain.Interfaces;
@@ -15,27 +16,32 @@ namespace DVLD.Application.LicenseApplications.CancelApplication
         private readonly IApplicationsRepository _applicationsRepository;
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IAuditService _auditService;
+        private readonly ICurrentUserService _currentUser;
+
         public CancelApplicationCommandHanlder(
             IApplicationsRepository applicationsRepository,
             IUserRepository userRepository,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IAuditService auditService,
+            ICurrentUserService currentUser)
         {
             _applicationsRepository = applicationsRepository;
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
-
+            _auditService = auditService;
+            _currentUser = currentUser;
         }
+
         public async Task<Result> Handle(CancelApplicationCommand request, CancellationToken cancellationToken)
         {
             if (request.ApplicationId <= 0)
                 return Result.Failure(DomainErrors.erLocalApplications.InvalidId);
 
-            if (request.CancelBy <= 0)
+            int? currentUserId = _currentUser.UserId;
+            if (currentUserId is null || currentUserId <= 0)
                 return Result.Failure(DomainErrors.erUser.InvalidId);
 
-            User? user = await _userRepository.GetByIdAsync(request.CancelBy, cancellationToken);
-            if (user == null)
-                return Result.Failure(DomainErrors.erUser.NotFound);
 
             Domain.Entities.Application? application = await _applicationsRepository.GetByIdAsync(
                 request.ApplicationId, 
@@ -44,16 +50,23 @@ namespace DVLD.Application.LicenseApplications.CancelApplication
             if (application == null)
                 return Result.Failure(DomainErrors.erLocalApplications.NotFound);
 
-            Result cancelResult = application.CancelApplication(user);
+            var oldStatus = application.Status.ToString();
+
+            Result cancelResult = application.CancelApplication(currentUserId);
             if (cancelResult.IsFailure)
                 return cancelResult;
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
+            await _auditService.LogActionAsync(
+                action: "Cancel",
+                entityName: "Application",
+                entityId: application.Id.ToString(),
+                oldValues: new { Status = oldStatus },
+                newValues: new { Status = application.Status.ToString(), CancelledByUserId = user.Id },
+                isSuccess: true);
+
             return Result.Success();
-
-
-
         }
     }
 }

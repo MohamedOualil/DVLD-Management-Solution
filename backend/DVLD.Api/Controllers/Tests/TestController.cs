@@ -36,7 +36,6 @@ namespace DVLD.Api.Controllers.Tests
             CreateTestAppointmentCommand command = new CreateTestAppointmentCommand
             {
                 LocalApplicationId = createTestRequest.LocalApplicationId,
-                CreatedById = createTestRequest.CreatedById,
                 AppointmentDate = createTestRequest.AppointmentDate,
                 TestType = (DVLD.Contracts.Enums.TestTypeEnum)createTestRequest.TestType
             };
@@ -59,10 +58,8 @@ namespace DVLD.Api.Controllers.Tests
             TakeTestCommand command = new TakeTestCommand
             {
                 TestAppointmentId = takeTestRequest.TestAppointmentId,
-                Result = (DVLD.Contracts.Enums.TestResult)takeTestRequest.Result,
-                Notes = takeTestRequest.Notes,
-                CreateById = takeTestRequest.CreateById
-
+                Result = takeTestRequest.Result,
+                Notes = takeTestRequest.Notes
             };
 
             Result<int> result = await _sender.Send(command);
