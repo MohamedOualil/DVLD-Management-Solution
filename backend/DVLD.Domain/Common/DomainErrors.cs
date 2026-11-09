@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -162,7 +162,8 @@ namespace DVLD.Domain.Common
         {
             public static readonly Error InvalidRefreshToken =
                 new("Auth.InvalidRefreshToken", "The refresh token is invalid.", ErrorType.Unauthorized);
-
+            public static readonly Error Forbidden =
+                new("Auth.Forbidden", "Only administrators can perform this action.", ErrorType.Unauthorized);
         }
 
         public static class erTests

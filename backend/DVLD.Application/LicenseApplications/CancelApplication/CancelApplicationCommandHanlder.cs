@@ -14,20 +14,17 @@ namespace DVLD.Application.LicenseApplications.CancelApplication
     internal sealed class CancelApplicationCommandHanlder : ICommandHandler<CancelApplicationCommand>
     {
         private readonly IApplicationsRepository _applicationsRepository;
-        private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAuditService _auditService;
         private readonly ICurrentUserService _currentUser;
 
         public CancelApplicationCommandHanlder(
             IApplicationsRepository applicationsRepository,
-            IUserRepository userRepository,
             IUnitOfWork unitOfWork,
             IAuditService auditService,
             ICurrentUserService currentUser)
         {
             _applicationsRepository = applicationsRepository;
-            _userRepository = userRepository;
             _unitOfWork = unitOfWork;
             _auditService = auditService;
             _currentUser = currentUser;
@@ -41,7 +38,6 @@ namespace DVLD.Application.LicenseApplications.CancelApplication
             int? currentUserId = _currentUser.UserId;
             if (currentUserId is null || currentUserId <= 0)
                 return Result.Failure(DomainErrors.erUser.InvalidId);
-
 
             Domain.Entities.Application? application = await _applicationsRepository.GetByIdAsync(
                 request.ApplicationId, 
@@ -63,7 +59,7 @@ namespace DVLD.Application.LicenseApplications.CancelApplication
                 entityName: "Application",
                 entityId: application.Id.ToString(),
                 oldValues: new { Status = oldStatus },
-                newValues: new { Status = application.Status.ToString(), CancelledByUserId = user.Id },
+                newValues: new { Status = application.Status.ToString(), CancelledByUserId = currentUserId.Value },
                 isSuccess: true);
 
             return Result.Success();

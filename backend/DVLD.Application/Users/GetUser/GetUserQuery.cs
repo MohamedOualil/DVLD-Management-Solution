@@ -1,17 +1,7 @@
-using DVLD.Contracts.Auth;
 using DVLD.Application.Abstractions.Messaging;
-using DVLD.Application.Users.Login;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DVLD.Contracts.Users;
 
 namespace DVLD.Application.Users.GetUser
 {
-    public sealed record GetUserQuery : IQuery<LoginResponse>
-    {
-        public required string Username { get; init; }
-        public required string Password { get; init; }
-    }
+    public sealed record GetUserQuery(int UserId) : IQuery<UserResponse>;
 }

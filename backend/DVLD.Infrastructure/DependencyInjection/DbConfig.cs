@@ -25,6 +25,7 @@ using DVLD.Application.Users.ChangePassword;
 using DVLD.Application.Users.GetUser;
 using DVLD.Application.Users.GetUsersList;
 using DVLD.Application.Users.Login;
+using DVLD.Application.Users.UpdateUser;
 using DVLD.Domain.Common;
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Authentication;
@@ -96,6 +97,7 @@ namespace DVLD.Infrastructure.DependencyInjection
             services.AddScoped<IValidate<GetApplicantSummaryQuery>, GetApplicantSummaryQueryValidator>();
             services.AddScoped<IValidate<GetTestAppointmentsQuery>, GetTestAppointmentsQueryValidator>();
             services.AddScoped<IValidate<GetTestDetailsQuery>,GetTestDetailsQueryValidator>();
+            services.AddScoped<IValidate<UpdateUserCommand>, UpdateUserCommandValidator>();
 
             services.AddScoped<IJwtProvider, JwtProvider>();
 

@@ -1,4 +1,4 @@
-﻿using DVLD.Application.Abstractions.Messaging;
+using DVLD.Application.Abstractions.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace DVLD.Application.Users.ChangePassword
     public sealed record ChangePasswordCommand : ICommand
     {
         public int UserId { get; init; }
-        public required string CurrentPassword { get; init; }
+        public string? CurrentPassword { get; init; }
         public required string NewPassword { get; init; }
     }
 }

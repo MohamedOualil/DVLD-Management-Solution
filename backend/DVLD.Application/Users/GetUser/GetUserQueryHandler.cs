@@ -1,74 +1,69 @@
-using DVLD.Contracts.Auth;
-using DVLD.Contracts.Enums;
-using Dapper;
 using DVLD.Application.Abstractions;
-using DVLD.Application.Abstractions.Authentication;
 using DVLD.Application.Abstractions.Messaging;
-using DVLD.Application.Users.Login;
+using DVLD.Contracts.Users;
 using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
 using DVLD.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DVLD.Application.Users.GetUser
 {
-    internal sealed class GetUserQueryHandler : IQueryHandler<GetUserQuery, LoginResponse>
+    internal sealed class GetUserQueryHandler : IQueryHandler<GetUserQuery, UserResponse>
     {
         private readonly IUserRepository _userRepository;
-        private readonly IPasswordHasher _passwordHasher;
+        private readonly IPersonRepository _personRepository;
         private readonly IValidate<GetUserQuery> _validator;
-        private readonly IJwtProvider _jwtProvider;
+        private readonly ICurrentUserService _currentUser;
 
         public GetUserQueryHandler(
             IUserRepository userRepository,
-            IPasswordHasher passwordHasher,
-            IValidate<GetUserQuery> validate,
-            IJwtProvider jwtProvider)
+            IPersonRepository personRepository,
+            IValidate<GetUserQuery> validator,
+            ICurrentUserService currentUser)
         {
             _userRepository = userRepository;
-            _jwtProvider = jwtProvider;
-            _passwordHasher = passwordHasher;
-            _validator = validate;
+            _personRepository = personRepository;
+            _validator = validator;
+            _currentUser = currentUser;
         }
 
-        public async Task<Result<LoginResponse>> Handle(
+        public async Task<Result<UserResponse>> Handle(
             GetUserQuery request,
             CancellationToken cancellationToken)
         {
+            if (_currentUser.UserRole != "Admin")
+                return Result<UserResponse>.Failure(DomainErrors.erAuth.Forbidden);
+
             Result validation = _validator.Validate(request);
             if (validation.IsFailure)
-                return Result<LoginResponse>.Failure(validation.Errors);
+                return Result<UserResponse>.Failure(validation.Errors);
 
-            User? user = await _userRepository.GetUserByUsername(
-                request.Username,
+            User? user = await _userRepository.GetByIdAsync(
+                request.UserId,
                 cancellationToken);
+
             if (user is null)
-                return Result<LoginResponse>.Failure(DomainErrors.erUser.UsernameOrPasswordWrong);
+                return Result<UserResponse>.Failure(DomainErrors.erUser.NotFound);
 
-            if (!_passwordHasher.VerifyPassword(request.Password, user.PasswordHash))
-                return Result<LoginResponse>.Failure(DomainErrors.erUser.UsernameOrPasswordWrong);
+            Person? person = await _personRepository.GetByIdAsync(user.PersonId);
 
-            if (!user.IsActive)
-                return Result<LoginResponse>.Failure(DomainErrors.erUser.Deactivated);
-
-            var tokon = _jwtProvider.Generate(user);
-
-            LoginResponse result = new LoginResponse
+            UserResponse response = new UserResponse
             {
-                Username = user.UserName,
+                UserId = user.Id,
+                PersonId = user.PersonId,
+                UserName = user.UserName,
+                FullName = person != null ? person.FullName.GetFullName() : string.Empty,
                 Role = user.Role,
                 IsActive = user.IsActive,
-                PersonId = user.PersonId,
-                UserId = user.Id,
-                Token = tokon,
+                CreatedAt = user.CreateAt,
+                UpdatedAt = user.UpdateAt == default ? null : user.UpdateAt
             };
 
-            return Result<LoginResponse>.Success(result);
+            return Result<UserResponse>.Success(response);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using DVLD.Application.Abstractions;
+using DVLD.Application.Abstractions;
 using DVLD.Domain.Common;
 using System;
 using System.Collections.Generic;
@@ -12,25 +12,21 @@ namespace DVLD.Application.Users.ChangePassword
     {
         public Result Validate(ChangePasswordCommand request)
         {
-            List<Error> errors = new List<Error>(4);
+            List<Error> errors = new List<Error>(3);
 
             if (request.UserId <= 0)
                 errors.Add(DomainErrors.erUser.InvalidId);
 
-            if (string.IsNullOrWhiteSpace(request.CurrentPassword))
-                errors.Add(DomainErrors.erUser.CurrentPassword);
-
             if (string.IsNullOrWhiteSpace(request.NewPassword))
                 errors.Add(DomainErrors.erUser.NewPassword);
 
-            if (request.NewPassword.Length < 6)
+            if (!string.IsNullOrWhiteSpace(request.NewPassword) && request.NewPassword.Length < 6)
                 errors.Add(DomainErrors.erUser.PasswordTooShort);
 
             if (errors.Count > 0)
                 return Result.Failure(errors);
 
             return Result.Success();
-
         }
     }
 }
