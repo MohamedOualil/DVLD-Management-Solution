@@ -124,7 +124,6 @@ namespace DVLD.WinForms.Features.Test.RecordTestResult
                 TestAppointmentId = _appointmentId,
                 Result = passed.Value ? TestResult.Success : TestResult.Failure,
                 Notes = string.IsNullOrWhiteSpace(View.Notes) ? null : View.Notes,
-                CreateById = _session.UserId
             };
             _saving = true;
             View.SetSaving(true);

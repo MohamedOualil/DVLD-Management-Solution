@@ -177,7 +177,7 @@ namespace DVLD.WinForms.Features.Applications.Detail
             {
                 View.SetBusy(true);
                 ApiResponse result =
-                    await _applicationsService.CancelApplication(_applicationId, _session.UserId);
+                    await _applicationsService.CancelApplication(_applicationId);
 
                 if (_disposed) return;
 

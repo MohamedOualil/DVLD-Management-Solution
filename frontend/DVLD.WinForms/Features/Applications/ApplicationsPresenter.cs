@@ -138,7 +138,7 @@ namespace DVLD.WinForms.Features.Applications
         private async Task CancelApplication(int applicationId)
         {
             ApiResponse result =
-                await _applicationsService.CancelApplication(applicationId, _session.UserId);
+                await _applicationsService.CancelApplication(applicationId);
 
             if (result.IsSuccess)
             {
