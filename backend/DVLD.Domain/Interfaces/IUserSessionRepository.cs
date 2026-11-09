@@ -10,6 +10,8 @@ namespace DVLD.Domain.Interfaces
 {
     public interface IUserSessionRepository : IBaseRepository<UserSession>
     {
-        Task RevokeByDeviceIdAsync(int userId,string deviceId,CancellationToken cancellationToken);
+        Task<UserSession?> GetByUserIdAsync(int userId, CancellationToken cancellationToken);
+        Task<UserSession?> GetByTokenHashAsync(string tokenHash, CancellationToken cancellationToken);
+        Task RevokeAllForUserAsync(int userId, CancellationToken cancellationToken);
     }
 }

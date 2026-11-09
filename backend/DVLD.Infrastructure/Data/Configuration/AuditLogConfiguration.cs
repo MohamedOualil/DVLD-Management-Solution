@@ -34,10 +34,6 @@ namespace DVLD.Infrastructure.Data.Configuration
             builder.Property(a => a.FailureReason)
                 .IsRequired(); 
 
-            builder.Property(a => a.IpAddress)
-                .HasMaxLength(45) 
-                .IsRequired();
-
             builder.Property(a => a.CreatedAt)
                 .IsRequired();
 

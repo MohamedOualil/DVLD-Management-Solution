@@ -15,32 +15,32 @@ namespace DVLD.Infrastructure.Data.Configuration
         {
             base.Configure(builder);
 
-            builder.Property(u => u.UserId).IsRequired();
+            builder.ToTable("UserSessions");
 
-            builder.Property(u => u.RefreshTokenHash).IsRequired()
-                    .HasMaxLength(500);
+            builder.Property(s => s.UserId).IsRequired();
 
-            builder.Property(u => u.ExpiresAt)
+            builder.Property(s => s.RefreshTokenHash)
+                .IsRequired()
+                .HasMaxLength(128);
+
+
+            builder.Property(s => s.CreatedAt)
                 .HasColumnType("DATETIME2")
                 .IsRequired();
 
-            builder.Property(u => u.RevokedAt)
+            builder.Property(s => s.ExpiresAt)
+                .HasColumnType("DATETIME2")
+                .IsRequired();
+
+            builder.Property(s => s.RevokedAt)
                 .HasColumnType("DATETIME2");
 
-            builder.Property(u => u.CreatedIp)
-                .HasMaxLength(50);
+            builder.HasIndex(s => s.UserId).IsUnique();
+            builder.HasIndex(s => s.RefreshTokenHash).IsUnique();
 
-            builder.Property(u => u.DeviceInfo)
-                .HasMaxLength(255);
-
-            builder.Property(p => p.CreateAt)
-               .HasDefaultValueSql("SYSUTCDATETIME()")
-               .ValueGeneratedOnAdd();
-
-            builder.Property(s => s.DeviceId)
-                .IsRequired()
-                .HasMaxLength(255);
-
+            builder.Ignore(s => s.IsActive);
+            builder.Ignore(s => s.IsExpired);
+            builder.Ignore(s => s.IsRevoked);
 
             builder.HasOne(us => us.User)
                .WithMany() 
@@ -49,7 +49,6 @@ namespace DVLD.Infrastructure.Data.Configuration
                .OnDelete(DeleteBehavior.Cascade);
 
 
-            builder.ToTable("UserSessions");
                 
         }
     }

@@ -158,6 +158,13 @@ namespace DVLD.Domain.Common
                 new("User.UsernameOrPasswordWrong", "The username or password provided is incorrect.", ErrorType.BadRequest);
         }
 
+        public static class erAuth
+        {
+            public static readonly Error InvalidRefreshToken =
+                new("Auth.InvalidRefreshToken", "The refresh token is invalid.", ErrorType.Unauthorized);
+
+        }
+
         public static class erTests
         {
             public static readonly Error NotFound =

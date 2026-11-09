@@ -1,5 +1,6 @@
-﻿using DVLD.Application.Abstractions;
-using System.Security.Claims;
+﻿using System.Security.Claims;
+using DVLD.Application.Abstractions;
+using static System.Net.WebRequestMethods;
 
 namespace DVLD.Api.Services
 {
@@ -19,14 +20,9 @@ namespace DVLD.Api.Services
 
         public string? UserRole => _http.HttpContext?.User.FindFirstValue(ClaimTypes.Role);
 
-        public string? IpAddress => _http.HttpContext?.Connection.RemoteIpAddress?.ToString() ?? "unknown";
-
 
         public string? UserName => _http.HttpContext?.User.FindFirstValue(ClaimTypes.Name);
 
-        public string? DeviceId => _http.HttpContext?.Request?.Headers["X-Device-Id"].FirstOrDefault();
-
-        public string? DeviceInfo => _http.HttpContext?.Request?.Headers["X-Device-Info"].FirstOrDefault();
 
     }
 
