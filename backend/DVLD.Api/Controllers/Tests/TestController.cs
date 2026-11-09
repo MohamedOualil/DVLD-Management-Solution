@@ -8,11 +8,15 @@ using DVLD.Application.Tests.ScheduleTest;
 using DVLD.Application.Tests.TakeTest;
 using DVLD.Domain.Common;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace DVLD.Api.Controllers.Tests
 {
+    [Authorize]
+    [EnableRateLimiting("UserLimiter")]
     [Route("api/[controller]")]
     [ApiController]
     public class TestController : ApiController

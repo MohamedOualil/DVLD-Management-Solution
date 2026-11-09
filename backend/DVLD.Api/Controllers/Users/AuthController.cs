@@ -10,6 +10,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace DVLD.Api.Controllers.Users
 {
@@ -25,19 +26,20 @@ namespace DVLD.Api.Controllers.Users
         }
         [HttpPost("login")]
         [AllowAnonymous]
+        [EnableRateLimiting("AuthLimiter")]
         [ProducesResponseType(typeof(LoginResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
         public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken cancellationToken)
         {
-            GetUserQuery query = new GetUserQuery
+            LoginCommand command = new LoginCommand
             {
                 Password = request.Password,
                 Username = request.Username
             };
 
             Result<LoginResponse> result = await _sender.Send(
-                query,
+                command,
                 cancellationToken);
 
             if (result.IsFailure)
@@ -48,6 +50,7 @@ namespace DVLD.Api.Controllers.Users
 
         [HttpPost("refresh")]
         [AllowAnonymous] // AllowAnonymous because the client calls this AFTER the AccessToken has expired!
+        [EnableRateLimiting("AuthLimiter")]
         [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
@@ -66,7 +69,8 @@ namespace DVLD.Api.Controllers.Users
         }
 
         [HttpPost("logout")]
-        [AllowAnonymous] 
+        [AllowAnonymous]
+        [EnableRateLimiting("PublicLimiter")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> Logout(
        [FromBody] LogoutRequest request,

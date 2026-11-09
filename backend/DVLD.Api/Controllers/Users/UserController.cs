@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using DVLD.Contracts.Common;
 using DVLD.Contracts.Users;
 using DVLD.Api.Common;
@@ -16,10 +17,12 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace DVLD.Api.Controllers.Users
 {
-    //[Authorize]
+    [Authorize]
+    [EnableRateLimiting("UserLimiter")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ApiController
@@ -31,6 +34,7 @@ namespace DVLD.Api.Controllers.Users
 
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("All", Name = "GetUsersList")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -56,6 +60,7 @@ namespace DVLD.Api.Controllers.Users
             return result.IsSuccess ? Ok(result.Value) : NotFound(result.Errors);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("Create", Name = "CreateUser")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -80,13 +85,15 @@ namespace DVLD.Api.Controllers.Users
             return Ok(result);
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPatch("{userId}/change-password", Name = "ChangePassword")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<IActionResult> ChangePassword([FromRoute] int userId,
             [FromBody] ChangePasswordRequest request)
         {
+            
             ChangePasswordCommand command = new ChangePasswordCommand
             {
                 UserId = userId,

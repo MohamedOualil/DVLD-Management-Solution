@@ -9,11 +9,15 @@ using DVLD.Application.Licenses.GetLicense;
 using DVLD.Application.Licenses.GetLocalDrivingLicenseHistory;
 using DVLD.Domain.Common;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace DVLD.Api.Controllers.InternationalLicense
 {
+    [Authorize]
+    [EnableRateLimiting("UserLimiter")]
     [Route("api/[controller]")]
     [ApiController]
     public class InternationalLicenseController : ApiController

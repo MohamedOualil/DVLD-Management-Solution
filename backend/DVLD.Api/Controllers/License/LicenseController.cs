@@ -10,11 +10,15 @@ using DVLD.Application.Licenses.GetLocalDrivingLicenseHistory;
 using DVLD.Application.LocalLicenseApplications.GetAllLocalApplications;
 using DVLD.Domain.Common;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace DVLD.Api.Controllers.License
 {
+    [Authorize]
+    [EnableRateLimiting("UserLimiter")]
     [Route("api/[controller]")]
     [ApiController]
     public class LicenseController : ApiController
@@ -25,6 +29,7 @@ namespace DVLD.Api.Controllers.License
             _sender = sender;
 
         }
+
 
 
         [HttpPost(Name = "IssueLicense")]

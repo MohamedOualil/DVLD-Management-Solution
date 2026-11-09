@@ -3,10 +3,14 @@ using DVLD.Api.Common;
 using DVLD.Application.LicenseApplications.CancelApplication;
 using DVLD.Domain.Common;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace DVLD.Api.Controllers.Applications;
 
+[Authorize]
+[EnableRateLimiting("UserLimiter")]
 [ApiController]
 [Route("api/[controller]")]
 public class ApplicationController : ApiController
