@@ -1,4 +1,4 @@
-﻿using DVLD.WinForms.Common;
+using DVLD.WinForms.Common;
 using DVLD.WinForms.Features.Applications;
 using DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication;
 using DVLD.WinForms.Features.Applications.Detail;
@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,6 +32,20 @@ namespace DVLD.WinForms.Common
 
             services.AddSingleton<AppSession>();
             services.AddSingleton<INavigationService, NavigationService>();
+
+            services.AddHttpClient("AuthClient", client =>
+            {
+                client.BaseAddress = new Uri(ApiClient.BaseUrl);
+            });
+
+            services.AddSingleton<IRefreshTokenService>(sp =>
+            {
+                var session = sp.GetRequiredService<AppSession>();
+                var factory = sp.GetRequiredService<IHttpClientFactory>();
+                var httpClient = factory.CreateClient("AuthClient");
+                return new RefreshTokenService(session, httpClient);
+            });
+
             services.AddHttpClient<IApiClient, ApiClient>();
 
             services.AddTransient<IAuthService, AuthService>();

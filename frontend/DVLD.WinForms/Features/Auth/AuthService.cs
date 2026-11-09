@@ -12,7 +12,6 @@ namespace DVLD.WinForms.Features.Auth
     {
         private readonly IApiClient _apiClient = apiClient;
 
-
         public async Task<ApiResponse<LoginResponse>> LoginAsync(string username, string password)
         {
             return await _apiClient.PostAsync<LoginResponse>("auth/login", new LoginRequest
@@ -20,6 +19,11 @@ namespace DVLD.WinForms.Features.Auth
                 Username = username,
                 Password = password
             });
+        }
+
+        public async Task<ApiResponse<TokenResponse>> RefreshTokenAsync(string refreshToken)
+        {
+            return await _apiClient.PostAsync<TokenResponse>("auth/refresh", new RefreshTokenRequest(refreshToken));
         }
     }
 }

@@ -51,16 +51,24 @@ namespace DVLD.WinForms.Features.Auth
                 return;
             }
 
-            _session.CurrentToken = result.Data.Token.AccessToken;
-            _session.Role = ((Role)result.Data.Role).ToString();
+            _session.UpdateTokens(result.Data.Token);
+            _session.Role = result.Data.Role;
             _session.PersonId = result.Data.PersonId;
             _session.UserId = result.Data.UserId;
             _session.Username = result.Data.Username;
 
-            _navigationService.HideCurrentForm((System.Windows.Forms.Form)_view);
+            var loginForm = (System.Windows.Forms.Form)_view;
+            _navigationService.HideCurrentForm(loginForm);
             _navigationService.ShowForm<AdminDashboardForm>();
 
-
+            if (!_session.IsLoggedIn && !loginForm.IsDisposed)
+            {
+                loginForm.Show();
+            }
+            else if (!loginForm.IsDisposed)
+            {
+                _navigationService.CloseCurrentForm(loginForm);
+            }
         }
     }
 }
