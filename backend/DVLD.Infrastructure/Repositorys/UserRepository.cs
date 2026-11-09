@@ -1,4 +1,4 @@
-﻿using DVLD.Domain.Entities;
+using DVLD.Domain.Entities;
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -27,9 +27,7 @@ namespace DVLD.Infrastructure.Repositorys
         {
             return await _context.Users
                             .AsNoTracking()
-                            .SingleOrDefaultAsync(u => u.UserName == username 
-                                                  , 
-                                                 cancellationToken);
+                            .SingleOrDefaultAsync(u => u.UserName == username, cancellationToken);
         }
 
     }

@@ -61,7 +61,7 @@ namespace DVLD.Application.Users.Login
             }
             else
             {
-                var newSession = UserSession.Create(user, refreshTokenHash, tokons.RefreshTokenExpiresAt);
+                var newSession = UserSession.Create(user.Id, refreshTokenHash, tokons.RefreshTokenExpiresAt);
 
                 userSessionRepository.Add(newSession);
             }

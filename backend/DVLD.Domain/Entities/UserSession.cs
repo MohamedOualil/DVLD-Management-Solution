@@ -1,4 +1,4 @@
-﻿using DVLD.Domain.Common;
+using DVLD.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,10 +24,10 @@ namespace DVLD.Domain.Entities
 
 
         private UserSession() { }
-        public static UserSession Create(User user, string refreshTokenHash, DateTime expiresAt) => new()
+
+        public static UserSession Create(int userId, string refreshTokenHash, DateTime expiresAt) => new()
         {
-            User = user,
-            UserId = user.Id,
+            UserId = userId,
             RefreshTokenHash = refreshTokenHash,
             ExpiresAt = expiresAt,
             CreatedAt = DateTime.UtcNow
