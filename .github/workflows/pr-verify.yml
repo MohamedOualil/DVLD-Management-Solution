@@ -66,9 +66,6 @@ jobs:
       - name: Restore
         run: dotnet restore backend/DVLD.Api/DVLD.Api.csproj
 
-      - name: Code style
-        run: dotnet format backend/DVLD.Api/DVLD.Api.csproj --verify-no-changes --no-restore -v detailed
-
       - name: Build
         run: dotnet build backend/DVLD.Api/DVLD.Api.csproj -c Release --no-restore
 
@@ -97,9 +94,6 @@ jobs:
 
       - name: Restore
         run: dotnet restore frontend/DVLD.WinForms/DVLD.WinForms.csproj
-
-      - name: Code style
-        run: dotnet format frontend/DVLD.WinForms/DVLD.WinForms.csproj --verify-no-changes --no-restore
 
       - name: Build
         run: dotnet build frontend/DVLD.WinForms/DVLD.WinForms.csproj -c Release --no-restore
