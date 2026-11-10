@@ -11,8 +11,6 @@ namespace DVLD.Application.Abstractions
         int? UserId { get; }
         string? UserName { get; }
         string? UserRole { get; }
-        string? DeviceId { get; }
-        string? DeviceInfo { get; }
-        string? IpAddress { get; }
+
     }
 }

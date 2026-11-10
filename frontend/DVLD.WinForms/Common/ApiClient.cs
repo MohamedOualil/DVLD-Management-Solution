@@ -1,4 +1,5 @@
 using DVLD.Contracts.Auth;
+using DVLD.WinForms.Features.Auth;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,10 +7,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using System.Xml;
 
 namespace DVLD.WinForms.Common
 {
@@ -17,25 +15,23 @@ namespace DVLD.WinForms.Common
     {
         private readonly HttpClient _httpClient;
         private readonly AppSession _session;
+        private readonly IRefreshTokenService _refreshTokenService;
 
-        private const string DockerUrl = "http://localhost:5000/api/";
-        private const string LocalUrl = "https://localhost:7261/api/";
+        public const string DockerUrl = "http://localhost:5000/api/";
+        public const string LocalUrl = "https://localhost:7261/api/";
+        public const string BaseUrl = LocalUrl;
 
-
-        private const string BaseUrl = LocalUrl;
-
-
-        public ApiClient(AppSession session, HttpClient httpClient)
+        public ApiClient(AppSession session, HttpClient httpClient, IRefreshTokenService refreshTokenService)
         {
             _session = session;
             _httpClient = httpClient;
+            _refreshTokenService = refreshTokenService;
 
             if (_httpClient.BaseAddress == null)
             {
                 _httpClient.BaseAddress = new Uri(BaseUrl);
             }
         }
-
 
         private void AttachToken(HttpRequestMessage request)
         {
@@ -45,46 +41,62 @@ namespace DVLD.WinForms.Common
             }
         }
 
-        public async Task<ApiResponse<T>> GetAsync<T>(string endpoint)
+        private async Task<HttpResponseMessage> SendWithRefreshAsync(Func<HttpRequestMessage> requestFactory)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, endpoint);
+            // Proactive check: if access token has already expired and user is logged in
+            if (_session.IsLoggedIn && _session.IsAccessTokenExpired)
+            {
+                await _refreshTokenService.RefreshTokenAsync();
+            }
+
+            var request = requestFactory();
             AttachToken(request);
 
             var response = await _httpClient.SendAsync(request);
 
+            // Reactive check: on 401 Unauthorized for a logged in user, refresh and retry once
+            // If the refresh token is also expired or missing, RefreshTokenAsync will trigger HandleSessionExpired()
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized && _session.IsLoggedIn)
+            {
+                bool refreshed = await _refreshTokenService.RefreshTokenAsync();
+                if (refreshed)
+                {
+                    var retryRequest = requestFactory();
+                    AttachToken(retryRequest);
+                    response = await _httpClient.SendAsync(retryRequest);
+                }
+            }
+
+            return response;
+        }
+
+        public async Task<ApiResponse<T>> GetAsync<T>(string endpoint)
+        {
+            var response = await SendWithRefreshAsync(() => new HttpRequestMessage(HttpMethod.Get, endpoint));
             return await ProcessResponse<T>(response);
         }
 
         public async Task<ApiResponse<T>> PostAsync<T>(string endpoint, object data)
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, endpoint)
+            var response = await SendWithRefreshAsync(() => new HttpRequestMessage(HttpMethod.Post, endpoint)
             {
                 Content = JsonContent.Create(data)
-            };
-            AttachToken(request);
-
-            var response = await _httpClient.SendAsync(request);
+            });
             return await ProcessResponse<T>(response);
         }
 
         public async Task<ApiResponse<T>> PutAsync<T>(string endpoint, object data)
         {
-            var request = new HttpRequestMessage(HttpMethod.Put, endpoint)
+            var response = await SendWithRefreshAsync(() => new HttpRequestMessage(HttpMethod.Put, endpoint)
             {
                 Content = JsonContent.Create(data)
-            };
-            AttachToken(request);
-
-            var response = await _httpClient.SendAsync(request);
+            });
             return await ProcessResponse<T>(response);
         }
 
         public async Task<ApiResponse<T>> DeleteAsync<T>(string endpoint)
         {
-            var request = new HttpRequestMessage(HttpMethod.Delete, endpoint);
-            AttachToken(request);
-
-            var response = await _httpClient.SendAsync(request);
+            var response = await SendWithRefreshAsync(() => new HttpRequestMessage(HttpMethod.Delete, endpoint));
             return await ProcessResponse<T>(response);
         }
 
@@ -135,8 +147,6 @@ namespace DVLD.WinForms.Common
             };
         }
 
-
-
         private static ErrorResponse CreateFallbackError(System.Net.HttpStatusCode statusCode, string message)
         {
             return new ErrorResponse
@@ -149,6 +159,5 @@ namespace DVLD.WinForms.Common
                 }
             };
         }
-
     }
 }

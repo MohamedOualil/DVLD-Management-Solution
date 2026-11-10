@@ -1,4 +1,4 @@
-﻿using DVLD.Application.Abstractions;
+using DVLD.Application.Abstractions;
 using DVLD.Domain.Common;
 using System;
 using System.Collections.Generic;
@@ -12,12 +12,9 @@ namespace DVLD.Application.Tests.ScheduleTest
     {
         public Result Validate(CreateTestAppointmentCommand request)
         {
-            List<Error> errors = new(4);
+            List<Error> errors = new(3);
             if (request.LocalApplicationId <= 0)
                 errors.Add(DomainErrors.erLocalApplications.InvalidId);
-
-            if (request.CreatedById <= 0)
-                errors.Add(DomainErrors.erUser.InvalidId);
 
             if (request.AppointmentDate < DateTime.UtcNow)
                 errors.Add(DomainErrors.erTestAppointment.InvalidAppointmentDate);
@@ -29,7 +26,6 @@ namespace DVLD.Application.Tests.ScheduleTest
                 return Result.Failure(errors);
 
             return Result.Success();
-
         }
     }
 }

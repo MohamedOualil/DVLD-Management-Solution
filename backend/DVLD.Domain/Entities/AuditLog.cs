@@ -27,8 +27,6 @@ namespace DVLD.Domain.Entities
         public string FailureReason { get; private set; } = string.Empty;
 
 
-        public string IpAddress { get; private set; } = string.Empty;
-
         public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
 
 
@@ -43,8 +41,7 @@ namespace DVLD.Domain.Entities
             string? oldValues,
             string? newValues,
             bool isSuccess,
-            string failureReason,
-            string ipAddress)
+            string failureReason)
         {
             return new AuditLog
             {
@@ -57,7 +54,6 @@ namespace DVLD.Domain.Entities
                 NewValues = newValues,
                 IsSuccess = isSuccess,
                 FailureReason = failureReason ?? string.Empty,
-                IpAddress = ipAddress ?? "unknown",
                 CreatedAt = DateTime.UtcNow
             };
         }

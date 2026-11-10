@@ -1,4 +1,4 @@
-﻿using DVLD.Domain.Common;
+using DVLD.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,45 +9,43 @@ namespace DVLD.Domain.Entities
 {
     public class UserSession : Entity
     {
-        public int UserId { get;private set; }
-        public User User { get; private set; }
-        public string RefreshTokenHash { get; private set; }
+        public int UserId { get; private set; }
+        public User User { get; private set; } = null!;
+
+        public string RefreshTokenHash { get; private set; } = null!;
+        public DateTime CreatedAt { get; private set; }
         public DateTime ExpiresAt { get; private set; }
         public DateTime? RevokedAt { get; private set; }
-        public string? CreatedIp { get; private set; }
 
-        public string DeviceId { get; private set; }
-        public string? DeviceInfo { get; private set; }
 
-        public DateTime CreateAt { get; private set; }
+        public bool IsRevoked => RevokedAt != null;
+        public bool IsExpired => DateTime.UtcNow >= ExpiresAt;
+        public bool IsActive => !IsRevoked && !IsExpired;
 
-        public bool IsActive => RevokedAt == null && ExpiresAt >= DateTime.UtcNow;
 
         private UserSession() { }
-        private UserSession(User user, string refreshTokenHash,
-            DateTime refreshTokenExpiresAt,
-            DateTime? refreshTokenRevokedAt,
-            string createdIp,
-            string deviceId,
-            string deviceInfo)
+
+        public static UserSession Create(int userId, string refreshTokenHash, DateTime expiresAt) => new()
         {
-            RefreshTokenHash = refreshTokenHash;
-            ExpiresAt = refreshTokenExpiresAt;
-            RevokedAt = refreshTokenRevokedAt;
-            CreatedIp = createdIp;
-            DeviceInfo = deviceInfo;
-            User = user;
-            UserId = user.Id;
+            UserId = userId,
+            RefreshTokenHash = refreshTokenHash,
+            ExpiresAt = expiresAt,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        public void UpdateToken(string newRefreshTokenHash, DateTime newExpiresAt)
+        {
+            RefreshTokenHash = newRefreshTokenHash;
+            ExpiresAt = newExpiresAt;
+            RevokedAt = null; // Re-activates on new login
         }
 
-        public static UserSession RegisterUserSession(User user,string refreshTokenHash,
-            DateTime refreshTokenExpiresAt,
-            string createdIp,
-            string deviceId,
-            string deviceInfo)
+        
+
+        public void Revoke()
         {
-            return new UserSession(user, refreshTokenHash, 
-                refreshTokenExpiresAt, null, createdIp,deviceId, deviceInfo);
+            if (IsRevoked) return;
+            RevokedAt = DateTime.UtcNow;
         }
     }
     

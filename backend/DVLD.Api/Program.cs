@@ -1,4 +1,3 @@
-using DVLD.Api.Authorization;
 using DVLD.Api.Services;
 using DVLD.Application;
 using DVLD.Application.Abstractions;
@@ -34,7 +33,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
             ValidateLifetime = true,
 
-
             ValidateIssuerSigningKey = true,
 
             ValidIssuer = jwtSettings!.Issuer,
@@ -42,24 +40,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidAudience = jwtSettings.Audience,
 
             IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
+                    Encoding.UTF8.GetBytes(jwtSettings.SecretKey)),
+
+            ClockSkew = TimeSpan.Zero
         };
     });
 
 builder.Services.AddAuthorization();
-
-builder.Services.AddAuthorization(options =>
-{
-
-    options.AddPolicy("PersonOwnershipPolicy", policy =>
-    {
-        policy.Requirements.Add(new PersonOwnershipRequirement());
-    });
-});
-
-builder.Services.AddSingleton<IAuthorizationHandler, PersonOwnershipHandler>();
-
-
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -105,8 +92,16 @@ builder.Services.AddRateLimiter(options =>
 
     options.OnRejected = async (context, token) =>
     {
+        var ip = context.HttpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+        var path = context.HttpContext.Request.Path.ToString();
+        var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<Program>>();
+
+        logger.LogWarning(
+            "[RATE-LIMIT] Request rejected (429 TooManyRequests). Path={Path}, IP={IP}",
+            path, ip);
+
         context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
-        await context.HttpContext.Response.WriteAsync("Too many login attempts. Please try again later.", token);
+        await context.HttpContext.Response.WriteAsync("Too many requests. Please try again later.", token);
     };
 
     // THE GLOBAL LIMITER (System Stability)
@@ -217,12 +212,23 @@ app.UseCors("DVLDApiPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseRateLimiter();
+
 app.Use(async (context, next) =>
 {
     await next();
 
-    // Catch anyone who gets a 403 Forbidden response
-    if (context.Response.StatusCode == StatusCodes.Status403Forbidden)
+    // Catch anyone who gets a 401 Unauthorized or 403 Forbidden response
+    if (context.Response.StatusCode == StatusCodes.Status401Unauthorized)
+    {
+        var ip = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+        var path = context.Request.Path.ToString();
+
+        app.Logger.LogWarning(
+            "[SECURITY] Unauthorized access attempt (401). Path={Path}, IP={IP}",
+            path, ip);
+    }
+    else if (context.Response.StatusCode == StatusCodes.Status403Forbidden)
     {
         var userId = context.User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier) ?? "anonymous";
         var ip = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
@@ -230,7 +236,7 @@ app.Use(async (context, next) =>
 
         // Log the security threat
         app.Logger.LogWarning(
-            "Forbidden access attempt. UserId={UserId}, Path={Path}, IP={IP}",
+            "[SECURITY] Forbidden access attempt (403). UserId={UserId}, Path={Path}, IP={IP}",
             userId, path, ip);
     }
 });
@@ -238,5 +244,3 @@ app.Use(async (context, next) =>
 app.MapControllers();
 
 app.Run();
-
-

@@ -1,12 +1,15 @@
-using DVLD.Contracts.Applications;
 using DVLD.Api.Common;
 using DVLD.Application.LicenseApplications.CancelApplication;
 using DVLD.Domain.Common;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace DVLD.Api.Controllers.Applications;
 
+[Authorize]
+[EnableRateLimiting("UserLimiter")]
 [ApiController]
 [Route("api/[controller]")]
 public class ApplicationController : ApiController
@@ -24,10 +27,9 @@ public class ApplicationController : ApiController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Cancel(
         int applicationId,
-        CancelApplicationRequest request,
         CancellationToken cancellationToken)
     {
-        var command = new CancelApplicationCommand(applicationId, request.CancelBy);
+        var command = new CancelApplicationCommand(applicationId);
         Result result = await _sender.Send(command, cancellationToken);
 
         return result.IsFailure ? HandleFailure(result) : NoContent();

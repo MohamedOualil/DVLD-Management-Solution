@@ -8,11 +8,15 @@ using DVLD.Application.Tests.ScheduleTest;
 using DVLD.Application.Tests.TakeTest;
 using DVLD.Domain.Common;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace DVLD.Api.Controllers.Tests
 {
+    [Authorize]
+    [EnableRateLimiting("UserLimiter")]
     [Route("api/[controller]")]
     [ApiController]
     public class TestController : ApiController
@@ -32,9 +36,8 @@ namespace DVLD.Api.Controllers.Tests
             CreateTestAppointmentCommand command = new CreateTestAppointmentCommand
             {
                 LocalApplicationId = createTestRequest.LocalApplicationId,
-                CreatedById = createTestRequest.CreatedById,
                 AppointmentDate = createTestRequest.AppointmentDate,
-                TestType = (DVLD.Domain.Enums.TestTypeEnum)createTestRequest.TestType
+                TestType = (DVLD.Contracts.Enums.TestTypeEnum)createTestRequest.TestType
             };
 
             Result<int> result = await _sender.Send(command);
@@ -55,10 +58,8 @@ namespace DVLD.Api.Controllers.Tests
             TakeTestCommand command = new TakeTestCommand
             {
                 TestAppointmentId = takeTestRequest.TestAppointmentId,
-                Result = (DVLD.Domain.Enums.TestResult)takeTestRequest.Result,
-                Notes = takeTestRequest.Notes,
-                CreateById = takeTestRequest.CreateById
-
+                Result = takeTestRequest.Result,
+                Notes = takeTestRequest.Notes
             };
 
             Result<int> result = await _sender.Send(command);

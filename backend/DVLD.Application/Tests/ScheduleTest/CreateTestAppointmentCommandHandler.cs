@@ -1,8 +1,8 @@
-﻿using DVLD.Application.Abstractions;
+using DVLD.Application.Abstractions;
 using DVLD.Application.Abstractions.Messaging;
 using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
-using DVLD.Domain.Enums;
+using DVLD.Contracts.Enums;
 using DVLD.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -21,6 +21,7 @@ namespace DVLD.Application.Tests.ScheduleTest
         private readonly IValidate<CreateTestAppointmentCommand> _validator;
         private readonly ITestTypesRepository _testTypesRepository;
         private readonly IApplicationTypesRepository _applicationTypesRepository;
+        private readonly ICurrentUserService _currentUser;
 
         public CreateTestAppointmentCommandHandler(
             IUnitOfWork unitOfWork, 
@@ -29,7 +30,8 @@ namespace DVLD.Application.Tests.ScheduleTest
             IValidate<CreateTestAppointmentCommand> validator,
             ITestAppointmentRepository testAppoinmentRepository, 
             ILocalDrivingLicenseApplicationRepository localApplicationRepository,
-            IApplicationTypesRepository applicationTypesRepository)
+            IApplicationTypesRepository applicationTypesRepository,
+            ICurrentUserService currentUser)
         {
             _unitOfWork = unitOfWork;
             _testAppointmentRepository = testAppoinmentRepository;
@@ -38,6 +40,7 @@ namespace DVLD.Application.Tests.ScheduleTest
             _validator = validator;
             _testTypesRepository = testTypesRepository;
             _applicationTypesRepository = applicationTypesRepository;
+            _currentUser = currentUser;
         }
         public async Task<Result<int>> Handle(CreateTestAppointmentCommand request, CancellationToken cancellationToken)
         {
@@ -45,8 +48,9 @@ namespace DVLD.Application.Tests.ScheduleTest
             if (validationResult.IsFailure)
                 return Result<int>.Failure(validationResult.Errors);
 
-            if (!await _userRepository.Exist(request.CreatedById,cancellationToken))
-                  return Result<int>.Failure(DomainErrors.erUser.NotFound);
+            int? currentUserId = _currentUser.UserId;
+            if (currentUserId is null || currentUserId <= 0)
+                return Result<int>.Failure(DomainErrors.erUser.InvalidId);
 
             TestType? testType = await _testTypesRepository.GetByIdAsync((int)request.TestType, cancellationToken);
             if (testType is null)
@@ -73,21 +77,16 @@ namespace DVLD.Application.Tests.ScheduleTest
             Result<TestAppointment> scheduling = localApplication.ScheduleTest(
                 testType,
                 request.AppointmentDate,
-                request.CreatedById,
+                currentUserId.Value,
                 retakeApplicationType);
 
             if (scheduling.IsFailure)
                 return Result<int>.Failure(scheduling.Errors);
 
-
             _testAppointmentRepository.Add(scheduling.Value!);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result<int>.Success(scheduling.Value!.Id);
-
-
-
-
         }
     }
 }

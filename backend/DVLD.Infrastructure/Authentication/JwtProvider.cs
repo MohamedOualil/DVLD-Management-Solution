@@ -60,6 +60,12 @@ namespace DVLD.Infrastructure.Authentication
             return new TokenResponse(accessToken, refreshToken, refreshTokenExpiresInDays, accessExpiry);
         }
 
+        public string HashRefreshToken(string refreshToken)
+        {
+            byte[] hash = SHA256.HashData(Encoding.UTF8.GetBytes(refreshToken));
+            return Convert.ToHexString(hash);
+        }
+
         private  string GenerateRefreshToken()
         {
             var bytes = new byte[64];

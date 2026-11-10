@@ -1,4 +1,4 @@
-﻿using DVLD.Application.Abstractions;
+using DVLD.Application.Abstractions;
 using DVLD.Application.Abstractions.Messaging;
 using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
@@ -19,13 +19,16 @@ namespace DVLD.Application.Licenses.IssueLicenseFirstTime
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserRepository _userRepository;
         private readonly IDriverRepository _driverRepository;
+        private readonly ICurrentUserService _currentUser;
+
         public IssueLicenseFirstTimeCommandHandler(
             IDriverRepository driverRepository,
             IValidate<IssueLicenseFirstTimeCommand> validator,
             ILocalDrivingLicenseApplicationRepository localRepository,
             ILicenseRepository licenseRepository,
             IUnitOfWork unitOfWork,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            ICurrentUserService currentUser)
         {
             _validator = validator;
             _localRepository = localRepository;
@@ -33,8 +36,8 @@ namespace DVLD.Application.Licenses.IssueLicenseFirstTime
             _unitOfWork = unitOfWork;
             _userRepository = userRepository;
             _driverRepository = driverRepository;
+            _currentUser = currentUser;
         }
-
 
         public async Task<Result<int>> Handle(IssueLicenseFirstTimeCommand request, CancellationToken cancellationToken)
         {
@@ -42,10 +45,10 @@ namespace DVLD.Application.Licenses.IssueLicenseFirstTime
             if (validation.IsFailure)
                 return Result<int>.Failure(validation.Errors);
 
-            if (!await _userRepository.AnyAsync(c => 
-                                    c.Id == request.CreatedByUserId, 
-                                        cancellationToken))
-                return Result<int>.Failure(DomainErrors.erUser.NotFound);
+            int? currentUserId = _currentUser.UserId;
+            if (currentUserId is null || currentUserId <= 0)
+                return Result<int>.Failure(DomainErrors.erUser.InvalidId);
+
 
             LocalDrivingLicenseApplication? localApplication = await _localRepository.GetWithDetailsAsync(
                 request.LocalApplicationId, 
@@ -57,13 +60,12 @@ namespace DVLD.Application.Licenses.IssueLicenseFirstTime
                 localApplication.Application.PersonId, cancellationToken);
             if (driver is null)
             {
-                driver = new Driver(localApplication.Application.PersonId, request.CreatedByUserId);
+                driver = new Driver(localApplication.Application.PersonId, currentUserId.Value);
             }
-                
 
             Result<DrivingLicense> result = localApplication.IssueLicenseFirstTime(
                 request.Notes, 
-                request.CreatedByUserId,
+                currentUserId.Value,
                 driver);
             if (result.IsFailure)
                 return Result<int>.Failure(result.Errors);

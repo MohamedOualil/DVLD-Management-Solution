@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DVLD.Domain.Enums
+namespace DVLD.Contracts.Auth
 {
-    public enum Role : byte
-    {
-        Admin = 1,
-        Employee = 2,
-    }
+    public sealed record RefreshTokenRequest(string RefreshToken);
 }
+
+    

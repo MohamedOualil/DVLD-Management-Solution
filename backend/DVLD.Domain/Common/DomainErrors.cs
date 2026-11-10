@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -156,6 +156,14 @@ namespace DVLD.Domain.Common
                 new("User.PasswordMismatch", "The current password entered is incorrect.", ErrorType.BadRequest);
             public static readonly Error UsernameOrPasswordWrong =
                 new("User.UsernameOrPasswordWrong", "The username or password provided is incorrect.", ErrorType.BadRequest);
+        }
+
+        public static class erAuth
+        {
+            public static readonly Error InvalidRefreshToken =
+                new("Auth.InvalidRefreshToken", "The refresh token is invalid.", ErrorType.Unauthorized);
+            public static readonly Error Forbidden =
+                new("Auth.Forbidden", "Only administrators can perform this action.", ErrorType.Unauthorized);
         }
 
         public static class erTests

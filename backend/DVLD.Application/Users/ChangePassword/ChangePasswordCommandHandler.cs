@@ -1,6 +1,5 @@
-﻿using DVLD.Application.Abstractions;
+using DVLD.Application.Abstractions;
 using DVLD.Application.Abstractions.Messaging;
-using DVLD.Application.Users.AddUser;
 using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
 using DVLD.Domain.Interfaces;
@@ -18,23 +17,32 @@ namespace DVLD.Application.Users.ChangePassword
         private readonly IValidate<ChangePasswordCommand> _validator;
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IAuditService _auditService;
+        private readonly ICurrentUserService _currentUser;
 
         public ChangePasswordCommandHandler(
             IUnitOfWork unitOfWork, 
             IValidate<ChangePasswordCommand> validator, 
             IUserRepository userRepository, 
-            IPasswordHasher passwordHasher)
+            IPasswordHasher passwordHasher,
+            IAuditService auditService,
+            ICurrentUserService currentUser)
         {
             _unitOfWork = unitOfWork;
             _validator = validator;
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
+            _auditService = auditService;
+            _currentUser = currentUser;
         }
 
         public async Task<Result> Handle(
             ChangePasswordCommand request, 
             CancellationToken cancellationToken)
         {
+            if (_currentUser.UserRole != "Admin")
+                return Result.Failure(DomainErrors.erAuth.Forbidden);
+
             var validationResult = _validator.Validate(request);
             if (validationResult.IsFailure)
                 return Result<int>.Failure(validationResult.Errors);
@@ -46,15 +54,44 @@ namespace DVLD.Application.Users.ChangePassword
             if (user is null)
                 return Result.Failure(DomainErrors.erUser.NotFound);
 
-            Result result = user.ChangePassword(
-                                        request.CurrentPassword,
-                                        request.NewPassword, 
-                                        _passwordHasher);
+            Result result;
+            if (!string.IsNullOrWhiteSpace(request.CurrentPassword))
+            {
+                result = user.ChangePassword(
+                    request.CurrentPassword,
+                    request.NewPassword, 
+                    _passwordHasher);
+            }
+            else
+            {
+                result = user.ChangePasswordByAdmin(
+                    request.NewPassword,
+                    _passwordHasher);
+            }
              
             if (result.IsFailure)
+            {
+                await _auditService.LogActionAsync(
+                    action: "ChangePassword",
+                    entityName: "User",
+                    entityId: user.Id.ToString(),
+                    oldValues: null,
+                    newValues: null,
+                    isSuccess: false,
+                    failureReason: result.Errors.FirstOrDefault()?.Name ?? "Password change failed");
+
                 return result;
+            }
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            await _auditService.LogActionAsync(
+                action: "ChangePassword",
+                entityName: "User",
+                entityId: user.Id.ToString(),
+                oldValues: null,
+                newValues: new { PasswordChangedAt = DateTime.UtcNow },
+                isSuccess: true);
 
             return Result.Success();
         }

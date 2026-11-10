@@ -1,5 +1,4 @@
 using DVLD.Contracts.Common;
-using DVLD.Contracts.Applications;
 using DVLD.Contracts.Enums;
 using DVLD.Contracts.LocalLicenseApplications;
 using DVLD.Contracts.Tests;
@@ -24,8 +23,6 @@ namespace DVLD.WinForms.Features.Applications
     public class ApplicationsService(IApiClient apiClient) : IApplicationsService
     {
         private readonly IApiClient _apiClient = apiClient;
-
-
 
         public async Task<ApiResponse<PagedList<GetAllLocalApplicationsResponse>>> GetAllLocalApplicationsAsync(int pageNumber, int pageSize, string searchTerm, int statusId)
         {
@@ -62,11 +59,11 @@ namespace DVLD.WinForms.Features.Applications
                 new UpdateLocalDrivingLicenseApplicationRequest { LicenseClass = licenseType });
         }
 
-        public async Task<ApiResponse> CancelApplication(int applicationId, int CancelBy)
+        public async Task<ApiResponse> CancelApplication(int applicationId)
         {
             return await _apiClient.PostAsync<object>(
                 $"Application/{applicationId}/cancel",
-                new CancelApplicationRequest { CancelBy = CancelBy });
+                null);
         }
 
         public async Task<ApiResponse<int>> CreateApplication(CreateLocalDrivingLicenseApplicationRequest request)

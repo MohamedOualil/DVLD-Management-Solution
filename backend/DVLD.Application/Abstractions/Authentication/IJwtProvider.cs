@@ -11,5 +11,6 @@ namespace DVLD.Application.Abstractions.Authentication
     public interface IJwtProvider
     {
         TokenResponse Generate(User user);
+        string HashRefreshToken(string refreshToken);
     }
 }

@@ -1,9 +1,9 @@
-﻿using DVLD.Application.Abstractions;
+using DVLD.Application.Abstractions;
 using DVLD.Application.Abstractions.Messaging;
 using DVLD.Application.Persons.GetPerson;
 using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
-using DVLD.Domain.Enums;
+using DVLD.Contracts.Enums;
 using DVLD.Domain.Interfaces;
 using DVLD.Domain.ValueObjects;
 using System;
@@ -19,14 +19,17 @@ namespace DVLD.Application.Persons.UpdatePerson
         private readonly IValidate<UpdatePersonCommand> _validator;
         private readonly IPersonRepository _personResponse;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IAuditService _auditService;
 
         public UpdatePersonCommandHandler(IValidate<UpdatePersonCommand> validator,
             IPersonRepository personRepository,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IAuditService auditService)
         {
             _personResponse = personRepository;
             _validator = validator;
             _unitOfWork = unitOfWork;
+            _auditService = auditService;
         }
         public async Task<Result> Handle(UpdatePersonCommand request, CancellationToken cancellationToken)
         {
@@ -39,8 +42,16 @@ namespace DVLD.Application.Persons.UpdatePerson
 
             if (person is null)
                 return Result.Failure(DomainErrors.erPerson.NotFound);
-            
 
+            var oldData = new
+            {
+                person.FullName.FirstName,
+                person.FullName.LastName,
+                Phone = person.Phone.PhoneNumber,
+                Email = person.Email?.Value,
+                person.Address.City,
+                person.Address.Street
+            };
 
             Address address = new Address(
                 request.Street,
@@ -65,6 +76,24 @@ namespace DVLD.Application.Persons.UpdatePerson
             _personResponse.Update(person);
 
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            var newData = new
+            {
+                person.FullName.FirstName,
+                person.FullName.LastName,
+                Phone = person.Phone.PhoneNumber,
+                Email = person.Email?.Value,
+                person.Address.City,
+                person.Address.Street
+            };
+
+            await _auditService.LogActionAsync(
+                action: "Update",
+                entityName: "Person",
+                entityId: person.Id.ToString(),
+                oldValues: oldData,
+                newValues: newData,
+                isSuccess: true);
 
             return Result.Success();
         }

@@ -108,7 +108,6 @@ public class IssueDrivingLicencePresenter : BasePresenter<IIssueDrivingLicenceVi
             var response = await _licensesService.IssueDrivingLicenceAsync(new IssueNewLicenseRequest
             {
                 LocalApplicationId = _localApplicationId,
-                CreatedByUserId = _session.UserId,
                 Notes = View.Notes
             });
             if (_disposed) return;

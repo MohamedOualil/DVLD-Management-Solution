@@ -5,7 +5,7 @@ using DVLD.Application.Abstractions.Messaging;
 using DVLD.Application.Tests.GetTestAppointments;
 using DVLD.Application.Tests.GetTestRoadmap;
 using DVLD.Domain.Common;
-using DVLD.Domain.Enums;
+using DVLD.Contracts.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

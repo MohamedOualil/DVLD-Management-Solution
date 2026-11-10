@@ -1,5 +1,5 @@
-﻿using DVLD.Domain.Common;
-using DVLD.Domain.Enums;
+using DVLD.Domain.Common;
+using DVLD.Contracts.Enums;
 using DVLD.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -69,7 +69,22 @@ namespace DVLD.Domain.Entities
             return Result.Success();
         }
 
-      
-        
+        public Result ChangePasswordByAdmin(string newPassword, IPasswordHasher passwordHasher)
+        {
+            if (!this.IsActive)
+                return Result.Failure(DomainErrors.erUser.Deactivated);
+
+            this.PasswordHash = passwordHasher.HashPassword(newPassword);
+            this.UpdateAt = DateTime.UtcNow;
+
+            return Result.Success();
+        }
+
+        public void Update(Role role, bool isActive)
+        {
+            this.Role = role;
+            this.IsActive = isActive;
+            this.UpdateAt = DateTime.UtcNow;
+        }
     }
 }

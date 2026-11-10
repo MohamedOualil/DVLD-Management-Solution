@@ -9,10 +9,12 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace DVLD.Api.Controllers.Drivers
 {
     [Authorize]
+    [EnableRateLimiting("UserLimiter")]
     [Route("api/[controller]")]
     [ApiController]
     public class DriverController : ApiController

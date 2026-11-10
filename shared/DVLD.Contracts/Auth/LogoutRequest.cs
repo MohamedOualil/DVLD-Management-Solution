@@ -4,11 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DVLD.Domain.Enums
+namespace DVLD.Contracts.Auth
 {
-    public enum  TestResult : byte
-    {
-        Success = 1,
-        Failure = 0
-    }
+    public sealed record LogoutRequest(string RefreshToken);
+    
 }

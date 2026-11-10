@@ -12,5 +12,8 @@ namespace DVLD.WinForms.Features.Auth
     {
         Task<ApiResponse<LoginResponse>> LoginAsync(
             string username, string password);
+
+        Task<ApiResponse<TokenResponse>> RefreshTokenAsync(
+            string refreshToken);
     }
 }

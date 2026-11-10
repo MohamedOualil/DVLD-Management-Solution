@@ -1,9 +1,7 @@
 using DVLD.Contracts.Common;
 using DVLD.Contracts.Persons;
 using DVLD.Api.Common;
-using DVLD.Api.Controllers.LocalDrivingLicenseApplications;
 using DVLD.Application.Abstractions;
-using DVLD.Application.LocalLicenseApplications.GetAllLocalApplications;
 using DVLD.Application.Persons.CreatePerson;
 using DVLD.Application.Persons.DeletePerson;
 using DVLD.Application.Persons.GetAllPerson;
@@ -15,38 +13,26 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace DVLD.Api.Controllers.Person
 {
-    //[Authorize]
+    [Authorize]
+    [EnableRateLimiting("UserLimiter")]
     [Route("api/[controller]")]
     [ApiController]
     public class PersonController : ApiController
     {
-        private readonly IAuthorizationService _authorizationService;
         private readonly ISender _sender;
 
-        public PersonController(ISender sender, IAuthorizationService authorizationService)
+        public PersonController(ISender sender)
         {
             _sender = sender;
-            _authorizationService = authorizationService;
         }
 
         [HttpGet("{id:int}", Name = "GetPerson")]
         public async Task<IActionResult> GetPerson(int id, CancellationToken cancellationToken)
         {
-            //var authResult = await _authorizationService.AuthorizeAsync(
-            //User,
-            //id,
-            //"PersonOwnershipPolicy" 
-            //);
-
-            //if (!authResult.Succeeded)
-            //{
-            //    return Forbid();
-            //}
-
             var query = new GetPersonQuery(id);
 
             Result<PersonResponse> result = await _sender.Send(query, cancellationToken);
@@ -60,17 +46,6 @@ namespace DVLD.Api.Controllers.Person
         [HttpGet("NationalNo/{nationalNo}", Name = "GetPersonByNationalNo")]
         public async Task<IActionResult> GetPersonByNationalNo(string nationalNo, CancellationToken cancellationToken)
         {
-            //var authResult = await _authorizationService.AuthorizeAsync(
-            //User,
-            //id,
-            //"PersonOwnershipPolicy" 
-            //);
-
-            //if (!authResult.Succeeded)
-            //{
-            //    return Forbid();
-            //}
-
             var query = new GetPersonByNationalNoQuery(nationalNo);
 
             Result<PersonResponse> result = await _sender.Send(query, cancellationToken);
@@ -81,11 +56,10 @@ namespace DVLD.Api.Controllers.Person
             return Ok(result.Value);
         }
 
-        [Authorize(Roles = "Admin,Employee")]
         [HttpPost]
         public async Task<IActionResult> CreatePerson(
-        CreatePersonRequest request,
-        CancellationToken cancellationToken)
+            CreatePersonRequest request,
+            CancellationToken cancellationToken)
         {
             var command = new CreatePersonCommand
             {
@@ -110,7 +84,6 @@ namespace DVLD.Api.Controllers.Person
 
             if (result.IsFailure)
             {
-
                 return BadRequest(result.Errors);
             }
 
@@ -120,7 +93,6 @@ namespace DVLD.Api.Controllers.Person
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}", Name = "DeletePerson")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> DeletePerson(int id, CancellationToken cancellationToken)
         {
@@ -133,7 +105,6 @@ namespace DVLD.Api.Controllers.Person
             }
 
             return Ok($"Person With ID {id} has been deleted.");
-
         }
 
         [HttpPut("{id}", Name = "UpdatePerson")]
@@ -145,17 +116,6 @@ namespace DVLD.Api.Controllers.Person
             UpdatePersonRequest request,
             CancellationToken cancellationToken)
         {
-            var authResult = await _authorizationService.AuthorizeAsync(
-            User,
-            id,
-            "PersonOwnershipPolicy"
-            );
-
-            if (!authResult.Succeeded)
-            {
-                return Forbid();
-            }
-
             var command = new UpdatePersonCommand
             {
                 Id = id,
@@ -179,24 +139,19 @@ namespace DVLD.Api.Controllers.Person
 
             if (result.IsFailure)
             {
-
                 return BadRequest(result.Errors);
             }
 
             return CreatedAtAction(nameof(GetPerson), new { id = id }, result);
-
-
         }
 
-
-        [Authorize(Roles = "Admin,Employee")]
         [HttpGet(Name = "GetAllPerson")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<PagedList<GetAllPersonResponse>>> GetAllPerson(
-           [FromQuery] GetAllPersonRequest allLocalApplicationsRequest
-           , CancellationToken cancellationToken)
+           [FromQuery] GetAllPersonRequest allLocalApplicationsRequest,
+           CancellationToken cancellationToken)
         {
             GetAllPersonQuery query = new GetAllPersonQuery
             {

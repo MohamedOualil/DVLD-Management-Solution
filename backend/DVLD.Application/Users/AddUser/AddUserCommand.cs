@@ -1,4 +1,5 @@
 ﻿using DVLD.Application.Abstractions.Messaging;
+using DVLD.Contracts.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,7 +14,7 @@ namespace DVLD.Application.Users.AddUser
         public required int PersonId { get; init; }
         public required string UserName { get; init; }
         public required string Password { get; init; }
-        public required int Roles { get; init; }
+        public required Role Roles { get; init; }
         public required bool IsActive { get; init; }
     }
 }

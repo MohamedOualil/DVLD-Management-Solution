@@ -13,12 +13,16 @@ using DVLD.Application.Persons.CreatePerson;
 using DVLD.Application.Persons.GetPerson;
 using DVLD.Domain.Common;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using static DVLD.Domain.Common.DomainErrors;
 
 namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
 {
+    [Authorize]
+    [EnableRateLimiting("UserLimiter")]
     [Route("api/[controller]")]
     [ApiController]
     public class LocalDrivingLicenseApplicationController : ApiController
@@ -28,13 +32,12 @@ namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
         public LocalDrivingLicenseApplicationController(ISender sender)
         {
             _sender = sender;
-
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(
-        CreateLocalDrivingLicenseApplicationRequest request,
-        CancellationToken cancellationToken)
+            CreateLocalDrivingLicenseApplicationRequest request,
+            CancellationToken cancellationToken)
         {
             var command = new CreateLocalApplicationCommand
             {
@@ -62,7 +65,7 @@ namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
             var command = new UpdateDrivingLicenceApplicationCommand
             {
                 LocalApplicationId = id,
-                LicenseClass = (DVLD.Domain.Enums.LicenseClassEnum)request.LicenseClass
+                LicenseClass = (DVLD.Contracts.Enums.LicenseClassEnum)request.LicenseClass
             };
 
             Result result = await _sender.Send(command, cancellationToken);
@@ -84,8 +87,8 @@ namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<PagedList<GetAllLocalApplicationsResponse>>> GetAllLocalDrivingLicense(
-           [FromQuery] GetAllLocalApplicationsRequest allLocalApplicationsRequest
-           , CancellationToken cancellationToken)
+           [FromQuery] GetAllLocalApplicationsRequest allLocalApplicationsRequest,
+           CancellationToken cancellationToken)
         {
             GetAllLocalApplicationsQuery query = new GetAllLocalApplicationsQuery
             {
@@ -105,7 +108,6 @@ namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
             return Ok(result.Value);
         }
 
-
         [HttpGet("{personId}/type/{applicationTypeId}", Name = "GetApplicantSummary")]
         public async Task<IActionResult> GetApplicantSummary(int personId, int applicationTypeId, CancellationToken cancellationToken)
         {
@@ -118,6 +120,5 @@ namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
 
             return Ok(result.Value);
         }
-
     }
 }

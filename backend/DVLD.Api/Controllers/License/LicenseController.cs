@@ -10,11 +10,15 @@ using DVLD.Application.Licenses.GetLocalDrivingLicenseHistory;
 using DVLD.Application.LocalLicenseApplications.GetAllLocalApplications;
 using DVLD.Domain.Common;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace DVLD.Api.Controllers.License
 {
+    [Authorize]
+    [EnableRateLimiting("UserLimiter")]
     [Route("api/[controller]")]
     [ApiController]
     public class LicenseController : ApiController
@@ -27,6 +31,7 @@ namespace DVLD.Api.Controllers.License
         }
 
 
+
         [HttpPost(Name = "IssueLicense")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -36,7 +41,6 @@ namespace DVLD.Api.Controllers.License
             var command = new IssueLicenseFirstTimeCommand
             {
                 LocalApplicationId = issueNewLicense.LocalApplicationId,
-                CreatedByUserId = issueNewLicense.CreatedByUserId,
                 Notes = issueNewLicense.Notes
             };
             Result<int> result = await _sender.Send(command, cancellationToken);

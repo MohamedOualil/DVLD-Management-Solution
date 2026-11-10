@@ -1,10 +1,10 @@
-﻿using DVLD.Domain.Common;
+using DVLD.Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DVLD.Domain.Enums;
+using DVLD.Contracts.Enums;
 using DVLD.Domain.ValueObjects;
 
 namespace DVLD.Domain.Entities
@@ -69,7 +69,7 @@ namespace DVLD.Domain.Entities
         public static Result<Application> CreateLocalApplication(Person person, ApplicationType applicationTypes,
             int? createdById)
         {
-            if (applicationTypes.Id != (int) Enums.ApplicationTypeEnum.NewLocalDrivingLicenseService)
+            if (applicationTypes.Id != (int) ApplicationTypeEnum.NewLocalDrivingLicenseService)
                 return Result<Application>.Failure(DomainErrors.erApplications.InvalidApplicationType);
 
             if (!createdById.HasValue)
@@ -80,7 +80,7 @@ namespace DVLD.Domain.Entities
                 person, applicationTypes, applicationTypes.ApplicationFees, createdById.Value));
         }
 
-        public Result CancelApplication(User CancelBy)
+        public Result CancelApplication(int? cancelledByUserId)
         {
             if (Status == ApplicationStatusEnum.Cancelled)
                 return Result.Failure(DomainErrors.erApplications.ApplicationAlreadyCancelled);
@@ -89,8 +89,7 @@ namespace DVLD.Domain.Entities
 
             Status = ApplicationStatusEnum.Cancelled;
             LastStatusDate = DateTime.UtcNow;
-            LastUpdatedBy = CancelBy;
-            LastUpdatedByUserId = CancelBy.Id;
+            LastUpdatedByUserId = cancelledByUserId;
 
             return Result.Success();
         }

@@ -177,7 +177,6 @@ namespace DVLD.WinForms.Features.Test.ScheduleTest
                 var request = new CreateTestRequest
                 {
                     LocalApplicationId = _localApplicationId,
-                    CreatedById = _session.UserId,
                     AppointmentDate = appointmentDate,
                     TestType = _testType
                 };

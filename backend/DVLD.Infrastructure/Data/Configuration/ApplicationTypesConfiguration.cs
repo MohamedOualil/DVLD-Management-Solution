@@ -1,5 +1,5 @@
-﻿using DVLD.Domain.Entities;
-using DVLD.Domain.Enums;
+using DVLD.Domain.Entities;
+using DVLD.Contracts.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;

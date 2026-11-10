@@ -15,102 +15,71 @@ using System.Threading.Tasks;
 
 namespace DVLD.Application.Users.Login
 {
-    internal sealed class LoginCommandHandler : ICommandHandler<LoginCommand, LoginResponse>
-    {
-        private readonly IUserRepository _userRepository;
-        private readonly IPasswordHasher _passwordHasher;
-        private readonly IValidate<LoginCommand> _validator;
-        private readonly IJwtProvider _jwtProvider;
-        private readonly ILogger<LoginCommandHandler> _logger;
-        private readonly ICurrentUserService _currentUser;
-        private readonly IUserSessionRepository _userSessionRepository;
-        private readonly IUnitOfWork _unitOfWork;
-
-        public LoginCommandHandler(IUserRepository userRepository, 
+    internal sealed class LoginCommandHandler(IUserRepository userRepository, 
             IPasswordHasher passwordHasher, 
             IValidate<LoginCommand> validator, 
             IJwtProvider jwtProvider, 
             ILogger<LoginCommandHandler> logger, 
-            ICurrentUserService currentUser, 
             IUserSessionRepository userSessionRepository, 
-            IUnitOfWork unitOfWork)
-        {
-            _userRepository = userRepository;
-            _passwordHasher = passwordHasher;
-            _validator = validator;
-            _jwtProvider = jwtProvider;
-            _logger = logger;
-            _currentUser = currentUser;
-            _userSessionRepository = userSessionRepository;
-            _unitOfWork = unitOfWork;
-        }
+            IUnitOfWork unitOfWork)  : ICommandHandler<LoginCommand, LoginResponse>
+
+    {
 
         public async Task<Result<LoginResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
 
-            Result validation = _validator.Validate(request);
+            Result validation = validator.Validate(request);
             if (validation.IsFailure)
                 return Result<LoginResponse>.Failure(validation.Errors);
 
-            var ip = _currentUser.IpAddress ?? "Unknown-IP";
-            var deviceId = _currentUser.DeviceId ?? "Unknown-Device";
+            User? user = await userRepository.GetUserByUsername(request.Username,cancellationToken);
 
-            User? user = await _userRepository.GetUserByUsername(request.Username,cancellationToken);
-
-            if (user is null)
+            if (user is null || !passwordHasher.VerifyPassword(request.Password, user.PasswordHash))
             {
-                _logger.LogWarning(" [AUTH] Failed login attempt (email not found). Username={Username}, IP={IP}", request.Username, ip);
+                logger.LogWarning("[AUTH] Failed login for Username={Username}", request.Username);
                 return Result<LoginResponse>.Failure(DomainErrors.erUser.UsernameOrPasswordWrong);
             }
 
             if (!user.IsActive)
             {
-                _logger.LogWarning("[AUTH] Failed login attempt (account deactivated). UserId={UserId}, IP={IP}", user.Id, ip);
+                logger.LogWarning("[AUTH] Deactivated login attempt for UserId={UserId}", user.Id);
                 return Result<LoginResponse>.Failure(DomainErrors.erUser.Deactivated);
             }
 
-            if (!_passwordHasher.VerifyPassword(request.Password, user.PasswordHash))
+
+            TokenResponse tokons = jwtProvider.Generate(user);
+
+            string refreshTokenHash = jwtProvider.HashRefreshToken(tokons.RefreshToken);
+
+            UserSession? existingSession = await userSessionRepository
+                            .GetByUserIdAsync(user.Id, cancellationToken);
+
+            if (existingSession is not null)
             {
-                _logger.LogWarning(
-                    " [AUTH] Failed login attempt (bad password). Username={Username}, IP={IP}",
-                    request.Username,
-                    ip);
 
-                return Result<LoginResponse>.Failure(DomainErrors.erUser.UsernameOrPasswordWrong);
+                existingSession.UpdateToken(refreshTokenHash, tokons.RefreshTokenExpiresAt);
             }
+            else
+            {
+                var newSession = UserSession.Create(user.Id, refreshTokenHash, tokons.RefreshTokenExpiresAt);
 
-            await _userSessionRepository.RevokeByDeviceIdAsync(user.Id,deviceId, cancellationToken);
-                
-            var tokon = _jwtProvider.Generate(user);
-
-            string refreshTokenHash = _passwordHasher.HashPassword(tokon.RefreshToken);
-
-            UserSession userSession = UserSession.RegisterUserSession(
-                                 user, 
-                                 refreshTokenHash, 
-                                 tokon.RefreshTokenExpiresAt, 
-                                 ip, 
-                                 deviceId, 
-                                 _currentUser.DeviceInfo);
-
-            _userSessionRepository.Add(userSession);
-            await _unitOfWork.SaveChangesAsync();
+                userSessionRepository.Add(newSession);
+            }
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
 
-        _logger.LogInformation(
-            "[AUTH] Login successful. UserId={UserId} Role={Role} IP={ClientIP}",
-                user.Id, user.Role.ToString(), ip);
+            logger.LogInformation("[AUTH] User {UserId} logged in successfully.", user.Id);
 
 
 
             LoginResponse result = new LoginResponse
             {
                 Username = user.UserName,
-                Role = (int)user.Role,
+                Role = user.Role,
                 IsActive = user.IsActive,
                 PersonId = user.PersonId,
                 UserId = user.Id,
-                Token = tokon,
+                Token = tokons,
 
             };
 

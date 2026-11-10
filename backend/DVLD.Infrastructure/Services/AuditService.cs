@@ -36,8 +36,7 @@ namespace DVLD.Infrastructure.Services
                 oldValues: oldJson,
                 newValues: newJson,
                 isSuccess: isSuccess,
-                failureReason: failureReason,
-                ipAddress: _currentUser.IpAddress
+                failureReason: failureReason
             );
 
             _context.AuditLog.Add(auditLog);
