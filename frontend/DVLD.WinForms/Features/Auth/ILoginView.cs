@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +8,13 @@ namespace DVLD.WinForms.Features.Auth
 {
     public interface ILoginView
     {
-        string Username { get; }
-        string Password { get; }
+        string Username { get; set; }
+        string Password { get; set; }
+        bool RememberMe { get; set; }
         void ShowError(string message);
         void ShowLoading(bool isLoading);
 
-        event EventHandler<EventArgs> OnLogin;
+        event EventHandler<EventArgs>? OnLogin;
+        event EventHandler? OnViewLoaded;
     }
 }

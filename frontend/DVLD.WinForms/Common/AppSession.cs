@@ -14,7 +14,7 @@ namespace DVLD.WinForms.Common
         public int UserId { get; set; }
         public int PersonId { get; set; }
         public string Username { get; set; } = string.Empty;
-        public Role Role { get; set; } 
+        public Role Role { get; set; }
 
         public bool IsLoggedIn => !string.IsNullOrEmpty(CurrentToken);
         public bool IsAdmin => Role == Role.Admin;

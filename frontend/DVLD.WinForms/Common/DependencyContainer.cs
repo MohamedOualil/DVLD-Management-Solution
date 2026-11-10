@@ -49,6 +49,7 @@ namespace DVLD.WinForms.Common
             services.AddHttpClient<IApiClient, ApiClient>();
 
             services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<IRememberMeService, RememberMeService>();
             services.AddTransient<IApplicationsService, ApplicationsService>();
             services.AddTransient<ILicensesService, LicensesService>();
             services.AddTransient<IPesronService, PersonService>();
