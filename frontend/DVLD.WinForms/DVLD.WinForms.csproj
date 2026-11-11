@@ -51,4 +51,8 @@
     <ProjectReference Include="..\..\shared\DVLD.Contracts\DVLD.Contracts.csproj" />
   </ItemGroup>
 
+  <Target Name="PreCompileResources" BeforeTargets="BeforeResGen" Condition="'$(MSBuildRuntimeType)' != 'Core'">
+    <Exec Command="dotnet build &quot;$(MSBuildProjectFullPath)&quot; --no-dependencies -c $(Configuration) --no-restore" ContinueOnError="true" />
+  </Target>
+
 </Project>

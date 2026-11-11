@@ -19,7 +19,7 @@ namespace DVLD.WinForms.Common
 
         public const string DockerUrl = "http://localhost:5000/api/";
         public const string LocalUrl = "https://localhost:7261/api/";
-        public const string BaseUrl = LocalUrl;
+        public const string BaseUrl = DockerUrl;
 
         public ApiClient(AppSession session, HttpClient httpClient, IRefreshTokenService refreshTokenService)
         {

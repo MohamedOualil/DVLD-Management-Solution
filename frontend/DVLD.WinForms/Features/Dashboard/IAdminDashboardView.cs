@@ -10,5 +10,6 @@ namespace DVLD.WinForms.Features.Dashboard
     {
         Control MainContentPanel { get; }
         event EventHandler OnLoadApplicationsClicked;
+        event EventHandler? OnLogoutClicked;
     }
 }

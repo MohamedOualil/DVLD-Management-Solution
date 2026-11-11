@@ -24,6 +24,8 @@ namespace DVLD.WinForms.Features.Dashboard
             _view.OnLoadApplicationsClicked += (s, e) => LoadApplicationsControl();
             _navigationService.SetMainContentPanel(_view.MainContentPanel);
 
+            _view.OnLogoutClicked += _view_OnLogoutClicked;
+
             _refreshTokenService.OnSessionExpired += HandleSessionExpired;
 
             if (_view is Form dashboardForm)
@@ -33,6 +35,26 @@ namespace DVLD.WinForms.Features.Dashboard
                     _refreshTokenService.OnSessionExpired -= HandleSessionExpired;
                 };
             }
+        }
+
+        private void _view_OnLogoutClicked(object? sender, EventArgs e)
+        {
+            if (_view is not Form dashboardForm || dashboardForm.IsDisposed)
+                return;
+
+            var confirm = MessageBox.Show(
+                dashboardForm,
+                "Are you sure you want to log out?",
+                "Confirm Logout",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (confirm != DialogResult.Yes)
+                return;
+
+            _session.Logout();
+
+            _navigationService.CloseCurrentForm(dashboardForm);
         }
 
         private void HandleSessionExpired(object? sender, EventArgs e)
