@@ -29,34 +29,34 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges37 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges38 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges51 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges52 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges27 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges28 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges23 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges25 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges26 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges27 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges28 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges29 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges30 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges31 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -65,6 +65,20 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges34 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges35 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges36 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges37 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges38 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges39 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges40 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges41 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges42 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges43 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges44 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges45 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges46 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges47 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges48 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges49 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges50 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdminDashboardForm));
@@ -92,9 +106,11 @@
             btnLogout = new Guna.UI2.WinForms.Guna2Button();
             lblAppVersion = new Label();
             lblApiStatus = new Label();
-            pnlQuickTip = new Guna.UI2.WinForms.Guna2Panel();
-            lblQuickTipTitle = new Label();
-            lblQuickTipText = new Label();
+            btnAuditLogs = new Guna.UI2.WinForms.Guna2Button();
+            btnServiceFees = new Guna.UI2.WinForms.Guna2Button();
+            btnUsers = new Guna.UI2.WinForms.Guna2Button();
+            lblNavSection4 = new Label();
+            btnDrivers = new Guna.UI2.WinForms.Guna2Button();
             btnDriversPeople = new Guna.UI2.WinForms.Guna2Button();
             lblNavSection3 = new Label();
             btnInternationalLicense = new Guna.UI2.WinForms.Guna2Button();
@@ -114,7 +130,6 @@
             pnlNavHistory.SuspendLayout();
             PanalLeft.SuspendLayout();
             pnlUserProfile.SuspendLayout();
-            pnlQuickTip.SuspendLayout();
             pnlBrand.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -146,11 +161,11 @@
             PanalTop.Controls.Add(guna2ControlBox3);
             PanalTop.Controls.Add(guna2ControlBox2);
             PanalTop.Controls.Add(guna2ControlBox1);
-            PanalTop.CustomizableEdges = customizableEdges13;
+            PanalTop.CustomizableEdges = customizableEdges21;
             PanalTop.Dock = DockStyle.Top;
             PanalTop.Location = new Point(224, 0);
             PanalTop.Name = "PanalTop";
-            PanalTop.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            PanalTop.ShadowDecoration.CustomizableEdges = customizableEdges22;
             PanalTop.Size = new Size(984, 64);
             PanalTop.TabIndex = 1;
             // 
@@ -163,9 +178,11 @@
             pnlNavHistory.Controls.Add(btnNavBack);
             pnlNavHistory.Controls.Add(btnNavForward);
             pnlNavHistory.Controls.Add(btnNavRefresh);
+            pnlNavHistory.CustomizableEdges = customizableEdges9;
             pnlNavHistory.FillColor = Color.FromArgb(248, 250, 252);
             pnlNavHistory.Location = new Point(20, 14);
             pnlNavHistory.Name = "pnlNavHistory";
+            pnlNavHistory.ShadowDecoration.CustomizableEdges = customizableEdges10;
             pnlNavHistory.Size = new Size(106, 36);
             pnlNavHistory.TabIndex = 7;
             // 
@@ -173,6 +190,7 @@
             // 
             btnNavBack.BorderRadius = 7;
             btnNavBack.Cursor = Cursors.Hand;
+            btnNavBack.CustomizableEdges = customizableEdges3;
             btnNavBack.DisabledState.FillColor = Color.Transparent;
             btnNavBack.DisabledState.ForeColor = Color.FromArgb(203, 213, 225);
             btnNavBack.Enabled = false;
@@ -183,6 +201,7 @@
             btnNavBack.HoverState.ForeColor = Color.FromArgb(15, 23, 42);
             btnNavBack.Location = new Point(4, 4);
             btnNavBack.Name = "btnNavBack";
+            btnNavBack.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnNavBack.Size = new Size(30, 28);
             btnNavBack.TabIndex = 0;
             btnNavBack.Click += btnNavBack_Click;
@@ -192,6 +211,7 @@
             // 
             btnNavForward.BorderRadius = 7;
             btnNavForward.Cursor = Cursors.Hand;
+            btnNavForward.CustomizableEdges = customizableEdges5;
             btnNavForward.DisabledState.FillColor = Color.Transparent;
             btnNavForward.DisabledState.ForeColor = Color.FromArgb(203, 213, 225);
             btnNavForward.Enabled = false;
@@ -202,6 +222,7 @@
             btnNavForward.HoverState.ForeColor = Color.FromArgb(15, 23, 42);
             btnNavForward.Location = new Point(38, 4);
             btnNavForward.Name = "btnNavForward";
+            btnNavForward.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnNavForward.Size = new Size(30, 28);
             btnNavForward.TabIndex = 1;
             btnNavForward.Click += btnNavForward_Click;
@@ -211,6 +232,7 @@
             // 
             btnNavRefresh.BorderRadius = 7;
             btnNavRefresh.Cursor = Cursors.Hand;
+            btnNavRefresh.CustomizableEdges = customizableEdges7;
             btnNavRefresh.FillColor = Color.Transparent;
             btnNavRefresh.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             btnNavRefresh.ForeColor = Color.FromArgb(51, 65, 85);
@@ -218,6 +240,7 @@
             btnNavRefresh.HoverState.ForeColor = Color.FromArgb(37, 99, 235);
             btnNavRefresh.Location = new Point(72, 4);
             btnNavRefresh.Name = "btnNavRefresh";
+            btnNavRefresh.ShadowDecoration.CustomizableEdges = customizableEdges8;
             btnNavRefresh.Size = new Size(30, 28);
             btnNavRefresh.TabIndex = 2;
             btnNavRefresh.Click += btnNavRefresh_Click;
@@ -259,7 +282,7 @@
             txtGlobalSearch.BorderColor = Color.FromArgb(226, 232, 240);
             txtGlobalSearch.BorderRadius = 10;
             txtGlobalSearch.Cursor = Cursors.IBeam;
-            txtGlobalSearch.CustomizableEdges = customizableEdges3;
+            txtGlobalSearch.CustomizableEdges = customizableEdges11;
             txtGlobalSearch.DefaultText = "";
             txtGlobalSearch.FillColor = Color.FromArgb(248, 250, 252);
             txtGlobalSearch.Font = new Font("Segoe UI", 9F);
@@ -269,7 +292,7 @@
             txtGlobalSearch.PlaceholderForeColor = Color.FromArgb(148, 163, 184);
             txtGlobalSearch.PlaceholderText = "Search applications... (Ctrl+K)";
             txtGlobalSearch.SelectedText = "";
-            txtGlobalSearch.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            txtGlobalSearch.ShadowDecoration.CustomizableEdges = customizableEdges12;
             txtGlobalSearch.Size = new Size(220, 36);
             txtGlobalSearch.TabIndex = 2;
             // 
@@ -277,7 +300,7 @@
             // 
             guna2GradientButton1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             guna2GradientButton1.BorderRadius = 10;
-            guna2GradientButton1.CustomizableEdges = customizableEdges5;
+            guna2GradientButton1.CustomizableEdges = customizableEdges13;
             guna2GradientButton1.FillColor = Color.FromArgb(37, 99, 235);
             guna2GradientButton1.FillColor2 = Color.FromArgb(59, 130, 246);
             guna2GradientButton1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
@@ -287,7 +310,7 @@
             guna2GradientButton1.ImageOffset = new Point(-3, 0);
             guna2GradientButton1.Location = new Point(682, 14);
             guna2GradientButton1.Name = "guna2GradientButton1";
-            guna2GradientButton1.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            guna2GradientButton1.ShadowDecoration.CustomizableEdges = customizableEdges14;
             guna2GradientButton1.Size = new Size(176, 36);
             guna2GradientButton1.TabIndex = 3;
             guna2GradientButton1.Text = "   Issue New License";
@@ -297,13 +320,13 @@
             guna2ControlBox3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             guna2ControlBox3.BorderRadius = 8;
             guna2ControlBox3.ControlBoxType = Guna.UI2.WinForms.Enums.ControlBoxType.MinimizeBox;
-            guna2ControlBox3.CustomizableEdges = customizableEdges7;
+            guna2ControlBox3.CustomizableEdges = customizableEdges15;
             guna2ControlBox3.FillColor = Color.Transparent;
             guna2ControlBox3.HoverState.FillColor = Color.FromArgb(241, 245, 249);
             guna2ControlBox3.IconColor = Color.FromArgb(100, 116, 139);
             guna2ControlBox3.Location = new Point(874, 15);
             guna2ControlBox3.Name = "guna2ControlBox3";
-            guna2ControlBox3.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            guna2ControlBox3.ShadowDecoration.CustomizableEdges = customizableEdges16;
             guna2ControlBox3.Size = new Size(32, 32);
             guna2ControlBox3.TabIndex = 4;
             // 
@@ -312,13 +335,13 @@
             guna2ControlBox2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             guna2ControlBox2.BorderRadius = 8;
             guna2ControlBox2.ControlBoxType = Guna.UI2.WinForms.Enums.ControlBoxType.MaximizeBox;
-            guna2ControlBox2.CustomizableEdges = customizableEdges9;
+            guna2ControlBox2.CustomizableEdges = customizableEdges17;
             guna2ControlBox2.FillColor = Color.Transparent;
             guna2ControlBox2.HoverState.FillColor = Color.FromArgb(241, 245, 249);
             guna2ControlBox2.IconColor = Color.FromArgb(100, 116, 139);
             guna2ControlBox2.Location = new Point(908, 15);
             guna2ControlBox2.Name = "guna2ControlBox2";
-            guna2ControlBox2.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            guna2ControlBox2.ShadowDecoration.CustomizableEdges = customizableEdges18;
             guna2ControlBox2.Size = new Size(32, 32);
             guna2ControlBox2.TabIndex = 5;
             // 
@@ -326,14 +349,14 @@
             // 
             guna2ControlBox1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             guna2ControlBox1.BorderRadius = 8;
-            guna2ControlBox1.CustomizableEdges = customizableEdges11;
+            guna2ControlBox1.CustomizableEdges = customizableEdges19;
             guna2ControlBox1.FillColor = Color.Transparent;
             guna2ControlBox1.HoverState.FillColor = Color.FromArgb(239, 68, 68);
             guna2ControlBox1.HoverState.IconColor = Color.White;
             guna2ControlBox1.IconColor = Color.FromArgb(100, 116, 139);
             guna2ControlBox1.Location = new Point(942, 15);
             guna2ControlBox1.Name = "guna2ControlBox1";
-            guna2ControlBox1.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            guna2ControlBox1.ShadowDecoration.CustomizableEdges = customizableEdges20;
             guna2ControlBox1.Size = new Size(32, 32);
             guna2ControlBox1.TabIndex = 6;
             // 
@@ -343,7 +366,11 @@
             PanalLeft.Controls.Add(pnlUserProfile);
             PanalLeft.Controls.Add(lblAppVersion);
             PanalLeft.Controls.Add(lblApiStatus);
-            PanalLeft.Controls.Add(pnlQuickTip);
+            PanalLeft.Controls.Add(btnAuditLogs);
+            PanalLeft.Controls.Add(btnServiceFees);
+            PanalLeft.Controls.Add(btnUsers);
+            PanalLeft.Controls.Add(lblNavSection4);
+            PanalLeft.Controls.Add(btnDrivers);
             PanalLeft.Controls.Add(btnDriversPeople);
             PanalLeft.Controls.Add(lblNavSection3);
             PanalLeft.Controls.Add(btnInternationalLicense);
@@ -355,16 +382,17 @@
             PanalLeft.Controls.Add(ApplicationsButton);
             PanalLeft.Controls.Add(lblNavSection1);
             PanalLeft.Controls.Add(pnlBrand);
-            PanalLeft.CustomizableEdges = customizableEdges37;
+            PanalLeft.CustomizableEdges = customizableEdges51;
             PanalLeft.Dock = DockStyle.Left;
             PanalLeft.Location = new Point(0, 0);
             PanalLeft.Name = "PanalLeft";
-            PanalLeft.ShadowDecoration.CustomizableEdges = customizableEdges38;
+            PanalLeft.ShadowDecoration.CustomizableEdges = customizableEdges52;
             PanalLeft.Size = new Size(224, 684);
             PanalLeft.TabIndex = 0;
             // 
             // pnlUserProfile
             // 
+            pnlUserProfile.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             pnlUserProfile.BackColor = Color.Transparent;
             pnlUserProfile.BorderColor = Color.FromArgb(26, 38, 62);
             pnlUserProfile.BorderRadius = 12;
@@ -373,32 +401,37 @@
             pnlUserProfile.Controls.Add(lblCurrentUserName);
             pnlUserProfile.Controls.Add(lblCurrentUserRole);
             pnlUserProfile.Controls.Add(btnLogout);
-            pnlUserProfile.CustomizableEdges = customizableEdges19;
+            pnlUserProfile.Cursor = Cursors.Hand;
+            pnlUserProfile.CustomizableEdges = customizableEdges27;
             pnlUserProfile.FillColor = Color.FromArgb(16, 24, 44);
-            pnlUserProfile.Location = new Point(12, 606);
+            pnlUserProfile.Location = new Point(12, 610);
             pnlUserProfile.Name = "pnlUserProfile";
-            pnlUserProfile.ShadowDecoration.CustomizableEdges = customizableEdges20;
+            pnlUserProfile.ShadowDecoration.CustomizableEdges = customizableEdges28;
             pnlUserProfile.Size = new Size(200, 62);
-            pnlUserProfile.TabIndex = 16;
+            pnlUserProfile.TabIndex = 21;
+            pnlUserProfile.Click += pnlUserProfile_Click;
             // 
             // btnUserAvatar
             // 
             btnUserAvatar.BorderRadius = 18;
-            btnUserAvatar.CustomizableEdges = customizableEdges15;
+            btnUserAvatar.Cursor = Cursors.Hand;
+            btnUserAvatar.CustomizableEdges = customizableEdges23;
             btnUserAvatar.FillColor = Color.FromArgb(37, 99, 235);
             btnUserAvatar.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnUserAvatar.ForeColor = Color.White;
             btnUserAvatar.Location = new Point(12, 13);
             btnUserAvatar.Name = "btnUserAvatar";
-            btnUserAvatar.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            btnUserAvatar.ShadowDecoration.CustomizableEdges = customizableEdges24;
             btnUserAvatar.Size = new Size(36, 36);
             btnUserAvatar.TabIndex = 0;
             btnUserAvatar.Text = "AA";
+            btnUserAvatar.Click += pnlUserProfile_Click;
             // 
             // lblCurrentUserName
             // 
             lblCurrentUserName.AutoSize = true;
             lblCurrentUserName.BackColor = Color.Transparent;
+            lblCurrentUserName.Cursor = Cursors.Hand;
             lblCurrentUserName.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             lblCurrentUserName.ForeColor = Color.White;
             lblCurrentUserName.Location = new Point(54, 13);
@@ -406,11 +439,13 @@
             lblCurrentUserName.Size = new Size(78, 15);
             lblCurrentUserName.TabIndex = 1;
             lblCurrentUserName.Text = "Adam Admin";
+            lblCurrentUserName.Click += pnlUserProfile_Click;
             // 
             // lblCurrentUserRole
             // 
             lblCurrentUserRole.AutoSize = true;
             lblCurrentUserRole.BackColor = Color.Transparent;
+            lblCurrentUserRole.Cursor = Cursors.Hand;
             lblCurrentUserRole.Font = new Font("Segoe UI", 7.5F);
             lblCurrentUserRole.ForeColor = Color.FromArgb(16, 185, 129);
             lblCurrentUserRole.Location = new Point(54, 32);
@@ -418,12 +453,14 @@
             lblCurrentUserRole.Size = new Size(72, 12);
             lblCurrentUserRole.TabIndex = 2;
             lblCurrentUserRole.Text = "● Administrator";
+            lblCurrentUserRole.Click += pnlUserProfile_Click;
             // 
             // btnLogout
             // 
             btnLogout.BackColor = Color.Transparent;
             btnLogout.BorderRadius = 8;
-            btnLogout.CustomizableEdges = customizableEdges17;
+            btnLogout.Cursor = Cursors.Hand;
+            btnLogout.CustomizableEdges = customizableEdges25;
             btnLogout.FillColor = Color.Transparent;
             btnLogout.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnLogout.ForeColor = Color.FromArgb(148, 163, 184);
@@ -431,7 +468,7 @@
             btnLogout.HoverState.ForeColor = Color.White;
             btnLogout.Location = new Point(160, 17);
             btnLogout.Name = "btnLogout";
-            btnLogout.ShadowDecoration.CustomizableEdges = customizableEdges18;
+            btnLogout.ShadowDecoration.CustomizableEdges = customizableEdges26;
             btnLogout.Size = new Size(28, 28);
             btnLogout.TabIndex = 3;
             btnLogout.Text = "↪";
@@ -439,84 +476,155 @@
             // 
             // lblAppVersion
             // 
+            lblAppVersion.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             lblAppVersion.AutoSize = true;
             lblAppVersion.Font = new Font("Segoe UI", 7.5F);
             lblAppVersion.ForeColor = Color.FromArgb(71, 85, 105);
-            lblAppVersion.Location = new Point(178, 580);
+            lblAppVersion.Location = new Point(178, 592);
             lblAppVersion.Name = "lblAppVersion";
             lblAppVersion.Size = new Size(29, 12);
-            lblAppVersion.TabIndex = 15;
+            lblAppVersion.TabIndex = 20;
             lblAppVersion.Text = "v2.0.0";
             // 
             // lblApiStatus
             // 
+            lblApiStatus.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             lblApiStatus.AutoSize = true;
             lblApiStatus.Font = new Font("Segoe UI", 7.5F);
             lblApiStatus.ForeColor = Color.FromArgb(16, 185, 129);
-            lblApiStatus.Location = new Point(14, 580);
+            lblApiStatus.Location = new Point(14, 592);
             lblApiStatus.Name = "lblApiStatus";
             lblApiStatus.Size = new Size(79, 12);
-            lblApiStatus.TabIndex = 14;
+            lblApiStatus.TabIndex = 19;
             lblApiStatus.Text = "● API connected";
             // 
-            // pnlQuickTip
+            // btnAuditLogs
             // 
-            pnlQuickTip.BackColor = Color.Transparent;
-            pnlQuickTip.BorderColor = Color.FromArgb(26, 38, 62);
-            pnlQuickTip.BorderRadius = 10;
-            pnlQuickTip.BorderThickness = 1;
-            pnlQuickTip.Controls.Add(lblQuickTipTitle);
-            pnlQuickTip.Controls.Add(lblQuickTipText);
-            pnlQuickTip.CustomizableEdges = customizableEdges21;
-            pnlQuickTip.FillColor = Color.FromArgb(16, 24, 44);
-            pnlQuickTip.Location = new Point(12, 494);
-            pnlQuickTip.Name = "pnlQuickTip";
-            pnlQuickTip.ShadowDecoration.CustomizableEdges = customizableEdges22;
-            pnlQuickTip.Size = new Size(200, 74);
-            pnlQuickTip.TabIndex = 13;
+            btnAuditLogs.BorderRadius = 8;
+            btnAuditLogs.Cursor = Cursors.Hand;
+            btnAuditLogs.CustomizableEdges = customizableEdges29;
+            btnAuditLogs.FillColor = Color.Transparent;
+            btnAuditLogs.Font = new Font("Segoe UI", 9F);
+            btnAuditLogs.ForeColor = Color.FromArgb(148, 163, 184);
+            btnAuditLogs.HoverState.FillColor = Color.FromArgb(19, 29, 51);
+            btnAuditLogs.HoverState.ForeColor = Color.White;
+            btnAuditLogs.Image = Properties.Resources.icons8_history_48;
+            btnAuditLogs.ImageAlign = HorizontalAlignment.Left;
+            btnAuditLogs.ImageOffset = new Point(6, 0);
+            btnAuditLogs.ImageSize = new Size(17, 17);
+            btnAuditLogs.Location = new Point(12, 540);
+            btnAuditLogs.Name = "btnAuditLogs";
+            btnAuditLogs.ShadowDecoration.CustomizableEdges = customizableEdges30;
+            btnAuditLogs.Size = new Size(200, 32);
+            btnAuditLogs.TabIndex = 17;
+            btnAuditLogs.Text = "Audit Logs";
+            btnAuditLogs.TextAlign = HorizontalAlignment.Left;
+            btnAuditLogs.TextOffset = new Point(12, 0);
+            btnAuditLogs.Click += btnAuditLogs_Click;
             // 
-            // lblQuickTipTitle
+            // btnServiceFees
             // 
-            lblQuickTipTitle.AutoSize = true;
-            lblQuickTipTitle.BackColor = Color.Transparent;
-            lblQuickTipTitle.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold);
-            lblQuickTipTitle.ForeColor = Color.White;
-            lblQuickTipTitle.Location = new Point(12, 10);
-            lblQuickTipTitle.Name = "lblQuickTipTitle";
-            lblQuickTipTitle.Size = new Size(68, 13);
-            lblQuickTipTitle.TabIndex = 0;
-            lblQuickTipTitle.Text = "💡 Quick tip";
+            btnServiceFees.BorderRadius = 8;
+            btnServiceFees.Cursor = Cursors.Hand;
+            btnServiceFees.CustomizableEdges = customizableEdges31;
+            btnServiceFees.FillColor = Color.Transparent;
+            btnServiceFees.Font = new Font("Segoe UI", 9F);
+            btnServiceFees.ForeColor = Color.FromArgb(148, 163, 184);
+            btnServiceFees.HoverState.FillColor = Color.FromArgb(19, 29, 51);
+            btnServiceFees.HoverState.ForeColor = Color.White;
+            btnServiceFees.Image = Properties.Resources.icons8_note_48;
+            btnServiceFees.ImageAlign = HorizontalAlignment.Left;
+            btnServiceFees.ImageOffset = new Point(6, 0);
+            btnServiceFees.ImageSize = new Size(17, 17);
+            btnServiceFees.Location = new Point(12, 506);
+            btnServiceFees.Name = "btnServiceFees";
+            btnServiceFees.ShadowDecoration.CustomizableEdges = customizableEdges32;
+            btnServiceFees.Size = new Size(200, 32);
+            btnServiceFees.TabIndex = 16;
+            btnServiceFees.Text = "Service Fees";
+            btnServiceFees.TextAlign = HorizontalAlignment.Left;
+            btnServiceFees.TextOffset = new Point(12, 0);
+            btnServiceFees.Click += btnServiceFees_Click;
             // 
-            // lblQuickTipText
+            // btnUsers
             // 
-            lblQuickTipText.BackColor = Color.Transparent;
-            lblQuickTipText.Font = new Font("Segoe UI", 7.5F);
-            lblQuickTipText.ForeColor = Color.FromArgb(100, 116, 139);
-            lblQuickTipText.Location = new Point(12, 28);
-            lblQuickTipText.Name = "lblQuickTipText";
-            lblQuickTipText.Size = new Size(176, 36);
-            lblQuickTipText.TabIndex = 1;
-            lblQuickTipText.Text = "Right-click a row to schedule, renew or cancel.";
+            btnUsers.BorderRadius = 8;
+            btnUsers.Cursor = Cursors.Hand;
+            btnUsers.CustomizableEdges = customizableEdges33;
+            btnUsers.FillColor = Color.Transparent;
+            btnUsers.Font = new Font("Segoe UI", 9F);
+            btnUsers.ForeColor = Color.FromArgb(148, 163, 184);
+            btnUsers.HoverState.FillColor = Color.FromArgb(19, 29, 51);
+            btnUsers.HoverState.ForeColor = Color.White;
+            btnUsers.Image = Properties.Resources.icons8_services_32;
+            btnUsers.ImageAlign = HorizontalAlignment.Left;
+            btnUsers.ImageOffset = new Point(6, 0);
+            btnUsers.ImageSize = new Size(17, 17);
+            btnUsers.Location = new Point(12, 472);
+            btnUsers.Name = "btnUsers";
+            btnUsers.ShadowDecoration.CustomizableEdges = customizableEdges34;
+            btnUsers.Size = new Size(200, 32);
+            btnUsers.TabIndex = 15;
+            btnUsers.Text = "Users";
+            btnUsers.TextAlign = HorizontalAlignment.Left;
+            btnUsers.TextOffset = new Point(12, 0);
+            btnUsers.Click += btnUsers_Click;
+            // 
+            // lblNavSection4
+            // 
+            lblNavSection4.AutoSize = true;
+            lblNavSection4.Font = new Font("Segoe UI Semibold", 7F, FontStyle.Bold);
+            lblNavSection4.ForeColor = Color.FromArgb(100, 116, 139);
+            lblNavSection4.Location = new Point(18, 454);
+            lblNavSection4.Name = "lblNavSection4";
+            lblNavSection4.Size = new Size(90, 12);
+            lblNavSection4.TabIndex = 14;
+            lblNavSection4.Text = "ADMINISTRATION";
+            // 
+            // btnDrivers
+            // 
+            btnDrivers.BorderRadius = 8;
+            btnDrivers.Cursor = Cursors.Hand;
+            btnDrivers.CustomizableEdges = customizableEdges35;
+            btnDrivers.FillColor = Color.Transparent;
+            btnDrivers.Font = new Font("Segoe UI", 9F);
+            btnDrivers.ForeColor = Color.FromArgb(148, 163, 184);
+            btnDrivers.HoverState.FillColor = Color.FromArgb(19, 29, 51);
+            btnDrivers.HoverState.ForeColor = Color.White;
+            btnDrivers.Image = Properties.Resources.icons8_car_48;
+            btnDrivers.ImageAlign = HorizontalAlignment.Left;
+            btnDrivers.ImageOffset = new Point(6, 0);
+            btnDrivers.ImageSize = new Size(17, 17);
+            btnDrivers.Location = new Point(12, 412);
+            btnDrivers.Name = "btnDrivers";
+            btnDrivers.ShadowDecoration.CustomizableEdges = customizableEdges36;
+            btnDrivers.Size = new Size(200, 32);
+            btnDrivers.TabIndex = 13;
+            btnDrivers.Text = "Drivers";
+            btnDrivers.TextAlign = HorizontalAlignment.Left;
+            btnDrivers.TextOffset = new Point(12, 0);
+            btnDrivers.Click += btnDrivers_Click;
             // 
             // btnDriversPeople
             // 
             btnDriversPeople.BorderRadius = 8;
-            btnDriversPeople.CustomizableEdges = customizableEdges23;
+            btnDriversPeople.Cursor = Cursors.Hand;
+            btnDriversPeople.CustomizableEdges = customizableEdges37;
             btnDriversPeople.FillColor = Color.Transparent;
-            btnDriversPeople.Font = new Font("Segoe UI", 9.25F);
+            btnDriversPeople.Font = new Font("Segoe UI", 9F);
             btnDriversPeople.ForeColor = Color.FromArgb(148, 163, 184);
             btnDriversPeople.HoverState.FillColor = Color.FromArgb(19, 29, 51);
             btnDriversPeople.HoverState.ForeColor = Color.White;
             btnDriversPeople.Image = Properties.Resources.icons8_driver_48;
             btnDriversPeople.ImageAlign = HorizontalAlignment.Left;
             btnDriversPeople.ImageOffset = new Point(6, 0);
-            btnDriversPeople.ImageSize = new Size(18, 18);
-            btnDriversPeople.Location = new Point(12, 412);
+            btnDriversPeople.ImageSize = new Size(17, 17);
+            btnDriversPeople.Location = new Point(12, 378);
             btnDriversPeople.Name = "btnDriversPeople";
-            btnDriversPeople.ShadowDecoration.CustomizableEdges = customizableEdges24;
-            btnDriversPeople.Size = new Size(200, 36);
+            btnDriversPeople.ShadowDecoration.CustomizableEdges = customizableEdges38;
+            btnDriversPeople.Size = new Size(200, 32);
             btnDriversPeople.TabIndex = 12;
-            btnDriversPeople.Text = "People & Drivers";
+            btnDriversPeople.Text = "People";
             btnDriversPeople.TextAlign = HorizontalAlignment.Left;
             btnDriversPeople.TextOffset = new Point(12, 0);
             btnDriversPeople.Click += btnDriversPeople_Click;
@@ -526,7 +634,7 @@
             lblNavSection3.AutoSize = true;
             lblNavSection3.Font = new Font("Segoe UI Semibold", 7F, FontStyle.Bold);
             lblNavSection3.ForeColor = Color.FromArgb(100, 116, 139);
-            lblNavSection3.Location = new Point(18, 392);
+            lblNavSection3.Location = new Point(18, 360);
             lblNavSection3.Name = "lblNavSection3";
             lblNavSection3.Size = new Size(65, 12);
             lblNavSection3.TabIndex = 11;
@@ -535,20 +643,21 @@
             // btnInternationalLicense
             // 
             btnInternationalLicense.BorderRadius = 8;
-            btnInternationalLicense.CustomizableEdges = customizableEdges25;
+            btnInternationalLicense.Cursor = Cursors.Hand;
+            btnInternationalLicense.CustomizableEdges = customizableEdges39;
             btnInternationalLicense.FillColor = Color.Transparent;
-            btnInternationalLicense.Font = new Font("Segoe UI", 9.25F);
+            btnInternationalLicense.Font = new Font("Segoe UI", 9F);
             btnInternationalLicense.ForeColor = Color.FromArgb(148, 163, 184);
             btnInternationalLicense.HoverState.FillColor = Color.FromArgb(19, 29, 51);
             btnInternationalLicense.HoverState.ForeColor = Color.White;
             btnInternationalLicense.Image = Properties.Resources.icons8_international_48;
             btnInternationalLicense.ImageAlign = HorizontalAlignment.Left;
             btnInternationalLicense.ImageOffset = new Point(6, 0);
-            btnInternationalLicense.ImageSize = new Size(18, 18);
-            btnInternationalLicense.Location = new Point(12, 341);
+            btnInternationalLicense.ImageSize = new Size(17, 17);
+            btnInternationalLicense.Location = new Point(12, 318);
             btnInternationalLicense.Name = "btnInternationalLicense";
-            btnInternationalLicense.ShadowDecoration.CustomizableEdges = customizableEdges26;
-            btnInternationalLicense.Size = new Size(200, 36);
+            btnInternationalLicense.ShadowDecoration.CustomizableEdges = customizableEdges40;
+            btnInternationalLicense.Size = new Size(200, 32);
             btnInternationalLicense.TabIndex = 10;
             btnInternationalLicense.Text = "International Permit";
             btnInternationalLicense.TextAlign = HorizontalAlignment.Left;
@@ -558,20 +667,21 @@
             // btnDetainRelease
             // 
             btnDetainRelease.BorderRadius = 8;
-            btnDetainRelease.CustomizableEdges = customizableEdges27;
+            btnDetainRelease.Cursor = Cursors.Hand;
+            btnDetainRelease.CustomizableEdges = customizableEdges41;
             btnDetainRelease.FillColor = Color.Transparent;
-            btnDetainRelease.Font = new Font("Segoe UI", 9.25F);
+            btnDetainRelease.Font = new Font("Segoe UI", 9F);
             btnDetainRelease.ForeColor = Color.FromArgb(148, 163, 184);
             btnDetainRelease.HoverState.FillColor = Color.FromArgb(19, 29, 51);
             btnDetainRelease.HoverState.ForeColor = Color.White;
             btnDetainRelease.Image = Properties.Resources.icons8_id_card_48;
             btnDetainRelease.ImageAlign = HorizontalAlignment.Left;
             btnDetainRelease.ImageOffset = new Point(6, 0);
-            btnDetainRelease.ImageSize = new Size(18, 18);
-            btnDetainRelease.Location = new Point(12, 302);
+            btnDetainRelease.ImageSize = new Size(17, 17);
+            btnDetainRelease.Location = new Point(12, 284);
             btnDetainRelease.Name = "btnDetainRelease";
-            btnDetainRelease.ShadowDecoration.CustomizableEdges = customizableEdges28;
-            btnDetainRelease.Size = new Size(200, 36);
+            btnDetainRelease.ShadowDecoration.CustomizableEdges = customizableEdges42;
+            btnDetainRelease.Size = new Size(200, 32);
             btnDetainRelease.TabIndex = 9;
             btnDetainRelease.Text = "Detain & Release";
             btnDetainRelease.TextAlign = HorizontalAlignment.Left;
@@ -581,20 +691,21 @@
             // btnReplaceLicense
             // 
             btnReplaceLicense.BorderRadius = 8;
-            btnReplaceLicense.CustomizableEdges = customizableEdges29;
+            btnReplaceLicense.Cursor = Cursors.Hand;
+            btnReplaceLicense.CustomizableEdges = customizableEdges43;
             btnReplaceLicense.FillColor = Color.Transparent;
-            btnReplaceLicense.Font = new Font("Segoe UI", 9.25F);
+            btnReplaceLicense.Font = new Font("Segoe UI", 9F);
             btnReplaceLicense.ForeColor = Color.FromArgb(148, 163, 184);
             btnReplaceLicense.HoverState.FillColor = Color.FromArgb(19, 29, 51);
             btnReplaceLicense.HoverState.ForeColor = Color.White;
             btnReplaceLicense.Image = Properties.Resources.icons8_replace_48;
             btnReplaceLicense.ImageAlign = HorizontalAlignment.Left;
             btnReplaceLicense.ImageOffset = new Point(6, 0);
-            btnReplaceLicense.ImageSize = new Size(18, 18);
-            btnReplaceLicense.Location = new Point(12, 263);
+            btnReplaceLicense.ImageSize = new Size(17, 17);
+            btnReplaceLicense.Location = new Point(12, 250);
             btnReplaceLicense.Name = "btnReplaceLicense";
-            btnReplaceLicense.ShadowDecoration.CustomizableEdges = customizableEdges30;
-            btnReplaceLicense.Size = new Size(200, 36);
+            btnReplaceLicense.ShadowDecoration.CustomizableEdges = customizableEdges44;
+            btnReplaceLicense.Size = new Size(200, 32);
             btnReplaceLicense.TabIndex = 8;
             btnReplaceLicense.Text = "Replace License";
             btnReplaceLicense.TextAlign = HorizontalAlignment.Left;
@@ -604,20 +715,21 @@
             // btnRenewLicense
             // 
             btnRenewLicense.BorderRadius = 8;
-            btnRenewLicense.CustomizableEdges = customizableEdges31;
+            btnRenewLicense.Cursor = Cursors.Hand;
+            btnRenewLicense.CustomizableEdges = customizableEdges45;
             btnRenewLicense.FillColor = Color.Transparent;
-            btnRenewLicense.Font = new Font("Segoe UI", 9.25F);
+            btnRenewLicense.Font = new Font("Segoe UI", 9F);
             btnRenewLicense.ForeColor = Color.FromArgb(148, 163, 184);
             btnRenewLicense.HoverState.FillColor = Color.FromArgb(19, 29, 51);
             btnRenewLicense.HoverState.ForeColor = Color.White;
             btnRenewLicense.Image = Properties.Resources.icons8_renew_48;
             btnRenewLicense.ImageAlign = HorizontalAlignment.Left;
             btnRenewLicense.ImageOffset = new Point(6, 0);
-            btnRenewLicense.ImageSize = new Size(18, 18);
-            btnRenewLicense.Location = new Point(12, 224);
+            btnRenewLicense.ImageSize = new Size(17, 17);
+            btnRenewLicense.Location = new Point(12, 216);
             btnRenewLicense.Name = "btnRenewLicense";
-            btnRenewLicense.ShadowDecoration.CustomizableEdges = customizableEdges32;
-            btnRenewLicense.Size = new Size(200, 36);
+            btnRenewLicense.ShadowDecoration.CustomizableEdges = customizableEdges46;
+            btnRenewLicense.Size = new Size(200, 32);
             btnRenewLicense.TabIndex = 7;
             btnRenewLicense.Text = "Renew License";
             btnRenewLicense.TextAlign = HorizontalAlignment.Left;
@@ -629,7 +741,7 @@
             lblNavSection2.AutoSize = true;
             lblNavSection2.Font = new Font("Segoe UI Semibold", 7F, FontStyle.Bold);
             lblNavSection2.ForeColor = Color.FromArgb(100, 116, 139);
-            lblNavSection2.Location = new Point(18, 204);
+            lblNavSection2.Location = new Point(18, 198);
             lblNavSection2.Name = "lblNavSection2";
             lblNavSection2.Size = new Size(86, 12);
             lblNavSection2.TabIndex = 6;
@@ -638,20 +750,21 @@
             // btnTestAppointments
             // 
             btnTestAppointments.BorderRadius = 8;
-            btnTestAppointments.CustomizableEdges = customizableEdges33;
+            btnTestAppointments.Cursor = Cursors.Hand;
+            btnTestAppointments.CustomizableEdges = customizableEdges47;
             btnTestAppointments.FillColor = Color.Transparent;
-            btnTestAppointments.Font = new Font("Segoe UI", 9.25F);
+            btnTestAppointments.Font = new Font("Segoe UI", 9F);
             btnTestAppointments.ForeColor = Color.FromArgb(148, 163, 184);
             btnTestAppointments.HoverState.FillColor = Color.FromArgb(19, 29, 51);
             btnTestAppointments.HoverState.ForeColor = Color.White;
             btnTestAppointments.Image = Properties.Resources.icons8_test_48;
             btnTestAppointments.ImageAlign = HorizontalAlignment.Left;
             btnTestAppointments.ImageOffset = new Point(6, 0);
-            btnTestAppointments.ImageSize = new Size(18, 18);
-            btnTestAppointments.Location = new Point(12, 152);
+            btnTestAppointments.ImageSize = new Size(17, 17);
+            btnTestAppointments.Location = new Point(12, 138);
             btnTestAppointments.Name = "btnTestAppointments";
-            btnTestAppointments.ShadowDecoration.CustomizableEdges = customizableEdges34;
-            btnTestAppointments.Size = new Size(200, 38);
+            btnTestAppointments.ShadowDecoration.CustomizableEdges = customizableEdges48;
+            btnTestAppointments.Size = new Size(200, 34);
             btnTestAppointments.TabIndex = 5;
             btnTestAppointments.Text = "Test Appointments";
             btnTestAppointments.TextAlign = HorizontalAlignment.Left;
@@ -661,20 +774,21 @@
             // ApplicationsButton
             // 
             ApplicationsButton.BorderRadius = 8;
-            ApplicationsButton.CustomizableEdges = customizableEdges35;
+            ApplicationsButton.Cursor = Cursors.Hand;
+            ApplicationsButton.CustomizableEdges = customizableEdges49;
             ApplicationsButton.FillColor = Color.FromArgb(23, 37, 68);
-            ApplicationsButton.Font = new Font("Segoe UI Semibold", 9.25F, FontStyle.Bold);
+            ApplicationsButton.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             ApplicationsButton.ForeColor = Color.White;
             ApplicationsButton.HoverState.FillColor = Color.FromArgb(28, 45, 82);
             ApplicationsButton.HoverState.ForeColor = Color.White;
             ApplicationsButton.Image = Properties.Resources.icons8_services_30__2_;
             ApplicationsButton.ImageAlign = HorizontalAlignment.Left;
             ApplicationsButton.ImageOffset = new Point(6, 0);
-            ApplicationsButton.ImageSize = new Size(18, 18);
-            ApplicationsButton.Location = new Point(12, 110);
+            ApplicationsButton.ImageSize = new Size(17, 17);
+            ApplicationsButton.Location = new Point(12, 102);
             ApplicationsButton.Name = "ApplicationsButton";
-            ApplicationsButton.ShadowDecoration.CustomizableEdges = customizableEdges36;
-            ApplicationsButton.Size = new Size(200, 38);
+            ApplicationsButton.ShadowDecoration.CustomizableEdges = customizableEdges50;
+            ApplicationsButton.Size = new Size(200, 34);
             ApplicationsButton.TabIndex = 4;
             ApplicationsButton.Text = "Applications";
             ApplicationsButton.TextAlign = HorizontalAlignment.Left;
@@ -686,7 +800,7 @@
             lblNavSection1.AutoSize = true;
             lblNavSection1.Font = new Font("Segoe UI Semibold", 7F, FontStyle.Bold);
             lblNavSection1.ForeColor = Color.FromArgb(100, 116, 139);
-            lblNavSection1.Location = new Point(18, 90);
+            lblNavSection1.Location = new Point(18, 84);
             lblNavSection1.Name = "lblNavSection1";
             lblNavSection1.Size = new Size(66, 12);
             lblNavSection1.TabIndex = 3;
@@ -767,8 +881,6 @@
             PanalLeft.PerformLayout();
             pnlUserProfile.ResumeLayout(false);
             pnlUserProfile.PerformLayout();
-            pnlQuickTip.ResumeLayout(false);
-            pnlQuickTip.PerformLayout();
             pnlBrand.ResumeLayout(false);
             pnlBrand.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -801,11 +913,11 @@
         private Guna.UI2.WinForms.Guna2Button btnInternationalLicense;
         private System.Windows.Forms.Label lblNavSection3;
         private Guna.UI2.WinForms.Guna2Button btnDriversPeople;
-
-        // Quick Tip & Status Controls
-        private Guna.UI2.WinForms.Guna2Panel pnlQuickTip;
-        private System.Windows.Forms.Label lblQuickTipTitle;
-        private System.Windows.Forms.Label lblQuickTipText;
+        private Guna.UI2.WinForms.Guna2Button btnDrivers;
+        private System.Windows.Forms.Label lblNavSection4;
+        private Guna.UI2.WinForms.Guna2Button btnUsers;
+        private Guna.UI2.WinForms.Guna2Button btnServiceFees;
+        private Guna.UI2.WinForms.Guna2Button btnAuditLogs;
         private System.Windows.Forms.Label lblApiStatus;
         private System.Windows.Forms.Label lblAppVersion;
 

@@ -22,6 +22,7 @@ namespace DVLD.WinForms.Features.Dashboard
         {
             _view = view;
             _view.OnLoadApplicationsClicked += (s, e) => LoadApplicationsControl();
+            _view.OnAccountSettingsClicked += (s, e) => OpenAccountSettings();
 
             _view.OnBackClicked += (s, e) => _navigationService.GoBack();
             _view.OnForwardClicked += (s, e) => _navigationService.GoForward();
@@ -34,6 +35,8 @@ namespace DVLD.WinForms.Features.Dashboard
 
             _refreshTokenService.OnSessionExpired += HandleSessionExpired;
 
+            InitializeCurrentUserBadge();
+
             if (_view is Form dashboardForm)
             {
                 dashboardForm.FormClosed += (s, e) =>
@@ -42,6 +45,32 @@ namespace DVLD.WinForms.Features.Dashboard
                     _refreshTokenService.OnSessionExpired -= HandleSessionExpired;
                 };
             }
+        }
+
+        private void InitializeCurrentUserBadge()
+        {
+            if (_view == null) return;
+
+            string displayName = string.IsNullOrWhiteSpace(_session.Username)
+                ? "Adam Admin"
+                : _session.Username;
+
+            string roleText = _session.IsAdmin ? "● Administrator" : $"● {_session.Role}";
+
+            var parts = displayName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            string initials = parts.Length switch
+            {
+                0 => "AD",
+                1 => parts[0].Length >= 2 ? parts[0][..2].ToUpperInvariant() : parts[0].ToUpperInvariant(),
+                _ => $"{parts[0][0]}{parts[^1][0]}".ToUpperInvariant()
+            };
+
+            _view.SetCurrentUserProfile(displayName, roleText, initials);
+        }
+
+        private void OpenAccountSettings()
+        {
+            _navigationService.NavigateTo<SettingsPresenter, ISettingsView>();
         }
 
         private void HandleHistoryChanged(object? sender, EventArgs e)

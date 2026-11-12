@@ -3,17 +3,9 @@ using DVLD.Contracts.LocalLicenseApplications;
 using DVLD.WinForms.Shared.Enums;
 using DVLD.WinForms.Shared.Events;
 using DVLD.WinForms.Shared.Helpers;
-using Guna.UI2.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Data.Common;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DVLD.WinForms.Features.Applications
@@ -31,17 +23,34 @@ namespace DVLD.WinForms.Features.Applications
         public event EventHandler<int>? ShowLicenceRequested;
 
         public event EventHandler<PageModeEventArgs> OnApplicationDetailsRequested;
-
         public event EventHandler<ScheduleTestEventArgs> OnScheduleTestRequested;
+
+        private int displayedPage = 1;
+        private int displayedTotalPages = 1;
+        private bool paginationLoading;
 
         public ApplicationsControl()
         {
             InitializeComponent();
-            InitializeAppearance();
-            //LocalDataGridView.AutoGenerateColumns = false;
+            ApplicationsUIHelper.Configure(
+                LocalDataGridView,
+                paginationFooter,
+                LocalAppActionMenu,
+                CancelApplication,
+                DeleteApplication);
+            InitializeViewEvents();
             LoadStatusComboBox();
-            LocalAppActionMenu.DropShadowEnabled = true;
+        }
 
+        private void InitializeViewEvents()
+        {
+            previousPageButton.Click += (_, _) => OnPageRequested?.Invoke(this, displayedPage - 1);
+            nextPageButton.Click += (_, _) => OnPageRequested?.Invoke(this, displayedPage + 1);
+
+            LocalDataGridView.CellMouseDown += SelectContextRow;
+            LocalDataGridView.CellDoubleClick += OpenRowOnDoubleClick;
+            LocalDataGridView.RowsAdded += (_, _) => UpdateLoadedRecordCount();
+            LocalDataGridView.RowsRemoved += (_, _) => UpdateLoadedRecordCount();
         }
 
         public string SearchTerm => this.txtSearch.Text;
@@ -65,7 +74,6 @@ namespace DVLD.WinForms.Features.Applications
 
             foreach (var app in localApplications)
             {
-
                 int rowIndex = LocalDataGridView.Rows.Add();
 
                 LocalDataGridView.Rows[rowIndex].Cells["LocalID"].Value = app.LocalApplicationId;
@@ -78,37 +86,34 @@ namespace DVLD.WinForms.Features.Applications
                 LocalDataGridView.Rows[rowIndex].Cells["PassedTest"].Value = $"{app.PassedTest}/3";
                 LocalDataGridView.Rows[rowIndex].Cells["PassedTestId"].Value = app.PassedTest;
             }
+        }
 
+        private void UpdateLoadedRecordCount()
+        {
+            recordsLabel.Text = $"Showing {LocalDataGridView.Rows.Count} records";
+            if (LocalDataGridView.Rows.Count > 0)
+                lblMessage.Visible = false;
+        }
 
+        public void DisplayPagination(int pageNumber, int totalPages, int totalCount)
+        {
+            displayedPage = pageNumber;
+            displayedTotalPages = Math.Max(1, totalPages);
+            currentPageButton.Text = displayedPage.ToString();
+            recordsLabel.Text = $"Showing {LocalDataGridView.Rows.Count} of {totalCount} records";
+            SetPaginationLoading(paginationLoading);
+        }
+
+        public void SetPaginationLoading(bool isLoading)
+        {
+            paginationLoading = isLoading;
+            previousPageButton.Enabled = !isLoading && displayedPage > 1;
+            nextPageButton.Enabled = !isLoading && displayedPage < displayedTotalPages;
         }
 
         private void ApplicationsControl_Load(object sender, EventArgs e)
         {
             OnLoadDataRequested?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void LocalDataGridView_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            // Ignore headers or empty rows
-            if (e.RowIndex < 0 || e.ColumnIndex < 0 || e.Value == null) return;
-
-            // Turn on Anti-Aliasing for smooth circles and edges
-            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-
-            // Delegate to our Helper Class based on YOUR specific column names!
-            if (LocalDataGridView.Columns[e.ColumnIndex].Name == "Status")
-            {
-                DataGridViewUIHelper.DrawStatusBadge(e);
-            }
-            else if (LocalDataGridView.Columns[e.ColumnIndex].Name == "FullName")
-            {
-                DataGridViewUIHelper.DrawAvatarAndName(e);
-            }
-
-            else if (LocalDataGridView.Columns[e.ColumnIndex].Name == "PassedTest")
-            {
-                DataGridViewUIHelper.DrawProgressBar(e);
-            }
         }
 
         private void LoadStatusComboBox()
@@ -142,6 +147,20 @@ namespace DVLD.WinForms.Features.Applications
             lblMessage.Visible = true;
         }
 
+        private void SelectContextRow(object? sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+                LocalDataGridView.CurrentCell = LocalDataGridView.Rows[e.RowIndex].Cells["LocalID"];
+        }
+
+        private void OpenRowOnDoubleClick(object? sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            ShowApplication_Click(sender ?? this, EventArgs.Empty);
+        }
+
+        // --- Context Menu Handlers ---
+
         private void LocalAppActionMenu_Opening(object sender, CancelEventArgs e)
         {
             if (LocalDataGridView.SelectedRows.Count == 0)
@@ -163,10 +182,8 @@ namespace DVLD.WinForms.Features.Applications
                 int.TryParse(row.Cells["PassedTestId"].Value.ToString(), out PassedTestId);
             }
 
-
             OnOpeningLocalAppActionMenu?.Invoke(this, new ApplicationMenuEventArgs
                                         ((ApplicationStatusEnum)status, (PassedTestEnum)PassedTestId));
-
         }
 
         private int SelectedRow(string column)
@@ -186,7 +203,7 @@ namespace DVLD.WinForms.Features.Applications
         {
             OnApplicationDetailsRequested?.Invoke(sender,
                     new PageModeEventArgs(
-                                SelectedRow("LocalId"),
+                                SelectedRow("LocalID"),
                                 StatusMode.ViewMode));
         }
 
@@ -194,25 +211,25 @@ namespace DVLD.WinForms.Features.Applications
         {
             OnApplicationDetailsRequested?.Invoke(sender,
                     new PageModeEventArgs(
-                                SelectedRow("LocalId"),
+                                SelectedRow("LocalID"),
                                 StatusMode.EditMode));
         }
 
         private void CancelApplication_Click(object sender, EventArgs e)
         {
-            OnCancelApplication?.Invoke(sender, SelectedRow("ApplicationId"));
+            OnCancelApplication?.Invoke(sender, SelectedRow("LocalID"));
         }
 
         private void DeleteApplication_Click(object sender, EventArgs e)
         {
-            OnDeleteApplication?.Invoke(sender, SelectedRow("LocalId"));
+            OnDeleteApplication?.Invoke(sender, SelectedRow("LocalID"));
         }
 
         private void ScheduleVisionTest_Click(object sender, EventArgs e)
         {
             OnScheduleTestRequested?.Invoke(sender,
                 new ScheduleTestEventArgs(
-                                    SelectedRow("LocalId"),
+                                    SelectedRow("LocalID"),
                                     TestTypeEnum.VisionTest));
         }
 
@@ -225,7 +242,7 @@ namespace DVLD.WinForms.Features.Applications
         {
             OnScheduleTestRequested?.Invoke(sender,
                 new ScheduleTestEventArgs(
-                                    SelectedRow("LocalId"),
+                                    SelectedRow("LocalID"),
                                     TestTypeEnum.WrittenTest));
         }
 
@@ -233,13 +250,13 @@ namespace DVLD.WinForms.Features.Applications
         {
             OnScheduleTestRequested?.Invoke(sender,
                 new ScheduleTestEventArgs(
-                                    SelectedRow("LocalId"),
+                                    SelectedRow("LocalID"),
                                     TestTypeEnum.StreetTest));
         }
 
         private void IssueDrivingLicence_Click(object sender, EventArgs e)
         {
-            IssueDrivingLicenceRequested?.Invoke(sender, SelectedRow("LocalId"));
+            IssueDrivingLicenceRequested?.Invoke(sender, SelectedRow("LocalID"));
         }
 
         private void ShowLicence_Click(object sender, EventArgs e)
@@ -247,7 +264,7 @@ namespace DVLD.WinForms.Features.Applications
             if (LocalDataGridView.SelectedRows.Count == 0)
                 return;
 
-            int localApplicationId = SelectedRow("LocalId");
+            int localApplicationId = SelectedRow("LocalID");
             if (localApplicationId <= 0)
             {
                 DisplayMessage("Select a valid local driving licence application.");

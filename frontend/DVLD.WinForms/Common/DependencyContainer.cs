@@ -85,6 +85,10 @@ namespace DVLD.WinForms.Common
             services.AddTransient<IRecordTestResultView, RecordTestResultControl>();
             services.AddTransient<RecordTestResultPresenter>();
 
+            services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<ISettingsView, SettingsControl>();
+            services.AddTransient<SettingsPresenter>();
+
             services.AddTransient<PersonCardForm>();
             services.AddTransient<LicenseCardForm>();
 

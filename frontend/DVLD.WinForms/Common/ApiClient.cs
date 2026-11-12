@@ -94,6 +94,15 @@ namespace DVLD.WinForms.Common
             return await ProcessResponse<T>(response);
         }
 
+        public async Task<ApiResponse<T>> PatchAsync<T>(string endpoint, object data)
+        {
+            var response = await SendWithRefreshAsync(() => new HttpRequestMessage(HttpMethod.Patch, endpoint)
+            {
+                Content = JsonContent.Create(data)
+            });
+            return await ProcessResponse<T>(response);
+        }
+
         public async Task<ApiResponse<T>> DeleteAsync<T>(string endpoint)
         {
             var response = await SendWithRefreshAsync(() => new HttpRequestMessage(HttpMethod.Delete, endpoint));

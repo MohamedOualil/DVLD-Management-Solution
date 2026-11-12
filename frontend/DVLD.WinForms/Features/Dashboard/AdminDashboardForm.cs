@@ -10,6 +10,7 @@ namespace DVLD.WinForms.Features.Dashboard
     public partial class AdminDashboardForm : Form, IAdminDashboardView
     {
         public event EventHandler? OnLoadApplicationsClicked;
+        public event EventHandler? OnAccountSettingsClicked;
         public event EventHandler? OnLogoutClicked;
         public event EventHandler? OnBackClicked;
         public event EventHandler? OnForwardClicked;
@@ -67,7 +68,36 @@ namespace DVLD.WinForms.Features.Dashboard
 
         private void btnDriversPeople_Click(object sender, EventArgs e)
         {
-            SelectNavigationButton(btnDriversPeople, "DVLD  /  DIRECTORIES", "People & Drivers");
+            SelectNavigationButton(btnDriversPeople, "DVLD  /  DIRECTORIES", "People");
+        }
+
+        private void btnDrivers_Click(object sender, EventArgs e)
+        {
+            SelectNavigationButton(btnDrivers, "DVLD  /  DIRECTORIES", "Drivers");
+        }
+
+        private void btnUsers_Click(object sender, EventArgs e)
+        {
+            SelectNavigationButton(btnUsers, "DVLD  /  ADMINISTRATION", "Settings");
+            OnAccountSettingsClicked?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void btnServiceFees_Click(object sender, EventArgs e)
+        {
+            SelectNavigationButton(btnServiceFees, "DVLD  /  ADMINISTRATION", "Service Fees & Types");
+        }
+
+        private void btnAuditLogs_Click(object sender, EventArgs e)
+        {
+            SelectNavigationButton(btnAuditLogs, "DVLD  /  ADMINISTRATION", "Audit Logs");
+        }
+
+        private void pnlUserProfile_Click(object sender, EventArgs e)
+        {
+            lblPageSubtitle.Text = "DVLD  /  ACCOUNT";
+            lblPageTitle.Text = "Settings";
+            ResetAllSidebarButtons();
+            OnAccountSettingsClicked?.Invoke(this, EventArgs.Empty);
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -92,6 +122,13 @@ namespace DVLD.WinForms.Features.Dashboard
             OnRefreshClicked?.Invoke(this, EventArgs.Empty);
         }
 
+        public void SetCurrentUserProfile(string displayName, string roleText, string initials)
+        {
+            lblCurrentUserName.Text = displayName;
+            lblCurrentUserRole.Text = roleText;
+            btnUserAvatar.Text = initials;
+        }
+
         public void UpdateNavigationButtons(bool canGoBack, bool canGoForward)
         {
             btnNavBack.Enabled = canGoBack;
@@ -105,6 +142,12 @@ namespace DVLD.WinForms.Features.Dashboard
             if (presenterType == typeof(ApplicationsPresenter))
             {
                 SelectNavigationButton(ApplicationsButton, "DVLD  /  OPERATIONS", "Applications");
+            }
+            else if (presenterType == typeof(SettingsPresenter))
+            {
+                lblPageSubtitle.Text = "DVLD  /  ACCOUNT";
+                lblPageTitle.Text = "Settings";
+                ResetAllSidebarButtons();
             }
         }
 
@@ -201,6 +244,15 @@ namespace DVLD.WinForms.Features.Dashboard
             lblPageTitle.Text = pageTitle;
 
             // 2. Reset all sidebar buttons to default (inactive) style
+            ResetAllSidebarButtons();
+
+            // 3. Highlight the clicked button as active
+            selectedButton.FillColor = Color.FromArgb(23, 37, 68);
+            selectedButton.ForeColor = Color.White;
+        }
+
+        private void ResetAllSidebarButtons()
+        {
             ResetButtonStyle(ApplicationsButton);
             ResetButtonStyle(btnTestAppointments);
             ResetButtonStyle(btnRenewLicense);
@@ -208,10 +260,10 @@ namespace DVLD.WinForms.Features.Dashboard
             ResetButtonStyle(btnDetainRelease);
             ResetButtonStyle(btnInternationalLicense);
             ResetButtonStyle(btnDriversPeople);
-
-            // 3. Highlight the clicked button as active
-            selectedButton.FillColor = Color.FromArgb(23, 37, 68);
-            selectedButton.ForeColor = Color.White;
+            ResetButtonStyle(btnDrivers);
+            ResetButtonStyle(btnUsers);
+            ResetButtonStyle(btnServiceFees);
+            ResetButtonStyle(btnAuditLogs);
         }
 
         private void ResetButtonStyle(Guna2Button button)
