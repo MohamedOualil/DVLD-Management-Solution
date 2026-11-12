@@ -23,7 +23,6 @@ namespace DVLD.WinForms.Features.Applications.Detail
     {
         public event EventHandler CanacleApplicationRequest;
         public event EventHandler ShowLicenses;
-        public event EventHandler BackToApplications;
 
         public event EventHandler SaveEditApplicationRequest;
         public string ApplicationId { set => lblApplicationID.Text = value; get => lblApplicationID.Text; }
@@ -159,10 +158,7 @@ namespace DVLD.WinForms.Features.Applications.Detail
             ShowLicenses?.Invoke(this, EventArgs.Empty);
         }
 
-        private void BackButton_Click(object sender, EventArgs e)
-        {
-            BackToApplications?.Invoke(this, EventArgs.Empty);
-        }
+
     }
 
 

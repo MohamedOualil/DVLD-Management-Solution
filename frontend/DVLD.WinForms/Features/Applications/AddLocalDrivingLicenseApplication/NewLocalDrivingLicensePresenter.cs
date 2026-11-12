@@ -59,7 +59,7 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
                 if (_saveUncertain ||
                     _step != enButtonStatus.ApplicantInfoStep)
                 {
-                    ReturnToApplicationsList();
+                    _navigationService.GoBack();
                     return;
                 }
 
@@ -85,7 +85,7 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
             {
                 if (_step == enButtonStatus.CreateApplication)
                 {
-                    ReturnToApplicationsList();
+                    _navigationService.GoBack();
                     return;
                 }
 
@@ -190,10 +190,7 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
             View.ShowCreatedApplication(response.Data);
         }
 
-        private void ReturnToApplicationsList()
-        {
-            _navigationService.NavigateTo<ApplicationsPresenter, IApplicationsView>();
-        }
+
 
         public void LoadPersonInfoStep()
         {

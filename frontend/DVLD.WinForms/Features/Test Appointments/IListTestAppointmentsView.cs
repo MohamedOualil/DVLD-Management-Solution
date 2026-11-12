@@ -10,7 +10,7 @@ namespace DVLD.WinForms.Features.Test_Appointments
     public interface IListTestAppointmentsView
     {
         event EventHandler CreateAppointmentRequested;
-        event EventHandler BackRequested;
+
         event EventHandler<int>? RecordResultRequested;
         void DisplayApplication(LocalApplicationResponse application, TestTypeEnum testType);
         void DisplayProgress(TestRoadmapResponse roadmap);

@@ -44,22 +44,66 @@ namespace DVLD.WinForms.Common
         public bool CanGoForward => _forwardStack.Count > 0;
         public Type? CurrentPresenterType => _current?.PresenterType;
 
+        public bool HasChanges { get; set; }
+
         public event EventHandler? HistoryChanged;
+
+        /// <summary>
+        /// Prompts the user if there are unsaved changes before navigating away.
+        /// Returns true if navigation can proceed; false if canceled.
+        /// </summary>
+        private bool CanNavigateAway()
+        {
+            if (!HasChanges)
+                return true;
+
+            var owner = _mainContentPanel?.FindForm() ?? _form;
+            var result = MessageBox.Show(
+                owner,
+                "You have unsaved changes. Do you want to leave without saving?",
+                "Unsaved Changes",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes)
+            {
+                HasChanges = false; // User discarded changes
+                return true;
+            }
+
+            return false; // User canceled, stay on the current page
+        }
 
         public void NavigateTo<TPresenter, TView>(Action<TPresenter> setup = null) where TPresenter
             : BasePresenter<TView> where TView : class
         {
+            // 1. If already on this exact page without extra parameters, ignore duplicate clicks
+            if (_current != null && _current.PresenterType == typeof(TPresenter) && setup == null)
+            {
+                return;
+            }
+
+            // 2. Check for unsaved changes before leaving the current page
+            if (!CanNavigateAway())
+            {
+                return;
+            }
+
             var entry = new NavigationEntry(
                 typeof(TPresenter),
                 () => ShowPage<TPresenter, TView>(setup));
 
             // Show first: if building the page throws, history stays untouched.
             entry.Show();
-            
 
-            // Current page goes to the Back stack...
-            if (_current != null)
-                _backStack.Push(_current);
+            // 3. Current page goes to the Back stack (preventing consecutive duplicates)
+            if (_current != null && _current.PresenterType != entry.PresenterType)
+            {
+                if (_backStack.Count == 0 || _backStack.Peek().PresenterType != _current.PresenterType)
+                {
+                    _backStack.Push(_current);
+                }
+            }
 
             _current = entry;
 
@@ -72,6 +116,7 @@ namespace DVLD.WinForms.Common
         public void GoBack()
         {
             if (!CanGoBack || _current == null) return;
+            if (!CanNavigateAway()) return;
 
             var target = _backStack.Peek();
             target.Show();
@@ -86,6 +131,7 @@ namespace DVLD.WinForms.Common
         public void GoForward()
         {
             if (!CanGoForward || _current == null) return;
+            if (!CanNavigateAway()) return;
 
             var target = _forwardStack.Peek();
             target.Show();
@@ -99,6 +145,8 @@ namespace DVLD.WinForms.Common
 
         public void Refresh()
         {
+            if (!CanNavigateAway()) return;
+
             // Rebuild the current page with a fresh scope / presenter (reloads data).
             _current?.Show();
         }
@@ -144,6 +192,9 @@ namespace DVLD.WinForms.Common
                 control.Dock = DockStyle.Fill;
 
                 _mainContentPanel.Controls.Add(control);
+
+                // Fresh page loaded: reset dirty state
+                HasChanges = false;
             }
             else
             {

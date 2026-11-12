@@ -12,7 +12,6 @@ namespace DVLD.WinForms.Features.Test.ScheduleTest
 {
     public partial class ScheduleTestControl : UserControl, IScheduleTestView
     {
-        public event EventHandler? CancelRequested;
         public ScheduleTestControl()
         {
             InitializeComponent();
@@ -64,9 +63,5 @@ namespace DVLD.WinForms.Features.Test.ScheduleTest
                 MessageBoxIcon.Information);
         }
 
-        private void CancelButton_Click(object sender, EventArgs e)
-        {
-            CancelRequested?.Invoke(this, EventArgs.Empty);
-        }
     }
 }

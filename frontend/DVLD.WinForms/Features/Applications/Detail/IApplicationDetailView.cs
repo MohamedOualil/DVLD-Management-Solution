@@ -19,7 +19,7 @@ namespace DVLD.WinForms.Features.Applications.Detail
         event EventHandler SaveEditApplicationRequest;
 
         event EventHandler ShowLicenses;
-        event EventHandler BackToApplications;
+
         void LoadPersonInfo(PersonResponse personDto);
         void LoadTestRoadmap(TestRoadmapResponse testResultsRoadmapDto);
 

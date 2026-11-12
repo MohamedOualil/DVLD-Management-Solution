@@ -35,7 +35,12 @@ namespace DVLD.WinForms.Features.Test.RecordTestResult
             _appointmentsService = appointmentsService;
             _testService = testService;
             View.SaveRequested += OnSaveRequested;
-            View.CancelRequested += OnCancelRequested;
+            View.HasChangesRequested += View_HasChangesRequested;
+        }
+
+        private void View_HasChangesRequested(object? sender, EventArgs e)
+        {
+            _navigationService.HasChanges = true;
         }
 
         public async Task LoadAsync(int localApplicationId, TestTypeEnum testType, int appointmentId)
@@ -143,6 +148,7 @@ namespace DVLD.WinForms.Features.Test.RecordTestResult
                 }
                 _saved = true;
                 _ready = false;
+                _navigationService.HasChanges = false;
                 View.SetRecordingAvailability(false, "Test result saved.");
                 View.DisplayMessage($"Test result #{response.Data.Value} saved successfully.");
             }
@@ -165,10 +171,6 @@ namespace DVLD.WinForms.Features.Test.RecordTestResult
                 "The save could not be confirmed. Go back and refresh appointments to check whether the result was saved.");
         }
 
-        private void OnCancelRequested(object? sender, EventArgs e)
-        {
-            if (!_disposed && !_saving) ReturnToAppointments();
-        }
 
         private void ReturnToAppointments() =>
             _navigationService.NavigateTo<ListTestAppointmentsPresenter, IListTestAppointmentsView>(
@@ -178,7 +180,8 @@ namespace DVLD.WinForms.Features.Test.RecordTestResult
         {
             _disposed = true;
             View.SaveRequested -= OnSaveRequested;
-            View.CancelRequested -= OnCancelRequested;
+            View.HasChangesRequested -= View_HasChangesRequested;
+
         }
     }
 }

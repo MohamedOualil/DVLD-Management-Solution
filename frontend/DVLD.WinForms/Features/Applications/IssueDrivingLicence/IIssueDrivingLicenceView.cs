@@ -7,7 +7,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence;
 public interface IIssueDrivingLicenceView
 {
     event EventHandler? IssueRequested;
-    event EventHandler? CancelRequested;
+    event EventHandler? HasChangesRequested;
     event EventHandler? ViewPersonRequested;
     string Notes { get; }
     void ResetApplication();

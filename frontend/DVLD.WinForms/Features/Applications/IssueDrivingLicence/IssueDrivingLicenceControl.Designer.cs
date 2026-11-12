@@ -8,7 +8,6 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
         private PictureBox licenceIcon = null!;
         private Label titleLabel = null!;
         private Label subtitleLabel = null!;
-        private Guna.UI2.WinForms.Guna2Button closeButton = null!;
         private Guna.UI2.WinForms.Guna2Panel eligibilityPanel = null!;
         private Label passedIcon = null!;
         private Label eligibilityTitle = null!;
@@ -45,7 +44,6 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
         private Guna.UI2.WinForms.Guna2TextBox notesTextBox = null!;
         private Panel footerDivider = null!;
         private Label footerHint = null!;
-        private Guna.UI2.WinForms.Guna2Button cancelButton = null!;
         private Guna.UI2.WinForms.Guna2Button issueButton = null!;
         protected override void Dispose(bool disposing)
         {
@@ -55,8 +53,8 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
         #region Component Designer generated code
         private void InitializeComponent()
         {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -67,15 +65,10 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             surfacePanel = new Guna.UI2.WinForms.Guna2Panel();
             licenceIcon = new PictureBox();
             titleLabel = new Label();
             subtitleLabel = new Label();
-            closeButton = new Guna.UI2.WinForms.Guna2Button();
             eligibilityPanel = new Guna.UI2.WinForms.Guna2Panel();
             passedIcon = new Label();
             eligibilityTitle = new Label();
@@ -112,7 +105,6 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             notesTextBox = new Guna.UI2.WinForms.Guna2TextBox();
             footerDivider = new Panel();
             footerHint = new Label();
-            cancelButton = new Guna.UI2.WinForms.Guna2Button();
             issueButton = new Guna.UI2.WinForms.Guna2Button();
             surfacePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)licenceIcon).BeginInit();
@@ -132,7 +124,6 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             surfacePanel.Controls.Add(licenceIcon);
             surfacePanel.Controls.Add(titleLabel);
             surfacePanel.Controls.Add(subtitleLabel);
-            surfacePanel.Controls.Add(closeButton);
             surfacePanel.Controls.Add(eligibilityPanel);
             surfacePanel.Controls.Add(licencePanel);
             surfacePanel.Controls.Add(detailsPanel);
@@ -141,14 +132,13 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             surfacePanel.Controls.Add(notesTextBox);
             surfacePanel.Controls.Add(footerDivider);
             surfacePanel.Controls.Add(footerHint);
-            surfacePanel.Controls.Add(cancelButton);
             surfacePanel.Controls.Add(issueButton);
-            surfacePanel.CustomizableEdges = customizableEdges15;
+            surfacePanel.CustomizableEdges = customizableEdges11;
             surfacePanel.FillColor = Color.White;
             surfacePanel.Location = new Point(16, 16);
             surfacePanel.MinimumSize = new Size(928, 600);
             surfacePanel.Name = "surfacePanel";
-            surfacePanel.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            surfacePanel.ShadowDecoration.CustomizableEdges = customizableEdges12;
             surfacePanel.Size = new Size(928, 600);
             surfacePanel.TabIndex = 0;
             // 
@@ -189,23 +179,6 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             subtitleLabel.Text = "First-time licence issuance";
             subtitleLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // closeButton
-            // 
-            closeButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            closeButton.BorderRadius = 6;
-            closeButton.Cursor = Cursors.Hand;
-            closeButton.CustomizableEdges = customizableEdges1;
-            closeButton.FillColor = Color.White;
-            closeButton.Font = new Font("Segoe UI", 18F);
-            closeButton.ForeColor = Color.FromArgb(113, 130, 156);
-            closeButton.Location = new Point(868, 16);
-            closeButton.Name = "closeButton";
-            closeButton.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            closeButton.Size = new Size(36, 36);
-            closeButton.TabIndex = 3;
-            closeButton.Text = "×";
-            closeButton.Click += closeButton_Click;
-            // 
             // eligibilityPanel
             // 
             eligibilityPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
@@ -215,11 +188,11 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             eligibilityPanel.Controls.Add(passedIcon);
             eligibilityPanel.Controls.Add(eligibilityTitle);
             eligibilityPanel.Controls.Add(eligibilitySubtitle);
-            eligibilityPanel.CustomizableEdges = customizableEdges3;
+            eligibilityPanel.CustomizableEdges = customizableEdges1;
             eligibilityPanel.FillColor = Color.FromArgb(234, 249, 241);
             eligibilityPanel.Location = new Point(20, 76);
             eligibilityPanel.Name = "eligibilityPanel";
-            eligibilityPanel.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            eligibilityPanel.ShadowDecoration.CustomizableEdges = customizableEdges2;
             eligibilityPanel.Size = new Size(888, 56);
             eligibilityPanel.TabIndex = 4;
             // 
@@ -272,11 +245,11 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             licencePanel.Controls.Add(localIdValue);
             licencePanel.Controls.Add(classCaption);
             licencePanel.Controls.Add(classValue);
-            licencePanel.CustomizableEdges = customizableEdges5;
+            licencePanel.CustomizableEdges = customizableEdges3;
             licencePanel.FillColor = Color.White;
             licencePanel.Location = new Point(20, 144);
             licencePanel.Name = "licencePanel";
-            licencePanel.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            licencePanel.ShadowDecoration.CustomizableEdges = customizableEdges4;
             licencePanel.Size = new Size(888, 84);
             licencePanel.TabIndex = 5;
             // 
@@ -379,11 +352,11 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             detailsPanel.Controls.Add(statusDateValue);
             detailsPanel.Controls.Add(creatorCaption);
             detailsPanel.Controls.Add(creatorValue);
-            detailsPanel.CustomizableEdges = customizableEdges7;
+            detailsPanel.CustomizableEdges = customizableEdges5;
             detailsPanel.FillColor = Color.White;
             detailsPanel.Location = new Point(20, 240);
             detailsPanel.Name = "detailsPanel";
-            detailsPanel.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            detailsPanel.ShadowDecoration.CustomizableEdges = customizableEdges6;
             detailsPanel.Size = new Size(888, 204);
             detailsPanel.TabIndex = 6;
             // 
@@ -662,7 +635,7 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             notesTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             notesTextBox.BorderColor = Color.FromArgb(218, 230, 246);
             notesTextBox.BorderRadius = 5;
-            notesTextBox.CustomizableEdges = customizableEdges9;
+            notesTextBox.CustomizableEdges = customizableEdges7;
             notesTextBox.DefaultText = "";
             notesTextBox.Font = new Font("Segoe UI", 10F);
             notesTextBox.Location = new Point(20, 484);
@@ -671,9 +644,10 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             notesTextBox.PlaceholderText = "Add any notes about this licence…";
             notesTextBox.ScrollBars = ScrollBars.Vertical;
             notesTextBox.SelectedText = "";
-            notesTextBox.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            notesTextBox.ShadowDecoration.CustomizableEdges = customizableEdges8;
             notesTextBox.Size = new Size(888, 52);
             notesTextBox.TabIndex = 0;
+            notesTextBox.TextChanged += notesTextBox_TextChanged;
             // 
             // footerDivider
             // 
@@ -698,36 +672,18 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence
             footerHint.Text = "Review the details before issuing.";
             footerHint.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // cancelButton
-            // 
-            cancelButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            cancelButton.BorderColor = Color.FromArgb(208, 220, 238);
-            cancelButton.BorderRadius = 5;
-            cancelButton.BorderThickness = 1;
-            cancelButton.Cursor = Cursors.Hand;
-            cancelButton.CustomizableEdges = customizableEdges11;
-            cancelButton.FillColor = Color.White;
-            cancelButton.Font = new Font("Segoe UI", 10F);
-            cancelButton.ForeColor = Color.FromArgb(68, 89, 119);
-            cancelButton.Location = new Point(626, 556);
-            cancelButton.Name = "cancelButton";
-            cancelButton.ShadowDecoration.CustomizableEdges = customizableEdges12;
-            cancelButton.Size = new Size(112, 32);
-            cancelButton.TabIndex = 1;
-            cancelButton.Text = "Cancel";
-            // 
             // issueButton
             // 
             issueButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             issueButton.BorderRadius = 5;
             issueButton.Cursor = Cursors.Hand;
-            issueButton.CustomizableEdges = customizableEdges13;
+            issueButton.CustomizableEdges = customizableEdges9;
             issueButton.FillColor = Color.FromArgb(0, 91, 255);
             issueButton.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             issueButton.ForeColor = Color.White;
             issueButton.Location = new Point(750, 556);
             issueButton.Name = "issueButton";
-            issueButton.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            issueButton.ShadowDecoration.CustomizableEdges = customizableEdges10;
             issueButton.Size = new Size(158, 32);
             issueButton.TabIndex = 2;
             issueButton.Text = "Issue Licence";

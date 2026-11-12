@@ -35,12 +35,9 @@ namespace DVLD.WinForms.Features.Test_Appointments
             _applicationsService = applicationsService;
             _logger = logger;
             View.CreateAppointmentRequested += View_CreateAppointmentRequested;
-            View.BackRequested += View_BackRequested;
             View.RecordResultRequested += OnRecordResultRequested;
         }
 
-        private void View_BackRequested(object? sender, EventArgs e) =>
-            _navigationService.NavigateTo<ApplicationsPresenter, IApplicationsView>();
 
         private void OnRecordResultRequested(object? sender, int appointmentId)
         {
@@ -140,7 +137,6 @@ namespace DVLD.WinForms.Features.Test_Appointments
         {
             _disposed = true;
             View.CreateAppointmentRequested -= View_CreateAppointmentRequested;
-            View.BackRequested -= View_BackRequested;
             View.RecordResultRequested -= OnRecordResultRequested;
         }
     }

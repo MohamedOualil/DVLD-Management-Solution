@@ -15,34 +15,31 @@ namespace DVLD.WinForms.Features.Applications.Detail
 
         private void InitializeComponent()
         {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             pageLayout = new TableLayoutPanel();
             headerPanel = new Panel();
-            BackButton = new Guna.UI2.WinForms.Guna2Button();
+            statusButton = new Guna.UI2.WinForms.Guna2Button();
             pageTitle = new Label();
             pageSubtitle = new Label();
-            statusButton = new Guna.UI2.WinForms.Guna2Button();
             CancelButton = new Guna.UI2.WinForms.Guna2GradientButton();
             EditButton = new Guna.UI2.WinForms.Guna2GradientButton();
             detailsLayout = new TableLayoutPanel();
@@ -120,7 +117,6 @@ namespace DVLD.WinForms.Features.Applications.Detail
             // headerPanel
             // 
             headerPanel.Controls.Add(statusButton);
-            headerPanel.Controls.Add(BackButton);
             headerPanel.Controls.Add(pageTitle);
             headerPanel.Controls.Add(pageSubtitle);
             headerPanel.Controls.Add(CancelButton);
@@ -132,46 +128,6 @@ namespace DVLD.WinForms.Features.Applications.Detail
             headerPanel.Size = new Size(971, 64);
             headerPanel.TabIndex = 0;
             // 
-            // BackButton
-            // 
-            BackButton.AccessibleName = "Back to applications";
-            BackButton.BorderColor = Color.FromArgb(219, 229, 242);
-            BackButton.BorderRadius = 7;
-            BackButton.BorderThickness = 1;
-            BackButton.CustomizableEdges = customizableEdges3;
-            BackButton.FillColor = Color.White;
-            BackButton.Font = new Font("Segoe UI", 10F);
-            BackButton.ForeColor = Color.FromArgb(51, 65, 85);
-            BackButton.Location = new Point(0, 4);
-            BackButton.Name = "BackButton";
-            BackButton.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            BackButton.Size = new Size(88, 36);
-            BackButton.TabIndex = 0;
-            BackButton.Text = "← Back";
-            BackButton.Click += BackButton_Click;
-            // 
-            // pageTitle
-            // 
-            pageTitle.AutoSize = true;
-            pageTitle.Font = new Font("Segoe UI", 21F, FontStyle.Bold);
-            pageTitle.ForeColor = Color.FromArgb(15, 23, 42);
-            pageTitle.Location = new Point(104, 0);
-            pageTitle.Name = "pageTitle";
-            pageTitle.Size = new Size(262, 38);
-            pageTitle.TabIndex = 1;
-            pageTitle.Text = "Application details";
-            // 
-            // pageSubtitle
-            // 
-            pageSubtitle.AutoSize = true;
-            pageSubtitle.Font = new Font("Segoe UI", 10F);
-            pageSubtitle.ForeColor = Color.FromArgb(100, 116, 139);
-            pageSubtitle.Location = new Point(106, 39);
-            pageSubtitle.Name = "pageSubtitle";
-            pageSubtitle.Size = new Size(200, 19);
-            pageSubtitle.TabIndex = 2;
-            pageSubtitle.Text = "Local driving licence application";
-            // 
             // statusButton
             // 
             statusButton.BorderRadius = 12;
@@ -182,7 +138,7 @@ namespace DVLD.WinForms.Features.Applications.Detail
             statusButton.FillColor = Color.FromArgb(100, 116, 139);
             statusButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             statusButton.ForeColor = Color.White;
-            statusButton.Location = new Point(350, 35);
+            statusButton.Location = new Point(249, 35);
             statusButton.Name = "statusButton";
             statusButton.ShadowDecoration.CustomizableEdges = customizableEdges2;
             statusButton.Size = new Size(110, 24);
@@ -190,13 +146,35 @@ namespace DVLD.WinForms.Features.Applications.Detail
             statusButton.TabStop = false;
             statusButton.Text = "Status";
             // 
+            // pageTitle
+            // 
+            pageTitle.AutoSize = true;
+            pageTitle.Font = new Font("Segoe UI", 21F, FontStyle.Bold);
+            pageTitle.ForeColor = Color.FromArgb(15, 23, 42);
+            pageTitle.Location = new Point(3, 0);
+            pageTitle.Name = "pageTitle";
+            pageTitle.Size = new Size(262, 38);
+            pageTitle.TabIndex = 1;
+            pageTitle.Text = "Application details";
+            // 
+            // pageSubtitle
+            // 
+            pageSubtitle.AutoSize = true;
+            pageSubtitle.Font = new Font("Segoe UI", 10F);
+            pageSubtitle.ForeColor = Color.FromArgb(100, 116, 139);
+            pageSubtitle.Location = new Point(5, 39);
+            pageSubtitle.Name = "pageSubtitle";
+            pageSubtitle.Size = new Size(200, 19);
+            pageSubtitle.TabIndex = 2;
+            pageSubtitle.Text = "Local driving licence application";
+            // 
             // CancelButton
             // 
             CancelButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             CancelButton.BorderColor = Color.FromArgb(220, 38, 38);
             CancelButton.BorderRadius = 7;
             CancelButton.BorderThickness = 1;
-            CancelButton.CustomizableEdges = customizableEdges5;
+            CancelButton.CustomizableEdges = customizableEdges3;
             CancelButton.DisabledState.BorderColor = Color.FromArgb(226, 232, 240);
             CancelButton.DisabledState.FillColor = Color.FromArgb(241, 245, 249);
             CancelButton.DisabledState.FillColor2 = Color.FromArgb(241, 245, 249);
@@ -205,9 +183,9 @@ namespace DVLD.WinForms.Features.Applications.Detail
             CancelButton.FillColor2 = Color.White;
             CancelButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             CancelButton.ForeColor = Color.FromArgb(185, 28, 28);
-            CancelButton.Location = new Point(677, 4);
+            CancelButton.Location = new Point(649, 4);
             CancelButton.Name = "CancelButton";
-            CancelButton.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            CancelButton.ShadowDecoration.CustomizableEdges = customizableEdges4;
             CancelButton.Size = new Size(178, 36);
             CancelButton.TabIndex = 2;
             CancelButton.Text = "Cancel application";
@@ -217,7 +195,7 @@ namespace DVLD.WinForms.Features.Applications.Detail
             // 
             EditButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             EditButton.BorderRadius = 7;
-            EditButton.CustomizableEdges = customizableEdges7;
+            EditButton.CustomizableEdges = customizableEdges5;
             EditButton.DisabledState.FillColor = Color.FromArgb(226, 232, 240);
             EditButton.DisabledState.FillColor2 = Color.FromArgb(226, 232, 240);
             EditButton.DisabledState.ForeColor = Color.FromArgb(148, 163, 184);
@@ -227,10 +205,10 @@ namespace DVLD.WinForms.Features.Applications.Detail
             EditButton.ForeColor = Color.White;
             EditButton.Image = Properties.Resources.icons8_edit_30;
             EditButton.ImageSize = new Size(18, 18);
-            EditButton.Location = new Point(867, 4);
+            EditButton.Location = new Point(856, 4);
             EditButton.Name = "EditButton";
-            EditButton.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            EditButton.Size = new Size(104, 36);
+            EditButton.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            EditButton.Size = new Size(74, 36);
             EditButton.TabIndex = 1;
             EditButton.Text = "Edit";
             EditButton.Click += EditButton_Click;
@@ -274,13 +252,13 @@ namespace DVLD.WinForms.Features.Applications.Detail
             applicationPanel.Controls.Add(licenceDivider);
             applicationPanel.Controls.Add(licenceClassCaption);
             applicationPanel.Controls.Add(CombClassLincense);
-            applicationPanel.CustomizableEdges = customizableEdges11;
+            applicationPanel.CustomizableEdges = customizableEdges9;
             applicationPanel.Dock = DockStyle.Fill;
             applicationPanel.FillColor = Color.White;
             applicationPanel.Location = new Point(0, 0);
             applicationPanel.Margin = new Padding(0);
             applicationPanel.Name = "applicationPanel";
-            applicationPanel.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            applicationPanel.ShadowDecoration.CustomizableEdges = customizableEdges10;
             applicationPanel.Size = new Size(411, 289);
             applicationPanel.TabIndex = 0;
             // 
@@ -479,7 +457,7 @@ namespace DVLD.WinForms.Features.Applications.Detail
             CombClassLincense.BackColor = Color.Transparent;
             CombClassLincense.BorderColor = Color.FromArgb(203, 213, 225);
             CombClassLincense.BorderRadius = 5;
-            CombClassLincense.CustomizableEdges = customizableEdges9;
+            CombClassLincense.CustomizableEdges = customizableEdges7;
             CombClassLincense.DisabledState.BorderColor = Color.FromArgb(219, 229, 242);
             CombClassLincense.DisabledState.FillColor = Color.FromArgb(241, 246, 252);
             CombClassLincense.DisabledState.ForeColor = Color.FromArgb(51, 65, 85);
@@ -493,7 +471,7 @@ namespace DVLD.WinForms.Features.Applications.Detail
             CombClassLincense.ItemHeight = 30;
             CombClassLincense.Location = new Point(20, 239);
             CombClassLincense.Name = "CombClassLincense";
-            CombClassLincense.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            CombClassLincense.ShadowDecoration.CustomizableEdges = customizableEdges8;
             CombClassLincense.Size = new Size(371, 36);
             CombClassLincense.TabIndex = 0;
             // 
@@ -503,13 +481,13 @@ namespace DVLD.WinForms.Features.Applications.Detail
             applicantPanel.BorderRadius = 8;
             applicantPanel.BorderThickness = 1;
             applicantPanel.Controls.Add(personDetailControl1);
-            applicantPanel.CustomizableEdges = customizableEdges13;
+            applicantPanel.CustomizableEdges = customizableEdges11;
             applicantPanel.Dock = DockStyle.Fill;
             applicantPanel.FillColor = Color.White;
             applicantPanel.Location = new Point(427, 0);
             applicantPanel.Margin = new Padding(16, 0, 0, 0);
             applicantPanel.Name = "applicantPanel";
-            applicantPanel.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            applicantPanel.ShadowDecoration.CustomizableEdges = customizableEdges12;
             applicantPanel.Size = new Size(544, 289);
             applicantPanel.TabIndex = 1;
             // 
@@ -530,13 +508,13 @@ namespace DVLD.WinForms.Features.Applications.Detail
             testsPanel.Controls.Add(testsHeading);
             testsPanel.Controls.Add(testsDivider);
             testsPanel.Controls.Add(testCardsLayout);
-            testsPanel.CustomizableEdges = customizableEdges15;
+            testsPanel.CustomizableEdges = customizableEdges13;
             testsPanel.Dock = DockStyle.Fill;
             testsPanel.FillColor = Color.White;
             testsPanel.Location = new Point(16, 377);
             testsPanel.Margin = new Padding(0);
             testsPanel.Name = "testsPanel";
-            testsPanel.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            testsPanel.ShadowDecoration.CustomizableEdges = customizableEdges14;
             testsPanel.Size = new Size(971, 188);
             testsPanel.TabIndex = 2;
             // 
@@ -635,13 +613,13 @@ namespace DVLD.WinForms.Features.Applications.Detail
             footerPanel.Controls.Add(footerHint);
             footerPanel.Controls.Add(ShowLicenseButton);
             footerPanel.Controls.Add(SaveButton);
-            footerPanel.CustomizableEdges = customizableEdges21;
+            footerPanel.CustomizableEdges = customizableEdges19;
             footerPanel.Dock = DockStyle.Fill;
             footerPanel.FillColor = Color.White;
             footerPanel.Location = new Point(16, 573);
             footerPanel.Margin = new Padding(0);
             footerPanel.Name = "footerPanel";
-            footerPanel.ShadowDecoration.CustomizableEdges = customizableEdges22;
+            footerPanel.ShadowDecoration.CustomizableEdges = customizableEdges20;
             footerPanel.Size = new Size(971, 48);
             footerPanel.TabIndex = 3;
             // 
@@ -660,7 +638,7 @@ namespace DVLD.WinForms.Features.Applications.Detail
             // 
             ShowLicenseButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             ShowLicenseButton.BorderRadius = 7;
-            ShowLicenseButton.CustomizableEdges = customizableEdges17;
+            ShowLicenseButton.CustomizableEdges = customizableEdges15;
             ShowLicenseButton.DisabledState.FillColor = Color.FromArgb(241, 245, 249);
             ShowLicenseButton.DisabledState.FillColor2 = Color.FromArgb(241, 245, 249);
             ShowLicenseButton.DisabledState.ForeColor = Color.FromArgb(148, 163, 184);
@@ -673,7 +651,7 @@ namespace DVLD.WinForms.Features.Applications.Detail
             ShowLicenseButton.ImageSize = new Size(18, 18);
             ShowLicenseButton.Location = new Point(777, 6);
             ShowLicenseButton.Name = "ShowLicenseButton";
-            ShowLicenseButton.ShadowDecoration.CustomizableEdges = customizableEdges18;
+            ShowLicenseButton.ShadowDecoration.CustomizableEdges = customizableEdges16;
             ShowLicenseButton.Size = new Size(178, 36);
             ShowLicenseButton.TabIndex = 0;
             ShowLicenseButton.Text = "Show licence";
@@ -683,7 +661,7 @@ namespace DVLD.WinForms.Features.Applications.Detail
             // 
             SaveButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             SaveButton.BorderRadius = 7;
-            SaveButton.CustomizableEdges = customizableEdges19;
+            SaveButton.CustomizableEdges = customizableEdges17;
             SaveButton.DisabledState.FillColor = Color.FromArgb(226, 232, 240);
             SaveButton.DisabledState.FillColor2 = Color.FromArgb(226, 232, 240);
             SaveButton.DisabledState.ForeColor = Color.FromArgb(148, 163, 184);
@@ -693,7 +671,7 @@ namespace DVLD.WinForms.Features.Applications.Detail
             SaveButton.ForeColor = Color.White;
             SaveButton.Location = new Point(777, 6);
             SaveButton.Name = "SaveButton";
-            SaveButton.ShadowDecoration.CustomizableEdges = customizableEdges20;
+            SaveButton.ShadowDecoration.CustomizableEdges = customizableEdges18;
             SaveButton.Size = new Size(178, 36);
             SaveButton.TabIndex = 1;
             SaveButton.Text = "Save changes";
@@ -731,7 +709,6 @@ namespace DVLD.WinForms.Features.Applications.Detail
 
         private TableLayoutPanel pageLayout;
         private Panel headerPanel;
-        private Guna.UI2.WinForms.Guna2Button BackButton;
         private Label pageTitle;
         private Label pageSubtitle;
         private Guna.UI2.WinForms.Guna2Button statusButton;

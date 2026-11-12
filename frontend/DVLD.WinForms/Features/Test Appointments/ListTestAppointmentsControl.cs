@@ -11,7 +11,6 @@ namespace DVLD.WinForms.Features.Test_Appointments
     {
         private string _testName = "Test";
         public event EventHandler? CreateAppointmentRequested;
-        public event EventHandler? BackRequested;
         public event EventHandler<int>? RecordResultRequested;
 
         public ListTestAppointmentsControl()
@@ -22,8 +21,6 @@ namespace DVLD.WinForms.Features.Test_Appointments
         private void CreateAppointmentButton_Click(object? sender, EventArgs e) =>
             CreateAppointmentRequested?.Invoke(this, EventArgs.Empty);
 
-        private void BackButton_Click(object? sender, EventArgs e) =>
-            BackRequested?.Invoke(this, EventArgs.Empty);
 
         public void DisplayApplication(LocalApplicationResponse application, TestTypeEnum testType)
         {

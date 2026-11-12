@@ -36,7 +36,6 @@ namespace DVLD.WinForms.Features.Test.ScheduleTest
             _testService = testService;
 
             View.SaveRequested += OnSaveRequested;
-            View.CancelRequested += OnCancelRequested;
         }
 
 
@@ -224,17 +223,11 @@ namespace DVLD.WinForms.Features.Test.ScheduleTest
             }
         }
 
-        private void OnCancelRequested(object? sender, EventArgs e)
-        {
-            if (_isSaving)
-                return;
-
-            ReturnToAppointments();
-        }
+      
         public override void Dispose()
         {
             View.SaveRequested -= OnSaveRequested;
-            View.CancelRequested -= OnCancelRequested;
+
         }
 
         private void ReturnToAppointments()

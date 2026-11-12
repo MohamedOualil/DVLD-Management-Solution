@@ -12,7 +12,6 @@ namespace DVLD.WinForms.Features.Test.ScheduleTest
         void DisplayMessage(string message);
         void SetSaving(bool isSaving);
         event EventHandler SaveRequested;
-        event EventHandler CancelRequested;
 
         DateTime AppointmentDate { get; }
     }

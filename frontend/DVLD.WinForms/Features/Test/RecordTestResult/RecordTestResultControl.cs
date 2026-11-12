@@ -10,7 +10,7 @@ namespace DVLD.WinForms.Features.Test.RecordTestResult
     {
         private bool _canRecord;
         public event EventHandler? SaveRequested;
-        public event EventHandler? CancelRequested;
+        public event EventHandler? HasChangesRequested;
         public bool? Passed => PassRadioButton.Checked ? true : FailRadioButton.Checked ? false : null;
         public string Notes => NotesTextBox.Text.Trim();
 
@@ -18,8 +18,7 @@ namespace DVLD.WinForms.Features.Test.RecordTestResult
         {
             InitializeComponent();
             SaveResultButton.Click += (_, _) => SaveRequested?.Invoke(this, EventArgs.Empty);
-            CancelButton.Click += (_, _) => CancelRequested?.Invoke(this, EventArgs.Empty);
-            BackButton.Click += (_, _) => CancelRequested?.Invoke(this, EventArgs.Empty);
+
             SetRecordingAvailability(false, "Loading appointment information…");
         }
 
@@ -66,13 +65,16 @@ namespace DVLD.WinForms.Features.Test.RecordTestResult
             PassRadioButton.Enabled = _canRecord && !saving;
             FailRadioButton.Enabled = _canRecord && !saving;
             NotesTextBox.Enabled = _canRecord && !saving;
-            CancelButton.Enabled = !saving;
-            BackButton.Enabled = !saving;
             SaveResultButton.Text = saving ? "Saving…" : "Save result";
         }
 
         public void DisplayMessage(string message) => MessageBox.Show(this, message,
             "Record test result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+        private void NotesTextBox_TextChanged(object sender, EventArgs e)
+        {
+            HasChangesRequested?.Invoke(this, EventArgs.Empty);
+        }
     }
 }
 

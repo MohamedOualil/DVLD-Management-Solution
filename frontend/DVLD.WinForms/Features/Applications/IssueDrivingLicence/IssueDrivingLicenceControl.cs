@@ -8,21 +8,18 @@ namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence;
 public partial class IssueDrivingLicenceControl : UserControl, IIssueDrivingLicenceView
 {
     public event EventHandler? IssueRequested;
-    public event EventHandler? CancelRequested;
     public event EventHandler? ViewPersonRequested;
+    public event EventHandler? HasChangesRequested;
     public string Notes => notesTextBox.Text.Trim();
 
     public IssueDrivingLicenceControl()
     {
         InitializeComponent();
         issueButton.Click += (_, _) => IssueRequested?.Invoke(this, EventArgs.Empty);
-        cancelButton.Click += (_, _) => CancelRequested?.Invoke(this, EventArgs.Empty);
+
     }
 
-    private void closeButton_Click(object? sender, EventArgs e)
-    {
-        CancelRequested?.Invoke(this, EventArgs.Empty);
-    }
+
 
     public void ResetApplication()
     {
@@ -76,5 +73,10 @@ public partial class IssueDrivingLicenceControl : UserControl, IIssueDrivingLice
     private void viewPersonLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
         ViewPersonRequested?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void notesTextBox_TextChanged(object sender, EventArgs e)
+    {
+        HasChangesRequested?.Invoke(this, EventArgs.Empty);
     }
 }

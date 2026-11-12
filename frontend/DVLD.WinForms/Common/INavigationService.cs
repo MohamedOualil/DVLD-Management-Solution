@@ -27,6 +27,8 @@ namespace DVLD.WinForms.Common
         bool CanGoForward { get; }
         Type? CurrentPresenterType { get; }
 
+        bool HasChanges { get; set; }
+
         /// <summary>Raised whenever the history changes, so the UI can enable/disable the buttons.</summary>
         event EventHandler? HistoryChanged;
 

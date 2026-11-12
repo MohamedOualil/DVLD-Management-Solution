@@ -15,7 +15,7 @@ namespace DVLD.WinForms.Features.Test.RecordTestResult
     public interface IRecordTestResultView
     {
         event EventHandler? SaveRequested;
-        event EventHandler? CancelRequested;
+        event EventHandler? HasChangesRequested;
         bool? Passed { get; }
         string Notes { get; }
         void DisplayApplication(LocalApplicationResponse application);

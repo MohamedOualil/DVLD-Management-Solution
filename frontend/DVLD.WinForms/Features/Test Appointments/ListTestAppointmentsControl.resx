@@ -117,40 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="TestAppointmentId.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="AppointmentDate.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="TestStatus.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="PaidFees.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="TestResult.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="CreateAppointmentButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DQAACw0B7QfALAAAAFxJREFUSEtjYBhRQCX51QnV5FfH0MWpBlSTX/8HYXRxqoFRCwiCUQsIAoosUEl+
-        fRhmAKUYZBa6+dS1IOn1IXTziQIwA9DFqQZGLSAIRi0gCGhuASgzkp2JhiwAAE2Jt/QRr/80AAAAAElF
-        TkSuQmCC
-</value>
-  </data>
-  <data name="pictureBox3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DQAACw0B7QfALAAAAWJJREFUSEvtlMFKw0AQhmO3vSke9SXq3UtJwRcQqhdPii+gF30QL83mKJrmGQQR
-        8wh6LHazG0FEsbnVDV2ZQCKZBFmbpAfNBz8Mk5n/J5slhtFQALHFHrH4APcxunNadCjfIjRQoM7Q7+Ln
-        Cbpzeii10qLBeWIINfTwmPbcTxDKzRYVD8QS88RoYVliHntRbuKcLPbrGqHBe86grKzgzbh4WcVxKW1b
-        bOeWKhJ447yUtv3cwwtVCbxx3jfD8TqxxCNeKiv4zuCN4/457kQORiw6q1LgiXMyuP6sO/IjVYfAG+el
-        XHNp4oWqBN44L6UJ1tXlRKpjL1QHd9NYUEOv9uCj+zD304Be7cH7t9NcMPT+bnDhUXtLOGq4SIdeqHZv
-        PmJB/avL5fifPWxalcAb56W4T2rTYTLCS2XlMCmvxmoD52VwWXQKg3h5UcVeLDrBOYXEb85l32Fyp5S4
-        7IMX9m9YKl+3dOJRnrTR8gAAAABJRU5ErkJggg==
-</value>
-  </data>
 </root>
