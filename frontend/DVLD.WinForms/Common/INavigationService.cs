@@ -21,5 +21,18 @@ namespace DVLD.WinForms.Common
         void SetMainContentPanel(Control panel);
 
         void NavigateTo<TPresenter, TView>(Action<TPresenter> setup = null) where TPresenter : BasePresenter<TView> where TView : class;
+
+        // --- History (Back / Next / Refresh) ---
+        bool CanGoBack { get; }
+        bool CanGoForward { get; }
+        Type? CurrentPresenterType { get; }
+
+        /// <summary>Raised whenever the history changes, so the UI can enable/disable the buttons.</summary>
+        event EventHandler? HistoryChanged;
+
+        void GoBack();
+        void GoForward();
+        void Refresh();
+        void ClearHistory();
     }
 }

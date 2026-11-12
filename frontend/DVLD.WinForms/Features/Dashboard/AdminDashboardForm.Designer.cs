@@ -72,6 +72,11 @@
             guna2ShadowForm1 = new Guna.UI2.WinForms.Guna2ShadowForm(components);
             guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl(components);
             PanalTop = new Guna.UI2.WinForms.Guna2Panel();
+            pnlNavHistory = new Guna.UI2.WinForms.Guna2Panel();
+            btnNavBack = new Guna.UI2.WinForms.Guna2Button();
+            btnNavForward = new Guna.UI2.WinForms.Guna2Button();
+            btnNavRefresh = new Guna.UI2.WinForms.Guna2Button();
+            pnlTopDivider = new Panel();
             lblPageSubtitle = new Label();
             lblPageTitle = new Label();
             txtGlobalSearch = new Guna.UI2.WinForms.Guna2TextBox();
@@ -106,6 +111,7 @@
             lblBrandSubtitle = new Label();
             MainPanal = new Guna.UI2.WinForms.Guna2Panel();
             PanalTop.SuspendLayout();
+            pnlNavHistory.SuspendLayout();
             PanalLeft.SuspendLayout();
             pnlUserProfile.SuspendLayout();
             pnlQuickTip.SuspendLayout();
@@ -131,6 +137,8 @@
             // PanalTop
             // 
             PanalTop.BackColor = Color.White;
+            PanalTop.Controls.Add(pnlNavHistory);
+            PanalTop.Controls.Add(pnlTopDivider);
             PanalTop.Controls.Add(lblPageSubtitle);
             PanalTop.Controls.Add(lblPageTitle);
             PanalTop.Controls.Add(txtGlobalSearch);
@@ -146,12 +154,89 @@
             PanalTop.Size = new Size(984, 64);
             PanalTop.TabIndex = 1;
             // 
+            // pnlNavHistory
+            // 
+            pnlNavHistory.BackColor = Color.Transparent;
+            pnlNavHistory.BorderColor = Color.FromArgb(226, 232, 240);
+            pnlNavHistory.BorderRadius = 10;
+            pnlNavHistory.BorderThickness = 1;
+            pnlNavHistory.Controls.Add(btnNavBack);
+            pnlNavHistory.Controls.Add(btnNavForward);
+            pnlNavHistory.Controls.Add(btnNavRefresh);
+            pnlNavHistory.FillColor = Color.FromArgb(248, 250, 252);
+            pnlNavHistory.Location = new Point(20, 14);
+            pnlNavHistory.Name = "pnlNavHistory";
+            pnlNavHistory.Size = new Size(106, 36);
+            pnlNavHistory.TabIndex = 7;
+            // 
+            // btnNavBack
+            // 
+            btnNavBack.BorderRadius = 7;
+            btnNavBack.Cursor = Cursors.Hand;
+            btnNavBack.DisabledState.FillColor = Color.Transparent;
+            btnNavBack.DisabledState.ForeColor = Color.FromArgb(203, 213, 225);
+            btnNavBack.Enabled = false;
+            btnNavBack.FillColor = Color.Transparent;
+            btnNavBack.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnNavBack.ForeColor = Color.FromArgb(51, 65, 85);
+            btnNavBack.HoverState.FillColor = Color.FromArgb(226, 232, 240);
+            btnNavBack.HoverState.ForeColor = Color.FromArgb(15, 23, 42);
+            btnNavBack.Location = new Point(4, 4);
+            btnNavBack.Name = "btnNavBack";
+            btnNavBack.Size = new Size(30, 28);
+            btnNavBack.TabIndex = 0;
+            btnNavBack.Click += btnNavBack_Click;
+            btnNavBack.Paint += btnNavBack_Paint;
+            // 
+            // btnNavForward
+            // 
+            btnNavForward.BorderRadius = 7;
+            btnNavForward.Cursor = Cursors.Hand;
+            btnNavForward.DisabledState.FillColor = Color.Transparent;
+            btnNavForward.DisabledState.ForeColor = Color.FromArgb(203, 213, 225);
+            btnNavForward.Enabled = false;
+            btnNavForward.FillColor = Color.Transparent;
+            btnNavForward.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnNavForward.ForeColor = Color.FromArgb(51, 65, 85);
+            btnNavForward.HoverState.FillColor = Color.FromArgb(226, 232, 240);
+            btnNavForward.HoverState.ForeColor = Color.FromArgb(15, 23, 42);
+            btnNavForward.Location = new Point(38, 4);
+            btnNavForward.Name = "btnNavForward";
+            btnNavForward.Size = new Size(30, 28);
+            btnNavForward.TabIndex = 1;
+            btnNavForward.Click += btnNavForward_Click;
+            btnNavForward.Paint += btnNavForward_Paint;
+            // 
+            // btnNavRefresh
+            // 
+            btnNavRefresh.BorderRadius = 7;
+            btnNavRefresh.Cursor = Cursors.Hand;
+            btnNavRefresh.FillColor = Color.Transparent;
+            btnNavRefresh.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnNavRefresh.ForeColor = Color.FromArgb(51, 65, 85);
+            btnNavRefresh.HoverState.FillColor = Color.FromArgb(226, 232, 240);
+            btnNavRefresh.HoverState.ForeColor = Color.FromArgb(37, 99, 235);
+            btnNavRefresh.Location = new Point(72, 4);
+            btnNavRefresh.Name = "btnNavRefresh";
+            btnNavRefresh.Size = new Size(30, 28);
+            btnNavRefresh.TabIndex = 2;
+            btnNavRefresh.Click += btnNavRefresh_Click;
+            btnNavRefresh.Paint += btnNavRefresh_Paint;
+            // 
+            // pnlTopDivider
+            // 
+            pnlTopDivider.BackColor = Color.FromArgb(226, 232, 240);
+            pnlTopDivider.Location = new Point(140, 18);
+            pnlTopDivider.Name = "pnlTopDivider";
+            pnlTopDivider.Size = new Size(1, 28);
+            pnlTopDivider.TabIndex = 8;
+            // 
             // lblPageSubtitle
             // 
             lblPageSubtitle.AutoSize = true;
             lblPageSubtitle.Font = new Font("Segoe UI Semibold", 7.5F, FontStyle.Bold);
             lblPageSubtitle.ForeColor = Color.FromArgb(100, 116, 139);
-            lblPageSubtitle.Location = new Point(24, 11);
+            lblPageSubtitle.Location = new Point(156, 11);
             lblPageSubtitle.Name = "lblPageSubtitle";
             lblPageSubtitle.Size = new Size(107, 12);
             lblPageSubtitle.TabIndex = 0;
@@ -162,7 +247,7 @@
             lblPageTitle.AutoSize = true;
             lblPageTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             lblPageTitle.ForeColor = Color.FromArgb(15, 23, 42);
-            lblPageTitle.Location = new Point(22, 26);
+            lblPageTitle.Location = new Point(154, 26);
             lblPageTitle.Name = "lblPageTitle";
             lblPageTitle.Size = new Size(122, 25);
             lblPageTitle.TabIndex = 1;
@@ -677,6 +762,7 @@
             Load += AdminDashboardForm_Load;
             PanalTop.ResumeLayout(false);
             PanalTop.PerformLayout();
+            pnlNavHistory.ResumeLayout(false);
             PanalLeft.ResumeLayout(false);
             PanalLeft.PerformLayout();
             pnlUserProfile.ResumeLayout(false);
@@ -731,6 +817,11 @@
         private Guna.UI2.WinForms.Guna2Button btnLogout;
 
         // Top Bar Controls
+        private Guna.UI2.WinForms.Guna2Panel pnlNavHistory;
+        private Guna.UI2.WinForms.Guna2Button btnNavBack;
+        private Guna.UI2.WinForms.Guna2Button btnNavForward;
+        private Guna.UI2.WinForms.Guna2Button btnNavRefresh;
+        private System.Windows.Forms.Panel pnlTopDivider;
         private System.Windows.Forms.Label lblPageSubtitle;
         private System.Windows.Forms.Label lblPageTitle;
         private Guna.UI2.WinForms.Guna2TextBox txtGlobalSearch;

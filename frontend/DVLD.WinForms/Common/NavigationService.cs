@@ -28,7 +28,93 @@ namespace DVLD.WinForms.Common
             currentForm?.Hide();
         }
 
+        // ------------------------------------------------------------------
+        //  Navigation history
+        // ------------------------------------------------------------------
+        // Pages are disposed when we leave them (to free RAM), so we can't keep
+        // the old controls in the stack. Instead we store a "recipe" (an Action)
+        // that knows how to rebuild the page again (same presenter + same setup).
+        private sealed record NavigationEntry(Type PresenterType, Action Show);
+
+        private readonly Stack<NavigationEntry> _backStack = new();
+        private readonly Stack<NavigationEntry> _forwardStack = new();
+        private NavigationEntry? _current;
+
+        public bool CanGoBack => _backStack.Count > 0;
+        public bool CanGoForward => _forwardStack.Count > 0;
+        public Type? CurrentPresenterType => _current?.PresenterType;
+
+        public event EventHandler? HistoryChanged;
+
         public void NavigateTo<TPresenter, TView>(Action<TPresenter> setup = null) where TPresenter
+            : BasePresenter<TView> where TView : class
+        {
+            var entry = new NavigationEntry(
+                typeof(TPresenter),
+                () => ShowPage<TPresenter, TView>(setup));
+
+            // Show first: if building the page throws, history stays untouched.
+            entry.Show();
+            
+
+            // Current page goes to the Back stack...
+            if (_current != null)
+                _backStack.Push(_current);
+
+            _current = entry;
+
+            // ...and a NEW navigation always kills the Forward history (like a browser).
+            _forwardStack.Clear();
+
+            OnHistoryChanged();
+        }
+
+        public void GoBack()
+        {
+            if (!CanGoBack || _current == null) return;
+
+            var target = _backStack.Peek();
+            target.Show();
+
+            _backStack.Pop();
+            _forwardStack.Push(_current);
+            _current = target;
+
+            OnHistoryChanged();
+        }
+
+        public void GoForward()
+        {
+            if (!CanGoForward || _current == null) return;
+
+            var target = _forwardStack.Peek();
+            target.Show();
+
+            _forwardStack.Pop();
+            _backStack.Push(_current);
+            _current = target;
+
+            OnHistoryChanged();
+        }
+
+        public void Refresh()
+        {
+            // Rebuild the current page with a fresh scope / presenter (reloads data).
+            _current?.Show();
+        }
+
+        public void ClearHistory()
+        {
+            _backStack.Clear();
+            _forwardStack.Clear();
+            _current = null;
+            OnHistoryChanged();
+        }
+
+        private void OnHistoryChanged() => HistoryChanged?.Invoke(this, EventArgs.Empty);
+
+        /// <summary>Builds and displays a page. Does NOT touch the history.</summary>
+        private void ShowPage<TPresenter, TView>(Action<TPresenter>? setup) where TPresenter
             : BasePresenter<TView> where TView : class
         {
             if (_mainContentPanel == null)
@@ -36,10 +122,11 @@ namespace DVLD.WinForms.Common
                 throw new InvalidOperationException("Main content panel is not set. Call SetMainContentPanel first.");
             }
 
-            foreach (Control oldControl in _mainContentPanel.Controls)
+            // Copy to an array first: disposing a control removes it from the
+            // Controls collection, which breaks a foreach over that collection.
+            foreach (Control oldControl in _mainContentPanel.Controls.Cast<Control>().ToArray())
             {
                 oldControl.Dispose();
-
             }
 
             _mainContentPanel.Controls.Clear();
@@ -70,6 +157,7 @@ namespace DVLD.WinForms.Common
         public void SetMainContentPanel(Control panel)
         {
             _mainContentPanel = panel;
+            ClearHistory(); // new shell (e.g. after re-login) => start with empty history
         }
 
         public void SetMainForm(Form mainForm)

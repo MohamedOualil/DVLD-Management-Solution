@@ -11,5 +11,11 @@ namespace DVLD.WinForms.Features.Dashboard
         Control MainContentPanel { get; }
         event EventHandler OnLoadApplicationsClicked;
         event EventHandler? OnLogoutClicked;
+        event EventHandler? OnBackClicked;
+        event EventHandler? OnForwardClicked;
+        event EventHandler? OnRefreshClicked;
+
+        void UpdateNavigationButtons(bool canGoBack, bool canGoForward);
+        void SyncActivePage(Type presenterType);
     }
 }

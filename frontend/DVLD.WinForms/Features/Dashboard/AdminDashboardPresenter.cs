@@ -22,6 +22,12 @@ namespace DVLD.WinForms.Features.Dashboard
         {
             _view = view;
             _view.OnLoadApplicationsClicked += (s, e) => LoadApplicationsControl();
+
+            _view.OnBackClicked += (s, e) => _navigationService.GoBack();
+            _view.OnForwardClicked += (s, e) => _navigationService.GoForward();
+            _view.OnRefreshClicked += (s, e) => _navigationService.Refresh();
+
+            _navigationService.HistoryChanged += HandleHistoryChanged;
             _navigationService.SetMainContentPanel(_view.MainContentPanel);
 
             _view.OnLogoutClicked += _view_OnLogoutClicked;
@@ -32,8 +38,21 @@ namespace DVLD.WinForms.Features.Dashboard
             {
                 dashboardForm.FormClosed += (s, e) =>
                 {
+                    _navigationService.HistoryChanged -= HandleHistoryChanged;
                     _refreshTokenService.OnSessionExpired -= HandleSessionExpired;
                 };
+            }
+        }
+
+        private void HandleHistoryChanged(object? sender, EventArgs e)
+        {
+            if (_view == null) return;
+
+            _view.UpdateNavigationButtons(_navigationService.CanGoBack, _navigationService.CanGoForward);
+
+            if (_navigationService.CurrentPresenterType is { } presenterType)
+            {
+                _view.SyncActivePage(presenterType);
             }
         }
 

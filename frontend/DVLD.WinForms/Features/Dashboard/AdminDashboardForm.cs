@@ -1,6 +1,8 @@
-﻿using Guna.UI2.WinForms;
+﻿using DVLD.WinForms.Features.Applications;
+using Guna.UI2.WinForms;
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace DVLD.WinForms.Features.Dashboard
@@ -9,6 +11,9 @@ namespace DVLD.WinForms.Features.Dashboard
     {
         public event EventHandler? OnLoadApplicationsClicked;
         public event EventHandler? OnLogoutClicked;
+        public event EventHandler? OnBackClicked;
+        public event EventHandler? OnForwardClicked;
+        public event EventHandler? OnRefreshClicked;
 
         public Control MainContentPanel => this.MainPanal;
 
@@ -68,6 +73,123 @@ namespace DVLD.WinForms.Features.Dashboard
         private void btnLogout_Click(object sender, EventArgs e)
         {
             OnLogoutClicked?.Invoke(this, EventArgs.Empty);
+        }
+
+        // --- Top Bar History Navigation (Back / Next / Refresh) ---
+
+        private void btnNavBack_Click(object sender, EventArgs e)
+        {
+            OnBackClicked?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void btnNavForward_Click(object sender, EventArgs e)
+        {
+            OnForwardClicked?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void btnNavRefresh_Click(object sender, EventArgs e)
+        {
+            OnRefreshClicked?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void UpdateNavigationButtons(bool canGoBack, bool canGoForward)
+        {
+            btnNavBack.Enabled = canGoBack;
+            btnNavForward.Enabled = canGoForward;
+            btnNavBack.Invalidate();
+            btnNavForward.Invalidate();
+        }
+
+        public void SyncActivePage(Type presenterType)
+        {
+            if (presenterType == typeof(ApplicationsPresenter))
+            {
+                SelectNavigationButton(ApplicationsButton, "DVLD  /  OPERATIONS", "Applications");
+            }
+        }
+
+        // --- Crisp Vector Icon Painting (`<`, `>`, and `↻` with dot) ---
+
+        private void btnNavBack_Paint(object sender, PaintEventArgs e)
+        {
+            DrawChevronIcon(e.Graphics, btnNavBack.ClientRectangle, isLeft: true, btnNavBack.Enabled);
+        }
+
+        private void btnNavForward_Paint(object sender, PaintEventArgs e)
+        {
+            DrawChevronIcon(e.Graphics, btnNavForward.ClientRectangle, isLeft: false, btnNavForward.Enabled);
+        }
+
+        private void btnNavRefresh_Paint(object sender, PaintEventArgs e)
+        {
+            DrawRefreshIcon(e.Graphics, btnNavRefresh.ClientRectangle);
+        }
+
+        private static void DrawChevronIcon(Graphics g, Rectangle bounds, bool isLeft, bool enabled)
+        {
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            Color iconColor = enabled
+                ? Color.FromArgb(30, 41, 59)    // Active slate
+                : Color.FromArgb(186, 198, 213); // Muted disabled gray
+
+            using var pen = new Pen(iconColor, 2.0f)
+            {
+                StartCap = LineCap.Round,
+                EndCap = LineCap.Round,
+                LineJoin = LineJoin.Round
+            };
+
+            float cx = bounds.Width / 2f;
+            float cy = bounds.Height / 2f;
+            float dx = 3.0f;
+            float dy = 5.5f;
+
+            if (isLeft)
+            {
+                g.DrawLines(pen, new[]
+                {
+                    new PointF(cx + dx, cy - dy),
+                    new PointF(cx - dx, cy),
+                    new PointF(cx + dx, cy + dy)
+                });
+            }
+            else
+            {
+                g.DrawLines(pen, new[]
+                {
+                    new PointF(cx - dx, cy - dy),
+                    new PointF(cx + dx, cy),
+                    new PointF(cx - dx, cy + dy)
+                });
+            }
+        }
+
+        private static void DrawRefreshIcon(Graphics g, Rectangle bounds)
+        {
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            Color iconColor = Color.FromArgb(30, 41, 59);
+
+            using var pen = new Pen(iconColor, 1.85f)
+            {
+                StartCap = LineCap.Round,
+                EndCap = LineCap.Round
+            };
+            using var brush = new SolidBrush(iconColor);
+
+            float cx = bounds.Width / 2f;
+            float cy = bounds.Height / 2f;
+            float r = 6.2f;
+            var arcRect = new RectangleF(cx - r, cy - r, r * 2, r * 2);
+
+            // Circular arc with a small gap on the bottom-right, matching the reference icon
+            g.DrawArc(pen, arcRect, 45f, 300f);
+
+            // Solid dot at the end of the arc (around 345 degrees / 3 o'clock)
+            double angleRad = -15.0 * Math.PI / 180.0;
+            float dotX = cx + (float)(r * Math.Cos(angleRad));
+            float dotY = cy + (float)(r * Math.Sin(angleRad));
+            float dotRadius = 2.2f;
+            g.FillEllipse(brush, dotX - dotRadius, dotY - dotRadius, dotRadius * 2, dotRadius * 2);
         }
 
         // --- Simple UI Helper Methods ---
