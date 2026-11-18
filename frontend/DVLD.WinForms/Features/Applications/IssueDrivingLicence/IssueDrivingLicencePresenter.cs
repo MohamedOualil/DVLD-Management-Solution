@@ -27,9 +27,19 @@ public class IssueDrivingLicencePresenter : BasePresenter<IIssueDrivingLicenceVi
         _licensesService = licensesService;
         _personService = personService;
         View.IssueRequested += OnIssueRequested;
-        View.CancelRequested += OnCancelRequested;
         View.ViewPersonRequested += OnViewPersonRequested;
         View.ResetApplication();
+
+        View.HasChangesRequested += View_HasChangesRequested;
+    }
+
+    private void View_HasChangesRequested(object? sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(View.Notes))
+            return;
+
+        _navigationService.HasChanges = true;
+        
     }
 
     public async Task LoadAsync(int localApplicationId)
@@ -119,6 +129,7 @@ public class IssueDrivingLicencePresenter : BasePresenter<IIssueDrivingLicenceVi
             }
 
             _eligible = false;
+            _navigationService.HasChanges = false;
             View.DisplayMessage($"Driving licence #{response.Data} issued successfully.");
             _navigationService.NavigateTo<ApplicationsPresenter, IApplicationsView>();
         }
@@ -141,11 +152,6 @@ public class IssueDrivingLicencePresenter : BasePresenter<IIssueDrivingLicenceVi
 
     }
 
-    private void OnCancelRequested(object? sender, EventArgs e)
-    {
-        if (!_disposed && !_issuing)
-            _navigationService.NavigateTo<ApplicationsPresenter, IApplicationsView>();
-    }
 
     private async void OnViewPersonRequested(object? sender, EventArgs e)
     {
@@ -174,7 +180,7 @@ public class IssueDrivingLicencePresenter : BasePresenter<IIssueDrivingLicenceVi
     {
         _disposed = true;
         View.IssueRequested -= OnIssueRequested;
-        View.CancelRequested -= OnCancelRequested;
         View.ViewPersonRequested -= OnViewPersonRequested;
+        View.HasChangesRequested -= View_HasChangesRequested;
     }
 }

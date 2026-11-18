@@ -10,10 +10,10 @@ namespace DVLD.WinForms.Features.Auth
         {
             try
             {
-                Settings.Default.Username = username ?? string.Empty;
-                Settings.Default.EncryptedPassword = SecurityHelper.EncryptPassword(password ?? string.Empty);
-                Settings.Default.RememberMe = true;
-                Settings.Default.Save();
+                Properties.Settings.Default.Username = username ?? string.Empty;
+                Properties.Settings.Default.EncryptedPassword = SecurityHelper.EncryptPassword(password ?? string.Empty);
+                Properties.Settings.Default.RememberMe = true;
+                Properties.Settings.Default.Save();
             }
             catch
             {
@@ -25,10 +25,10 @@ namespace DVLD.WinForms.Features.Auth
         {
             try
             {
-                if (Settings.Default.RememberMe)
+                if (Properties.Settings.Default.RememberMe)
                 {
-                    string username = Settings.Default.Username;
-                    string password = SecurityHelper.DecryptPassword(Settings.Default.EncryptedPassword);
+                    string username = Properties.Settings.Default.Username;
+                    string password = SecurityHelper.DecryptPassword(Properties.Settings.Default.EncryptedPassword);
 
                     if (!string.IsNullOrWhiteSpace(username))
                     {
@@ -63,10 +63,10 @@ namespace DVLD.WinForms.Features.Auth
         {
             try
             {
-                Settings.Default.Username = string.Empty;
-                Settings.Default.EncryptedPassword = string.Empty;
-                Settings.Default.RememberMe = false;
-                Settings.Default.Save();
+                Properties.Settings.Default.Username = string.Empty;
+                Properties.Settings.Default.EncryptedPassword = string.Empty;
+                Properties.Settings.Default.RememberMe = false;
+                Properties.Settings.Default.Save();
             }
             catch
             {

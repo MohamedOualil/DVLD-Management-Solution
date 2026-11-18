@@ -19,7 +19,7 @@ namespace DVLD.WinForms.Common
 
         public const string DockerUrl = "http://localhost:5000/api/";
         public const string LocalUrl = "https://localhost:7261/api/";
-        public const string BaseUrl = LocalUrl;
+        public const string BaseUrl = DockerUrl;
 
         public ApiClient(AppSession session, HttpClient httpClient, IRefreshTokenService refreshTokenService)
         {
@@ -88,6 +88,15 @@ namespace DVLD.WinForms.Common
         public async Task<ApiResponse<T>> PutAsync<T>(string endpoint, object data)
         {
             var response = await SendWithRefreshAsync(() => new HttpRequestMessage(HttpMethod.Put, endpoint)
+            {
+                Content = JsonContent.Create(data)
+            });
+            return await ProcessResponse<T>(response);
+        }
+
+        public async Task<ApiResponse<T>> PatchAsync<T>(string endpoint, object data)
+        {
+            var response = await SendWithRefreshAsync(() => new HttpRequestMessage(HttpMethod.Patch, endpoint)
             {
                 Content = JsonContent.Create(data)
             });

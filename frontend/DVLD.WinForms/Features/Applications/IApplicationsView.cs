@@ -1,43 +1,22 @@
-using DVLD.Contracts.LocalLicenseApplications;
-using DVLD.WinForms.Shared.Events;
+#nullable enable
+using DVLD.WinForms.Features.Applications.DetainedLicenses;
+using DVLD.WinForms.Features.Applications.InternationalLicenses;
+using DVLD.WinForms.Features.Applications.LocalApplications;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.WinForms.Features.Applications
 {
     public interface IApplicationsView
     {
-        event EventHandler<int> OnCancelApplication;
-        event EventHandler<int> OnDeleteApplication;
-        string SearchTerm { get; }
-        int cbStatusId { get; }
-        event EventHandler OnLoadDataRequested;
-        event EventHandler OnSearchChangeRequested;
-        event EventHandler<int> OnPageRequested;
-        event EventHandler<ApplicationMenuEventArgs> OnOpeningLocalAppActionMenu;
-        event EventHandler<PageModeEventArgs> OnApplicationDetailsRequested;
-        event EventHandler IssueLicenseRequested;
-        event EventHandler<ScheduleTestEventArgs> OnScheduleTestRequested;
-        event EventHandler<int> IssueDrivingLicenceRequested;
-        event EventHandler<int>? ShowLicenceRequested;
+        event EventHandler? OnLoadDataRequested;
+        event EventHandler<int>? TabSelectionChanged;
+        event EventHandler? IssueLicenseRequested;
+        event EventHandler? InternationalLicenseRequested;
+        event EventHandler? RenewLicenseRequested;
+        event EventHandler? ReplaceLicenseRequested;
 
-        bool IsEditOptionEnabled { set; }
-        bool IsCancelOptionEnabled { set; }
-        bool IsDeleteOptionEnabled { set; }
-        bool IsIssueLicenseOptionEnabled { set; }
-        public bool IsScheduleTestOptionEnabled { set; }
-        public bool IsShowLicenceOptionEnabled { set; }
-
-        bool IsScheduleVisionTestEnabled { set; }
-        bool IsScheduleWrittenTestEnabled { set; }
-        bool IsScheduleStreetTestEnabled { set; }
-
-        void DisplayMessage(string message);
-        void DisplayPagination(int pageNumber, int totalPages, int totalCount);
-        void SetPaginationLoading(bool isLoading);
-        void DisplayLocalApplications(IEnumerable<GetAllLocalApplicationsResponse> localApplications);
+        ILocalApplicationsTabView LocalApplicationsView { get; }
+        IInternationalLicensesTabView InternationalLicensesView { get; }
+        IDetainedLicensesTabView DetainedLicensesView { get; }
     }
 }

@@ -1,4 +1,5 @@
 using DVLD.Contracts.Auth;
+using DVLD.Contracts.Users;
 using DVLD.WinForms.Common;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,15 @@ namespace DVLD.WinForms.Features.Auth
         public async Task<ApiResponse<TokenResponse>> RefreshTokenAsync(string refreshToken)
         {
             return await _apiClient.PostAsync<TokenResponse>("auth/refresh", new RefreshTokenRequest(refreshToken));
+        }
+
+        public async Task<ApiResponse<object>> ChangePasswordAsync(int userId, string currentPassword, string newPassword)
+        {
+            return await _apiClient.PatchAsync<object>($"User/{userId}/change-password", new ChangePasswordRequest
+            {
+                CurrentPassword = currentPassword,
+                NewPassword = newPassword
+            });
         }
     }
 }

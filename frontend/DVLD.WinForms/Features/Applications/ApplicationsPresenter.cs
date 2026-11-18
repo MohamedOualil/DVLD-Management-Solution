@@ -1,304 +1,110 @@
-using DVLD.Contracts.Enums;
+#nullable enable
 using DVLD.WinForms.Common;
 using DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication;
-using DVLD.WinForms.Features.Applications.Detail;
-using DVLD.WinForms.Features.Applications.IssueDrivingLicence;
-using DVLD.WinForms.Features.Auth;
-using DVLD.WinForms.Features.Dashboard;
-using DVLD.WinForms.Features.Licenses;
-using DVLD.WinForms.Features.Licenses.LicenseDetails;
-using DVLD.WinForms.Features.Test_Appointments;
+using DVLD.WinForms.Features.Applications.DetainedLicenses;
+using DVLD.WinForms.Features.Applications.InternationalLicenses;
+using DVLD.WinForms.Features.Applications.LocalApplications;
+using DVLD.WinForms.Features.Licenses.InternationalPermit;
+using DVLD.WinForms.Features.Licenses.RenewLicense;
+using DVLD.WinForms.Features.Licenses.ReplaceLicense;
 using DVLD.WinForms.Shared;
-using DVLD.WinForms.Shared.Enums;
-using DVLD.WinForms.Shared.Events;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace DVLD.WinForms.Features.Applications
 {
     public class ApplicationsPresenter : BasePresenter<IApplicationsView>
     {
-
-        private readonly IApplicationsService _applicationsService;
-        private readonly ILicensesService _licensesService;
-        private bool _loadingLicence;
-        private const int PageSize = 10;
-        private int currentPage = 1;
-        private int totalPages = 1;
-        private int loadVersion;
-        private bool disposed;
-
+        private readonly LocalApplicationsPresenter _localPresenter;
+        private readonly InternationalLicensesPresenter _internationalPresenter;
+        private readonly DetainedLicensesPresenter _detainedPresenter;
+        private bool _disposed;
 
         public ApplicationsPresenter(
             IApplicationsView view,
-            IApplicationsService service,
-            ILicensesService licensesService,
+            LocalApplicationsPresenter localPresenter,
+            InternationalLicensesPresenter internationalPresenter,
+            DetainedLicensesPresenter detainedPresenter,
             AppSession appSession,
             INavigationService navigationService)
             : base(view, appSession, navigationService)
         {
-            _applicationsService = service;
-            _licensesService = licensesService;
+            _localPresenter = localPresenter;
+            _internationalPresenter = internationalPresenter;
+            _detainedPresenter = detainedPresenter;
 
-            View.OnLoadDataRequested += View_OnLoadDataRequested;
-            View.OnSearchChangeRequested += View_OnSearchChangeRequested;
-            View.OnPageRequested += View_OnPageRequested;
-            View.OnOpeningLocalAppActionMenu += _view_OnOpeningLocalAppActionMenu;
-            View.OnApplicationDetailsRequested += View_OnApplicationDetailsRequested;
-
-            View.OnCancelApplication += View_OnCancelApplication;
-            View.OnDeleteApplication += View_OnDeleteApplication;
-            View.IssueLicenseRequested += View_IssueLicenseRequested;
-
-            View.OnScheduleTestRequested += View_OnScheduleTestRequested;
-            View.IssueDrivingLicenceRequested += View_IssueDrivingLicenceRequested;
-            View.ShowLicenceRequested += View_ShowLicenceRequested;
+            View.OnLoadDataRequested += OnLoadDataRequested;
+            View.TabSelectionChanged += OnTabSelectionChanged;
+            View.IssueLicenseRequested += OnIssueLicenseRequested;
+            View.InternationalLicenseRequested += OnInternationalLicenseRequested;
+            View.RenewLicenseRequested += OnRenewLicenseRequested;
+            View.ReplaceLicenseRequested += OnReplaceLicenseRequested;
         }
 
-        private async void View_ShowLicenceRequested(object? sender, int localApplicationId)
+        private async void OnLoadDataRequested(object? sender, EventArgs e)
         {
-            if (disposed || _loadingLicence || localApplicationId <= 0)
-                return;
+            await _localPresenter.LoadAsync(1);
+        }
 
-            _loadingLicence = true;
-            try
-            {
-                var response = await _licensesService.GetLicenseByLocalApplicationIdAsync(localApplicationId);
-                if (disposed)
-                    return;
+        private async void OnTabSelectionChanged(object? sender, int tabIndex)
+        {
+            if (_disposed) return;
 
-                if (!response.IsSuccess || response.Data is null)
-                {
-                    View.DisplayMessage(response.Error?.AllMessages ?? "Unable to load licence details.");
-                    return;
-                }
-
-                _navigationService.ShowDialog<LicenseCardForm>(form => form.DisplayLicense(response.Data));
-            }
-            catch (Exception)
+            switch (tabIndex)
             {
-                if (!disposed)
-                    View.DisplayMessage("Unable to load licence details. Please try again.");
-            }
-            finally
-            {
-                _loadingLicence = false;
+                case 0:
+                    await _localPresenter.LoadAsync();
+                    break;
+                case 1:
+                    await _internationalPresenter.EnsureLoadedAsync();
+                    break;
+                case 2:
+                    await _detainedPresenter.EnsureLoadedAsync();
+                    break;
             }
         }
 
-        private void View_IssueDrivingLicenceRequested(object? sender, int e)
+        private void OnIssueLicenseRequested(object? sender, EventArgs e)
         {
-            _navigationService.NavigateTo<IssueDrivingLicencePresenter, IIssueDrivingLicenceView>(async presenter =>
-            {
-                await presenter.LoadAsync(e);
-            });
-        }
-
-        private void View_OnScheduleTestRequested(object? sender, ScheduleTestEventArgs e)
-        {
-            _navigationService.NavigateTo<ListTestAppointmentsPresenter, IListTestAppointmentsView>(async presenter =>
-            {
-                await presenter.LoadTestAppointementsAsync(e.LocalApplicationId, e.TestTypeEnum);
-            });
-        }
-
-        private void View_IssueLicenseRequested(object? sender, EventArgs e)
-        {
+            if (_disposed) return;
             _navigationService.NavigateTo<NewLocalDrivingLicensePresenter, INewLocalDrivingLicenseView>(presenter =>
             {
                 presenter.LoadPersonInfoStep();
             });
         }
 
-        private void View_OnDeleteApplication(object? sender, int e)
+        private void OnInternationalLicenseRequested(object? sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if (_disposed) return;
+            _navigationService.NavigateTo<InternationalPermitPresenter, IInternationalPermitView>();
         }
 
-        private async Task DeleteApplication(int localId)
+        private void OnRenewLicenseRequested(object? sender, EventArgs e)
         {
-            ApiResponse result =
-                await _applicationsService.DeleteApplication(localId);
-
-            if (result.IsSuccess)
-            {
-                await LoadDataAsync();
-            }
+            if (_disposed) return;
+            _navigationService.NavigateTo<RenewLicensePresenter, IRenewLicenseView>();
         }
 
-        private async void View_OnCancelApplication(object? sender, int e)
+        private void OnReplaceLicenseRequested(object? sender, EventArgs e)
         {
-            await CancelApplication(e);
-        }
-
-        private async Task CancelApplication(int applicationId)
-        {
-            ApiResponse result =
-                await _applicationsService.CancelApplication(applicationId);
-
-            if (result.IsSuccess)
-            {
-                await LoadDataAsync();
-            }
-        }
-
-        private async void View_OnLoadDataRequested(object? sender, EventArgs e)
-        {
-            await LoadDataAsync();
-        }
-
-        private async void View_OnSearchChangeRequested(object? sender, EventArgs e)
-        {
-            await LoadDataAsync(1);
-        }
-
-        private async void View_OnPageRequested(object? sender, int pageNumber)
-        {
-            if (pageNumber < 1 || pageNumber > totalPages)
-                return;
-
-            await LoadDataAsync(pageNumber);
-        }
-
-        private void View_OnApplicationDetailsRequested(object? sender, PageModeEventArgs e)
-        {
-            _navigationService.NavigateTo<ApplicationDetailPresenter, IApplicationDetailView>(async presenter =>
-            {
-                await presenter.LoadApplicationDetails(e.Id, e.Mode);
-            });
-        }
-
-        private void _view_OnOpeningLocalAppActionMenu(object? sender, ApplicationMenuEventArgs e)
-        {
-            View.IsEditOptionEnabled = false;
-            View.IsDeleteOptionEnabled = false;
-            View.IsCancelOptionEnabled = false;
-            View.IsScheduleTestOptionEnabled = false;
-            View.IsIssueLicenseOptionEnabled = false;
-            View.IsShowLicenceOptionEnabled = false;
-
-            View.IsScheduleVisionTestEnabled = false;
-            View.IsScheduleWrittenTestEnabled = false;
-            View.IsScheduleStreetTestEnabled = false;
-
-
-            switch (e.Status)
-            {
-                case DVLD.Contracts.Enums.ApplicationStatusEnum.Cancelled:
-                    break;
-
-                case DVLD.Contracts.Enums.ApplicationStatusEnum.Completed:
-                    View.IsShowLicenceOptionEnabled = true;
-                    break;
-
-                case DVLD.Contracts.Enums.ApplicationStatusEnum.New:
-                    View.IsEditOptionEnabled = true;
-                    View.IsDeleteOptionEnabled = true;
-                    View.IsCancelOptionEnabled = true;
-                    View.IsScheduleTestOptionEnabled = true;
-                    HandleTestMenuPermissions(e.PassedTests);
-                    break;
-            }
-
-        }
-
-        private void HandleTestMenuPermissions(PassedTestEnum passedTests)
-        {
-            switch (passedTests)
-            {
-                case Shared.Enums.PassedTestEnum.NoTestPass:
-                    View.IsScheduleVisionTestEnabled = true;
-                    break;
-
-                case Shared.Enums.PassedTestEnum.VisionPass:
-                    View.IsScheduleWrittenTestEnabled = true;
-                    break;
-
-                case Shared.Enums.PassedTestEnum.VisionWritingPass:
-                    View.IsScheduleStreetTestEnabled = true;
-                    break;
-
-                case Shared.Enums.PassedTestEnum.PassAllTest:
-                    View.IsIssueLicenseOptionEnabled = true;
-                    break;
-            }
-        }
-
-        private async Task LoadDataAsync(int? requestedPage = null)
-        {
-            if (disposed)
-                return;
-
-            int pageToLoad = requestedPage ?? currentPage;
-            int thisLoad = ++loadVersion;
-            string searchTerm = View.SearchTerm;
-            int statusId = View.cbStatusId;
-            View.SetPaginationLoading(true);
-
-            try
-            {
-                while (true)
-                {
-                    var applications = await _applicationsService.GetAllLocalApplicationsAsync(
-                        pageToLoad, PageSize, searchTerm, statusId);
-
-                    // Only the newest request may update the view.
-                    if (disposed || thisLoad != loadVersion)
-                        return;
-
-                    if (!applications.IsSuccess || applications.Data is null)
-                    {
-                        View.DisplayMessage(applications.Error?.AllMessages
-                            ?? "Could not load applications.");
-                        return;
-                    }
-
-                    var data = applications.Data;
-                    int availablePages = Math.Max(1, data.TotalPages);
-                    if (pageToLoad > availablePages)
-                    {
-                        pageToLoad = availablePages;
-                        continue;
-                    }
-
-                    currentPage = pageToLoad;
-                    totalPages = availablePages;
-                    View.DisplayLocalApplications(data.Items);
-                    View.DisplayPagination(currentPage, totalPages, data.TotalCount);
-
-                    if (data.TotalCount == 0)
-                        View.DisplayMessage("No applications found.");
-
-                    return;
-                }
-            }
-            catch (Exception)
-            {
-                if (!disposed && thisLoad == loadVersion)
-                    View.DisplayMessage("Could not load applications. Please try again.");
-            }
-            finally
-            {
-                if (!disposed && thisLoad == loadVersion)
-                    View.SetPaginationLoading(false);
-            }
+            if (_disposed) return;
+            _navigationService.NavigateTo<ReplaceLicensePresenter, IReplaceLicenseView>();
         }
 
         public override void Dispose()
         {
-            disposed = true;
-            ++loadVersion;
-            View.OnLoadDataRequested -= View_OnLoadDataRequested;
-            View.OnSearchChangeRequested -= View_OnSearchChangeRequested;
-            View.OnPageRequested -= View_OnPageRequested;
-            View.OnOpeningLocalAppActionMenu -= _view_OnOpeningLocalAppActionMenu;
-            View.OnApplicationDetailsRequested -= View_OnApplicationDetailsRequested;
-            View.IssueDrivingLicenceRequested -= View_IssueDrivingLicenceRequested;
-            View.ShowLicenceRequested -= View_ShowLicenceRequested;
+            if (_disposed) return;
+            _disposed = true;
+
+            View.OnLoadDataRequested -= OnLoadDataRequested;
+            View.TabSelectionChanged -= OnTabSelectionChanged;
+            View.IssueLicenseRequested -= OnIssueLicenseRequested;
+            View.InternationalLicenseRequested -= OnInternationalLicenseRequested;
+            View.RenewLicenseRequested -= OnRenewLicenseRequested;
+            View.ReplaceLicenseRequested -= OnReplaceLicenseRequested;
+
+            _localPresenter.Dispose();
+            _internationalPresenter.Dispose();
+            _detainedPresenter.Dispose();
         }
     }
 }

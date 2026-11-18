@@ -1,4 +1,4 @@
-﻿namespace DVLD.WinForms.Features.Persons.Detail
+namespace DVLD.WinForms.Features.Persons.Detail
 {
     partial class PersonDetailControl
     {
@@ -28,382 +28,467 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PersonDetailControl));
-            guna2ShadowPanel2 = new Guna.UI2.WinForms.Guna2ShadowPanel();
+            photoFrame = new Guna.UI2.WinForms.Guna2Panel();
             pbPhoto = new PictureBox();
-            guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            lblFullName = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel4 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            lblNationalNo = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel6 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            lblGender = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel8 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            lblDateOfBirth = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel10 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel11 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel12 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            lblPhone = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            lblAddress = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            pictureBox1 = new PictureBox();
-            pictureBox2 = new PictureBox();
-            pictureBox3 = new PictureBox();
-            lblEmail = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel16 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            pictureBox4 = new PictureBox();
+            personIdBadgePanel = new Guna.UI2.WinForms.Guna2Panel();
+            lblPersonIdCaption = new Label();
+            lblPersonId = new Label();
+            nationalNoBadgePanel = new Guna.UI2.WinForms.Guna2Panel();
+            lblNationalNoCaption = new Label();
+            lblNationalNo = new Label();
+            lblPrimarySection = new Label();
+            lblFullNameCaption = new Label();
+            lblFullName = new Label();
+            genderBox = new Guna.UI2.WinForms.Guna2Panel();
+            lblGenderCaption = new Label();
             GenderIcon = new PictureBox();
-            guna2HtmlLabel17 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            lblPersonId = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2ShadowPanel2.SuspendLayout();
+            lblGender = new Label();
+            dobBox = new Guna.UI2.WinForms.Guna2Panel();
+            lblDobCaption = new Label();
+            pictureBox4 = new PictureBox();
+            lblDateOfBirth = new Label();
+            sectionDivider = new Panel();
+            lblContactSection = new Label();
+            lblPhoneCaption = new Label();
+            lblPhone = new Label();
+            lblEmailCaption = new Label();
+            lblEmail = new Label();
+            addressBox = new Guna.UI2.WinForms.Guna2Panel();
+            lblAddressCaption = new Label();
+            lblAddress = new Label();
+
+            photoFrame.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbPhoto).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            personIdBadgePanel.SuspendLayout();
+            nationalNoBadgePanel.SuspendLayout();
+            genderBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)GenderIcon).BeginInit();
+            dobBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            addressBox.SuspendLayout();
             SuspendLayout();
-            // 
-            // guna2ShadowPanel2
-            // 
-            guna2ShadowPanel2.BackColor = Color.Transparent;
-            guna2ShadowPanel2.Controls.Add(pbPhoto);
-            guna2ShadowPanel2.FillColor = Color.White;
-            guna2ShadowPanel2.Location = new Point(3, 3);
-            guna2ShadowPanel2.Name = "guna2ShadowPanel2";
-            guna2ShadowPanel2.Radius = 5;
-            guna2ShadowPanel2.ShadowColor = Color.Black;
-            guna2ShadowPanel2.ShadowDepth = 50;
-            guna2ShadowPanel2.ShadowShift = 4;
-            guna2ShadowPanel2.Size = new Size(114, 132);
-            guna2ShadowPanel2.TabIndex = 5;
-            // 
+
+            //
+            // photoFrame
+            //
+            photoFrame.BorderColor = Color.FromArgb(226, 232, 240);
+            photoFrame.BorderRadius = 10;
+            photoFrame.BorderThickness = 1;
+            photoFrame.Controls.Add(pbPhoto);
+            photoFrame.FillColor = Color.FromArgb(248, 250, 252);
+            photoFrame.Location = new Point(8, 10);
+            photoFrame.Name = "photoFrame";
+            photoFrame.Padding = new Padding(4);
+            photoFrame.Size = new Size(112, 134);
+            photoFrame.TabIndex = 0;
+
+            //
             // pbPhoto
-            // 
+            //
+            pbPhoto.BackColor = Color.Transparent;
+            pbPhoto.Dock = DockStyle.Fill;
             pbPhoto.Image = Properties.Resources.DefaultAvatar;
-            pbPhoto.Location = new Point(3, 3);
+            pbPhoto.Location = new Point(4, 4);
             pbPhoto.Name = "pbPhoto";
-            pbPhoto.Size = new Size(108, 126);
-            pbPhoto.SizeMode = PictureBoxSizeMode.CenterImage;
+            pbPhoto.Size = new Size(104, 126);
+            pbPhoto.SizeMode = PictureBoxSizeMode.Zoom;
             pbPhoto.TabIndex = 0;
             pbPhoto.TabStop = false;
-            // 
-            // guna2HtmlLabel1
-            // 
-            guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel1.ForeColor = Color.FromArgb(98, 117, 175);
-            guna2HtmlLabel1.Location = new Point(132, 8);
-            guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(116, 17);
-            guna2HtmlLabel1.TabIndex = 6;
-            guna2HtmlLabel1.Text = "Primary Information";
-            // 
-            // guna2HtmlLabel2
-            // 
-            guna2HtmlLabel2.BackColor = Color.Transparent;
-            guna2HtmlLabel2.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel2.ForeColor = Color.Black;
-            guna2HtmlLabel2.Location = new Point(131, 30);
-            guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            guna2HtmlLabel2.Size = new Size(54, 15);
-            guna2HtmlLabel2.TabIndex = 6;
-            guna2HtmlLabel2.Text = "Full Name";
-            // 
-            // lblFullName
-            // 
-            lblFullName.BackColor = Color.Transparent;
-            lblFullName.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblFullName.ForeColor = Color.Black;
-            lblFullName.Location = new Point(131, 45);
-            lblFullName.Name = "lblFullName";
-            lblFullName.Size = new Size(66, 19);
-            lblFullName.TabIndex = 6;
-            lblFullName.Text = "Full Name";
-            // 
-            // guna2HtmlLabel4
-            // 
-            guna2HtmlLabel4.BackColor = Color.Transparent;
-            guna2HtmlLabel4.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel4.ForeColor = Color.Black;
-            guna2HtmlLabel4.Location = new Point(336, 30);
-            guna2HtmlLabel4.Name = "guna2HtmlLabel4";
-            guna2HtmlLabel4.Size = new Size(67, 15);
-            guna2HtmlLabel4.TabIndex = 6;
-            guna2HtmlLabel4.Text = "National No.";
-            // 
-            // lblNationalNo
-            // 
+
+            //
+            // personIdBadgePanel
+            //
+            personIdBadgePanel.BorderColor = Color.FromArgb(226, 232, 240);
+            personIdBadgePanel.BorderRadius = 8;
+            personIdBadgePanel.BorderThickness = 1;
+            personIdBadgePanel.Controls.Add(lblPersonIdCaption);
+            personIdBadgePanel.Controls.Add(lblPersonId);
+            personIdBadgePanel.FillColor = Color.FromArgb(248, 250, 252);
+            personIdBadgePanel.Location = new Point(8, 152);
+            personIdBadgePanel.Name = "personIdBadgePanel";
+            personIdBadgePanel.Size = new Size(112, 46);
+            personIdBadgePanel.TabIndex = 1;
+
+            lblPersonIdCaption.AutoSize = true;
+            lblPersonIdCaption.BackColor = Color.Transparent;
+            lblPersonIdCaption.Font = new Font("Segoe UI Semibold", 7F, FontStyle.Bold);
+            lblPersonIdCaption.ForeColor = Color.FromArgb(100, 116, 139);
+            lblPersonIdCaption.Location = new Point(10, 6);
+            lblPersonIdCaption.Name = "lblPersonIdCaption";
+            lblPersonIdCaption.Size = new Size(57, 12);
+            lblPersonIdCaption.TabIndex = 0;
+            lblPersonIdCaption.Text = "PERSON ID";
+            lblPersonIdCaption.UseMnemonic = false;
+
+            lblPersonId.AutoEllipsis = true;
+            lblPersonId.BackColor = Color.Transparent;
+            lblPersonId.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            lblPersonId.ForeColor = Color.FromArgb(15, 23, 42);
+            lblPersonId.Location = new Point(10, 21);
+            lblPersonId.Name = "lblPersonId";
+            lblPersonId.Size = new Size(92, 18);
+            lblPersonId.TabIndex = 1;
+            lblPersonId.Text = "#1042";
+            lblPersonId.UseMnemonic = false;
+
+            //
+            // nationalNoBadgePanel
+            //
+            nationalNoBadgePanel.BorderColor = Color.FromArgb(153, 246, 228);
+            nationalNoBadgePanel.BorderRadius = 8;
+            nationalNoBadgePanel.BorderThickness = 1;
+            nationalNoBadgePanel.Controls.Add(lblNationalNoCaption);
+            nationalNoBadgePanel.Controls.Add(lblNationalNo);
+            nationalNoBadgePanel.FillColor = Color.FromArgb(240, 253, 250);
+            nationalNoBadgePanel.Location = new Point(8, 205);
+            nationalNoBadgePanel.Name = "nationalNoBadgePanel";
+            nationalNoBadgePanel.Size = new Size(112, 48);
+            nationalNoBadgePanel.TabIndex = 2;
+
+            lblNationalNoCaption.AutoSize = true;
+            lblNationalNoCaption.BackColor = Color.Transparent;
+            lblNationalNoCaption.Font = new Font("Segoe UI Semibold", 7F, FontStyle.Bold);
+            lblNationalNoCaption.ForeColor = Color.FromArgb(13, 148, 136);
+            lblNationalNoCaption.Location = new Point(10, 6);
+            lblNationalNoCaption.Name = "lblNationalNoCaption";
+            lblNationalNoCaption.Size = new Size(71, 12);
+            lblNationalNoCaption.TabIndex = 0;
+            lblNationalNoCaption.Text = "NATIONAL NO";
+            lblNationalNoCaption.UseMnemonic = false;
+
+            lblNationalNo.AutoEllipsis = true;
             lblNationalNo.BackColor = Color.Transparent;
-            lblNationalNo.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblNationalNo.ForeColor = Color.FromArgb(37, 99, 235);
-            lblNationalNo.Location = new Point(336, 45);
+            lblNationalNo.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            lblNationalNo.ForeColor = Color.FromArgb(15, 118, 110);
+            lblNationalNo.Location = new Point(10, 22);
             lblNationalNo.Name = "lblNationalNo";
-            lblNationalNo.Size = new Size(73, 19);
-            lblNationalNo.TabIndex = 6;
+            lblNationalNo.Size = new Size(92, 18);
+            lblNationalNo.TabIndex = 1;
             lblNationalNo.Text = "9921045231";
-            // 
-            // guna2HtmlLabel6
-            // 
-            guna2HtmlLabel6.BackColor = Color.Transparent;
-            guna2HtmlLabel6.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel6.ForeColor = Color.Black;
-            guna2HtmlLabel6.Location = new Point(132, 70);
-            guna2HtmlLabel6.Name = "guna2HtmlLabel6";
-            guna2HtmlLabel6.Size = new Size(40, 15);
-            guna2HtmlLabel6.TabIndex = 6;
-            guna2HtmlLabel6.Text = "Gender";
-            // 
-            // lblGender
-            // 
-            lblGender.BackColor = Color.Transparent;
-            lblGender.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblGender.ForeColor = Color.Black;
-            lblGender.Location = new Point(153, 88);
-            lblGender.Name = "lblGender";
-            lblGender.Size = new Size(33, 19);
-            lblGender.TabIndex = 6;
-            lblGender.Text = "Male";
-            // 
-            // guna2HtmlLabel8
-            // 
-            guna2HtmlLabel8.BackColor = Color.Transparent;
-            guna2HtmlLabel8.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel8.ForeColor = Color.Black;
-            guna2HtmlLabel8.Location = new Point(335, 70);
-            guna2HtmlLabel8.Name = "guna2HtmlLabel8";
-            guna2HtmlLabel8.Size = new Size(68, 15);
-            guna2HtmlLabel8.TabIndex = 6;
-            guna2HtmlLabel8.Text = "Date of Birth";
-            // 
-            // lblDateOfBirth
-            // 
-            lblDateOfBirth.BackColor = Color.Transparent;
-            lblDateOfBirth.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblDateOfBirth.ForeColor = Color.Black;
-            lblDateOfBirth.Location = new Point(357, 88);
-            lblDateOfBirth.Name = "lblDateOfBirth";
-            lblDateOfBirth.Size = new Size(95, 19);
-            lblDateOfBirth.TabIndex = 6;
-            lblDateOfBirth.Text = "March 15, 1992";
-            // 
-            // guna2HtmlLabel10
-            // 
-            guna2HtmlLabel10.BackColor = Color.Transparent;
-            guna2HtmlLabel10.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel10.ForeColor = Color.FromArgb(98, 117, 175);
-            guna2HtmlLabel10.Location = new Point(127, 116);
-            guna2HtmlLabel10.Name = "guna2HtmlLabel10";
-            guna2HtmlLabel10.Size = new Size(106, 17);
-            guna2HtmlLabel10.TabIndex = 6;
-            guna2HtmlLabel10.Text = "Contact & Address";
-            // 
-            // guna2HtmlLabel11
-            // 
-            guna2HtmlLabel11.BackColor = Color.Transparent;
-            guna2HtmlLabel11.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel11.ForeColor = Color.Black;
-            guna2HtmlLabel11.Location = new Point(165, 185);
-            guna2HtmlLabel11.Name = "guna2HtmlLabel11";
-            guna2HtmlLabel11.Size = new Size(44, 15);
-            guna2HtmlLabel11.TabIndex = 6;
-            guna2HtmlLabel11.Text = "Address";
-            // 
-            // guna2HtmlLabel12
-            // 
-            guna2HtmlLabel12.BackColor = Color.Transparent;
-            guna2HtmlLabel12.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel12.ForeColor = Color.Black;
-            guna2HtmlLabel12.Location = new Point(351, 193);
-            guna2HtmlLabel12.Name = "guna2HtmlLabel12";
-            guna2HtmlLabel12.Size = new Size(78, 15);
-            guna2HtmlLabel12.TabIndex = 6;
-            guna2HtmlLabel12.Text = "Phone Number";
-            // 
-            // lblPhone
-            // 
-            lblPhone.BackColor = Color.Transparent;
-            lblPhone.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblPhone.ForeColor = Color.Black;
-            lblPhone.Location = new Point(351, 210);
-            lblPhone.Name = "lblPhone";
-            lblPhone.Size = new Size(108, 19);
-            lblPhone.TabIndex = 6;
-            lblPhone.Text = "+962 79 123 4567";
-            // 
-            // lblAddress
-            // 
-            lblAddress.AutoSize = false;
-            lblAddress.BackColor = Color.Transparent;
-            lblAddress.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblAddress.ForeColor = Color.Black;
-            lblAddress.Location = new Point(164, 200);
-            lblAddress.Name = "lblAddress";
-            lblAddress.Size = new Size(143, 65);
-            lblAddress.TabIndex = 6;
-            lblAddress.Text = "42 Al-Rashid St, District 4, Amman, Jordan";
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(315, 191);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(30, 30);
-            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(128, 186);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(30, 30);
-            pictureBox2.SizeMode = PictureBoxSizeMode.AutoSize;
-            pictureBox2.TabIndex = 0;
-            pictureBox2.TabStop = false;
-            // 
-            // pictureBox3
-            // 
-            pictureBox3.Image = Properties.Resources.icons8_email_30;
-            pictureBox3.Location = new Point(128, 138);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(30, 30);
-            pictureBox3.SizeMode = PictureBoxSizeMode.AutoSize;
-            pictureBox3.TabIndex = 0;
-            pictureBox3.TabStop = false;
-            // 
-            // lblEmail
-            // 
-            lblEmail.AutoSize = false;
-            lblEmail.BackColor = Color.Transparent;
-            lblEmail.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblEmail.ForeColor = Color.Black;
-            lblEmail.Location = new Point(163, 153);
-            lblEmail.Name = "lblEmail";
-            lblEmail.Size = new Size(246, 19);
-            lblEmail.TabIndex = 6;
-            lblEmail.Text = "Email.example.com";
-            // 
-            // guna2HtmlLabel16
-            // 
-            guna2HtmlLabel16.BackColor = Color.Transparent;
-            guna2HtmlLabel16.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel16.ForeColor = Color.Black;
-            guna2HtmlLabel16.Location = new Point(164, 138);
-            guna2HtmlLabel16.Name = "guna2HtmlLabel16";
-            guna2HtmlLabel16.Size = new Size(31, 15);
-            guna2HtmlLabel16.TabIndex = 6;
-            guna2HtmlLabel16.Text = "Email";
-            // 
-            // pictureBox4
-            // 
-            pictureBox4.Image = Properties.Resources.icons8_date_16;
-            pictureBox4.Location = new Point(335, 91);
-            pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(16, 16);
-            pictureBox4.SizeMode = PictureBoxSizeMode.AutoSize;
-            pictureBox4.TabIndex = 0;
-            pictureBox4.TabStop = false;
-            // 
-            // GenderIcon
-            // 
+            lblNationalNo.UseMnemonic = false;
+
+            //
+            // lblPrimarySection
+            //
+            lblPrimarySection.AutoSize = true;
+            lblPrimarySection.BackColor = Color.Transparent;
+            lblPrimarySection.Font = new Font("Segoe UI Semibold", 7.5F, FontStyle.Bold);
+            lblPrimarySection.ForeColor = Color.FromArgb(13, 148, 136);
+            lblPrimarySection.Location = new Point(134, 10);
+            lblPrimarySection.Name = "lblPrimarySection";
+            lblPrimarySection.Size = new Size(125, 13);
+            lblPrimarySection.TabIndex = 3;
+            lblPrimarySection.Text = "PRIMARY INFORMATION";
+            lblPrimarySection.UseMnemonic = false;
+
+            //
+            // lblFullNameCaption
+            //
+            lblFullNameCaption.AutoSize = true;
+            lblFullNameCaption.BackColor = Color.Transparent;
+            lblFullNameCaption.Font = new Font("Segoe UI Semibold", 7F, FontStyle.Bold);
+            lblFullNameCaption.ForeColor = Color.FromArgb(148, 163, 184);
+            lblFullNameCaption.Location = new Point(134, 28);
+            lblFullNameCaption.Name = "lblFullNameCaption";
+            lblFullNameCaption.Size = new Size(58, 12);
+            lblFullNameCaption.TabIndex = 4;
+            lblFullNameCaption.Text = "FULL NAME";
+            lblFullNameCaption.UseMnemonic = false;
+
+            //
+            // lblFullName
+            //
+            lblFullName.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblFullName.AutoEllipsis = true;
+            lblFullName.BackColor = Color.Transparent;
+            lblFullName.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblFullName.ForeColor = Color.FromArgb(15, 23, 42);
+            lblFullName.Location = new Point(133, 43);
+            lblFullName.Name = "lblFullName";
+            lblFullName.Size = new Size(379, 24);
+            lblFullName.TabIndex = 5;
+            lblFullName.Text = "Tariq Al-Mansoor";
+            lblFullName.UseMnemonic = false;
+
+            //
+            // genderBox
+            //
+            genderBox.BorderColor = Color.FromArgb(226, 232, 240);
+            genderBox.BorderRadius = 8;
+            genderBox.BorderThickness = 1;
+            genderBox.Controls.Add(lblGenderCaption);
+            genderBox.Controls.Add(GenderIcon);
+            genderBox.Controls.Add(lblGender);
+            genderBox.FillColor = Color.FromArgb(248, 250, 252);
+            genderBox.Location = new Point(134, 73);
+            genderBox.Name = "genderBox";
+            genderBox.Size = new Size(182, 48);
+            genderBox.TabIndex = 6;
+
+            lblGenderCaption.AutoSize = true;
+            lblGenderCaption.BackColor = Color.Transparent;
+            lblGenderCaption.Font = new Font("Segoe UI Semibold", 7F, FontStyle.Bold);
+            lblGenderCaption.ForeColor = Color.FromArgb(148, 163, 184);
+            lblGenderCaption.Location = new Point(10, 6);
+            lblGenderCaption.Name = "lblGenderCaption";
+            lblGenderCaption.Size = new Size(44, 12);
+            lblGenderCaption.TabIndex = 0;
+            lblGenderCaption.Text = "GENDER";
+            lblGenderCaption.UseMnemonic = false;
+
+            GenderIcon.BackColor = Color.Transparent;
             GenderIcon.Image = Properties.Resources.MaleIcon;
-            GenderIcon.Location = new Point(131, 89);
+            GenderIcon.Location = new Point(10, 23);
             GenderIcon.Name = "GenderIcon";
             GenderIcon.Size = new Size(16, 16);
-            GenderIcon.SizeMode = PictureBoxSizeMode.AutoSize;
-            GenderIcon.TabIndex = 0;
+            GenderIcon.SizeMode = PictureBoxSizeMode.Zoom;
+            GenderIcon.TabIndex = 1;
             GenderIcon.TabStop = false;
-            // 
-            // guna2HtmlLabel17
-            // 
-            guna2HtmlLabel17.BackColor = Color.Transparent;
-            guna2HtmlLabel17.Font = new Font("Segoe UI Semibold", 8.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel17.ForeColor = Color.Black;
-            guna2HtmlLabel17.Location = new Point(336, 10);
-            guna2HtmlLabel17.Name = "guna2HtmlLabel17";
-            guna2HtmlLabel17.Size = new Size(50, 15);
-            guna2HtmlLabel17.TabIndex = 6;
-            guna2HtmlLabel17.Text = "Person Id";
-            // 
-            // lblPersonId
-            // 
-            lblPersonId.BackColor = Color.Transparent;
-            lblPersonId.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblPersonId.ForeColor = Color.Black;
-            lblPersonId.Location = new Point(393, 8);
-            lblPersonId.Name = "lblPersonId";
-            lblPersonId.Size = new Size(15, 19);
-            lblPersonId.TabIndex = 6;
-            lblPersonId.Text = "Id";
-            // 
+
+            lblGender.AutoEllipsis = true;
+            lblGender.BackColor = Color.Transparent;
+            lblGender.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
+            lblGender.ForeColor = Color.FromArgb(15, 23, 42);
+            lblGender.Location = new Point(31, 21);
+            lblGender.Name = "lblGender";
+            lblGender.Size = new Size(140, 20);
+            lblGender.TabIndex = 2;
+            lblGender.Text = "Male";
+            lblGender.UseMnemonic = false;
+
+            //
+            // dobBox
+            //
+            dobBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            dobBox.BorderColor = Color.FromArgb(226, 232, 240);
+            dobBox.BorderRadius = 8;
+            dobBox.BorderThickness = 1;
+            dobBox.Controls.Add(lblDobCaption);
+            dobBox.Controls.Add(pictureBox4);
+            dobBox.Controls.Add(lblDateOfBirth);
+            dobBox.FillColor = Color.FromArgb(248, 250, 252);
+            dobBox.Location = new Point(326, 73);
+            dobBox.Name = "dobBox";
+            dobBox.Size = new Size(186, 48);
+            dobBox.TabIndex = 7;
+
+            lblDobCaption.AutoSize = true;
+            lblDobCaption.BackColor = Color.Transparent;
+            lblDobCaption.Font = new Font("Segoe UI Semibold", 7F, FontStyle.Bold);
+            lblDobCaption.ForeColor = Color.FromArgb(148, 163, 184);
+            lblDobCaption.Location = new Point(10, 6);
+            lblDobCaption.Name = "lblDobCaption";
+            lblDobCaption.Size = new Size(76, 12);
+            lblDobCaption.TabIndex = 0;
+            lblDobCaption.Text = "DATE OF BIRTH";
+            lblDobCaption.UseMnemonic = false;
+
+            pictureBox4.BackColor = Color.Transparent;
+            pictureBox4.Image = Properties.Resources.icons8_date_16;
+            pictureBox4.Location = new Point(10, 23);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(16, 16);
+            pictureBox4.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox4.TabIndex = 1;
+            pictureBox4.TabStop = false;
+
+            lblDateOfBirth.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblDateOfBirth.AutoEllipsis = true;
+            lblDateOfBirth.BackColor = Color.Transparent;
+            lblDateOfBirth.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
+            lblDateOfBirth.ForeColor = Color.FromArgb(15, 23, 42);
+            lblDateOfBirth.Location = new Point(31, 21);
+            lblDateOfBirth.Name = "lblDateOfBirth";
+            lblDateOfBirth.Size = new Size(145, 20);
+            lblDateOfBirth.TabIndex = 2;
+            lblDateOfBirth.Text = "15/03/1992";
+            lblDateOfBirth.UseMnemonic = false;
+
+            //
+            // sectionDivider
+            //
+            sectionDivider.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            sectionDivider.BackColor = Color.FromArgb(226, 232, 240);
+            sectionDivider.Location = new Point(134, 130);
+            sectionDivider.Name = "sectionDivider";
+            sectionDivider.Size = new Size(378, 1);
+            sectionDivider.TabIndex = 8;
+
+            //
+            // lblContactSection
+            //
+            lblContactSection.AutoSize = true;
+            lblContactSection.BackColor = Color.Transparent;
+            lblContactSection.Font = new Font("Segoe UI Semibold", 7.5F, FontStyle.Bold);
+            lblContactSection.ForeColor = Color.FromArgb(100, 116, 139);
+            lblContactSection.Location = new Point(134, 138);
+            lblContactSection.Name = "lblContactSection";
+            lblContactSection.Size = new Size(121, 13);
+            lblContactSection.TabIndex = 9;
+            lblContactSection.Text = "CONTACT & RESIDENCE";
+            lblContactSection.UseMnemonic = false;
+
+            //
+            // lblPhoneCaption & lblPhone
+            //
+            lblPhoneCaption.AutoSize = true;
+            lblPhoneCaption.BackColor = Color.Transparent;
+            lblPhoneCaption.Font = new Font("Segoe UI Semibold", 7F, FontStyle.Bold);
+            lblPhoneCaption.ForeColor = Color.FromArgb(148, 163, 184);
+            lblPhoneCaption.Location = new Point(134, 157);
+            lblPhoneCaption.Name = "lblPhoneCaption";
+            lblPhoneCaption.Size = new Size(80, 12);
+            lblPhoneCaption.TabIndex = 10;
+            lblPhoneCaption.Text = "PHONE NUMBER";
+            lblPhoneCaption.UseMnemonic = false;
+
+            lblPhone.AutoEllipsis = true;
+            lblPhone.BackColor = Color.Transparent;
+            lblPhone.Font = new Font("Segoe UI Semibold", 9.25F, FontStyle.Bold);
+            lblPhone.ForeColor = Color.FromArgb(15, 23, 42);
+            lblPhone.Location = new Point(134, 173);
+            lblPhone.Name = "lblPhone";
+            lblPhone.Size = new Size(178, 20);
+            lblPhone.TabIndex = 11;
+            lblPhone.Text = "+962 79 123 4567";
+            lblPhone.UseMnemonic = false;
+
+            //
+            // lblEmailCaption & lblEmail
+            //
+            lblEmailCaption.AutoSize = true;
+            lblEmailCaption.BackColor = Color.Transparent;
+            lblEmailCaption.Font = new Font("Segoe UI Semibold", 7F, FontStyle.Bold);
+            lblEmailCaption.ForeColor = Color.FromArgb(148, 163, 184);
+            lblEmailCaption.Location = new Point(322, 157);
+            lblEmailCaption.Name = "lblEmailCaption";
+            lblEmailCaption.Size = new Size(81, 12);
+            lblEmailCaption.TabIndex = 12;
+            lblEmailCaption.Text = "EMAIL ADDRESS";
+            lblEmailCaption.UseMnemonic = false;
+
+            lblEmail.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblEmail.AutoEllipsis = true;
+            lblEmail.BackColor = Color.Transparent;
+            lblEmail.Font = new Font("Segoe UI Semibold", 9.25F, FontStyle.Bold);
+            lblEmail.ForeColor = Color.FromArgb(15, 23, 42);
+            lblEmail.Location = new Point(322, 173);
+            lblEmail.Name = "lblEmail";
+            lblEmail.Size = new Size(190, 20);
+            lblEmail.TabIndex = 13;
+            lblEmail.Text = "tariq.mansoor@example.com";
+            lblEmail.UseMnemonic = false;
+
+            //
+            // addressBox
+            //
+            addressBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            addressBox.BorderColor = Color.FromArgb(226, 232, 240);
+            addressBox.BorderRadius = 8;
+            addressBox.BorderThickness = 1;
+            addressBox.Controls.Add(lblAddressCaption);
+            addressBox.Controls.Add(lblAddress);
+            addressBox.FillColor = Color.FromArgb(248, 250, 252);
+            addressBox.Location = new Point(134, 202);
+            addressBox.Name = "addressBox";
+            addressBox.Size = new Size(378, 51);
+            addressBox.TabIndex = 14;
+
+            lblAddressCaption.AutoSize = true;
+            lblAddressCaption.BackColor = Color.Transparent;
+            lblAddressCaption.Font = new Font("Segoe UI Semibold", 7F, FontStyle.Bold);
+            lblAddressCaption.ForeColor = Color.FromArgb(148, 163, 184);
+            lblAddressCaption.Location = new Point(12, 6);
+            lblAddressCaption.Name = "lblAddressCaption";
+            lblAddressCaption.Size = new Size(111, 12);
+            lblAddressCaption.TabIndex = 0;
+            lblAddressCaption.Text = "RESIDENTIAL ADDRESS";
+            lblAddressCaption.UseMnemonic = false;
+
+            lblAddress.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblAddress.AutoEllipsis = true;
+            lblAddress.BackColor = Color.Transparent;
+            lblAddress.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            lblAddress.ForeColor = Color.FromArgb(51, 65, 85);
+            lblAddress.Location = new Point(12, 22);
+            lblAddress.Name = "lblAddress";
+            lblAddress.Size = new Size(354, 22);
+            lblAddress.TabIndex = 1;
+            lblAddress.Text = "42 Al-Rashid St, District 4, Amman, Jordan";
+            lblAddress.UseMnemonic = false;
+
+            //
             // PersonDetailControl
-            // 
+            //
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(pictureBox3);
-            Controls.Add(pictureBox2);
-            Controls.Add(GenderIcon);
-            Controls.Add(pictureBox4);
-            Controls.Add(pictureBox1);
-            Controls.Add(lblEmail);
-            Controls.Add(lblNationalNo);
-            Controls.Add(lblAddress);
-            Controls.Add(lblPhone);
-            Controls.Add(lblDateOfBirth);
-            Controls.Add(lblGender);
-            Controls.Add(lblPersonId);
+            BackColor = Color.White;
+            Controls.Add(photoFrame);
+            Controls.Add(personIdBadgePanel);
+            Controls.Add(nationalNoBadgePanel);
+            Controls.Add(lblPrimarySection);
+            Controls.Add(lblFullNameCaption);
             Controls.Add(lblFullName);
-            Controls.Add(guna2HtmlLabel4);
-            Controls.Add(guna2HtmlLabel8);
-            Controls.Add(guna2HtmlLabel16);
-            Controls.Add(guna2HtmlLabel6);
-            Controls.Add(guna2HtmlLabel12);
-            Controls.Add(guna2HtmlLabel11);
-            Controls.Add(guna2HtmlLabel17);
-            Controls.Add(guna2HtmlLabel2);
-            Controls.Add(guna2HtmlLabel10);
-            Controls.Add(guna2HtmlLabel1);
-            Controls.Add(guna2ShadowPanel2);
+            Controls.Add(genderBox);
+            Controls.Add(dobBox);
+            Controls.Add(sectionDivider);
+            Controls.Add(lblContactSection);
+            Controls.Add(lblPhoneCaption);
+            Controls.Add(lblPhone);
+            Controls.Add(lblEmailCaption);
+            Controls.Add(lblEmail);
+            Controls.Add(addressBox);
+            Font = new Font("Segoe UI", 9F);
             Name = "PersonDetailControl";
             Size = new Size(520, 265);
-            guna2ShadowPanel2.ResumeLayout(false);
+
+            photoFrame.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pbPhoto).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            personIdBadgePanel.ResumeLayout(false);
+            personIdBadgePanel.PerformLayout();
+            nationalNoBadgePanel.ResumeLayout(false);
+            nationalNoBadgePanel.PerformLayout();
+            genderBox.ResumeLayout(false);
+            genderBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)GenderIcon).EndInit();
+            dobBox.ResumeLayout(false);
+            dobBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            addressBox.ResumeLayout(false);
+            addressBox.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Guna.UI2.WinForms.Guna2ShadowPanel guna2ShadowPanel2;
+        private Guna.UI2.WinForms.Guna2Panel photoFrame;
         private PictureBox pbPhoto;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
-        private Guna.UI2.WinForms.Guna2HtmlLabel lblFullName;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel4;
-        private Guna.UI2.WinForms.Guna2HtmlLabel lblNationalNo;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel6;
-        private Guna.UI2.WinForms.Guna2HtmlLabel lblGender;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel8;
-        private Guna.UI2.WinForms.Guna2HtmlLabel lblDateOfBirth;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel10;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel11;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel12;
-        private Guna.UI2.WinForms.Guna2HtmlLabel lblPhone;
-        private Guna.UI2.WinForms.Guna2HtmlLabel lblAddress;
-        private PictureBox pictureBox1;
-        private PictureBox pictureBox2;
-        private PictureBox pictureBox3;
-        private Guna.UI2.WinForms.Guna2HtmlLabel lblEmail;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel16;
-        private PictureBox pictureBox4;
+        private Guna.UI2.WinForms.Guna2Panel personIdBadgePanel;
+        private Label lblPersonIdCaption;
+        private Label lblPersonId;
+        private Guna.UI2.WinForms.Guna2Panel nationalNoBadgePanel;
+        private Label lblNationalNoCaption;
+        private Label lblNationalNo;
+        private Label lblPrimarySection;
+        private Label lblFullNameCaption;
+        private Label lblFullName;
+        private Guna.UI2.WinForms.Guna2Panel genderBox;
+        private Label lblGenderCaption;
         private PictureBox GenderIcon;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel17;
-        private Guna.UI2.WinForms.Guna2HtmlLabel lblPersonId;
+        private Label lblGender;
+        private Guna.UI2.WinForms.Guna2Panel dobBox;
+        private Label lblDobCaption;
+        private PictureBox pictureBox4;
+        private Label lblDateOfBirth;
+        private Panel sectionDivider;
+        private Label lblContactSection;
+        private Label lblPhoneCaption;
+        private Label lblPhone;
+        private Label lblEmailCaption;
+        private Label lblEmail;
+        private Guna.UI2.WinForms.Guna2Panel addressBox;
+        private Label lblAddressCaption;
+        private Label lblAddress;
     }
 }

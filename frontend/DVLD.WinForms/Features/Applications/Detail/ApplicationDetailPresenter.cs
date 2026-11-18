@@ -11,7 +11,7 @@ using DVLD.WinForms.Features.Licenses;
 using DVLD.WinForms.Features.Licenses.LicenseDetails;
 using DVLD.WinForms.Features.Persons;
 using DVLD.WinForms.Features.Persons.Detail;
-using DVLD.WinForms.Features.Test.TestTrackingRoadmap;
+using DVLD.WinForms.Shared.Controls;
 using DVLD.WinForms.Shared;
 using DVLD.WinForms.Shared.Enums;
 using static System.Net.Mime.MediaTypeNames;
@@ -48,15 +48,10 @@ namespace DVLD.WinForms.Features.Applications.Detail
             View.CanacleApplicationRequest += View_CanacleApplicationRequest;
             View.SaveEditApplicationRequest += View_SaveEditApplicationRequest;
             View.ShowLicenses += View_ShowLicenses;
-            View.BackToApplications += View_BackToApplications;
 
         }
 
-        private void View_BackToApplications(object? sender, EventArgs e)
-        {
-            if (!_disposed && !_saving && !_loading)
-                _navigationService.NavigateTo<ApplicationsPresenter, IApplicationsView>();
-        }
+
 
         private async void View_ShowLicenses(object? sender, EventArgs e)
         {
@@ -397,7 +392,7 @@ namespace DVLD.WinForms.Features.Applications.Detail
             View.CanacleApplicationRequest -= View_CanacleApplicationRequest;
             View.SaveEditApplicationRequest -= View_SaveEditApplicationRequest;
             View.ShowLicenses -= View_ShowLicenses;
-            View.BackToApplications -= View_BackToApplications;
+
         }
     }
 }

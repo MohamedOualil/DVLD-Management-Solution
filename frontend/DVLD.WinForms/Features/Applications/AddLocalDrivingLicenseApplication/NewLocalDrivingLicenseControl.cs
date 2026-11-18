@@ -1,9 +1,17 @@
-﻿
+
+
+#nullable enable
+using System;
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
 {
     public partial class NewLocalDrivingLicenseControl : UserControl, INewLocalDrivingLicenseView
     {
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsEnableNextStepButton
         {
             set
@@ -12,6 +20,9 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
                 ApplyButtonState();
             }
         }
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool MessageLabel
         {
             set
@@ -172,7 +183,7 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
                     : stepNumber.ToString();
 
                 buttons[index].FillColor = reached
-                    ? Color.FromArgb(37, 99, 235)
+                    ? Color.FromArgb(13, 148, 136)
                     : Color.FromArgb(226, 232, 240);
 
                 buttons[index].ForeColor = reached
@@ -180,7 +191,7 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
                     : Color.FromArgb(100, 116, 139);
 
                 labels[index].ForeColor = reached
-                    ? Color.FromArgb(37, 99, 235)
+                    ? Color.FromArgb(13, 148, 136)
                     : Color.FromArgb(100, 116, 139);
             }
 

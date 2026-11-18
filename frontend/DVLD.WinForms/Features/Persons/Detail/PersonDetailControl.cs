@@ -1,85 +1,106 @@
+#nullable enable
 using DVLD.Contracts.Enums;
 using DVLD.Contracts.Persons;
-using DVLD.WinForms.Shared.Helpers;
 using DVLD.WinForms.Shared.Enums;
+using DVLD.WinForms.Shared.Helpers;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace DVLD.WinForms.Features.Persons.Detail
 {
-    public partial class PersonDetailControl : UserControl
+    public partial class PersonDetailControl : UserControl, IPersonDetailView
     {
+        private static readonly Image MaleGenderBitmap = Properties.Resources.MaleIcon;
+        private static readonly Image FemaleGenderBitmap = Properties.Resources.FemaleIcon;
+
         public PersonDetailControl()
         {
             InitializeComponent();
-
         }
 
-        public string FullName { set => lblFullName.Text = value; }
-        public string DateofBirth { set => lblDateOfBirth.Text = value; }
-        public string NationlNo { set => lblNationalNo.Text = value; }
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public string FullName { set => lblFullName.Text = string.IsNullOrWhiteSpace(value) ? "—" : value; }
+
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public string DateofBirth { set => lblDateOfBirth.Text = string.IsNullOrWhiteSpace(value) ? "—" : value; }
+
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public string NationlNo { set => lblNationalNo.Text = string.IsNullOrWhiteSpace(value) ? "—" : value; }
+
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string Gender
         {
             set
             {
-                lblGender.Text = value;
+                string display = string.IsNullOrWhiteSpace(value) ? "—" : value;
+                lblGender.Text = display;
 
-                if (value.Equals("Male", StringComparison.OrdinalIgnoreCase))
-                {
-                    GenderIcon.Image = Properties.Resources.MaleIcon;
-                }
-                else if (value.Equals("Female", StringComparison.OrdinalIgnoreCase))
-                {
-                    GenderIcon.Image = Properties.Resources.FemaleIcon;
-                }
+                if (display.Equals("Male", StringComparison.OrdinalIgnoreCase))
+                    GenderIcon.Image = MaleGenderBitmap;
+                else if (display.Equals("Female", StringComparison.OrdinalIgnoreCase))
+                    GenderIcon.Image = FemaleGenderBitmap;
                 else
-                {
                     GenderIcon.Image = null;
-                }
             }
         }
-        public string Phone { set => lblPhone.Text = value; }
-        public string Email { set => lblEmail.Text = value; }
-        public string Address { set => lblAddress.Text = value; }
-        public string PersonId { set => lblPersonId.Text = value; }
+
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public string Phone { set => lblPhone.Text = string.IsNullOrWhiteSpace(value) ? "—" : value; }
+
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public string Email { set => lblEmail.Text = string.IsNullOrWhiteSpace(value) ? "—" : value; }
+
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public string Address { set => lblAddress.Text = string.IsNullOrWhiteSpace(value) ? "—" : value; }
+
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public string PersonId
+        {
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    lblPersonId.Text = "—";
+                    return;
+                }
+
+                string trimmed = value.Trim();
+                lblPersonId.Text = trimmed.StartsWith('#') ? trimmed : $"#{trimmed}";
+            }
+        }
+
+        [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string ImagePath
         {
             set
             {
-                if (!string.IsNullOrWhiteSpace(value))
+                if (!string.IsNullOrWhiteSpace(value) && File.Exists(value))
                 {
                     pbPhoto.ImageLocation = value;
                 }
                 else
                 {
-
+                    pbPhoto.ImageLocation = null;
                     pbPhoto.Image = Properties.Resources.DefaultAvatar;
                 }
             }
-
         }
 
         public void PersonInitialized(PersonResponse personDto)
         {
+            ArgumentNullException.ThrowIfNull(personDto);
+
             NationlNo = personDto.NationalNo;
-            DateofBirth = personDto.DateOfBirth.ToString("dd/MM/yyyy");
+            DateofBirth = personDto.DateOfBirth.ToString("dd MMM yyyy");
             PersonId = personDto.PersonId.ToString();
             FullName = personDto.GetFullName();
             Address = personDto.GetFullAddress();
-            Email = personDto.Email;
+            Email = personDto.Email ?? "—";
             Phone = personDto.Phone;
-            ImagePath = personDto.ImagePath;
-            Gender = ((Gender)personDto.Gender).ToString();
+            ImagePath = personDto.ImagePath ?? string.Empty;
+            Gender = ((DVLD.Contracts.Enums.Gender)personDto.Gender).ToString();
         }
-
-
-
     }
 }
