@@ -1,6 +1,18 @@
 using DVLD.WinForms.Common;
+using DVLD.WinForms.Features.Administration.AuditLogs;
+using DVLD.WinForms.Features.Administration.ServiceFees;
+using DVLD.WinForms.Features.Administration.Users;
 using DVLD.WinForms.Features.Applications;
+using DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication;
 using DVLD.WinForms.Features.Auth;
+using DVLD.WinForms.Features.Drivers;
+using DVLD.WinForms.Features.Licenses.DetainRelease;
+using DVLD.WinForms.Features.Licenses.InternationalPermit;
+using DVLD.WinForms.Features.Licenses.RenewLicense;
+using DVLD.WinForms.Features.Licenses.ReplaceLicense;
+using DVLD.WinForms.Features.Persons.ManagePeople;
+using DVLD.WinForms.Features.Settings;
+using DVLD.WinForms.Features.Tests.Appointments.ManageTestAppointments;
 using System;
 using System.Windows.Forms;
 
@@ -21,8 +33,20 @@ namespace DVLD.WinForms.Features.Dashboard
         public void SetView(IAdminDashboardView view)
         {
             _view = view;
+            _view.OnLoadDashboardClicked += (s, e) => LoadDashboardControl();
             _view.OnLoadApplicationsClicked += (s, e) => LoadApplicationsControl();
+            _view.OnNewApplicationRequested += (s, e) => OpenNewApplication();
             _view.OnAccountSettingsClicked += (s, e) => OpenAccountSettings();
+            _view.OnTestAppointmentsClicked += (s, e) => _navigationService.NavigateTo<ManageTestAppointmentsPresenter, IManageTestAppointmentsView>();
+            _view.OnRenewLicenseClicked += (s, e) => _navigationService.NavigateTo<RenewLicensePresenter, IRenewLicenseView>();
+            _view.OnReplaceLicenseClicked += (s, e) => _navigationService.NavigateTo<ReplaceLicensePresenter, IReplaceLicenseView>();
+            _view.OnDetainReleaseClicked += (s, e) => _navigationService.NavigateTo<DetainReleaseLicensePresenter, IDetainReleaseLicenseView>();
+            _view.OnInternationalLicenseClicked += (s, e) => _navigationService.NavigateTo<InternationalPermitPresenter, IInternationalPermitView>();
+            _view.OnPeopleDirectoryClicked += (s, e) => _navigationService.NavigateTo<PeoplePresenter, IPeopleView>();
+            _view.OnDriversDirectoryClicked += (s, e) => _navigationService.NavigateTo<DriversPresenter, IDriversView>();
+            _view.OnUsersManagementClicked += (s, e) => _navigationService.NavigateTo<UsersPresenter, IUsersView>();
+            _view.OnServiceFeesClicked += (s, e) => _navigationService.NavigateTo<ServiceFeesPresenter, IServiceFeesView>();
+            _view.OnAuditLogsClicked += (s, e) => _navigationService.NavigateTo<AuditLogsPresenter, IAuditLogsView>();
 
             _view.OnBackClicked += (s, e) => _navigationService.GoBack();
             _view.OnForwardClicked += (s, e) => _navigationService.GoForward();
@@ -66,6 +90,7 @@ namespace DVLD.WinForms.Features.Dashboard
             };
 
             _view.SetCurrentUserProfile(displayName, roleText, initials);
+            _view.ApplyRolePermissions(_session.IsAdmin);
         }
 
         private void OpenAccountSettings()
@@ -133,6 +158,19 @@ namespace DVLD.WinForms.Features.Dashboard
                 MessageBoxIcon.Warning);
 
             _navigationService.CloseCurrentForm(dashboardForm);
+        }
+
+        public void LoadDashboardControl()
+        {
+            _navigationService.NavigateTo<DashboardPresenter, IDashboardView>();
+        }
+
+        private void OpenNewApplication()
+        {
+            _navigationService.NavigateTo<NewLocalDrivingLicensePresenter, INewLocalDrivingLicenseView>(presenter =>
+            {
+                presenter.LoadPersonInfoStep();
+            });
         }
 
         public void LoadApplicationsControl()

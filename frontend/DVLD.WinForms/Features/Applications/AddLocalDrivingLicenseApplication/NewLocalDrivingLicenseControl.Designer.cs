@@ -31,7 +31,7 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            headerPanel = new Panel();
+            headerPanel = new Guna.UI2.WinForms.Guna2Panel();
             pageTitle = new Label();
             pageSubtitle = new Label();
             stepsPanel = new Panel();
@@ -47,21 +47,27 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
             successMark = new Label();
             successHeading = new Label();
             successDescription = new Label();
-            footerDivider = new Panel();
-            BackButton = new Guna.UI2.WinForms.Guna2GradientButton();
+            footerPanel = new Guna.UI2.WinForms.Guna2Panel();
+            BackButton = new Guna.UI2.WinForms.Guna2Button();
             lblMessage = new Label();
-            NextStepButton = new Guna.UI2.WinForms.Guna2GradientButton();
+            NextStepButton = new Guna.UI2.WinForms.Guna2Button();
             headerPanel.SuspendLayout();
             stepsPanel.SuspendLayout();
             successPanel.SuspendLayout();
+            footerPanel.SuspendLayout();
             SuspendLayout();
             // 
             // headerPanel
             // 
             headerPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            headerPanel.BackColor = Color.Transparent;
+            headerPanel.BorderColor = Color.FromArgb(220, 230, 238);
+            headerPanel.BorderRadius = 12;
+            headerPanel.BorderThickness = 1;
             headerPanel.Controls.Add(pageTitle);
             headerPanel.Controls.Add(pageSubtitle);
             headerPanel.Controls.Add(stepsPanel);
+            headerPanel.FillColor = Color.White;
             headerPanel.Location = new Point(16, 16);
             headerPanel.Name = "headerPanel";
             headerPanel.Size = new Size(971, 80);
@@ -70,27 +76,31 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
             // pageTitle
             // 
             pageTitle.BackColor = Color.Transparent;
-            pageTitle.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            pageTitle.Font = new Font("Segoe UI", 14.5F, FontStyle.Bold);
             pageTitle.ForeColor = Color.FromArgb(15, 23, 42);
-            pageTitle.Location = new Point(0, 0);
+            pageTitle.Location = new Point(20, 14);
             pageTitle.Name = "pageTitle";
-            pageTitle.Size = new Size(470, 30);
+            pageTitle.Size = new Size(440, 28);
             pageTitle.TabIndex = 0;
             pageTitle.Text = "New local driving licence";
+            pageTitle.UseMnemonic = false;
             // 
             // pageSubtitle
             // 
             pageSubtitle.BackColor = Color.Transparent;
+            pageSubtitle.Font = new Font("Segoe UI", 9F);
             pageSubtitle.ForeColor = Color.FromArgb(100, 116, 139);
-            pageSubtitle.Location = new Point(2, 38);
+            pageSubtitle.Location = new Point(21, 45);
             pageSubtitle.Name = "pageSubtitle";
-            pageSubtitle.Size = new Size(470, 24);
+            pageSubtitle.Size = new Size(440, 20);
             pageSubtitle.TabIndex = 1;
             pageSubtitle.Text = "Select an applicant and choose a licence class.";
+            pageSubtitle.UseMnemonic = false;
             // 
             // stepsPanel
             // 
             stepsPanel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            stepsPanel.BackColor = Color.Transparent;
             stepsPanel.Controls.Add(guna2Button3);
             stepsPanel.Controls.Add(guna2Button2);
             stepsPanel.Controls.Add(guna2Button1);
@@ -98,19 +108,19 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
             stepsPanel.Controls.Add(personStepLabel);
             stepsPanel.Controls.Add(classStepLabel);
             stepsPanel.Controls.Add(createdStepLabel);
-            stepsPanel.Location = new Point(480, 0);
+            stepsPanel.Location = new Point(474, 2);
             stepsPanel.Name = "stepsPanel";
-            stepsPanel.Size = new Size(491, 80);
+            stepsPanel.Size = new Size(485, 76);
             stepsPanel.TabIndex = 2;
             // 
             // StepProgressBar
             // 
             StepProgressBar.CustomizableEdges = customizableEdges7;
-            StepProgressBar.FillColor = Color.FromArgb(219, 229, 242);
+            StepProgressBar.FillColor = Color.FromArgb(226, 232, 240);
             StepProgressBar.Location = new Point(60, 22);
             StepProgressBar.Name = "StepProgressBar";
-            StepProgressBar.ProgressColor = Color.FromArgb(37, 99, 235);
-            StepProgressBar.ProgressColor2 = Color.FromArgb(37, 99, 235);
+            StepProgressBar.ProgressColor = Color.FromArgb(13, 148, 136);
+            StepProgressBar.ProgressColor2 = Color.FromArgb(13, 148, 136);
             StepProgressBar.ShadowDecoration.CustomizableEdges = customizableEdges8;
             StepProgressBar.Size = new Size(331, 3);
             StepProgressBar.TabIndex = 0;
@@ -121,7 +131,7 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
             // 
             guna2Button1.BorderRadius = 15;
             guna2Button1.CustomizableEdges = customizableEdges5;
-            guna2Button1.FillColor = Color.FromArgb(37, 99, 235);
+            guna2Button1.FillColor = Color.FromArgb(13, 148, 136);
             guna2Button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             guna2Button1.ForeColor = Color.White;
             guna2Button1.Location = new Point(42, 8);
@@ -135,14 +145,15 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
             // personStepLabel
             // 
             personStepLabel.BackColor = Color.Transparent;
-            personStepLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            personStepLabel.ForeColor = Color.FromArgb(37, 99, 235);
-            personStepLabel.Location = new Point(0, 46);
+            personStepLabel.Font = new Font("Segoe UI", 8.5F, FontStyle.Bold);
+            personStepLabel.ForeColor = Color.FromArgb(13, 148, 136);
+            personStepLabel.Location = new Point(0, 44);
             personStepLabel.Name = "personStepLabel";
             personStepLabel.Size = new Size(126, 22);
             personStepLabel.TabIndex = 2;
             personStepLabel.Text = "Select person";
             personStepLabel.TextAlign = ContentAlignment.MiddleCenter;
+            personStepLabel.UseMnemonic = false;
             // 
             // guna2Button2
             // 
@@ -162,14 +173,15 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
             // classStepLabel
             // 
             classStepLabel.BackColor = Color.Transparent;
-            classStepLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            classStepLabel.Font = new Font("Segoe UI", 8.5F, FontStyle.Bold);
             classStepLabel.ForeColor = Color.FromArgb(100, 116, 139);
-            classStepLabel.Location = new Point(165, 46);
+            classStepLabel.Location = new Point(165, 44);
             classStepLabel.Name = "classStepLabel";
             classStepLabel.Size = new Size(126, 22);
             classStepLabel.TabIndex = 4;
             classStepLabel.Text = "Licence class";
             classStepLabel.TextAlign = ContentAlignment.MiddleCenter;
+            classStepLabel.UseMnemonic = false;
             // 
             // guna2Button3
             // 
@@ -189,41 +201,42 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
             // createdStepLabel
             // 
             createdStepLabel.BackColor = Color.Transparent;
-            createdStepLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            createdStepLabel.Font = new Font("Segoe UI", 8.5F, FontStyle.Bold);
             createdStepLabel.ForeColor = Color.FromArgb(100, 116, 139);
-            createdStepLabel.Location = new Point(330, 46);
+            createdStepLabel.Location = new Point(330, 44);
             createdStepLabel.Name = "createdStepLabel";
             createdStepLabel.Size = new Size(126, 22);
             createdStepLabel.TabIndex = 6;
             createdStepLabel.Text = "Created";
             createdStepLabel.TextAlign = ContentAlignment.MiddleCenter;
+            createdStepLabel.UseMnemonic = false;
             // 
             // ApplicationPanel
             // 
             ApplicationPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             ApplicationPanel.CustomizableEdges = customizableEdges9;
             ApplicationPanel.FillColor = Color.Transparent;
-            ApplicationPanel.Location = new Point(16, 104);
+            ApplicationPanel.Location = new Point(16, 106);
             ApplicationPanel.Name = "ApplicationPanel";
             ApplicationPanel.ShadowDecoration.CustomizableEdges = customizableEdges10;
-            ApplicationPanel.Size = new Size(971, 447);
+            ApplicationPanel.Size = new Size(971, 449);
             ApplicationPanel.TabIndex = 0;
             // 
             // successPanel
             // 
             successPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             successPanel.BorderColor = Color.FromArgb(187, 247, 208);
-            successPanel.BorderRadius = 8;
+            successPanel.BorderRadius = 12;
             successPanel.BorderThickness = 1;
             successPanel.Controls.Add(successMark);
             successPanel.Controls.Add(successHeading);
             successPanel.Controls.Add(successDescription);
             successPanel.CustomizableEdges = customizableEdges11;
             successPanel.FillColor = Color.FromArgb(240, 253, 244);
-            successPanel.Location = new Point(16, 104);
+            successPanel.Location = new Point(16, 106);
             successPanel.Name = "successPanel";
             successPanel.ShadowDecoration.CustomizableEdges = customizableEdges12;
-            successPanel.Size = new Size(971, 447);
+            successPanel.Size = new Size(971, 449);
             successPanel.TabIndex = 1;
             successPanel.Visible = false;
             // 
@@ -231,60 +244,74 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
             // 
             successMark.BackColor = Color.Transparent;
             successMark.Font = new Font("Segoe UI", 42F, FontStyle.Bold);
-            successMark.ForeColor = Color.FromArgb(22, 163, 74);
+            successMark.ForeColor = Color.FromArgb(22, 101, 52);
             successMark.Location = new Point(32, 126);
             successMark.Name = "successMark";
             successMark.Size = new Size(80, 90);
             successMark.TabIndex = 0;
             successMark.Text = "✓";
             successMark.TextAlign = ContentAlignment.MiddleCenter;
+            successMark.UseMnemonic = false;
             // 
             // successHeading
             // 
             successHeading.BackColor = Color.Transparent;
             successHeading.Font = new Font("Segoe UI", 19F, FontStyle.Bold);
-            successHeading.ForeColor = Color.FromArgb(21, 128, 61);
+            successHeading.ForeColor = Color.FromArgb(22, 101, 52);
             successHeading.Location = new Point(136, 142);
             successHeading.Name = "successHeading";
             successHeading.Size = new Size(650, 36);
             successHeading.TabIndex = 1;
             successHeading.Text = "Application created";
+            successHeading.UseMnemonic = false;
             // 
             // successDescription
             // 
             successDescription.BackColor = Color.Transparent;
             successDescription.Font = new Font("Segoe UI", 11F);
-            successDescription.ForeColor = Color.FromArgb(100, 116, 139);
+            successDescription.ForeColor = Color.FromArgb(71, 85, 105);
             successDescription.Location = new Point(140, 194);
             successDescription.Name = "successDescription";
             successDescription.Size = new Size(700, 28);
             successDescription.TabIndex = 2;
             successDescription.Text = "Your local driving licence application has been saved.";
+            successDescription.UseMnemonic = false;
             // 
-            // footerDivider
+            // footerPanel
             // 
-            footerDivider.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            footerDivider.BackColor = Color.FromArgb(219, 229, 242);
-            footerDivider.Location = new Point(16, 565);
-            footerDivider.Name = "footerDivider";
-            footerDivider.Size = new Size(971, 1);
-            footerDivider.TabIndex = 2;
+            footerPanel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            footerPanel.BackColor = Color.Transparent;
+            footerPanel.BorderColor = Color.FromArgb(220, 230, 238);
+            footerPanel.BorderRadius = 12;
+            footerPanel.BorderThickness = 1;
+            footerPanel.Controls.Add(BackButton);
+            footerPanel.Controls.Add(lblMessage);
+            footerPanel.Controls.Add(NextStepButton);
+            footerPanel.CustomizableEdges = customizableEdges15;
+            footerPanel.FillColor = Color.White;
+            footerPanel.Location = new Point(16, 565);
+            footerPanel.Name = "footerPanel";
+            footerPanel.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            footerPanel.Size = new Size(971, 56);
+            footerPanel.TabIndex = 2;
             // 
             // BackButton
             // 
-            BackButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            BackButton.BorderColor = Color.FromArgb(219, 229, 242);
-            BackButton.BorderRadius = 6;
+            BackButton.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            BackButton.BorderColor = Color.FromArgb(220, 230, 238);
+            BackButton.BorderRadius = 8;
             BackButton.BorderThickness = 1;
+            BackButton.Cursor = Cursors.Hand;
             BackButton.CustomizableEdges = customizableEdges13;
-            BackButton.DisabledState.FillColor = Color.FromArgb(226, 232, 240);
-            BackButton.DisabledState.FillColor2 = Color.FromArgb(226, 232, 240);
+            BackButton.DisabledState.BorderColor = Color.FromArgb(226, 232, 240);
+            BackButton.DisabledState.FillColor = Color.FromArgb(241, 245, 249);
             BackButton.DisabledState.ForeColor = Color.FromArgb(148, 163, 184);
             BackButton.FillColor = Color.White;
-            BackButton.FillColor2 = Color.White;
-            BackButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            BackButton.ForeColor = Color.FromArgb(15, 23, 42);
-            BackButton.Location = new Point(16, 579);
+            BackButton.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
+            BackButton.ForeColor = Color.FromArgb(51, 65, 85);
+            BackButton.HoverState.BorderColor = Color.FromArgb(148, 163, 184);
+            BackButton.HoverState.FillColor = Color.FromArgb(248, 250, 252);
+            BackButton.Location = new Point(14, 9);
             BackButton.Name = "BackButton";
             BackButton.ShadowDecoration.CustomizableEdges = customizableEdges14;
             BackButton.Size = new Size(116, 38);
@@ -294,32 +321,40 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
             // 
             // lblMessage
             // 
-            lblMessage.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            lblMessage.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblMessage.AutoEllipsis = true;
             lblMessage.BackColor = Color.Transparent;
+            lblMessage.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             lblMessage.ForeColor = Color.FromArgb(185, 28, 28);
-            lblMessage.Location = new Point(148, 572);
+            lblMessage.Location = new Point(144, 10);
             lblMessage.Name = "lblMessage";
-            lblMessage.Size = new Size(655, 52);
+            lblMessage.Size = new Size(660, 36);
             lblMessage.TabIndex = 3;
+            lblMessage.TextAlign = ContentAlignment.MiddleLeft;
+            lblMessage.UseMnemonic = false;
             lblMessage.Visible = false;
             // 
             // NextStepButton
             // 
-            NextStepButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            NextStepButton.BorderRadius = 6;
+            NextStepButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            NextStepButton.BorderColor = Color.FromArgb(13, 148, 136);
+            NextStepButton.BorderRadius = 8;
+            NextStepButton.BorderThickness = 1;
+            NextStepButton.Cursor = Cursors.Hand;
             NextStepButton.CustomizableEdges = customizableEdges15;
+            NextStepButton.DisabledState.BorderColor = Color.FromArgb(226, 232, 240);
             NextStepButton.DisabledState.FillColor = Color.FromArgb(226, 232, 240);
-            NextStepButton.DisabledState.FillColor2 = Color.FromArgb(226, 232, 240);
             NextStepButton.DisabledState.ForeColor = Color.FromArgb(148, 163, 184);
             NextStepButton.Enabled = false;
-            NextStepButton.FillColor = Color.FromArgb(37, 99, 235);
-            NextStepButton.FillColor2 = Color.FromArgb(37, 99, 235);
-            NextStepButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            NextStepButton.FillColor = Color.FromArgb(13, 148, 136);
+            NextStepButton.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             NextStepButton.ForeColor = Color.White;
-            NextStepButton.Location = new Point(819, 579);
+            NextStepButton.HoverState.BorderColor = Color.FromArgb(15, 118, 110);
+            NextStepButton.HoverState.FillColor = Color.FromArgb(15, 118, 110);
+            NextStepButton.Location = new Point(815, 9);
             NextStepButton.Name = "NextStepButton";
             NextStepButton.ShadowDecoration.CustomizableEdges = customizableEdges16;
-            NextStepButton.Size = new Size(168, 38);
+            NextStepButton.Size = new Size(142, 38);
             NextStepButton.TabIndex = 2;
             NextStepButton.Text = "Next step";
             NextStepButton.Click += NextStepButton_Click;
@@ -328,26 +363,24 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(246, 249, 253);
+            BackColor = Color.FromArgb(243, 247, 249);
             Controls.Add(headerPanel);
             Controls.Add(ApplicationPanel);
             Controls.Add(successPanel);
-            Controls.Add(footerDivider);
-            Controls.Add(BackButton);
-            Controls.Add(lblMessage);
-            Controls.Add(NextStepButton);
+            Controls.Add(footerPanel);
             Font = new Font("Segoe UI", 9F);
             Name = "NewLocalDrivingLicenseControl";
             Size = new Size(1003, 637);
             headerPanel.ResumeLayout(false);
             stepsPanel.ResumeLayout(false);
             successPanel.ResumeLayout(false);
+            footerPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
-        private Panel headerPanel;
+        private Guna.UI2.WinForms.Guna2Panel headerPanel;
         private Label pageTitle;
         private Label pageSubtitle;
         private Panel stepsPanel;
@@ -363,9 +396,9 @@ namespace DVLD.WinForms.Features.Applications.AddLocalDrivingLicenseApplication
         private Label successMark;
         private Label successHeading;
         private Label successDescription;
-        private Panel footerDivider;
-        private Guna.UI2.WinForms.Guna2GradientButton BackButton;
+        private Guna.UI2.WinForms.Guna2Panel footerPanel;
+        private Guna.UI2.WinForms.Guna2Button BackButton;
         private Label lblMessage;
-        private Guna.UI2.WinForms.Guna2GradientButton NextStepButton;
+        private Guna.UI2.WinForms.Guna2Button NextStepButton;
     }
 }

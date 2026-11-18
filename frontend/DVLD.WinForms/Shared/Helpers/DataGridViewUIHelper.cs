@@ -1,110 +1,172 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#nullable enable
+using System;
+using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace DVLD.WinForms.Shared.Helpers
 {
+    /// <summary>
+    /// Custom cell painters for DataGridView columns (status pills, circular initials, progress bars).
+    /// All fonts, brushes, and pens are cached statically so scrolling stays fast without GDI+ allocations.
+    /// </summary>
     public static class DataGridViewUIHelper
     {
+        private static readonly Font BadgeFont = new("Segoe UI", 8.5f, FontStyle.Bold);
+        private static readonly Font CellBoldFont = new("Segoe UI", 9.5f, FontStyle.Bold);
+        private static readonly SolidBrush AvatarCircleBrush = new(UITheme.InfoBg);
+        private static readonly Pen ProgressTrackPen = new(UITheme.SubtleBorder, 6f)
+        {
+            StartCap = LineCap.Round,
+            EndCap = LineCap.Round
+        };
+        private static readonly Pen ProgressFillPen = new(Color.FromArgb(16, 185, 129), 6f)
+        {
+            StartCap = LineCap.Round,
+            EndCap = LineCap.Round
+        };
+
+        // --- 1. STATUS PILL BADGE DRAWER ---
         public static void DrawStatusBadge(DataGridViewCellPaintingEventArgs e)
         {
+            if (e.RowIndex < 0 || e.Graphics is null)
+                return;
+
             e.Handled = true;
             e.PaintBackground(e.CellBounds, true);
+            e.Paint(e.ClipBounds, DataGridViewPaintParts.Border);
 
-            string statusText = e.Value?.ToString() ?? "";
-            Color bgColor, textColor;
+            string rawText = e.Value?.ToString() ?? string.Empty;
+            string statusText = rawText.TrimStart('●', '○', '•', ' ').Trim();
+            if (string.IsNullOrEmpty(statusText))
+                statusText = "—";
 
-            // Set colors based on status
-            if (statusText == "Completed")
+            var (bgColor, textColor) = UITheme.ResolveStatusPillColors(statusText);
+
+            var state = e.Graphics.Save();
+            try
             {
-                bgColor = Color.FromArgb(220, 252, 231); // Very Light Green
-                textColor = Color.FromArgb(22, 163, 74); // Dark Green
+                e.Graphics.SetClip(e.CellBounds, CombineMode.Intersect);
+                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+
+                const int pillHeight = 24;
+                int measuredWidth = TextRenderer.MeasureText(e.Graphics, statusText, BadgeFont).Width;
+                int pillWidth = Math.Max(78, measuredWidth + 28);
+                pillWidth = Math.Min(Math.Max(24, e.CellBounds.Width - 16), pillWidth);
+                int y = e.CellBounds.Y + (e.CellBounds.Height - pillHeight) / 2;
+                int x = e.CellBounds.X + 10;
+
+                Rectangle pillRect = new Rectangle(x, y, pillWidth, pillHeight);
+
+                using (GraphicsPath path = GetRoundedPath(pillRect, 10))
+                using (SolidBrush bgBrush = new SolidBrush(bgColor))
+                {
+                    e.Graphics.FillPath(bgBrush, path);
+                }
+
+                using (SolidBrush dotBrush = new SolidBrush(textColor))
+                {
+                    e.Graphics.FillEllipse(dotBrush, x + 8, y + 9, 6, 6);
+                }
+
+                TextRenderer.DrawText(
+                    e.Graphics,
+                    statusText,
+                    BadgeFont,
+                    new Rectangle(x + 20, y, Math.Max(0, pillWidth - 24), pillHeight),
+                    textColor,
+                    TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
             }
-            else if (statusText == "New")
+            finally
             {
-                bgColor = Color.FromArgb(254, 249, 195); // Very Light Yellow
-                textColor = Color.FromArgb(202, 138, 4);  // Dark Yellow/Orange
-            }
-            else
-            {
-                bgColor = Color.FromArgb(219, 234, 254); // Light Blue
-                textColor = Color.FromArgb(37, 99, 235); // Blue
-            }
-
-            int pillHeight = 24;
-            int pillWidth = 90;
-            int y = e.CellBounds.Y + (e.CellBounds.Height - pillHeight) / 2;
-            int x = e.CellBounds.X + 10;
-
-            Rectangle pillRect = new Rectangle(x, y, pillWidth, pillHeight);
-
-            // Draw pill background
-            using (GraphicsPath path = GetRoundedPath(pillRect, 10))
-            using (SolidBrush bgBrush = new SolidBrush(bgColor))
-            {
-                e.Graphics.FillPath(bgBrush, path);
-            }
-
-            // Draw little dot
-            using (SolidBrush dotBrush = new SolidBrush(textColor))
-            {
-                e.Graphics.FillEllipse(dotBrush, x + 8, y + 9, 6, 6);
-            }
-
-            // Draw text
-            using (SolidBrush textBrush = new SolidBrush(textColor))
-            using (Font statusFont = new Font("Segoe UI", 8.5f, FontStyle.Bold))
-            {
-                e.Graphics.DrawString(statusText, statusFont, textBrush, x + 20, y + 4);
+                e.Graphics.Restore(state);
             }
         }
 
-        // --- 2. THE AVATAR & NAME DRAWER ---
+        // --- 2. AVATAR CIRCLE & FULL NAME DRAWER ---
         public static void DrawAvatarAndName(DataGridViewCellPaintingEventArgs e)
         {
+            if (e.RowIndex < 0 || e.Graphics is null)
+                return;
+
             e.Handled = true;
             e.PaintBackground(e.CellBounds, true);
+            e.Paint(e.ClipBounds, DataGridViewPaintParts.Border);
 
-            string fullName = e.Value?.ToString() ?? "";
-            if (string.IsNullOrEmpty(fullName)) return;
+            string fullName = e.Value?.ToString() ?? string.Empty;
+            string initials = ExtractInitials(fullName);
+            if (initials.Length == 0) return;
 
-            // Extract Initials (e.g., "John Doe" -> "JD")
-            var names = fullName.Split(' ');
-            string initials = names[0][0].ToString();
-            if (names.Length > 1) initials += names[1][0].ToString();
-
-            int circleSize = 30;
-            int y = e.CellBounds.Y + (e.CellBounds.Height - circleSize) / 2;
-            int x = e.CellBounds.X + 10;
-
-            // Draw Avatar Circle
-            using (SolidBrush circleBrush = new SolidBrush(Color.FromArgb(224, 231, 255)))
+            var state = e.Graphics.Save();
+            try
             {
-                e.Graphics.FillEllipse(circleBrush, x, y, circleSize, circleSize);
+                e.Graphics.SetClip(e.CellBounds, CombineMode.Intersect);
+                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+
+                const int circleSize = 30;
+                int y = e.CellBounds.Y + (e.CellBounds.Height - circleSize) / 2;
+                int x = e.CellBounds.X + 10;
+
+                // Draw tinted avatar circle using the cached background brush
+                e.Graphics.FillEllipse(AvatarCircleBrush, x, y, circleSize, circleSize);
+
+                // Draw initials centered inside the circle
+                TextRenderer.DrawText(
+                    e.Graphics,
+                    initials,
+                    BadgeFont,
+                    new Rectangle(x, y, circleSize, circleSize),
+                    UITheme.InfoText,
+                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.NoPrefix);
+
+                // Draw full name beside the avatar circle
+                TextRenderer.DrawText(
+                    e.Graphics,
+                    fullName,
+                    CellBoldFont,
+                    new Rectangle(x + circleSize + 10, e.CellBounds.Y, Math.Max(0, e.CellBounds.Width - circleSize - 24), e.CellBounds.Height),
+                    UITheme.HeadingInk,
+                    TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
             }
-
-            // Draw Initials
-            using (SolidBrush initialBrush = new SolidBrush(Color.FromArgb(79, 70, 229)))
-            using (Font initialFont = new Font("Segoe UI", 8.5f, FontStyle.Bold))
+            finally
             {
-                SizeF textSize = e.Graphics.MeasureString(initials, initialFont);
-                float textX = x + (circleSize - textSize.Width) / 2;
-                float textY = y + (circleSize - textSize.Height) / 2;
-                e.Graphics.DrawString(initials, initialFont, initialBrush, textX, textY);
-            }
-
-            // Draw Full Name
-            using (SolidBrush textBrush = new SolidBrush(Color.FromArgb(15, 23, 42)))
-            using (Font nameFont = new Font("Segoe UI", 10f, FontStyle.Bold))
-            {
-                e.Graphics.DrawString(fullName, nameFont, textBrush, x + circleSize + 10, y + 5);
+                e.Graphics.Restore(state);
             }
         }
 
-        // --- PRIVATE HELPER FOR SHAPES ---
+        // Scans the name span directly to extract first and last initials without allocating a string array.
+        private static string ExtractInitials(string fullName)
+        {
+            ReadOnlySpan<char> span = fullName.AsSpan();
+
+            int firstStart = 0;
+            while (firstStart < span.Length && span[firstStart] == ' ')
+                firstStart++;
+
+            if (firstStart >= span.Length)
+                return string.Empty;
+
+            int lastEnd = span.Length - 1;
+            while (lastEnd > firstStart && span[lastEnd] == ' ')
+                lastEnd--;
+
+            int lastStart = lastEnd;
+            while (lastStart > firstStart && span[lastStart - 1] != ' ')
+                lastStart--;
+
+            char first = char.ToUpperInvariant(span[firstStart]);
+            if (firstStart == lastStart)
+                return first.ToString();
+
+            char last = char.ToUpperInvariant(span[lastStart]);
+            return string.Create(2, (first, last), static (dst, state) =>
+            {
+                dst[0] = state.first;
+                dst[1] = state.last;
+            });
+        }
+
+        // --- PRIVATE HELPER FOR ROUNDED SHAPES ---
         private static GraphicsPath GetRoundedPath(Rectangle rect, int radius)
         {
             GraphicsPath path = new GraphicsPath();
@@ -117,80 +179,74 @@ namespace DVLD.WinForms.Shared.Helpers
             return path;
         }
 
-
-        // --- 3. THE PROGRESS BAR DRAWER ---
+        // --- 3. TEST PROGRESS BAR DRAWER ---
         public static void DrawProgressBar(DataGridViewCellPaintingEventArgs e)
         {
+            if (e.RowIndex < 0 || e.Graphics is null)
+                return;
+
             e.Handled = true;
             e.PaintBackground(e.CellBounds, true);
 
-            // 1. Safely grab the text. If it's completely null, stop drawing.
-            string progressText = e.Value?.ToString();
+            // Grab the cell text (e.g. "2/3"); stop early if empty
+            string? progressText = e.Value?.ToString();
             if (string.IsNullOrWhiteSpace(progressText)) return;
 
-            // 2. Setup colors
-            Color textColor = Color.FromArgb(15, 23, 42);     // Dark text
-            Color trackColor = Color.FromArgb(226, 232, 240); // Light gray background track
-            Color fillColor = Color.FromArgb(16, 185, 129);   // Vibrant Green fill
-
-            // 3. Draw the Text first
+            // Measure and draw the label text first using the cached bold font
             int x = e.CellBounds.X + 10;
+            Size textSize = TextRenderer.MeasureText(e.Graphics, progressText, CellBoldFont, Size.Empty, TextFormatFlags.NoPrefix);
+            TextRenderer.DrawText(
+                e.Graphics,
+                progressText,
+                CellBoldFont,
+                new Rectangle(x, e.CellBounds.Y, textSize.Width, e.CellBounds.Height),
+                UITheme.HeadingInk,
+                TextFormatFlags.VerticalCenter | TextFormatFlags.Left | TextFormatFlags.NoPrefix);
 
-            using (Font textFont = new Font("Segoe UI", 9.5f, FontStyle.Bold))
-            using (SolidBrush textBrush = new SolidBrush(textColor))
-            {
-                // Measure text so we can perfectly center it vertically
-                SizeF textSize = e.Graphics.MeasureString(progressText, textFont);
-                float textY = e.CellBounds.Y + (e.CellBounds.Height - textSize.Height) / 2;
+            // Advance X so the progress bar renders after the label
+            x += textSize.Width + 15;
 
-                e.Graphics.DrawString(progressText, textFont, textBrush, x, textY);
-
-                // Move our X coordinate so we draw the bar AFTER the text
-                x += (int)textSize.Width + 15;
-            }
-
-            // 4. Safely parse the numbers (even if the data is weird)
+            // Parse "passed/total" using spans to avoid splitting into temporary strings
             int passed = 0;
-            int total = 3; // Default to out of 3
+            int total = 3;
 
-            if (progressText.Contains("/"))
+            ReadOnlySpan<char> span = progressText.AsSpan();
+            int slashIndex = span.IndexOf('/');
+            if (slashIndex >= 0)
             {
-                string[] parts = progressText.Split('/');
-                int.TryParse(parts[0].Trim(), out passed);
-                int.TryParse(parts[1].Trim(), out total);
+                int.TryParse(span[..slashIndex].Trim(), out passed);
+                int.TryParse(span[(slashIndex + 1)..].Trim(), out total);
             }
             else
             {
-                // If the data is just a flat number like "2", use that
-                int.TryParse(progressText, out passed);
+                int.TryParse(span.Trim(), out passed);
             }
 
-            // Calculate percentage (protect against divide by zero)
-            float percentage = total > 0 ? (float)passed / total : 0;
-            percentage = Math.Max(0, Math.Min(1, percentage)); // Lock between 0 and 1
+            float percentage = total > 0 ? (float)passed / total : 0f;
+            percentage = Math.Clamp(percentage, 0f, 1f);
 
-            // 5. Draw the Bar using Thick Pens with Rounded Caps
-            int barWidth = 60; // Total width of the progress bar
-            int barThickness = 6; // Height of the bar
-            int barY = e.CellBounds.Y + (e.CellBounds.Height / 2); // Center line
+            // Draw the gray background track and green progress fill using cached pens
+            const int barWidth = 60;
+            int barY = e.CellBounds.Y + (e.CellBounds.Height / 2);
 
-            using (Pen trackPen = new Pen(trackColor, barThickness) { StartCap = LineCap.Round, EndCap = LineCap.Round })
-            using (Pen fillPen = new Pen(fillColor, barThickness) { StartCap = LineCap.Round, EndCap = LineCap.Round })
+            GraphicsState state = e.Graphics.Save();
+            try
             {
-                // Draw the gray track
-                e.Graphics.DrawLine(trackPen, x, barY, x + barWidth, barY);
+                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                e.Graphics.DrawLine(ProgressTrackPen, x, barY, x + barWidth, barY);
 
-                // Draw the green fill if they passed at least 1 test
-                if (percentage > 0)
+                if (percentage > 0f)
                 {
                     int fillWidth = (int)(barWidth * percentage);
-
-                    // Prevent drawing a zero-length line which can leave an ugly artifact
                     if (fillWidth > 0)
                     {
-                        e.Graphics.DrawLine(fillPen, x, barY, x + fillWidth, barY);
+                        e.Graphics.DrawLine(ProgressFillPen, x, barY, x + fillWidth, barY);
                     }
                 }
+            }
+            finally
+            {
+                e.Graphics.Restore(state);
             }
         }
     }

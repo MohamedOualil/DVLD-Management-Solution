@@ -11,7 +11,7 @@ namespace DVLD.WinForms.Features.Applications
         private static readonly Color Ink = Color.FromArgb(15, 23, 42);
         private static readonly Color SecondaryInk = Color.FromArgb(100, 116, 139);
         private static readonly Color BodyInk = Color.FromArgb(51, 65, 85);
-        private static readonly Color PrimaryBlue = Color.FromArgb(37, 99, 235);
+        private static readonly Color PrimaryBlue = Color.FromArgb(13, 148, 136);
         private static readonly Color Outline = Color.FromArgb(226, 232, 240);
         private static readonly Color RowHover = Color.FromArgb(248, 250, 252);
 
@@ -19,7 +19,7 @@ namespace DVLD.WinForms.Features.Applications
 
         private static readonly (Color Back, Color Fore)[] AvatarPalette =
         {
-            (Color.FromArgb(219, 234, 254), Color.FromArgb(29, 78, 216)),
+            (Color.FromArgb(204, 251, 241), Color.FromArgb(15, 118, 110)),
             (Color.FromArgb(220, 252, 231), Color.FromArgb(21, 128, 61)),
             (Color.FromArgb(243, 232, 255), Color.FromArgb(126, 34, 206)),
             (Color.FromArgb(255, 237, 213), Color.FromArgb(194, 65, 12)),
@@ -57,16 +57,22 @@ namespace DVLD.WinForms.Features.Applications
 
         private static void ConfigureGrid(DataGridView grid)
         {
-            if (grid.Columns["LocalID"] is { } localIdCol)
+            foreach (string idColName in new[] { "LocalID", "IntlLicenseId", "DetainId", "DetainedLicenseId", "IntlLocalLicenseId", "IntlApplicationId", "ReleaseAppId" })
             {
-                localIdCol.DefaultCellStyle.Format = "\\#0";
-                localIdCol.DefaultCellStyle.ForeColor = SecondaryInk;
+                if (grid.Columns[idColName] is { } idCol)
+                {
+                    idCol.DefaultCellStyle.Format = "\\#0";
+                    idCol.DefaultCellStyle.ForeColor = SecondaryInk;
+                }
             }
 
-            if (grid.Columns["ApplicationDate"] is { } dateCol)
+            foreach (string dateColName in new[] { "ApplicationDate", "IntlIssueDate", "IntlExpirationDate", "DetainDate", "ReleaseDate" })
             {
-                dateCol.DefaultCellStyle.Format = "MMM dd, yyyy";
-                dateCol.DefaultCellStyle.ForeColor = SecondaryInk;
+                if (grid.Columns[dateColName] is { } dateCol)
+                {
+                    dateCol.DefaultCellStyle.Format = "MMM dd, yyyy";
+                    dateCol.DefaultCellStyle.ForeColor = SecondaryInk;
+                }
             }
 
             if (grid.Columns["NationalNo"] is { } nationalNoCol)
@@ -102,7 +108,7 @@ namespace DVLD.WinForms.Features.Applications
                 return;
 
             string column = grid.Columns[e.ColumnIndex].Name;
-            if (column != "Status" && column != "PassedTest" && column != "FullName")
+            if (column != "Status" && column != "ExamStage" && column != "PassedTest" && column != "FullName")
                 return;
 
             e.Handled = true;
@@ -124,6 +130,7 @@ namespace DVLD.WinForms.Features.Applications
                     break;
 
                 case "Status":
+                case "ExamStage":
                     PaintStatusPill(e.Graphics, fonts, e.CellBounds, x, middle, text);
                     break;
 
@@ -155,18 +162,7 @@ namespace DVLD.WinForms.Features.Applications
 
         private static void PaintStatusPill(Graphics g, CellFonts fonts, Rectangle cell, int x, int middle, string text)
         {
-            Color back = Color.FromArgb(219, 234, 254);
-            Color fore = Color.FromArgb(29, 78, 216); // New
-            if (text == "Completed")
-            {
-                back = Color.FromArgb(220, 252, 231);
-                fore = Color.FromArgb(21, 128, 61);
-            }
-            else if (text == "Cancelled")
-            {
-                back = Color.FromArgb(254, 226, 226);
-                fore = Color.FromArgb(185, 28, 28);
-            }
+            var (back, fore) = UITheme.ResolveStatusPillColors(text);
 
             int width = Math.Min(cell.Width - ContentInset - 8,
                 TextRenderer.MeasureText(text, fonts.Badge).Width + 30);

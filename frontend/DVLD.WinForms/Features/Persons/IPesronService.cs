@@ -1,9 +1,7 @@
+#nullable enable
+using DVLD.Contracts.Common;
 using DVLD.Contracts.Persons;
 using DVLD.WinForms.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DVLD.WinForms.Features.Persons
@@ -12,5 +10,8 @@ namespace DVLD.WinForms.Features.Persons
     {
         Task<ApiResponse<PersonResponse>> GetPerson(int personId);
         Task<ApiResponse<PersonResponse>> GetPersonByNationalNo(string nationalNo);
+        Task<ApiResponse<PagedList<GetAllPersonResponse>>> GetAllPersonsAsync(int pageNumber, int pageSize);
+        Task<ApiResponse<int>> CreatePersonAsync(CreatePersonRequest request);
+        Task<ApiResponse<bool>> UpdatePersonAsync(int personId, UpdatePersonRequest request);
     }
 }

@@ -1,29 +1,28 @@
+#nullable enable
+using DVLD.Contracts.Common;
 using DVLD.Contracts.Persons;
 using DVLD.WinForms.Common;
-using DVLD.WinForms.Features.Auth;
-using System;
-using System.Collections.Generic;
-using System.Drawing.Printing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace DVLD.WinForms.Features.Persons
 {
     public class PersonService(IApiClient apiClient) : IPesronService
     {
         private readonly IApiClient _apiClient = apiClient;
-        public async Task<ApiResponse<PersonResponse>> GetPerson(int personId)
-        {
-            string endpoint = $"Person/{personId}";
-            return await _apiClient.GetAsync<PersonResponse>(endpoint);
-        }
 
-        public async Task<ApiResponse<PersonResponse>> GetPersonByNationalNo(string nationalNo)
-        {
-            string endpoint = $"Person/NationalNo/{nationalNo}";
-            return await _apiClient.GetAsync<PersonResponse>(endpoint);
-        }
+        public Task<ApiResponse<PersonResponse>> GetPerson(int personId)
+            => _apiClient.GetAsync<PersonResponse>($"Person/{personId}");
+
+        public Task<ApiResponse<PersonResponse>> GetPersonByNationalNo(string nationalNo)
+            => _apiClient.GetAsync<PersonResponse>($"Person/NationalNo/{nationalNo}");
+
+        public Task<ApiResponse<PagedList<GetAllPersonResponse>>> GetAllPersonsAsync(int pageNumber, int pageSize)
+            => _apiClient.GetAsync<PagedList<GetAllPersonResponse>>($"Person?pageNumber={pageNumber}&pageSize={pageSize}");
+
+        public Task<ApiResponse<int>> CreatePersonAsync(CreatePersonRequest request)
+            => _apiClient.PostAsync<int>("Person", request);
+
+        public Task<ApiResponse<bool>> UpdatePersonAsync(int personId, UpdatePersonRequest request)
+            => _apiClient.PutAsync<bool>($"Person/{personId}", request);
     }
 }

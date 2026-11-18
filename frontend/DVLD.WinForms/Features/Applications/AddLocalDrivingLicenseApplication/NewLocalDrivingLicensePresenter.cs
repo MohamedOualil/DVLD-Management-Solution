@@ -1,7 +1,7 @@
 using DVLD.Contracts.Enums;
 using DVLD.Contracts.LocalLicenseApplications;
 using DVLD.WinForms.Common;
-using DVLD.WinForms.Features.Applications.ApplicationInfo;
+using DVLD.WinForms.Shared.Controls;
 using DVLD.WinForms.Features.Persons.SelectPerson;
 using DVLD.WinForms.Shared;
 using DVLD.WinForms.Shared.Enums;

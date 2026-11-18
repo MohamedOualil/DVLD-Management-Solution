@@ -1,7 +1,10 @@
+#nullable enable
+using DVLD.Contracts.Enums;
 using DVLD.Contracts.LocalLicenseApplications;
-using DVLD.WinForms.Features.Applications.Detail;
-using DVLD.WinForms.Features.Persons;
-using DVLD.WinForms.Features.Persons.Detail;
+using DVLD.WinForms.Shared.Controls;
+using System;
+using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace DVLD.WinForms.Features.Applications.IssueDrivingLicence;
 
@@ -10,72 +13,74 @@ public partial class IssueDrivingLicenceControl : UserControl, IIssueDrivingLice
     public event EventHandler? IssueRequested;
     public event EventHandler? ViewPersonRequested;
     public event EventHandler? HasChangesRequested;
+
+    [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string Notes => notesTextBox.Text.Trim();
 
     public IssueDrivingLicenceControl()
     {
         InitializeComponent();
-        issueButton.Click += (_, _) => IssueRequested?.Invoke(this, EventArgs.Empty);
 
+        applicantBanner.ViewPersonRequested += (_, _) => ViewPersonRequested?.Invoke(this, EventArgs.Empty);
+        pageActionFooter.PrimaryActionRequested += (_, _) => IssueRequested?.Invoke(this, EventArgs.Empty);
     }
-
-
 
     public void ResetApplication()
     {
-        foreach (var label in new[] { localIdValue, classValue, applicationIdValue, applicantValue,
-            applicationTypeValue, feeValue, statusValue, dateValue, statusDateValue, creatorValue })
-            label.Text = "—";
+        applicantBanner.Reset();
+        applicationMetadataCard.Reset();
         notesTextBox.Clear();
         notesTextBox.Enabled = false;
-        viewPersonLink.Enabled = false;
+
+        pageHeader.BadgeText = "● Loading";
+        pageHeader.BadgeTone = HeaderBadgeTone.Neutral;
+
         SetIssueAvailability(false, "Loading application information…");
         DisplayEligibility(false, "Loading application information…", "Please wait.");
     }
 
     public void DisplayApplication(LocalApplicationResponse application)
     {
-        localIdValue.Text = application.LocalId.ToString();
-        classValue.Text = application.LicenseClassName;
-        applicationIdValue.Text = application.ApplicationId.ToString();
-        applicantValue.Text = application.FullName;
-        applicationTypeValue.Text = application.ApplicationType;
-        feeValue.Text = application.PaidFees.ToString("0.00");
-        statusValue.Text = application.Status;
-        dateValue.Text = application.ApplicationDate.ToString("dd MMM yyyy");
-        statusDateValue.Text = application.LastStatusDate?.ToString("dd MMM yyyy") ?? "—";
-        creatorValue.Text = application.CreatedBy;
-        viewPersonLink.Enabled = application.PersonId > 0;
+        ArgumentNullException.ThrowIfNull(application);
+
+        applicantBanner.Bind(application);
+        applicationMetadataCard.Bind(application);
+
+        if (Enum.TryParse<ApplicationStatusEnum>(application.Status, ignoreCase: true, out var status) &&
+            Enum.IsDefined(typeof(ApplicationStatusEnum), status))
+        {
+            pageHeader.SetApplicationStatus(status);
+        }
+        else
+        {
+            pageHeader.BadgeText = $"● {application.Status}";
+            pageHeader.BadgeTone = HeaderBadgeTone.Info;
+        }
     }
 
     public void DisplayEligibility(bool eligible, string title, string description)
     {
-        eligibilityTitle.Text = title;
-        eligibilitySubtitle.Text = description;
-        passedIcon.Text = eligible ? "✓" : "i";
-        eligibilityPanel.FillColor = eligible ? Color.FromArgb(234, 249, 241) : Color.FromArgb(234, 243, 255);
-        eligibilityPanel.BorderColor = eligible ? Color.FromArgb(176, 226, 198) : Color.FromArgb(208, 220, 238);
-        eligibilityTitle.ForeColor = passedIcon.ForeColor = eligible
-            ? Color.FromArgb(19, 103, 65) : Color.FromArgb(26, 59, 116);
+        eligibilityBanner.SetBanner(
+            title,
+            description,
+            eligible ? HeaderBadgeTone.Success : HeaderBadgeTone.Warning);
+
         notesTextBox.Enabled = eligible;
     }
 
     public void SetIssueAvailability(bool enabled, string message)
     {
-        issueButton.Enabled = enabled;
-        footerHint.Text = message;
+        pageActionFooter.SetState(enabled, message, isWarningOrError: !enabled);
     }
 
+    public void DisplayMessage(string message) => MessageBox.Show(
+        this,
+        message,
+        "Issue Driving Licence",
+        MessageBoxButtons.OK,
+        MessageBoxIcon.Information);
 
-    public void DisplayMessage(string message) => MessageBox.Show(this, message,
-        "Issue Driving Licence", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-    private void viewPersonLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-    {
-        ViewPersonRequested?.Invoke(this, EventArgs.Empty);
-    }
-
-    private void notesTextBox_TextChanged(object sender, EventArgs e)
+    private void notesTextBox_TextChanged(object? sender, EventArgs e)
     {
         HasChangesRequested?.Invoke(this, EventArgs.Empty);
     }

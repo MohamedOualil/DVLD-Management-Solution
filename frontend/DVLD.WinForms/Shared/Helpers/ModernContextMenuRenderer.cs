@@ -10,8 +10,8 @@ namespace DVLD.WinForms.Shared.Helpers
     {
         private static readonly Color MenuBackColor = Color.White;
         private static readonly Color MenuBorderColor = Color.FromArgb(226, 232, 240);
-        private static readonly Color HoverBackColor = Color.FromArgb(239, 246, 255);
-        private static readonly Color HoverTextColor = Color.FromArgb(29, 78, 216);
+        private static readonly Color HoverBackColor = Color.FromArgb(240, 253, 250);
+        private static readonly Color HoverTextColor = Color.FromArgb(15, 118, 110);
         private static readonly Color DestructiveTextColor = Color.FromArgb(220, 38, 38);
         private static readonly Color DestructiveHoverBackColor = Color.FromArgb(254, 242, 242);
         private static readonly Color NormalTextColor = Color.FromArgb(30, 41, 59);
@@ -20,6 +20,15 @@ namespace DVLD.WinForms.Shared.Helpers
         private static readonly Color ArrowColor = Color.FromArgb(100, 116, 139);
 
         private const int CornerRadius = 10;
+
+        // Cached GDI+ objects shared across all context menus to avoid allocating fonts,
+        // brushes, and pens on every menu open or hover repaint.
+        private static readonly Font MenuItemFont = new("Segoe UI", 9.5F, FontStyle.Regular);
+        private static readonly SolidBrush MenuBackBrush = new(MenuBackColor);
+        private static readonly Pen MenuBorderPen = new(MenuBorderColor, 1f);
+        private static readonly SolidBrush HoverBackBrush = new(HoverBackColor);
+        private static readonly SolidBrush DestructiveHoverBackBrush = new(DestructiveHoverBackColor);
+        private static readonly Pen SeparatorPen = new(SeparatorColor, 1f);
 
         public ModernContextMenuRenderer() : base(new CleanColorTable())
         {
@@ -51,7 +60,7 @@ namespace DVLD.WinForms.Shared.Helpers
                     menuItem.Height = 36;
                     menuItem.Width = 264;
                     menuItem.Padding = new Padding(4, 0, 8, 0);
-                    menuItem.Font = new Font("Segoe UI", 9.5F, FontStyle.Regular);
+                    menuItem.Font = MenuItemFont;
                     menuItem.ImageScaling = ToolStripItemImageScaling.SizeToFit;
 
                     if (menuItem.HasDropDownItems && menuItem.DropDown is ToolStripDropDownMenu dropDown)
@@ -77,16 +86,20 @@ namespace DVLD.WinForms.Shared.Helpers
         private static void ApplyRoundedRegion(Control control)
         {
             if (control.Width <= 0 || control.Height <= 0) return;
+
+            // Dispose the previous Region handle after replacing it so repeated menu opens don't leak GDI handles.
+            Region? previousRegion = control.Region;
             using var path = CreateRoundedRect(new Rectangle(0, 0, control.Width, control.Height), CornerRadius);
             control.Region = new Region(path);
+            if (!ReferenceEquals(previousRegion, control.Region))
+                previousRegion?.Dispose();
         }
 
         protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
         {
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
             var rect = new Rectangle(0, 0, e.ToolStrip.Width, e.ToolStrip.Height);
-            using var brush = new SolidBrush(MenuBackColor);
-            e.Graphics.FillRectangle(brush, rect);
+            e.Graphics.FillRectangle(MenuBackBrush, rect);
         }
 
         protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
@@ -99,8 +112,7 @@ namespace DVLD.WinForms.Shared.Helpers
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
             var rect = new Rectangle(0, 0, e.ToolStrip.Width - 1, e.ToolStrip.Height - 1);
             using var path = CreateRoundedRect(rect, CornerRadius);
-            using var pen = new Pen(MenuBorderColor, 1f);
-            e.Graphics.DrawPath(pen, path);
+            e.Graphics.DrawPath(MenuBorderPen, path);
         }
 
         protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
@@ -113,8 +125,7 @@ namespace DVLD.WinForms.Shared.Helpers
             bool isDestructive = string.Equals(e.Item.Tag?.ToString(), "destructive", StringComparison.OrdinalIgnoreCase);
 
             using var path = CreateRoundedRect(pillBounds, 7);
-            using var brush = new SolidBrush(isDestructive ? DestructiveHoverBackColor : HoverBackColor);
-            e.Graphics.FillPath(brush, path);
+            e.Graphics.FillPath(isDestructive ? DestructiveHoverBackBrush : HoverBackBrush, path);
         }
 
         protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
@@ -213,8 +224,7 @@ namespace DVLD.WinForms.Shared.Helpers
         protected override void OnRenderSeparator(ToolStripSeparatorRenderEventArgs e)
         {
             int y = e.Item.Height / 2;
-            using var pen = new Pen(SeparatorColor, 1f);
-            e.Graphics.DrawLine(pen, 12, y, e.Item.Width - 12, y);
+            e.Graphics.DrawLine(SeparatorPen, 12, y, e.Item.Width - 12, y);
         }
 
         private static GraphicsPath CreateRoundedRect(Rectangle bounds, int radius)

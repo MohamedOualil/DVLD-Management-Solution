@@ -1,22 +1,25 @@
+#nullable enable
 using DVLD.Contracts.Persons;
+using DVLD.WinForms.Shared.Controls;
 using DVLD.WinForms.Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DVLD.WinForms.Features.Persons.SelectPerson
 {
     public partial class SelectPersonControl : UserControl, ISelectPersonView
     {
-
         private bool _busy;
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string SearchTerm => txtSearch.Text;
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool MessageLabel
         {
             set
@@ -25,6 +28,8 @@ namespace DVLD.WinForms.Features.Persons.SelectPerson
             }
         }
 
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int cbSearchById => cbSearchBy.SelectedValue is int id ? id : -1;
 
         public event EventHandler? SearchRequested;
@@ -33,8 +38,11 @@ namespace DVLD.WinForms.Features.Persons.SelectPerson
         public SelectPersonControl()
         {
             InitializeComponent();
+            txtSearch.IconLeft = Properties.Resources.icons8_search_32;
+            txtSearch.IconLeftSize = new Size(16, 16);
+            txtSearch.TextOffset = new Point(0, 0);
             LoadSearchByComboBox();
-            SizeChanged += SelectPersonControl_SizeChanged;
+            UpdateSearchHint();
         }
 
         private void LoadSearchByComboBox()
@@ -82,106 +90,26 @@ namespace DVLD.WinForms.Features.Persons.SelectPerson
                 return;
             }
 
-            var style = type switch
+            var (tone, heading) = type switch
             {
-                MessageType.Warning => (
-                    Background: Color.FromArgb(255, 251, 235),
-                    Border: Color.FromArgb(253, 230, 138),
-                    Foreground: Color.FromArgb(146, 64, 14),
-                    Icon: "!", Heading: "Check your search"),
-                MessageType.Info => (
-                    Background: Color.FromArgb(239, 246, 255),
-                    Border: Color.FromArgb(191, 219, 254),
-                    Foreground: Color.FromArgb(30, 64, 175),
-                    Icon: "i", Heading: "Search information"),
-                _ => (
-                    Background: Color.FromArgb(254, 242, 242),
-                    Border: Color.FromArgb(254, 202, 202),
-                    Foreground: Color.FromArgb(153, 27, 27),
-                    Icon: "!", Heading: "Search unsuccessful")
+                MessageType.Warning => (HeaderBadgeTone.Warning, "Check your search"),
+                MessageType.Info => (HeaderBadgeTone.Info, "Search information"),
+                _ => (HeaderBadgeTone.Danger, "Search unsuccessful")
             };
 
-            messagePanel.FillColor = style.Background;
-            messagePanel.BorderColor = style.Border;
-            messageIcon.ForeColor = style.Foreground;
-            messageIcon.Text = style.Icon;
-            messageHeading.ForeColor = style.Foreground;
-            messageHeading.Text = style.Heading;
-            lblMessage.ForeColor = style.Foreground;
-            lblMessage.Text = message;
-            messagePanel.AccessibleName = $"{style.Heading}. {message}";
-
-            ResizeMessageBanner();
+            statusBanner.SetBanner(heading, message, tone);
+            statusBanner.AccessibleName = $"{heading}. {message}";
             SetMessageVisible(true);
         }
 
         private void SetMessageVisible(bool visible)
         {
-            messagePanel.Visible = visible;
-
-            if (!visible)
-                AutoScrollPosition = Point.Empty;
-
-            UpdateFeedbackLayout();
-        }
-
-        private void MessagePanel_SizeChanged(object? sender, EventArgs e)
-        {
-            ResizeMessageBanner();
-        }
-
-        private void ResizeMessageBanner()
-        {
-            int textWidth = Math.Max(1, messagePanel.ClientSize.Width - 68);
-            var textSize = TextRenderer.MeasureText(
-                lblMessage.Text,
-                lblMessage.Font,
-                new Size(textWidth, int.MaxValue),
-                TextFormatFlags.WordBreak | TextFormatFlags.NoPrefix |
-                TextFormatFlags.TextBoxControl);
-
-            int textHeight = Math.Max(20, textSize.Height + 2);
-            lblMessage.Size = new Size(textWidth, textHeight);
-
-            int bannerHeight = Math.Max(68, lblMessage.Top + textHeight + 12);
-            if (messagePanel.Height != bannerHeight)
-                messagePanel.Height = bannerHeight;
-
-            UpdateFeedbackLayout();
-        }
-
-        private void SelectPersonControl_SizeChanged(object? sender, EventArgs e)
-        {
-            UpdateFeedbackLayout();
-        }
-
-        private void UpdateFeedbackLayout()
-        {
-            // Preserve the full person card when present. An empty applicant
-            // area can shrink to make room for feedback without scrolling.
-            int minimumApplicantHeight = personDetailControl1.Visible
-                ? personDetailControl1.Bottom + 4
-                : selectionHint.Bottom + 16;
-
-            int feedbackHeight = messagePanel.Visible
-                ? messagePanel.Height + messagePanel.Margin.Top
-                : 0;
-
-            int availableHeight = ClientSize.Height - searchPanel.Height - feedbackHeight;
-            int rowHeight = Math.Max(
-                minimumApplicantHeight + applicantPanel.Margin.Top,
-                availableHeight);
-
-            if (contentLayout.RowStyles[2].Height != rowHeight)
-                contentLayout.RowStyles[2].Height = rowHeight;
+            statusBanner.Visible = visible;
         }
 
         public void ClearPersonInfo()
         {
-
             personDetailControl1.Visible = false;
-
-            lblMessage.Text = string.Empty;
             SetMessageVisible(false);
 
             selectionHintHeading.Text = "Find an applicant";
@@ -199,6 +127,15 @@ namespace DVLD.WinForms.Features.Persons.SelectPerson
             UseWaitCursor = busy;
         }
 
+        private void cbSearchBy_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            if (_busy)
+                return;
+
+            UpdateSearchHint();
+            SearchCriteriaChanged?.Invoke(this, EventArgs.Empty);
+        }
+
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
             if (_busy)
@@ -213,8 +150,8 @@ namespace DVLD.WinForms.Features.Persons.SelectPerson
             bool byPersonId = cbSearchById == 0;
 
             searchCaption.Text = byPersonId
-                ? "Person ID"
-                : "National number";
+                ? "PERSON ID"
+                : "NATIONAL NUMBER";
 
             txtSearch.PlaceholderText = byPersonId
                 ? "Enter person ID"

@@ -17,10 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Features\Applications\ApplicationsControl.Appearance.cs">
-      <SubType>Code</SubType>
-      <DependentUpon>ApplicationsControl.cs</DependentUpon>
-    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -49,10 +45,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\shared\DVLD.Contracts\DVLD.Contracts.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Features\Dashboard\AccountSettings\" />
   </ItemGroup>
 
   <Target Name="PreCompileResources" BeforeTargets="BeforeResGen" Condition="'$(MSBuildRuntimeType)' != 'Core'">
