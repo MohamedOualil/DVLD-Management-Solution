@@ -9,7 +9,10 @@ namespace DVLD.Contracts.LocalLicenseApplications
 {
     public  record GetAllLocalApplicationsResponse
     {
-        public  int LocalApplicationId { get; init; }
+        public int LocalApplicationId { get; init; }
+        public int ApplicationId { get; init; }
+        public int PersonId { get; init; }
+        public int? IssuedLicenseId { get; init; }
         public required string DrivingClass { get; init; }
         public required string NationalNo { get; init; }
         public required string FullName { get; init; }

@@ -25,7 +25,7 @@ namespace DVLD.Domain.Common
 
         protected Result(bool success, Error error)
         {
-            if (error != null || error != Common.Error.None)
+            if (error is not null && error != Common.Error.None)
                 _errors.Add(error);
 
             this.IsSuccess = success;
@@ -76,7 +76,7 @@ namespace DVLD.Domain.Common
 
         }
 
-        public new static Result<TValue> Success(TValue data)
+        public static Result<TValue> Success(TValue data)
         {
             return new Result<TValue>(data, Common.Error.None,true);
         }

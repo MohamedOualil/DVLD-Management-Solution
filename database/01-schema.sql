@@ -22,7 +22,6 @@ CREATE TABLE [AuditLogs] (
     [NewValues] nvarchar(max) NULL,
     [IsSuccess] bit NOT NULL,
     [FailureReason] nvarchar(max) NOT NULL,
-    [IpAddress] nvarchar(45) NOT NULL,
     [CreatedAt] datetime2 NOT NULL,
     CONSTRAINT [PK_AuditLogs] PRIMARY KEY ([Id])
 );
@@ -83,7 +82,7 @@ CREATE TABLE [Persons] (
     [CreateAt] datetime2 NOT NULL DEFAULT (SYSUTCDATETIME()),
     [UpdateAt] datetime2 NOT NULL DEFAULT (SYSUTCDATETIME()),
     CONSTRAINT [PK_Persons] PRIMARY KEY ([Id]),
-    CONSTRAINT [CHK_Persons_Gender] CHECK (Gender > 0),
+    CONSTRAINT [CHK_Persons_Gender] CHECK (Gender IN (1, 2)),
     CONSTRAINT [FK_Persons_Countries_NationalityCountryId] FOREIGN KEY ([NationalityCountryId]) REFERENCES [Countries] ([Id])
 );
 GO
@@ -99,6 +98,7 @@ CREATE TABLE [Users] (
     [CreateAt] datetime2 NOT NULL DEFAULT (SYSUTCDATETIME()),
     [UpdateAt] datetime2 NOT NULL DEFAULT (SYSUTCDATETIME()),
     CONSTRAINT [PK_Users] PRIMARY KEY ([Id]),
+    CONSTRAINT [CHK_Users_Role] CHECK (Role IN (1, 2)),
     CONSTRAINT [FK_Users_Persons] FOREIGN KEY ([PersonId]) REFERENCES [Persons] ([Id])
 );
 GO
@@ -140,13 +140,10 @@ GO
 CREATE TABLE [UserSessions] (
     [Id] int NOT NULL IDENTITY,
     [UserId] int NOT NULL,
-    [RefreshTokenHash] nvarchar(500) NOT NULL,
+    [RefreshTokenHash] nvarchar(128) NOT NULL,
+    [CreatedAt] datetime2 NOT NULL,
     [ExpiresAt] DATETIME2 NOT NULL,
     [RevokedAt] DATETIME2 NULL,
-    [CreatedIp] nvarchar(50) NULL,
-    [DeviceId] nvarchar(255) NOT NULL,
-    [DeviceInfo] nvarchar(255) NULL,
-    [CreateAt] datetime2 NOT NULL DEFAULT (SYSUTCDATETIME()),
     CONSTRAINT [PK_UserSessions] PRIMARY KEY ([Id]),
     CONSTRAINT [FK_UserSessions_Users] FOREIGN KEY ([UserId]) REFERENCES [Users] ([Id]) ON DELETE CASCADE
 );
@@ -177,14 +174,12 @@ CREATE TABLE [DrivingLicenses] (
     [IsDetained] bit NOT NULL DEFAULT CAST(0 AS bit),
     [IssueReason] TINYINT NOT NULL,
     [CreatedByUserId] int NOT NULL,
-    [DriverId1] int NULL,
     CONSTRAINT [PK_DrivingLicenses] PRIMARY KEY ([Id]),
     CONSTRAINT [CK_DrivingLicenses_Dates] CHECK (ExpirationDate > IssueDate),
     CONSTRAINT [CK_DrivingLicenses_IssueReason] CHECK (IssueReason IN (1, 2, 3, 4)),
     CONSTRAINT [CK_DrivingLicenses_PaidFees] CHECK (PaidFees >= 0),
     CONSTRAINT [FK_DrivingLicenses_Applications] FOREIGN KEY ([ApplicationId]) REFERENCES [Applications] ([Id]),
     CONSTRAINT [FK_DrivingLicenses_Drivers] FOREIGN KEY ([DriverId]) REFERENCES [Drivers] ([Id]),
-    CONSTRAINT [FK_DrivingLicenses_Drivers_DriverId1] FOREIGN KEY ([DriverId1]) REFERENCES [Drivers] ([Id]),
     CONSTRAINT [FK_DrivingLicenses_LicenseClasses] FOREIGN KEY ([LicenseClassId]) REFERENCES [LicenseClasses] ([Id]),
     CONSTRAINT [FK_DrivingLicenses_Users] FOREIGN KEY ([CreatedByUserId]) REFERENCES [Users] ([Id])
 );
@@ -224,7 +219,7 @@ CREATE TABLE [DetainedLicenses] (
     [ReleaseApplicationId] int NULL,
     CONSTRAINT [PK_DetainedLicenses] PRIMARY KEY ([Id]),
     CONSTRAINT [CK_DetainedLicenses_PaidFees] CHECK (PaidFees >= 0),
-    CONSTRAINT [CK_DetainedLicenses_ReleaseDate] CHECK (ReleaseDate > DetainDate),
+    CONSTRAINT [CK_DetainedLicenses_ReleaseDate] CHECK (ReleaseDate >= DetainDate),
     CONSTRAINT [FK_DetainedLicenses_Applications] FOREIGN KEY ([ReleaseApplicationId]) REFERENCES [Applications] ([Id]),
     CONSTRAINT [FK_DetainedLicenses_CreatedBy_Users] FOREIGN KEY ([CreatedByUserId]) REFERENCES [Users] ([Id]),
     CONSTRAINT [FK_DetainedLicenses_DrivingLicenses] FOREIGN KEY ([LicenseId]) REFERENCES [DrivingLicenses] ([Id]),
@@ -309,6 +304,10 @@ CREATE INDEX [IX_DetainedLicenses_ReleasedByUserId] ON [DetainedLicenses] ([Rele
 GO
 
 
+CREATE UNIQUE INDEX [UQ_DetainedLicenses_ActiveLicenseId] ON [DetainedLicenses] ([LicenseId]) WHERE [IsReleased] = 0;
+GO
+
+
 CREATE UNIQUE INDEX [UQ_DetainedLicenses_ReleaseApplicationId] ON [DetainedLicenses] ([ReleaseApplicationId]) WHERE [ReleaseApplicationId] IS NOT NULL;
 GO
 
@@ -326,10 +325,6 @@ GO
 
 
 CREATE INDEX [IX_DrivingLicenses_DriverId] ON [DrivingLicenses] ([DriverId]);
-GO
-
-
-CREATE INDEX [IX_DrivingLicenses_DriverId1] ON [DrivingLicenses] ([DriverId1]);
 GO
 
 
@@ -393,6 +388,10 @@ CREATE INDEX [IX_TestAppointments_RetakeTestApplicationId] ON [TestAppointments]
 GO
 
 
+CREATE UNIQUE INDEX [UQ_TestAppointments_ActiveUnlocked] ON [TestAppointments] ([LocalDrivingLicenseApplicationId], [TestTypeId]) WHERE [IsLocked] = 0;
+GO
+
+
 CREATE INDEX [IX_Tests_CreatedByUserId] ON [Tests] ([CreatedByUserId]);
 GO
 
@@ -409,7 +408,11 @@ CREATE UNIQUE INDEX [UQ_Users_UserName] ON [Users] ([UserName]);
 GO
 
 
-CREATE INDEX [IX_UserSessions_UserId] ON [UserSessions] ([UserId]);
+CREATE UNIQUE INDEX [IX_UserSessions_UserId] ON [UserSessions] ([UserId]);
+GO
+
+
+CREATE UNIQUE INDEX [IX_UserSessions_RefreshTokenHash] ON [UserSessions] ([RefreshTokenHash]);
 GO
 
 

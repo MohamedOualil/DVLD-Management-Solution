@@ -2,36 +2,20 @@
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
     internal sealed class DriverRepository : BaseRepository<Driver>, IDriverRepository
     {
-
-        private readonly AppDbContext _context;
         public DriverRepository(AppDbContext appDbContext) : base(appDbContext)
         {
-            _context = appDbContext;
         }
 
-
-        public async Task<Driver?> GetByPersonIdAsync(int id,CancellationToken cancellationToken)
+        public async Task<Driver?> GetByPersonIdAsync(int id, CancellationToken cancellationToken)
         {
-            return await _context.Drivers.FirstOrDefaultAsync(t => 
-                            t.PersonId == id,
-                            cancellationToken);
+            return await DbContext.Drivers.FirstOrDefaultAsync(
+                t => t.PersonId == id,
+                cancellationToken);
         }
-
-
-        public Task<IEnumerable<Driver>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }

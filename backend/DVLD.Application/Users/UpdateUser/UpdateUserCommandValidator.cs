@@ -1,6 +1,5 @@
 using DVLD.Application.Abstractions;
 using DVLD.Domain.Common;
-using System;
 
 namespace DVLD.Application.Users.UpdateUser
 {
@@ -8,13 +7,15 @@ namespace DVLD.Application.Users.UpdateUser
     {
         public Result Validate(UpdateUserCommand request)
         {
+            List<Error> errors = new(2);
+
             if (request.UserId <= 0)
-                return Result.Failure(DomainErrors.erUser.InvalidId);
+                errors.Add(DomainErrors.erUser.InvalidId);
 
             if (!Enum.IsDefined(request.Role))
-                return Result.Failure(DomainErrors.erUser.RolesRequired);
+                errors.Add(DomainErrors.erUser.RolesRequired);
 
-            return Result.Success();
+            return errors.Count > 0 ? Result.Failure(errors) : Result.Success();
         }
     }
 }

@@ -1,12 +1,5 @@
 ﻿using DVLD.Application.Abstractions;
-using DVLD.Application.Abstractions.Validator;
 using DVLD.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Application.Users.AddUser
 {
@@ -21,20 +14,18 @@ namespace DVLD.Application.Users.AddUser
 
             if (string.IsNullOrWhiteSpace(request.UserName))
                 errors.Add(DomainErrors.erUser.UserNameRequired);
+            else if (request.UserName.Trim().Length > 20)
+                errors.Add(DomainErrors.erPerson.FieldTooLong);
 
             if (string.IsNullOrWhiteSpace(request.Password))
                 errors.Add(DomainErrors.erUser.PasswordRequired);
-
-            //if (string.IsNullOrWhiteSpace(request.Roles.ToString())
-            //    errors.Add(DomainErrors.erUser.RolesRequired);
-
-            if (request.Password.Length < 6)
+            else if (request.Password.Length < 6)
                 errors.Add(DomainErrors.erUser.PasswordTooShort);
 
-            if (errors.Count > 0)
-                return Result.Failure(errors);
+            if (!Enum.IsDefined(request.Roles))
+                errors.Add(DomainErrors.erUser.RolesRequired);
 
-            return Result.Success();
+            return errors.Count > 0 ? Result.Failure(errors) : Result.Success();
         }
     }
 }

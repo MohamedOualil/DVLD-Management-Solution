@@ -10,6 +10,7 @@ namespace DVLD.Application.Auth.Logout
     internal sealed class LogoutCommandHandler(
     IJwtProvider jwtProvider,
     IUserSessionRepository sessionRepository,
+    IUserAccessInvalidator userAccessInvalidator,
     IUnitOfWork unitOfWork,
     ILogger<LogoutCommandHandler> logger) : ICommandHandler<LogoutCommand>
     {
@@ -26,6 +27,7 @@ namespace DVLD.Application.Auth.Logout
             {
                 session.Revoke();
                 await unitOfWork.SaveChangesAsync(cancellationToken);
+                userAccessInvalidator.InvalidateUserAccess(session.UserId);
 
                 logger.LogInformation(
                     "[AUTH] User {UserId} logged out from application",

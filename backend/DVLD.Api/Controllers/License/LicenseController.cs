@@ -1,17 +1,16 @@
+using DVLD.Api.Common;
+using DVLD.Application.Licenses.DetainedDrivingLicense;
+using DVLD.Application.Licenses.GetAllDetainedLicenses;
+using DVLD.Application.Licenses.GetLicenseDetail;
+using DVLD.Application.Licenses.IssueLicenseFirstTime;
+using DVLD.Application.Licenses.ReleaseDeatinedDrivingLicense;
+using DVLD.Application.Licenses.RenewLicenseApplication;
+using DVLD.Application.Licenses.ReplacementLicense;
 using DVLD.Contracts.Common;
 using DVLD.Contracts.Licenses;
-using DVLD.Api.Common;
-using DVLD.Api.Controllers.LocalDrivingLicenseApplications;
-using DVLD.Application.Abstractions;
-using DVLD.Application.Licenses.GetLicense;
-using DVLD.Application.Licenses.GetLicenseByLocalApplicationId;
-using DVLD.Application.Licenses.IssueLicenseFirstTime;
-using DVLD.Application.Licenses.GetLocalDrivingLicenseHistory;
-using DVLD.Application.LocalLicenseApplications.GetAllLocalApplications;
 using DVLD.Domain.Common;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 
@@ -19,101 +18,149 @@ namespace DVLD.Api.Controllers.License
 {
     [Authorize]
     [EnableRateLimiting("UserLimiter")]
-    [Route("api/[controller]")]
+    [Route("api/licenses")]
     [ApiController]
     public class LicenseController : ApiController
     {
         private readonly ISender _sender;
+
         public LicenseController(ISender sender)
         {
             _sender = sender;
-
         }
 
-
-
-        [HttpPost(Name = "IssueLicense")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [HttpGet("{licenseId:int}/detail")]
+        [ProducesResponseType(typeof(GetLicenseDetailResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> IssueLicense(IssueNewLicenseRequest issueNewLicense, CancellationToken cancellationToken)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<GetLicenseDetailResponse>> GetLicenseDetail(
+            int licenseId,
+            CancellationToken cancellationToken)
+        {
+            Result<GetLicenseDetailResponse> result = await _sender.Send(
+                new GetLicenseDetailQuery(licenseId),
+                cancellationToken);
+
+            return result.IsFailure ? HandleFailure(result) : Ok(result.Value);
+        }
+
+        [HttpGet("detained")]
+        [ProducesResponseType(typeof(PagedList<DetainedLicenseListItemDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<PagedList<DetainedLicenseListItemDto>>> GetAllDetainedLicenses(
+            [FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 15,
+            [FromQuery] string? search = null,
+            [FromQuery] string? searchTerm = null,
+            [FromQuery] int status = 0,
+            [FromQuery] int releaseStatus = 0,
+            CancellationToken cancellationToken = default)
+        {
+            var query = new GetAllDetainedLicensesQuery
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                SearchTerm = searchTerm ?? search,
+                ReleaseStatus = releaseStatus != 0 ? releaseStatus : status
+            };
+
+            Result<PagedList<DetainedLicenseListItemDto>> result = await _sender.Send(query, cancellationToken);
+            return result.IsFailure ? HandleFailure(result) : Ok(result.Value);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public async Task<ActionResult<int>> IssueLicense(
+            [FromBody] IssueNewLicenseRequest issueNewLicense,
+            CancellationToken cancellationToken)
         {
             var command = new IssueLicenseFirstTimeCommand
             {
                 LocalApplicationId = issueNewLicense.LocalApplicationId,
                 Notes = issueNewLicense.Notes
             };
+
             Result<int> result = await _sender.Send(command, cancellationToken);
             if (result.IsFailure)
                 return HandleFailure(result);
 
-            return CreatedAtAction(nameof(GetLicense), new { LicenseId = result.Value }, result.Value);
+            return CreatedAtAction(nameof(GetLicenseDetail), new { licenseId = result.Value }, result.Value);
         }
 
-        [HttpGet(Name = "GetAllLocalApplications")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPost("renew")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<PagedList<GetLocalDrivingLicenseHistoryResponse>>> GetAllLocalApplications(
-          [FromQuery] GetLocalDrivingLicenseHistoryRequest licenseHistoryRequest
-          , CancellationToken cancellationToken)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<int>> RenewLicense(
+            [FromBody] RenewLicenseRequest request,
+            CancellationToken cancellationToken)
         {
-            GetLocalDrivingLicenseHistoryQuery query = new GetLocalDrivingLicenseHistoryQuery
+            var command = new RenewLicenseApplicationCommand
             {
-                NationalNo = licenseHistoryRequest.NationalNo,
-                PageNumber = licenseHistoryRequest.PageNumber,
-                PageSize = licenseHistoryRequest.PageSize,
+                LicensesID = request.LicenseId,
+                Notes = request.Notes
             };
 
-            Result<PagedList<GetLocalDrivingLicenseHistoryResponse>> result = await _sender.Send(
-                query,
-                cancellationToken);
-
-            if (result.IsFailure)
-                return HandleFailure(result);
-
-            if (result.Value.Items.Count == 0)
-                return NotFound();
-
-            return Ok(result.Value);
+            Result<int> result = await _sender.Send(command, cancellationToken);
+            return result.IsFailure ? HandleFailure(result) : Ok(result.Value);
         }
 
-        [HttpGet("by-local-application/{localApplicationId}", Name = "GetLicenseByLocalApplicationId")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPost("replace")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<GetLicenseResponse>> GetLicenseByLocalApplicationId(
-            int localApplicationId, CancellationToken cancellationToken)
-        {
-            var query = new GetLicenseByLocalApplicationIdQuery(localApplicationId);
-            Result<GetLicenseResponse> result = await _sender.Send(query, cancellationToken);
-
-            if (result.IsFailure)
-                return HandleFailure(result);
-
-            return Ok(result.Value);
-        }
-
-        [HttpGet("{LicenseId}", Name = "GetLicense")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<GetLicenseResponse>> GetLicense(
-          int LicenseId
-          , CancellationToken cancellationToken)
+        public async Task<ActionResult<int>> ReplaceLicense(
+            [FromBody] ReplaceLicenseRequest request,
+            CancellationToken cancellationToken)
         {
-            GetLicenseQuery query = new GetLicenseQuery(LicenseId);
+            var command = new ReplacementLicenseCommand
+            {
+                LicenseId = request.LicenseId,
+                ReplacmentType = request.ReplacementType,
+                Notes = request.Notes
+            };
 
-            Result<GetLicenseResponse> result = await _sender.Send(
-                query,
-                cancellationToken);
-
-            if (result.IsFailure)
-                return HandleFailure(result);
-
-            return Ok(result.Value);
+            Result<int> result = await _sender.Send(command, cancellationToken);
+            return result.IsFailure ? HandleFailure(result) : Ok(result.Value);
         }
 
+        [HttpPost("detain")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public async Task<ActionResult<int>> DetainLicense(
+            [FromBody] DetainLicenseRequest request,
+            CancellationToken cancellationToken)
+        {
+            var command = new DetainedDrivingLicenseCommand
+            {
+                LicenseId = request.LicenseId,
+                Fees = request.FineFees
+            };
 
+            Result<int> result = await _sender.Send(command, cancellationToken);
+            return result.IsFailure ? HandleFailure(result) : Ok(result.Value);
+        }
+
+        [HttpPost("release")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<int>> ReleaseLicense(
+            [FromBody] ReleaseLicenseRequest request,
+            CancellationToken cancellationToken)
+        {
+            var command = new ReleaseDeatinedDrivingLicenseCommand
+            {
+                LicensesId = request.LicenseId
+            };
+
+            Result<int> result = await _sender.Send(command, cancellationToken);
+            return result.IsFailure ? HandleFailure(result) : Ok(result.Value);
+        }
     }
 }

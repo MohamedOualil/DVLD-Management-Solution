@@ -1,10 +1,5 @@
 ﻿using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Domain.Interfaces
 {
@@ -12,6 +7,6 @@ namespace DVLD.Domain.Interfaces
     {
         Task<bool> IsPersonUser(int personId, CancellationToken cancellationToken);
         Task<User?> GetUserByUsername(string username, CancellationToken cancellationToken);
-
+        Task<bool> UserNameExistsAsync(string userName, CancellationToken cancellationToken = default);
     }
 }

@@ -1,36 +1,48 @@
-using DVLD.Application.Persons.GetPerson;
-using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
-using DVLD.Contracts.Enums;
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using static DVLD.Domain.Common.DomainErrors;
 
 namespace DVLD.Infrastructure.Repositorys
 {
     internal sealed class PersonRepository : BaseRepository<Person>, IPersonRepository
     {
-        private readonly AppDbContext _context;
-        public PersonRepository(AppDbContext appDbContext) : base(appDbContext) 
+        public PersonRepository(AppDbContext appDbContext) : base(appDbContext)
         {
-            _context = appDbContext;
         }
 
-        public Task<bool> NationlNoExist (string nationalNo)
+        public Task<bool> NationalNoExistsAsync(string nationalNo, CancellationToken cancellationToken = default)
         {
-            return _context.Persons.AnyAsync(p => p.NationalNo.Number == nationalNo);
-
+            string normalized = nationalNo.Trim().ToUpperInvariant();
+            return DbContext.Persons.AnyAsync(p => p.NationalNo.Number == normalized, cancellationToken);
         }
-        
-      
 
+        public Task<bool> EmailExistsAsync(
+            string normalizedEmail,
+            int? excludePersonId = null,
+            CancellationToken cancellationToken = default)
+        {
+            return DbContext.Persons.AnyAsync(
+                p => p.Email != null &&
+                     p.Email.Value == normalizedEmail &&
+                     (!excludePersonId.HasValue || p.Id != excludePersonId.Value),
+                cancellationToken);
+        }
+
+        public Task<bool> CountryExistsAsync(int countryId, CancellationToken cancellationToken = default)
+        {
+            return DbContext.Countries.AnyAsync(c => c.Id == countryId, cancellationToken);
+        }
+
+        public async Task<bool> HasLinkedRecordsAsync(int personId, CancellationToken cancellationToken = default)
+        {
+            if (await DbContext.Users.AnyAsync(u => u.PersonId == personId, cancellationToken))
+                return true;
+
+            if (await DbContext.Drivers.AnyAsync(d => d.PersonId == personId, cancellationToken))
+                return true;
+
+            return await DbContext.Applications.AnyAsync(a => a.PersonId == personId, cancellationToken);
+        }
     }
 }

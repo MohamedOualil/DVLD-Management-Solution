@@ -65,6 +65,11 @@ namespace DVLD.Infrastructure.Data.Configuration
             builder.Ignore(t => t.TestTypeEnum);
 
 
+            builder.HasIndex(t => new { t.LocalDrivingLicenseApplicationId, t.TestTypeId })
+                .IsUnique()
+                .HasFilter("[IsLocked] = 0")
+                .HasDatabaseName("UQ_TestAppointments_ActiveUnlocked");
+
             builder.ToTable("TestAppointments", t =>
             {
                 t.HasCheckConstraint("CK_TestAppointments_PaidFees", "PaidFees >= 0");

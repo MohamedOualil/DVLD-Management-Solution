@@ -1,13 +1,10 @@
 using DVLD.Application.Abstractions;
+using DVLD.Application.Abstractions.Authentication;
 using DVLD.Application.Abstractions.Messaging;
+using DVLD.Contracts.Enums;
 using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
 using DVLD.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Application.Users.ChangePassword
 {
@@ -16,14 +13,18 @@ namespace DVLD.Application.Users.ChangePassword
         private readonly IUnitOfWork _unitOfWork;
         private readonly IValidate<ChangePasswordCommand> _validator;
         private readonly IUserRepository _userRepository;
+        private readonly IUserSessionRepository _userSessionRepository;
+        private readonly IUserAccessInvalidator _userAccessInvalidator;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IAuditService _auditService;
         private readonly ICurrentUserService _currentUser;
 
         public ChangePasswordCommandHandler(
-            IUnitOfWork unitOfWork, 
-            IValidate<ChangePasswordCommand> validator, 
-            IUserRepository userRepository, 
+            IUnitOfWork unitOfWork,
+            IValidate<ChangePasswordCommand> validator,
+            IUserRepository userRepository,
+            IUserSessionRepository userSessionRepository,
+            IUserAccessInvalidator userAccessInvalidator,
             IPasswordHasher passwordHasher,
             IAuditService auditService,
             ICurrentUserService currentUser)
@@ -31,44 +32,38 @@ namespace DVLD.Application.Users.ChangePassword
             _unitOfWork = unitOfWork;
             _validator = validator;
             _userRepository = userRepository;
+            _userSessionRepository = userSessionRepository;
+            _userAccessInvalidator = userAccessInvalidator;
             _passwordHasher = passwordHasher;
             _auditService = auditService;
             _currentUser = currentUser;
         }
 
         public async Task<Result> Handle(
-            ChangePasswordCommand request, 
+            ChangePasswordCommand request,
             CancellationToken cancellationToken)
         {
-            if (_currentUser.UserRole != "Admin")
+            bool isAdmin = _currentUser.UserRole == nameof(Role.Admin);
+            bool isSelf = _currentUser.UserId == request.UserId;
+
+            if (!isAdmin && !isSelf)
                 return Result.Failure(DomainErrors.erAuth.Forbidden);
 
             var validationResult = _validator.Validate(request);
             if (validationResult.IsFailure)
-                return Result<int>.Failure(validationResult.Errors);
+                return Result.Failure(validationResult.Errors);
 
-            User? user = await _userRepository.GetByIdAsync(
-                request.UserId, 
-                cancellationToken);
+            if (!isAdmin && string.IsNullOrWhiteSpace(request.CurrentPassword))
+                return Result.Failure(DomainErrors.erUser.CurrentPassword);
 
+            User? user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
             if (user is null)
                 return Result.Failure(DomainErrors.erUser.NotFound);
 
-            Result result;
-            if (!string.IsNullOrWhiteSpace(request.CurrentPassword))
-            {
-                result = user.ChangePassword(
-                    request.CurrentPassword,
-                    request.NewPassword, 
-                    _passwordHasher);
-            }
-            else
-            {
-                result = user.ChangePasswordByAdmin(
-                    request.NewPassword,
-                    _passwordHasher);
-            }
-             
+            Result result = !string.IsNullOrWhiteSpace(request.CurrentPassword)
+                ? user.ChangePassword(request.CurrentPassword, request.NewPassword, _passwordHasher)
+                : user.ChangePasswordByAdmin(request.NewPassword, _passwordHasher);
+
             if (result.IsFailure)
             {
                 await _auditService.LogActionAsync(
@@ -84,6 +79,10 @@ namespace DVLD.Application.Users.ChangePassword
             }
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            // Invalidate existing refresh tokens and active access tokens immediately
+            await _userSessionRepository.RevokeAllForUserAsync(user.Id, cancellationToken);
+            _userAccessInvalidator.InvalidateUserAccess(user.Id);
 
             await _auditService.LogActionAsync(
                 action: "ChangePassword",

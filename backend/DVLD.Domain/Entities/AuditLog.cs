@@ -34,7 +34,7 @@ namespace DVLD.Domain.Entities
 
         public static AuditLog Create(
             int? userId,
-            string userEmail,
+            string? userEmail,
             string action,
             string entityName,
             string entityId,

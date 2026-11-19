@@ -12,14 +12,11 @@ namespace DVLD.Application.Licenses.RenewLicenseApplication
     {
         public Result Validate(RenewLicenseApplicationCommand request)
         {
-            List<Error> errors = new(2);
+            List<Error> errors = new(1);
             if (request.LicensesID <= 0)
                 errors.Add(DomainErrors.erLicense.InvalidId);
-            if (request.CreatedById <= 0)
-                errors.Add(DomainErrors.erUser.InvalidId);
 
             return errors.Count == 0 ? Result.Success() : Result.Failure(errors);
-
         }
     }
 }

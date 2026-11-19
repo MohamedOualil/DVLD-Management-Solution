@@ -1,17 +1,16 @@
-﻿
-
-namespace DVLD.Domain.ValueObjects
+﻿namespace DVLD.Domain.ValueObjects
 {
     public sealed record Email
     {
         public string? Value { get; init; }
 
+        private Email() { }
+
         public Email(string? value)
         {
-            Value = value?.Trim().ToLowerInvariant() ?? string.Empty;
+            Value = string.IsNullOrWhiteSpace(value)
+                ? null
+                : value.Trim().ToLowerInvariant();
         }
     }
-    
-
-    
 }

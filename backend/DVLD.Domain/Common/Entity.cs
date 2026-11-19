@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DVLD.Domain.Common
+﻿namespace DVLD.Domain.Common
 {
     public abstract class Entity : IEquatable<Entity>
     {
@@ -12,13 +6,13 @@ namespace DVLD.Domain.Common
 
         protected Entity() { }
 
-       
-        public override int GetHashCode() => Id.GetHashCode();
+        public override int GetHashCode() => HashCode.Combine(GetType(), Id);
 
         public bool Equals(Entity? other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
+            if (GetType() != other.GetType()) return false;
 
             if (Id == 0 || other.Id == 0) return false;
 

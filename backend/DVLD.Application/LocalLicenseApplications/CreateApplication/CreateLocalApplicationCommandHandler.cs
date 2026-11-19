@@ -1,16 +1,9 @@
 using DVLD.Application.Abstractions;
 using DVLD.Application.Abstractions.Messaging;
-using DVLD.Application.Persons.CreatePerson;
+using DVLD.Contracts.Enums;
 using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
-using DVLD.Contracts.Enums;
 using DVLD.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static DVLD.Domain.Common.DomainErrors;
 
 namespace DVLD.Application.LocalLicenseApplications.CreateApplication
 {
@@ -25,6 +18,8 @@ namespace DVLD.Application.LocalLicenseApplications.CreateApplication
         private readonly IApplicationTypesRepository _applicationTypesRepository;
         private readonly ILicenseRepository _licenseRepository;
         private readonly ICurrentUserService _currentUser;
+        private readonly IAuditService _auditService;
+
         public CreateLocalApplicationCommandHandler(
             ICurrentUserService currentUserService,
             IApplicationTypesRepository applicationTypesRepository,
@@ -34,7 +29,8 @@ namespace DVLD.Application.LocalLicenseApplications.CreateApplication
             ILicenseClassesRepository licenseClassesRepository,
             IUnitOfWork unitOfWork,
             ILicenseRepository licenseRepository,
-            IValidate<CreateLocalApplicationCommand> validate)
+            IValidate<CreateLocalApplicationCommand> validate,
+            IAuditService auditService)
         {
             _currentUser = currentUserService;
             _applicationTypesRepository = applicationTypesRepository;
@@ -45,49 +41,59 @@ namespace DVLD.Application.LocalLicenseApplications.CreateApplication
             _unitOfWork = unitOfWork;
             _validator = validate;
             _licenseRepository = licenseRepository;
-
+            _auditService = auditService;
         }
+
         public async Task<Result<int>> Handle(CreateLocalApplicationCommand request, CancellationToken cancellationToken)
         {
             Result validation = _validator.Validate(request);
             if (validation.IsFailure)
                 return Result<int>.Failure(validation.Errors);
 
-            if (await _licenseRepository.AnyAsync(l =>
-                                l.Application.PersonId == request.PersonId &&
-                                l.LicenseClassId == request.LicensesClassId &&
-                                l.IsActive,
-                                cancellationToken))
-                return Result<int>.Failure(DomainErrors.erLicense.ActiveLicenseExist);
+            int? currentUserId = _currentUser.UserId;
+            if (currentUserId is null || currentUserId <= 0)
+                return Result<int>.Failure(DomainErrors.erUser.InvalidId);
 
-
-            if (await _repository.AnyAsync(a =>
-                                a.Application.PersonId == request.PersonId &&
-                                a.Application.Status == ApplicationStatusEnum.New &&
-                                a.LicenseClassId == request.LicensesClassId,
-                                cancellationToken))
-                return Result<int>.Failure(DomainErrors.erApplications.ActiveApplicationExist);
-
-            LicenseClass? licenseClass = await _licenseClassesRepository.GetByIdAsync(request.LicensesClassId);
+            LicenseClass? licenseClass = await _licenseClassesRepository.GetByIdAsync(
+                request.LicensesClassId,
+                cancellationToken);
             if (licenseClass is null)
                 return Result<int>.Failure(DomainErrors.erLicenseClass.NotFound);
 
-
-            Person? person = await  _personRepository.GetByIdAsync(request.PersonId);
+            Person? person = await _personRepository.GetByIdAsync(request.PersonId, cancellationToken);
             if (person is null)
                 return Result<int>.Failure(DomainErrors.erPerson.NotFound);
 
+            if (await _licenseRepository.AnyAsync(
+                l => l.Application.PersonId == request.PersonId &&
+                     l.LicenseClassId == request.LicensesClassId &&
+                     l.IsActive,
+                cancellationToken))
+            {
+                return Result<int>.Failure(DomainErrors.erLicense.ActiveLicenseExist);
+            }
 
-            ApplicationType? applicationType = await  _applicationTypesRepository.GetByIdAsync(
-                (int)ApplicationTypeEnum.NewLocalDrivingLicenseService);
+            if (await _repository.AnyAsync(
+                a => a.Application.PersonId == request.PersonId &&
+                     a.Application.Status == ApplicationStatusEnum.New &&
+                     a.LicenseClassId == request.LicensesClassId,
+                cancellationToken))
+            {
+                return Result<int>.Failure(DomainErrors.erApplications.ActiveApplicationExist);
+            }
+
+            ApplicationType? applicationType = await _applicationTypesRepository.GetByIdAsync(
+                (int)ApplicationTypeEnum.NewLocalDrivingLicenseService,
+                cancellationToken);
             if (applicationType is null)
                 return Result<int>.Failure(DomainErrors.erApplications.InvalidApplicationType);
 
-
-            var application = Domain.Entities.Application.CreateLocalApplication(person, applicationType, _currentUser.UserId);
+            var application = Domain.Entities.Application.CreateLocalApplication(
+                person,
+                applicationType,
+                currentUserId);
             if (application.IsFailure)
                 return Result<int>.Failure(application.Errors);
-
 
             var localDrivingLicenseApplication = LocalDrivingLicenseApplication.Create(
                 application.Value!,
@@ -95,14 +101,26 @@ namespace DVLD.Application.LocalLicenseApplications.CreateApplication
             if (localDrivingLicenseApplication.IsFailure)
                 return Result<int>.Failure(localDrivingLicenseApplication.Errors);
 
-
             _applicationsRepository.Add(application.Value!);
             _repository.Add(localDrivingLicenseApplication.Value!);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return Result<int>.Success(localDrivingLicenseApplication.Value!.Id);
+            await _auditService.LogActionAsync(
+                action: "Create",
+                entityName: "LocalDrivingLicenseApplication",
+                entityId: localDrivingLicenseApplication.Value!.Id.ToString(),
+                oldValues: null,
+                newValues: new
+                {
+                    LocalApplicationId = localDrivingLicenseApplication.Value.Id,
+                    ApplicationId = application.Value!.Id,
+                    request.PersonId,
+                    LicenseClassId = request.LicensesClassId
+                },
+                isSuccess: true);
 
+            return Result<int>.Success(localDrivingLicenseApplication.Value!.Id);
         }
     }
 }

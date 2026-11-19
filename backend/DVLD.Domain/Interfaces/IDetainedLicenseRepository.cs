@@ -10,5 +10,6 @@ namespace DVLD.Domain.Interfaces
 {
     public interface IDetainedLicenseRepository : IBaseRepository<DetainedLicense>
     {
+        Task<DetainedLicense?> GetActiveByLicenseIdAsync(int licenseId, CancellationToken cancellationToken = default);
     }
 }

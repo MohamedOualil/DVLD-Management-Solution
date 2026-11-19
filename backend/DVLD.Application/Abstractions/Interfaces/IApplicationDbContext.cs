@@ -28,5 +28,6 @@ namespace DVLD.Application.Abstractions.Interfaces
 
 
         DbSet<UserSession> UserSession {  get; }
+        DbSet<AuditLog> AuditLog { get; }
     }
 }

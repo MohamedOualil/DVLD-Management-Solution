@@ -1,43 +1,27 @@
-using DVLD.Domain.Entities;
 using DVLD.Contracts.Enums;
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class ApplicationsRepository : BaseRepository<Domain.Entities.Application> , IApplicationsRepository
+    internal sealed class ApplicationsRepository : BaseRepository<Domain.Entities.Application>, IApplicationsRepository
     {
-
-        private readonly AppDbContext _context;
         public ApplicationsRepository(AppDbContext appDbContext) : base(appDbContext)
         {
-            _context = appDbContext;
         }
 
-
-        public Task<IEnumerable<Domain.Entities.Application>> GetAllAsync()
+        public Task<bool> ActiveApplicationExistsAsync(
+            int personId,
+            ApplicationTypeEnum applicationTypeEnum,
+            CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            int typeId = (int)applicationTypeEnum;
+            return DbContext.Applications.AnyAsync(
+                a => a.PersonId == personId &&
+                     a.ApplicationTypeId == typeId &&
+                     a.Status == ApplicationStatusEnum.New,
+                cancellationToken);
         }
-
-        public Task<bool> AciveApplicationExist(int personId, ApplicationTypeEnum applicationTypeEnum)
-        {
-            return _context.Applications.AnyAsync(a => 
-                a.PersonId == personId && 
-                a.ApplicationTypeEnum == applicationTypeEnum && 
-                a.Status == ApplicationStatusEnum.New);
-        }
-
-        public  async Task<Domain.Entities.Application> GetApplications(int Appid,CancellationToken cancellationToken)
-        {
-            return await _context.Applications.FindAsync(Appid, cancellationToken);
-        }
-
     }
 }

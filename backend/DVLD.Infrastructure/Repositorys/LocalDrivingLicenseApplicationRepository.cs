@@ -2,29 +2,22 @@
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class LocalDrivingLicenseApplicationRepository : BaseRepository<LocalDrivingLicenseApplication>, ILocalDrivingLicenseApplicationRepository
+    internal sealed class LocalDrivingLicenseApplicationRepository
+        : BaseRepository<LocalDrivingLicenseApplication>, ILocalDrivingLicenseApplicationRepository
     {
-
-        private readonly AppDbContext _context;
         public LocalDrivingLicenseApplicationRepository(AppDbContext appDbContext) : base(appDbContext)
         {
-            _context = appDbContext;
         }
 
         public async Task<LocalDrivingLicenseApplication?> GetWithDetailsAsync(
-            int id, 
+            int id,
             CancellationToken cancellationToken = default)
         {
-            return await _context.LocalDrivingLicenseApplications
+            return await DbContext.LocalDrivingLicenseApplications
+                .AsSplitQuery()
                 .Include(a => a.Application)
                     .ThenInclude(a => a.Person)
                 .Include(a => a.LicenseClass)
@@ -32,8 +25,5 @@ namespace DVLD.Infrastructure.Repositorys
                     .ThenInclude(ts => ts.Test)
                 .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
-
-
-        
     }
 }

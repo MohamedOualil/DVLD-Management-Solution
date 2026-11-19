@@ -1,38 +1,38 @@
-using DVLD.Contracts.Auth;
 using DVLD.Application.Abstractions.Authentication;
+using DVLD.Contracts.Auth;
 using DVLD.Domain.Entities;
 using DVLD.Infrastructure.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Authentication
 {
     internal sealed class JwtProvider : IJwtProvider
     {
         private readonly JwtSettings _jwtSettings;
-        
+
         public JwtProvider(IOptions<JwtSettings> jwtSettings)
         {
             _jwtSettings = jwtSettings.Value;
-            
         }
+
         public TokenResponse Generate(User user)
         {
+            var now = DateTime.UtcNow;
+            var accessExpiry = now.AddMinutes(_jwtSettings.ExpiresInMinutes);
+            var refreshExpiry = now.AddDays(_jwtSettings.RefreshTokenExpiresInDays);
+
             var claims = new[]
             {
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("iat_ticks", now.Ticks.ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim("PersonId", user.PersonId.ToString()),
-
                 new Claim(ClaimTypes.Name, user.UserName),
-
                 new Claim(ClaimTypes.Role, user.Role.ToString())
             };
 
@@ -41,23 +41,18 @@ namespace DVLD.Infrastructure.Authentication
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-
             var token = new JwtSecurityToken(
                 issuer: _jwtSettings.Issuer,
                 audience: _jwtSettings.Audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiresInMinutes),
-                signingCredentials: creds
-            );
+                notBefore: now,
+                expires: accessExpiry,
+                signingCredentials: creds);
 
             string accessToken = new JwtSecurityTokenHandler().WriteToken(token);
-            var accessExpiry = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiresInMinutes);
-
             string refreshToken = GenerateRefreshToken();
 
-            DateTime refreshTokenExpiresInDays = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpiresInDays);
-
-            return new TokenResponse(accessToken, refreshToken, refreshTokenExpiresInDays, accessExpiry);
+            return new TokenResponse(accessToken, refreshToken, refreshExpiry, accessExpiry);
         }
 
         public string HashRefreshToken(string refreshToken)
@@ -66,12 +61,9 @@ namespace DVLD.Infrastructure.Authentication
             return Convert.ToHexString(hash);
         }
 
-        private  string GenerateRefreshToken()
+        private static string GenerateRefreshToken()
         {
-            var bytes = new byte[64];
-            using var rng = RandomNumberGenerator.Create();
-            rng.GetBytes(bytes);
-            return Convert.ToBase64String(bytes);
+            return Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
         }
     }
 }

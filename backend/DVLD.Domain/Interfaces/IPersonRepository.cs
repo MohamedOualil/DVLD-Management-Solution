@@ -1,16 +1,13 @@
 ﻿using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 
 namespace DVLD.Domain.Interfaces
 {
     public interface IPersonRepository : IBaseRepository<Person>
     {
-        Task<bool> NationlNoExist(string nationalNo);
+        Task<bool> NationalNoExistsAsync(string nationalNo, CancellationToken cancellationToken = default);
+        Task<bool> EmailExistsAsync(string normalizedEmail, int? excludePersonId = null, CancellationToken cancellationToken = default);
+        Task<bool> CountryExistsAsync(int countryId, CancellationToken cancellationToken = default);
+        Task<bool> HasLinkedRecordsAsync(int personId, CancellationToken cancellationToken = default);
     }
 }

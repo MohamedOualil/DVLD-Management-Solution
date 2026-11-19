@@ -1,16 +1,18 @@
 using DVLD.Application.Abstractions;
+using DVLD.Application.Abstractions.Authentication;
 using DVLD.Application.Abstractions.Messaging;
+using DVLD.Contracts.Enums;
 using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
 using DVLD.Domain.Interfaces;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace DVLD.Application.Users.UpdateUser
 {
     internal sealed class UpdateUserCommandHandler : ICommandHandler<UpdateUserCommand>
     {
         private readonly IUserRepository _userRepository;
+        private readonly IUserSessionRepository _userSessionRepository;
+        private readonly IUserAccessInvalidator _userAccessInvalidator;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IValidate<UpdateUserCommand> _validator;
         private readonly IAuditService _auditService;
@@ -18,12 +20,16 @@ namespace DVLD.Application.Users.UpdateUser
 
         public UpdateUserCommandHandler(
             IUserRepository userRepository,
+            IUserSessionRepository userSessionRepository,
+            IUserAccessInvalidator userAccessInvalidator,
             IUnitOfWork unitOfWork,
             IValidate<UpdateUserCommand> validator,
             IAuditService auditService,
             ICurrentUserService currentUser)
         {
             _userRepository = userRepository;
+            _userSessionRepository = userSessionRepository;
+            _userAccessInvalidator = userAccessInvalidator;
             _unitOfWork = unitOfWork;
             _validator = validator;
             _auditService = auditService;
@@ -32,22 +38,35 @@ namespace DVLD.Application.Users.UpdateUser
 
         public async Task<Result> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            if (_currentUser.UserRole != "Admin")
+            if (_currentUser.UserRole != nameof(Role.Admin))
                 return Result.Failure(DomainErrors.erAuth.Forbidden);
 
             Result validationResult = _validator.Validate(request);
             if (validationResult.IsFailure)
                 return validationResult;
 
+            if (_currentUser.UserId == request.UserId &&
+                (!request.IsActive || request.Role != Role.Admin))
+            {
+                return Result.Failure(DomainErrors.erUser.CannotModifyOwnAccess);
+            }
+
             User? user = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
             if (user is null)
                 return Result.Failure(DomainErrors.erUser.NotFound);
 
             var oldValues = new { Role = user.Role.ToString(), user.IsActive };
+            bool shouldRevokeSessions = (!request.IsActive && user.IsActive) || user.Role != request.Role;
 
             user.Update(request.Role, request.IsActive);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            if (shouldRevokeSessions)
+            {
+                await _userSessionRepository.RevokeAllForUserAsync(user.Id, cancellationToken);
+                _userAccessInvalidator.InvalidateUserAccess(user.Id);
+            }
 
             await _auditService.LogActionAsync(
                 action: "UpdateUser",

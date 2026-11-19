@@ -1,10 +1,5 @@
 using DVLD.Application.Abstractions;
 using DVLD.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Application.Tests.TakeTest
 {
@@ -17,7 +12,7 @@ namespace DVLD.Application.Tests.TakeTest
                 errors.Add(DomainErrors.erTestAppointment.InvalidId);
 
             if (!Enum.IsDefined(request.Result))
-                errors.Add(DomainErrors.erTestTypes.InvalidId);
+                errors.Add(DomainErrors.erTests.InvalidTestResult);
 
             return errors.Count == 0 ? Result.Success() : Result.Failure(errors);
         }

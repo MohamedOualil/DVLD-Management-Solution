@@ -1,10 +1,6 @@
 ﻿using DVLD.Application.Abstractions;
+using DVLD.Application.Common;
 using DVLD.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Application.Drivers.GetListOfDrivers
 {
@@ -12,16 +8,13 @@ namespace DVLD.Application.Drivers.GetListOfDrivers
     {
         public Result Validate(GetListOfDriversQuery request)
         {
-            List<Error> errors = new(6);
+            List<Error> errors = new(5);
 
-            if (request.PageNumber <= 0)
-                errors.Add(DomainErrors.erPagedList.InvalidPageNumber);
-            if (request.PageSize <= 0)
-                errors.Add(DomainErrors.erPagedList.InvalidPageSize);
-            else if (request.PageSize > 100)
-                errors.Add(DomainErrors.erPagedList.InvalidPageSize);
+            Result pagination = QueryProjectionHelpers.ValidatePagination(request.PageNumber, request.PageSize);
+            if (pagination.IsFailure)
+                errors.AddRange(pagination.Errors);
 
-            if (!string.IsNullOrWhiteSpace(request.NationNo) && request.NationNo.Trim().Length != 8)
+            if (!string.IsNullOrWhiteSpace(request.NationNo) && request.NationNo.Trim().Length > 20)
                 errors.Add(DomainErrors.erPerson.InvalidNationalId);
 
             if (request.PersonId is not null && request.PersonId <= 0)
@@ -31,7 +24,6 @@ namespace DVLD.Application.Drivers.GetListOfDrivers
                 errors.Add(DomainErrors.erDrivers.InvalidId);
 
             return errors.Count > 0 ? Result.Failure(errors) : Result.Success();
-
         }
     }
 }

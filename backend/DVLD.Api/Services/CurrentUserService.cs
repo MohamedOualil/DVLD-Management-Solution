@@ -1,6 +1,5 @@
 ﻿using System.Security.Claims;
 using DVLD.Application.Abstractions;
-using static System.Net.WebRequestMethods;
 
 namespace DVLD.Api.Services
 {
@@ -12,18 +11,16 @@ namespace DVLD.Api.Services
         {
             _http = http;
         }
+
         public int? UserId =>
             int.TryParse(
-            _http.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier),
-            out var id) ? id : null;
-
+                _http.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier),
+                out var id)
+                ? id
+                : null;
 
         public string? UserRole => _http.HttpContext?.User.FindFirstValue(ClaimTypes.Role);
 
-
         public string? UserName => _http.HttpContext?.User.FindFirstValue(ClaimTypes.Name);
-
-
     }
-
 }

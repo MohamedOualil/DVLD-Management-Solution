@@ -1,13 +1,8 @@
 ﻿using DVLD.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Domain.ValueObjects
 {
-    public record  Money
+    public sealed record Money
     {
         public decimal Amount { get; init; }
         public string Currency { get; init; } = "USD";
@@ -22,7 +17,6 @@ namespace DVLD.Domain.ValueObjects
         {
             Amount = amount;
             Currency = currency;
-            
         }
 
         public static Result<Money> Create(decimal amount, string currency = "USD")
@@ -31,14 +25,12 @@ namespace DVLD.Domain.ValueObjects
                 return Result<Money>.Failure(DomainErrors.erMoney.InvalidAmount);
 
             if (string.IsNullOrWhiteSpace(currency))
-                return Result<Money>.Failure(DomainErrors.erMoney.InvalidCurrency);
+                return Result<Money>.Failure(DomainErrors.erMoney.CurrencyRequired);
 
-            return Result<Money>.Success(new Money(amount,currency));
-
-
+            return Result<Money>.Success(new Money(amount, currency.Trim().ToUpperInvariant()));
         }
 
-        public static Money operator -(Money left,Money right)
+        public static Money operator -(Money left, Money right)
         {
             if (left.Currency != right.Currency)
                 throw new InvalidOperationException($"Cannot subtract {right.Currency} from {left.Currency}.");
@@ -49,11 +41,8 @@ namespace DVLD.Domain.ValueObjects
             return new Money(left.Amount - right.Amount, left.Currency);
         }
 
-        
-
         public static Money operator +(Money left, Money right)
         {
-
             if (left.Currency != right.Currency)
                 throw new InvalidOperationException($"Cannot add {left.Currency} to {right.Currency}.");
 
@@ -63,13 +52,11 @@ namespace DVLD.Domain.ValueObjects
         public static bool operator >(Money left, Money right)
         {
             return left.Currency == right.Currency && left.Amount > right.Amount;
-
         }
 
         public static bool operator <(Money left, Money right)
         {
             return left.Currency == right.Currency && left.Amount < right.Amount;
-
         }
     }
 }

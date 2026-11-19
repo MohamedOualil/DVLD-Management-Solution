@@ -1,92 +1,85 @@
-using DVLD.Domain.Common;
 using DVLD.Contracts.Enums;
+using DVLD.Domain.Common;
 using DVLD.Domain.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using static DVLD.Domain.Common.DomainErrors;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace DVLD.Domain.Entities
 {
     public class DrivingLicense : Entity
     {
-        public int ApplicationId { get;private set; }
-        public Application Application { get; private set; }
+        public int ApplicationId { get; private set; }
+        public Application Application { get; private set; } = null!;
 
         public int DriverId { get; private set; }
-        public Driver Driver { get; private set; }
+        public Driver Driver { get; private set; } = null!;
 
         public int LicenseClassId { get; private set; }
         public LicenseClassEnum LicenseClassEnum => (LicenseClassEnum)LicenseClassId;
-        public LicenseClass LicenseClass { get; private set; }
+        public LicenseClass LicenseClass { get; private set; } = null!;
 
         public DateTime IssueDate { get; private set; }
         public DateTime ExpirationDate { get; private set; }
-        public string ?Notes { get; private set; }
-        public Money PaidFees { get; private set; }
+        public string? Notes { get; private set; }
+        public Money PaidFees { get; private set; } = null!;
         public bool IsActive { get; private set; } = true;
         public bool IsDetained { get; private set; } = false;
         public IssueReasonEnum IssueReason { get; private set; }
 
         public int CreatedByUserId { get; private set; }
-        public User CreatedBy { get; private set; }
+        public User CreatedBy { get; private set; } = null!;
 
-        private DrivingLicense()
-        {
-            
-        }
+        private DrivingLicense() { }
 
-        private DrivingLicense(Application applications,Driver driver,LicenseClass licenseClass, string? note,
-            IssueReasonEnum issueReason,int createdBy)
+        private DrivingLicense(
+            Application application,
+            Driver driver,
+            LicenseClass licenseClass,
+            DateTime issueDate,
+            DateTime expirationDate,
+            Money paidFees,
+            string? note,
+            IssueReasonEnum issueReason,
+            int createdBy)
         {
-            ApplicationId = applications.Id;
-            Application = applications;
+            ApplicationId = application.Id;
+            Application = application;
             DriverId = driver.Id;
             Driver = driver;
             LicenseClassId = licenseClass.Id;
             LicenseClass = licenseClass;
-            IssueDate = DateTime.UtcNow;
-            ExpirationDate = DateTime.Today.AddYears(licenseClass.DefaultValidityLength);
-            Notes = note;
-            PaidFees = licenseClass.ClassFees;
+            IssueDate = issueDate;
+            ExpirationDate = expirationDate;
+            Notes = string.IsNullOrWhiteSpace(note) ? null : note.Trim();
+            PaidFees = paidFees with { };
             IsActive = true;
             IsDetained = false;
             IssueReason = issueReason;
             CreatedByUserId = createdBy;
-
-
         }
 
-        public static DrivingLicense IssueLicenseFirstTime(Application applications, Driver driver,LicenseClass licenseClasses,
-            string note,int createdBy)
+        public static DrivingLicense IssueLicenseFirstTime(
+            Application applications,
+            Driver driver,
+            LicenseClass licenseClass,
+            string? note,
+            int createdBy)
         {
+            var issueDate = DateTime.UtcNow;
+            var expirationDate = issueDate.AddYears(licenseClass.DefaultValidityLength);
+
             return new DrivingLicense(
-                applications, 
-                driver, 
-                licenseClasses,
+                applications,
+                driver,
+                licenseClass,
+                issueDate,
+                expirationDate,
+                licenseClass.ClassFees,
                 note,
-                IssueReasonEnum.FirstTime, 
+                IssueReasonEnum.FirstTime,
                 createdBy);
         }
 
-        public void Activate()
-        {
-            IsActive = true;
-
-        }
-
-        public void Deactivate()
-        {
-            IsActive = false;
-
-        }
-
+        public void Activate() => IsActive = true;
+        public void Deactivate() => IsActive = false;
         public void MarkAsDetained() => IsDetained = true;
         public void MarkAsReleased() => IsDetained = false;
 
@@ -95,12 +88,18 @@ namespace DVLD.Domain.Entities
             ApplicationType applicationType,
             string? notes)
         {
+            if (!IsActive)
+                return Result<DrivingLicense>.Failure(DomainErrors.erLicense.LicenseNotActive);
+            if (IsDetained)
+                return Result<DrivingLicense>.Failure(DomainErrors.erLicense.LicenseIsDetained);
+            if (ExpirationDate <= DateTime.UtcNow)
+                return Result<DrivingLicense>.Failure(DomainErrors.erLicense.LicenseExpired);
 
-            IssueReasonEnum issueReason = IssueReasonEnum.LostReplacement;
+            IssueReasonEnum issueReason;
             switch (applicationType.Id)
             {
                 case (int)ApplicationTypeEnum.Replacement_for_a_DamagedDrivingLicense:
-                   issueReason = IssueReasonEnum.DamagedReplacement;
+                    issueReason = IssueReasonEnum.DamagedReplacement;
                     break;
                 case (int)ApplicationTypeEnum.Replacement_for_a_LostDrivingLicense:
                     issueReason = IssueReasonEnum.LostReplacement;
@@ -109,97 +108,97 @@ namespace DVLD.Domain.Entities
                     return Result<DrivingLicense>.Failure(DomainErrors.erApplications.InvalidApplicationType);
             }
 
-            
-            DrivingLicense newDrivingLicense = _NewDrivingLicense(
-                                                 notes, 
-                                                 createdBy, 
-                                                 issueReason, 
-                                                 applicationType);
-            this.Deactivate();
+            var newApplication = Application.LicenseApplication(applicationType, createdBy);
+            var zeroFees = Money.Create(0).Value!;
 
-            return Result<DrivingLicense>.Success(newDrivingLicense);
-
-        }
-
-   
-
-        private DrivingLicense _NewDrivingLicense(string? notes,
-            int createdBy,
-            IssueReasonEnum issueReason,
-            ApplicationType applicationType)
-        {
-            var application = this.Application.LicenseApplication(
-                applicationType,
-                createdBy);
-
-            DrivingLicense license = new DrivingLicense(
-                application,
-                this.Driver,
-                this.LicenseClass,
+            var newLicense = new DrivingLicense(
+                newApplication,
+                Driver,
+                LicenseClass,
+                DateTime.UtcNow,
+                ExpirationDate,
+                zeroFees,
                 notes,
                 issueReason,
                 createdBy);
 
-            return license;
+            Deactivate();
+
+            return Result<DrivingLicense>.Success(newLicense);
         }
 
         public Result<InternationalLicense> IssueInternationalLicense(
             int createdBy,
             ApplicationType applicationTypes)
         {
-            if (!this.IsActive)
-                return Result<InternationalLicense>.Failure(DomainErrors.erLicense.LicenseNotActive);
-            if (this.LicenseClassEnum != LicenseClassEnum.OrdinaryDrivingLicense)
+            if (!IsActive)
+                return Result<InternationalLicense>.Failure(DomainErrors.erInternationalLicense.LocalLicenseNotActive);
+            if (ExpirationDate <= DateTime.UtcNow)
+                return Result<InternationalLicense>.Failure(DomainErrors.erInternationalLicense.LocalLicenseExpired);
+            if (IsDetained)
+                return Result<InternationalLicense>.Failure(DomainErrors.erInternationalLicense.LocalLicenseDetained);
+            if (LicenseClassEnum != LicenseClassEnum.OrdinaryDrivingLicense)
                 return Result<InternationalLicense>.Failure(DomainErrors.erLicense.ApplicationTypeNotAllowed);
 
-            var newApplication = this.Application.LicenseApplication(applicationTypes,createdBy);
+            var newApplication = Application.LicenseApplication(applicationTypes, createdBy);
 
-            InternationalLicense internationalLicense = InternationalLicense.IssueLicense(
+            var internationalLicense = InternationalLicense.IssueLicense(
                 newApplication,
-                this.Driver,
+                Driver,
                 this,
                 IssueReasonEnum.FirstTime,
                 createdBy);
 
             return Result<InternationalLicense>.Success(internationalLicense);
-
         }
 
-        public Result<DrivingLicense> RenewLicense(int createdBy ,ApplicationType applicationType,string? notes)
+        public Result<DrivingLicense> RenewLicense(
+            int createdBy,
+            ApplicationType applicationType,
+            string? notes)
         {
-            if (!this.IsActive)
+            if (!IsActive)
                 return Result<DrivingLicense>.Failure(DomainErrors.erLicense.LicenseNotActive);
-            if (this.ExpirationDate < DateTime.UtcNow)
+            if (IsDetained)
+                return Result<DrivingLicense>.Failure(DomainErrors.erLicense.LicenseIsDetained);
+            if (ExpirationDate > DateTime.UtcNow)
                 return Result<DrivingLicense>.Failure(DomainErrors.erLicense.LicenseNotExpired);
 
-            var newLicense = _NewDrivingLicense(notes, createdBy,IssueReasonEnum.Renew,applicationType);
+            var newApplication = Application.LicenseApplication(applicationType, createdBy);
+            var issueDate = DateTime.UtcNow;
+            var expirationDate = issueDate.AddYears(LicenseClass.DefaultValidityLength);
 
-            this.Deactivate();
+            var newLicense = new DrivingLicense(
+                newApplication,
+                Driver,
+                LicenseClass,
+                issueDate,
+                expirationDate,
+                LicenseClass.ClassFees,
+                notes,
+                IssueReasonEnum.Renew,
+                createdBy);
+
+            Deactivate();
 
             return Result<DrivingLicense>.Success(newLicense);
-
-
         }
 
-        public Result<DetainedLicense> DetainedDrivingLicense(decimal fees,int createdBy)
+        public Result<DetainedLicense> DetainedDrivingLicense(decimal fees, int createdBy)
         {
-            if (!this.IsActive)
+            if (!IsActive)
                 return Result<DetainedLicense>.Failure(DomainErrors.erLicense.LicenseNotActive);
-
-            if (this.IsDetained)
+            if (ExpirationDate <= DateTime.UtcNow)
+                return Result<DetainedLicense>.Failure(DomainErrors.erLicense.LicenseExpired);
+            if (IsDetained)
                 return Result<DetainedLicense>.Failure(DomainErrors.erDetainedLicense.LicenseAlreadyDetained);
 
             Result<Money> moneyResult = Money.Create(fees);
             if (moneyResult.IsFailure)
                 return Result<DetainedLicense>.Failure(moneyResult.Errors);
 
-            DetainedLicense deatian = DetainedLicense.Detain(this, moneyResult.Value!, createdBy);
-
-            return Result<DetainedLicense>.Success(deatian);
+            DetainedLicense detain = DetainedLicense.Detain(this, moneyResult.Value!, createdBy);
+            return Result<DetainedLicense>.Success(detain);
         }
-
-        
-
-
     }
 }

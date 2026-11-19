@@ -1,22 +1,22 @@
 ﻿using DVLD.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace DVLD.Application.Abstractions.Validator
 {
     public static class PhoneValidator
     {
-        private const string PhonePattern = @"^\+?[0-9]{10,15}$";
-        public static Error ValidatePhone(string phone)
+        private static readonly Regex PhoneRegex = new(
+            @"^\+?[0-9]{10,15}$",
+            RegexOptions.Compiled,
+            TimeSpan.FromMilliseconds(100));
+
+        public static Error ValidatePhone(string? phone)
         {
             if (string.IsNullOrWhiteSpace(phone))
                 return DomainErrors.erPerson.PhoneRequired;
 
-            if (!Regex.IsMatch(phone, PhonePattern))
+            string trimmed = phone.Trim();
+            if (trimmed.Length > 20 || !PhoneRegex.IsMatch(trimmed))
                 return DomainErrors.erPerson.InvalidPhone;
 
             return Error.None;

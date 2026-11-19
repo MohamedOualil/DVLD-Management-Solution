@@ -1,17 +1,12 @@
 ﻿using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Domain.Interfaces
 {
     public interface IInternationalLicenseRepository : IBaseRepository<InternationalLicense>
     {
-        Task<bool> HasActiveLicenseForLocalLicenseAsync(
-           int localLicenseId,
-           CancellationToken cancellationToken = default);
+        Task<bool> HasActiveLicenseForDriverAsync(
+            int driverId,
+            CancellationToken cancellationToken = default);
     }
 }

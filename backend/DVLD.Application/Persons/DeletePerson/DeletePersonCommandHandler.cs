@@ -1,20 +1,11 @@
-using DVLD.Application.Abstractions;
 using DVLD.Application.Abstractions.Messaging;
-using DVLD.Application.Persons.CreatePerson;
 using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
 using DVLD.Domain.Interfaces;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Application.Persons.DeletePerson
 {
-    public class DeletePersonCommandHandler : ICommandHandler<DeletePersonCommand>
+    internal sealed class DeletePersonCommandHandler : ICommandHandler<DeletePersonCommand>
     {
         private readonly IPersonRepository _personRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -36,46 +27,42 @@ namespace DVLD.Application.Persons.DeletePerson
                 return Result.Failure(DomainErrors.erPerson.InvalidId);
 
             Person? person = await _personRepository.GetByIdAsync(request.Id, cancellationToken);
-
             if (person is null)
                 return Result.Failure(DomainErrors.erPerson.NotFound);
 
-            var deletedData = new
+            var personSnapshot = new
             {
                 person.Id,
                 NationalNo = person.NationalNo.Number,
-                FullName = $"{person.FullName.FirstName} {person.FullName.LastName}"
+                FullName = person.FullName.GetFullName()
             };
 
-            try
-            {
-                _personRepository.Delete(person);
-
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-                await _auditService.LogActionAsync(
-                    action: "Delete",
-                    entityName: "Person",
-                    entityId: request.Id.ToString(),
-                    oldValues: deletedData,
-                    newValues: null,
-                    isSuccess: true);
-
-                return Result.Success();
-            }
-            catch (DbUpdateException ex) when (ex.InnerException is SqlException sqlEx && sqlEx.Number == 547)
+            if (await _personRepository.HasLinkedRecordsAsync(request.Id, cancellationToken))
             {
                 await _auditService.LogActionAsync(
                     action: "Delete",
                     entityName: "Person",
                     entityId: request.Id.ToString(),
-                    oldValues: deletedData,
+                    oldValues: personSnapshot,
                     newValues: null,
                     isSuccess: false,
                     failureReason: DomainErrors.erPerson.CannotDeleteLinkedRecord.Name);
 
-                return Result<bool>.Failure(DomainErrors.erPerson.CannotDeleteLinkedRecord);
+                return Result.Failure(DomainErrors.erPerson.CannotDeleteLinkedRecord);
             }
+
+            _personRepository.Delete(person);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            await _auditService.LogActionAsync(
+                action: "Delete",
+                entityName: "Person",
+                entityId: request.Id.ToString(),
+                oldValues: personSnapshot,
+                newValues: null,
+                isSuccess: true);
+
+            return Result.Success();
         }
     }
 }

@@ -1,29 +1,25 @@
-using DVLD.Contracts.Common;
-using DVLD.Contracts.LocalLicenseApplications;
 using DVLD.Api.Common;
-using DVLD.Api.Controllers.Drivers;
-using DVLD.Application.Abstractions;
-using DVLD.Application.Drivers.GetListOfDrivers;
 using DVLD.Application.LocalLicenseApplications.CreateApplication;
+using DVLD.Application.LocalLicenseApplications.DeleteLocalApplication;
 using DVLD.Application.LocalLicenseApplications.GetAllLocalApplications;
 using DVLD.Application.LocalLicenseApplications.GetApplicantSummary;
-using DVLD.Application.LocalLicenseApplications.GetLocalApplication;
+using DVLD.Application.LocalLicenseApplications.GetIssueDrivingLicenseScreen;
+using DVLD.Application.LocalLicenseApplications.GetLocalApplicationDetailScreen;
 using DVLD.Application.LocalLicenseApplications.UpdateLocalApplication;
-using DVLD.Application.Persons.CreatePerson;
-using DVLD.Application.Persons.GetPerson;
+using DVLD.Contracts.Common;
+using DVLD.Contracts.Enums;
+using DVLD.Contracts.LocalLicenseApplications;
 using DVLD.Domain.Common;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
-using static DVLD.Domain.Common.DomainErrors;
 
 namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
 {
     [Authorize]
     [EnableRateLimiting("UserLimiter")]
-    [Route("api/[controller]")]
+    [Route("api/local-applications")]
     [ApiController]
     public class LocalDrivingLicenseApplicationController : ApiController
     {
@@ -34,9 +30,76 @@ namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
             _sender = sender;
         }
 
+        [HttpGet]
+        [ProducesResponseType(typeof(PagedList<GetAllLocalApplicationsResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<PagedList<GetAllLocalApplicationsResponse>>> GetAllLocalDrivingLicense(
+            [FromQuery] GetAllLocalApplicationsRequest request,
+            CancellationToken cancellationToken)
+        {
+            var query = new GetAllLocalApplicationsQuery
+            {
+                PageNumber = request.PageNumber,
+                PageSize = request.PageSize,
+                SearchTerm = request.SearchTerm,
+                StatusId = request.StatusId,
+            };
+
+            Result<PagedList<GetAllLocalApplicationsResponse>> result = await _sender.Send(query, cancellationToken);
+
+            return result.IsFailure ? HandleFailure(result) : Ok(result.Value);
+        }
+
+        [HttpGet("{id:int}/details")]
+        [ProducesResponseType(typeof(LocalApplicationDetailScreenResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<LocalApplicationDetailScreenResponse>> GetDetailScreen(
+            int id,
+            CancellationToken cancellationToken)
+        {
+            Result<LocalApplicationDetailScreenResponse> result = await _sender.Send(
+                new GetLocalApplicationDetailScreenQuery(id),
+                cancellationToken);
+
+            return result.IsFailure ? HandleFailure(result) : Ok(result.Value);
+        }
+
+        [HttpGet("{id:int}/issue-context")]
+        [ProducesResponseType(typeof(IssueDrivingLicenseScreenResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IssueDrivingLicenseScreenResponse>> GetIssueContext(
+            int id,
+            CancellationToken cancellationToken)
+        {
+            Result<IssueDrivingLicenseScreenResponse> result = await _sender.Send(
+                new GetIssueDrivingLicenseScreenQuery(id),
+                cancellationToken);
+
+            return result.IsFailure ? HandleFailure(result) : Ok(result.Value);
+        }
+
+        [HttpGet("applicant-summary")]
+        [ProducesResponseType(typeof(ApplicantSummaryRespond), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ApplicantSummaryRespond>> GetApplicantSummary(
+            [FromQuery] int personId,
+            [FromQuery] int applicationTypeId = 1,
+            CancellationToken cancellationToken = default)
+        {
+            Result<ApplicantSummaryRespond> result = await _sender.Send(
+                new GetApplicantSummaryQuery(personId, applicationTypeId),
+                cancellationToken);
+
+            return result.IsFailure ? HandleFailure(result) : Ok(result.Value);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> Create(
-            CreateLocalDrivingLicenseApplicationRequest request,
+        [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public async Task<ActionResult<int>> Create(
+            [FromBody] CreateLocalDrivingLicenseApplicationRequest request,
             CancellationToken cancellationToken)
         {
             var command = new CreateLocalApplicationCommand
@@ -50,75 +113,39 @@ namespace DVLD.Api.Controllers.LocalDrivingLicenseApplications
             if (result.IsFailure)
                 return HandleFailure(result);
 
-            return CreatedAtAction(nameof(GetLocalApplication), new { id = result.Value }, result.Value);
+            return CreatedAtAction(nameof(GetDetailScreen), new { id = result.Value }, result.Value);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Update(
             int id,
-            UpdateLocalDrivingLicenseApplicationRequest request,
+            [FromBody] UpdateLocalDrivingLicenseApplicationRequest request,
             CancellationToken cancellationToken)
         {
             var command = new UpdateDrivingLicenceApplicationCommand
             {
                 LocalApplicationId = id,
-                LicenseClass = (DVLD.Contracts.Enums.LicenseClassEnum)request.LicenseClass
+                LicenseClass = (LicenseClassEnum)request.LicenseClass
             };
 
             Result result = await _sender.Send(command, cancellationToken);
             return result.IsFailure ? HandleFailure(result) : NoContent();
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetLocalApplication(int id, CancellationToken cancellationToken)
-        {
-            var query = new GetLocalApplicationQuery(id);
-
-            Result<LocalApplicationResponse> result = await _sender.Send(query, cancellationToken);
-
-            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Errors);
-        }
-
-        [HttpGet(Name = "GetAllLocalDrivingLicense")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpDelete("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<PagedList<GetAllLocalApplicationsResponse>>> GetAllLocalDrivingLicense(
-           [FromQuery] GetAllLocalApplicationsRequest allLocalApplicationsRequest,
-           CancellationToken cancellationToken)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete(
+            int id,
+            CancellationToken cancellationToken)
         {
-            GetAllLocalApplicationsQuery query = new GetAllLocalApplicationsQuery
-            {
-                PageNumber = allLocalApplicationsRequest.PageNumber,
-                PageSize = allLocalApplicationsRequest.PageSize,
-                SearchTerm = allLocalApplicationsRequest.SearchTerm,
-                StatusId = allLocalApplicationsRequest.StatusId,
-            };
-
-            Result<PagedList<GetAllLocalApplicationsResponse>> result = await _sender.Send(
-                query,
-                cancellationToken);
-
-            if (result.IsFailure)
-                return HandleFailure(result);
-
-            return Ok(result.Value);
-        }
-
-        [HttpGet("{personId}/type/{applicationTypeId}", Name = "GetApplicantSummary")]
-        public async Task<IActionResult> GetApplicantSummary(int personId, int applicationTypeId, CancellationToken cancellationToken)
-        {
-            var query = new GetApplicantSummaryQuery(personId, applicationTypeId);
-
-            Result<ApplicantSummaryRespond> result = await _sender.Send(query, cancellationToken);
-
-            if (result.IsFailure)
-                return HandleFailure(result);
-
-            return Ok(result.Value);
+            Result result = await _sender.Send(new DeleteLocalApplicationCommand(id), cancellationToken);
+            return result.IsFailure ? HandleFailure(result) : NoContent();
         }
     }
 }

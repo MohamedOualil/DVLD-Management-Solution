@@ -1,76 +1,90 @@
 using DVLD.Application.Abstractions;
 using DVLD.Application.Abstractions.Messaging;
-using DVLD.Application.Licenses.DetainedDrivingLicense;
+using DVLD.Contracts.Enums;
 using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
-using DVLD.Contracts.Enums;
 using DVLD.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Application.Licenses.ReleaseDeatinedDrivingLicense
 {
-    internal sealed class ReleaseDeatinedDrivingLicenseCommandHandler : ICommandHandler<ReleaseDeatinedDrivingLicenseCommand>
+    internal sealed class ReleaseDeatinedDrivingLicenseCommandHandler
+        : ICommandHandler<ReleaseDeatinedDrivingLicenseCommand, int>
     {
         private readonly IValidate<ReleaseDeatinedDrivingLicenseCommand> _validator;
         private readonly ILicenseRepository _licenseRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserRepository _userRepository;
         private readonly IDetainedLicenseRepository _detainedLicenseRepository;
         private readonly IApplicationTypesRepository _applicationTypesRepository;
+        private readonly IAuditService _auditService;
+        private readonly ICurrentUserService _currentUser;
 
         public ReleaseDeatinedDrivingLicenseCommandHandler(
-            IValidate<ReleaseDeatinedDrivingLicenseCommand> validator, 
-            ILicenseRepository licenseRepository, IUnitOfWork unitOfWork, 
-            IUserRepository userRepository, IDetainedLicenseRepository detainedLicenseRepository, 
-            IApplicationTypesRepository applicationTypesRepository)
+            IValidate<ReleaseDeatinedDrivingLicenseCommand> validator,
+            ILicenseRepository licenseRepository,
+            IUnitOfWork unitOfWork,
+            IDetainedLicenseRepository detainedLicenseRepository,
+            IApplicationTypesRepository applicationTypesRepository,
+            IAuditService auditService,
+            ICurrentUserService currentUser)
         {
             _validator = validator;
             _licenseRepository = licenseRepository;
             _unitOfWork = unitOfWork;
-            _userRepository = userRepository;
             _detainedLicenseRepository = detainedLicenseRepository;
             _applicationTypesRepository = applicationTypesRepository;
+            _auditService = auditService;
+            _currentUser = currentUser;
         }
 
-        public async Task<Result> Handle(ReleaseDeatinedDrivingLicenseCommand request, CancellationToken cancellationToken)
+        public async Task<Result<int>> Handle(
+            ReleaseDeatinedDrivingLicenseCommand request,
+            CancellationToken cancellationToken)
         {
             Result validation = _validator.Validate(request);
             if (validation.IsFailure)
-                return Result.Failure(validation.Errors);
+                return Result<int>.Failure(validation.Errors);
 
-            if (!await _userRepository.Exist(request.LicensesId,cancellationToken))
-                return Result.Failure(DomainErrors.erUser.NotFound);
+            int? currentUserId = _currentUser.UserId;
+            if (currentUserId is null || currentUserId <= 0)
+                return Result<int>.Failure(DomainErrors.erUser.InvalidId);
 
-            if (!await _licenseRepository.Exist(request.LicensesId,cancellationToken))
-                return Result.Failure(DomainErrors.erLicense.NotFound);
-
-            DetainedLicense? detainedLicense = await _detainedLicenseRepository.GetByIdAsync(
-                request.LicensesId);
+            DetainedLicense? detainedLicense = await _detainedLicenseRepository.GetActiveByLicenseIdAsync(
+                request.LicensesId,
+                cancellationToken);
 
             if (detainedLicense is null)
-                return Result.Failure(DomainErrors.erDetainedLicense.LicenseNotDetained);
+            {
+                if (!await _licenseRepository.Exist(request.LicensesId, cancellationToken))
+                    return Result<int>.Failure(DomainErrors.erLicense.NotFound);
+
+                return Result<int>.Failure(DomainErrors.erDetainedLicense.LicenseNotDetained);
+            }
 
             ApplicationType? applicationType = await _applicationTypesRepository.GetByIdAsync(
-               (int)ApplicationTypeEnum.RenewDrivingLicenseService);
+                (int)ApplicationTypeEnum.ReleaseDetainedDrivingLicsense,
+                cancellationToken);
             if (applicationType is null)
-                return Result.Failure(DomainErrors.erApplicationTypes.NotFound);
+                return Result<int>.Failure(DomainErrors.erApplicationTypes.NotFound);
 
-
-            Result relaseReslult = detainedLicense.RelaseDrivingLicense(
-                request.RelaseBy, 
+            Result releaseResult = detainedLicense.ReleaseDrivingLicense(
+                currentUserId.Value,
                 applicationType);
-            if (relaseReslult.IsFailure)
-                return Result.Failure(relaseReslult.Errors);
-
-            _detainedLicenseRepository.Update(detainedLicense);
+            if (releaseResult.IsFailure)
+                return Result<int>.Failure(releaseResult.Errors);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return Result.Success();
+            int releaseAppId = detainedLicense.ReleaseApplication?.Id ?? detainedLicense.Id;
+
+            await _auditService.LogActionAsync(
+                action: "Release",
+                entityName: "DetainedLicense",
+                entityId: detainedLicense.Id.ToString(),
+                oldValues: new { LicenseId = request.LicensesId, IsReleased = false },
+                newValues: new { DetainId = detainedLicense.Id, ReleaseApplicationId = releaseAppId, IsReleased = true },
+                isSuccess: true);
+
+            return Result<int>.Success(releaseAppId);
         }
     }
 }

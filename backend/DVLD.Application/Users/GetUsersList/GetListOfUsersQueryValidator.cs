@@ -1,10 +1,6 @@
 ﻿using DVLD.Application.Abstractions;
+using DVLD.Application.Common;
 using DVLD.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Application.Users.GetUsersList
 {
@@ -12,14 +8,11 @@ namespace DVLD.Application.Users.GetUsersList
     {
         public Result Validate(GetListOfUsersQuery request)
         {
-            List<Error> errors = new(6);
+            List<Error> errors = new(4);
 
-            if (request.PageNumber <= 0)
-                errors.Add(DomainErrors.erPagedList.InvalidPageNumber);
-            if (request.PageSize <= 0)
-                errors.Add(DomainErrors.erPagedList.InvalidPageSize);
-            else if (request.PageSize > 100)
-                errors.Add(DomainErrors.erPagedList.InvalidPageSize);
+            Result pagination = QueryProjectionHelpers.ValidatePagination(request.PageNumber, request.PageSize);
+            if (pagination.IsFailure)
+                errors.AddRange(pagination.Errors);
 
             if (request.PersonId is not null && request.PersonId <= 0)
                 errors.Add(DomainErrors.erPerson.InvalidId);

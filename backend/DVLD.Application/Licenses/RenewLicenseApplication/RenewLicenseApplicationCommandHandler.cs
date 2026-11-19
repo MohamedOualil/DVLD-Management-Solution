@@ -1,14 +1,9 @@
 using DVLD.Application.Abstractions;
 using DVLD.Application.Abstractions.Messaging;
+using DVLD.Contracts.Enums;
 using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
-using DVLD.Contracts.Enums;
 using DVLD.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Application.Licenses.RenewLicenseApplication
 {
@@ -18,20 +13,23 @@ namespace DVLD.Application.Licenses.RenewLicenseApplication
         private readonly ILicenseRepository _licenseRepository;
         private readonly IValidate<RenewLicenseApplicationCommand> _validator;
         private readonly IApplicationTypesRepository _applicationTypeRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly IAuditService _auditService;
+        private readonly ICurrentUserService _currentUser;
 
         public RenewLicenseApplicationCommandHandler(
-            IUnitOfWork unitOfWork, 
+            IUnitOfWork unitOfWork,
             ILicenseRepository licenseRepository,
             IValidate<RenewLicenseApplicationCommand> validator,
-            IApplicationTypesRepository applicationTypeRepository, 
-            IUserRepository userRepository)
+            IApplicationTypesRepository applicationTypeRepository,
+            IAuditService auditService,
+            ICurrentUserService currentUser)
         {
             _unitOfWork = unitOfWork;
             _licenseRepository = licenseRepository;
             _validator = validator;
             _applicationTypeRepository = applicationTypeRepository;
-            _userRepository = userRepository;
+            _auditService = auditService;
+            _currentUser = currentUser;
         }
 
         public async Task<Result<int>> Handle(RenewLicenseApplicationCommand request, CancellationToken cancellationToken)
@@ -40,33 +38,43 @@ namespace DVLD.Application.Licenses.RenewLicenseApplication
             if (validation.IsFailure)
                 return Result<int>.Failure(validation.Errors);
 
-            if (!await _userRepository.AnyAsync(c => c.Id == request.CreatedById, cancellationToken))
-                return Result<int>.Failure(DomainErrors.erUser.NotFound);
+            int? currentUserId = _currentUser.UserId;
+            if (currentUserId is null || currentUserId <= 0)
+                return Result<int>.Failure(DomainErrors.erUser.InvalidId);
 
             DrivingLicense? license = await _licenseRepository.GetByIdAsync(
-                request.LicensesID);
+                request.LicensesID,
+                cancellationToken);
 
             if (license is null)
                 return Result<int>.Failure(DomainErrors.erLicense.NotFound);
 
             ApplicationType? applicationType = await _applicationTypeRepository.GetByIdAsync(
-               (int)ApplicationTypeEnum.RenewDrivingLicenseService);
+                (int)ApplicationTypeEnum.RenewDrivingLicenseService,
+                cancellationToken);
             if (applicationType is null)
                 return Result<int>.Failure(DomainErrors.erApplicationTypes.NotFound);
 
-           Result<DrivingLicense> newLicense = license.RenewLicense(
-               request.CreatedById,
-               applicationType, 
-               request.Notes);
+            Result<DrivingLicense> newLicense = license.RenewLicense(
+                currentUserId.Value,
+                applicationType,
+                request.Notes);
 
             if (newLicense.IsFailure)
                 return Result<int>.Failure(newLicense.Errors);
 
-            _licenseRepository.Add(license);
+            _licenseRepository.Add(newLicense.Value!);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
+            await _auditService.LogActionAsync(
+                action: "Renew",
+                entityName: "DrivingLicense",
+                entityId: newLicense.Value!.Id.ToString(),
+                oldValues: new { OldLicenseId = license.Id, IsActive = true },
+                newValues: new { NewLicenseId = newLicense.Value.Id, OldLicenseDeactivated = true },
+                isSuccess: true);
+
             return Result<int>.Success(newLicense.Value!.Id);
-            
         }
     }
 }

@@ -12,14 +12,10 @@ namespace DVLD.Application.Licenses.ReleaseDeatinedDrivingLicense
     {
         public Result Validate(ReleaseDeatinedDrivingLicenseCommand request)
         {
-            List<Error> errors = new(3);
+            List<Error> errors = new(1);
 
             if (request.LicensesId <= 0)
                 errors.Add(DomainErrors.erLicense.InvalidId);
-
-            if (request.RelaseBy <= 0)
-                errors.Add(DomainErrors.erUser.InvalidId);
-
 
             return (errors.Count > 0) ? Result.Failure(errors) : Result.Success();
         }

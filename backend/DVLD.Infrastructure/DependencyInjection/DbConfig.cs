@@ -1,31 +1,6 @@
 using DVLD.Application.Abstractions;
 using DVLD.Application.Abstractions.Authentication;
 using DVLD.Application.Abstractions.Interfaces;
-using DVLD.Application.Drivers.GetListOfDrivers;
-using DVLD.Application.InternationalDrivingLicenses.IssueInternationalLicense;
-using DVLD.Application.Licenses.DetainedDrivingLicense;
-using DVLD.Application.Licenses.GetInternationalDrivingLicenseHistory;
-using DVLD.Application.Licenses.GetLocalDrivingLicenseHistory;
-using DVLD.Application.Licenses.IssueLicenseFirstTime;
-using DVLD.Application.Licenses.ReleaseDeatinedDrivingLicense;
-using DVLD.Application.Licenses.RenewLicenseApplication;
-using DVLD.Application.Licenses.ReplacementLicense;
-using DVLD.Application.LocalLicenseApplications.CreateApplication;
-using DVLD.Application.LocalLicenseApplications.GetAllLocalApplications;
-using DVLD.Application.LocalLicenseApplications.GetApplicantSummary;
-using DVLD.Application.Persons.CreatePerson;
-using DVLD.Application.Persons.GetAllPerson;
-using DVLD.Application.Persons.UpdatePerson;
-using DVLD.Application.Tests.GetTestAppointments;
-using DVLD.Application.Tests.GetTestDetails;
-using DVLD.Application.Tests.ScheduleTest;
-using DVLD.Application.Tests.TakeTest;
-using DVLD.Application.Users.AddUser;
-using DVLD.Application.Users.ChangePassword;
-using DVLD.Application.Users.GetUser;
-using DVLD.Application.Users.GetUsersList;
-using DVLD.Application.Users.Login;
-using DVLD.Application.Users.UpdateUser;
 using DVLD.Domain.Common;
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Authentication;
@@ -35,7 +10,6 @@ using DVLD.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace DVLD.Infrastructure.DependencyInjection
 {
@@ -44,15 +18,14 @@ namespace DVLD.Infrastructure.DependencyInjection
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");
+            if (string.IsNullOrWhiteSpace(connectionString))
+                throw new InvalidOperationException("Connection string 'DefaultConnection' is missing or empty.");
 
             services.AddDbContext<AppDbContext>(options =>
-               options.UseSqlServer(connectionString)
-               .LogTo(Console.WriteLine, LogLevel.Information)
-               .EnableSensitiveDataLogging());
-            services.AddScoped<IApplicationDbContext, AppDbContext>();
+                options.UseSqlServer(connectionString));
 
+            services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<AppDbContext>());
 
-            //services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
             // Repositories
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
@@ -67,40 +40,14 @@ namespace DVLD.Infrastructure.DependencyInjection
             services.AddScoped<ITestTypesRepository, TestTypesRepository>();
             services.AddScoped<ITestRepository, TestRepository>();
             services.AddScoped<IInternationalLicenseRepository, InternationalLicenseRepository>();
-            services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
             services.AddScoped<IUserSessionRepository, UserSessionRepository>();
+
+            // Services
+            services.AddMemoryCache();
+            services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
             services.AddScoped<IAuditService, AuditService>();
-
-
-            // Validators
-            services.AddScoped<IValidate<CreatePersonCommand>, CreatePersonCommandValidator>();
-            services.AddScoped<IValidate<UpdatePersonCommand>, UpdatePersonCommandValidator>();
-            services.AddScoped<IValidate<CreateLocalApplicationCommand>, CreateLocalApplicationCommandValidator>();
-            services.AddScoped<IValidate<CreateTestAppointmentCommand>, CreateTestAppointmentCommandValidator>();
-            services.AddScoped<IValidate<TakeTestCommand>, TakeTestCommandValidator>();
-            services.AddScoped<IValidate<DetainedDrivingLicenseCommand>, DetainedDrivingLicenseValidator>();
-            services.AddScoped<IValidate<GetListOfDriversQuery>, GetListOfDriversValidator>();
-            services.AddScoped<IValidate<IssueLicenseFirstTimeCommand>, IssueLicenseFirstTimeCommandValidator>();
-            services.AddScoped<IValidate<IssueInternationalLicenseCommand>, IssueInternationalLicenseCommandValidator>();
-            services.AddScoped<IValidate<ReleaseDeatinedDrivingLicenseCommand>, ReleaseDeatinedDrivingLicenseValidator>();
-            services.AddScoped<IValidate<RenewLicenseApplicationCommand>, RenewLicenseApplicationValidator>();
-            services.AddScoped<IValidate<ReplacementLicenseCommand>, ReplacementLicenseCommandValidater>();
-            services.AddScoped<IValidate<GetListOfUsersQuery>, GetListOfUsersQueryValidator>();
-            services.AddScoped<IValidate<AddUserCommand>, AddUserCommandValidator>();
-            services.AddScoped<IValidate<GetAllLocalApplicationsQuery>, GetAllLocalApplicationsQueryValidator>();
-            services.AddScoped<IValidate<GetLocalDrivingLicenseHistoryQuery>,GetLocalDrivingLicenseHistoryValidator>();
-            services.AddScoped<IValidate<GetInternationalDrivingLicenseHistoryQuery>, GetInternationalDrivingLicenseHistoryValidator>();
-            services.AddScoped<IValidate<GetAllPersonQuery>, GetAllPersonQueryValidator>();
-            services.AddScoped<IValidate<ChangePasswordCommand>, ChangePasswordValidator>();
-            services.AddScoped<IValidate<GetUserQuery>, GetUserValidator>();
-            services.AddScoped<IValidate<LoginCommand>, LoginCommandValidator>();
-            services.AddScoped<IValidate<GetApplicantSummaryQuery>, GetApplicantSummaryQueryValidator>();
-            services.AddScoped<IValidate<GetTestAppointmentsQuery>, GetTestAppointmentsQueryValidator>();
-            services.AddScoped<IValidate<GetTestDetailsQuery>,GetTestDetailsQueryValidator>();
-            services.AddScoped<IValidate<UpdateUserCommand>, UpdateUserCommandValidator>();
-
-            services.AddScoped<IJwtProvider, JwtProvider>();
-
+            services.AddSingleton<IJwtProvider, JwtProvider>();
+            services.AddSingleton<IUserAccessInvalidator, MemoryUserAccessInvalidator>();
 
             // UnitOfWork
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());

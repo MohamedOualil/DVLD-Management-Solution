@@ -1,16 +1,14 @@
+using DVLD.Contracts.Enums;
 using DVLD.Domain.Common;
 using DVLD.Domain.Entities;
-using DVLD.Contracts.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Domain.Interfaces
 {
     public interface IApplicationsRepository : IBaseRepository<Application>
     {
-        Task<bool> AciveApplicationExist(int personId, ApplicationTypeEnum ApplicationTypeId);
+        Task<bool> ActiveApplicationExistsAsync(
+            int personId,
+            ApplicationTypeEnum applicationTypeEnum,
+            CancellationToken cancellationToken = default);
     }
 }

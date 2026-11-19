@@ -1,6 +1,7 @@
 ﻿using DVLD.Domain.Entities;
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,13 @@ namespace DVLD.Infrastructure.Repositorys
         {
             _context = appDbContext;
         }
- 
+
+        public async Task<DetainedLicense?> GetActiveByLicenseIdAsync(int licenseId, CancellationToken cancellationToken = default)
+        {
+            return await _context.DetainedLicenses
+                .Include(d => d.License)
+                    .ThenInclude(l => l.Driver)
+                .FirstOrDefaultAsync(d => d.LicenseId == licenseId && !d.IsReleased, cancellationToken);
+        }
     }
 }

@@ -1,11 +1,6 @@
 ﻿using DVLD.Application.Abstractions;
 using DVLD.Application.Abstractions.Validator;
 using DVLD.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Application.Persons.UpdatePerson
 {
@@ -20,19 +15,29 @@ namespace DVLD.Application.Persons.UpdatePerson
 
             if (string.IsNullOrWhiteSpace(request.FirstName))
                 errors.Add(DomainErrors.erPerson.FirstNameRequired);
+            else if (request.FirstName.Trim().Length > 20)
+                errors.Add(DomainErrors.erPerson.FieldTooLong);
+
+            if (!string.IsNullOrWhiteSpace(request.SecondName) && request.SecondName.Trim().Length > 20)
+                errors.Add(DomainErrors.erPerson.FieldTooLong);
+
+            if (!string.IsNullOrWhiteSpace(request.ThirdName) && request.ThirdName.Trim().Length > 20)
+                errors.Add(DomainErrors.erPerson.FieldTooLong);
 
             if (string.IsNullOrWhiteSpace(request.LastName))
                 errors.Add(DomainErrors.erPerson.LastNameRequired);
+            else if (request.LastName.Trim().Length > 20)
+                errors.Add(DomainErrors.erPerson.FieldTooLong);
 
+            if (request.Gender is not (1 or 2))
+                errors.Add(DomainErrors.erPerson.InvalidGender);
 
-            if (request.NationalityCountry <= 0)
-                errors.Add(DomainErrors.erCountry.InvalidCode);
+            if (!string.IsNullOrWhiteSpace(request.ImagePath) && request.ImagePath.Trim().Length > 500)
+                errors.Add(DomainErrors.erPerson.FieldTooLong);
 
             var validDateOfBirthResult = DateOfBirthValidator.ValidateDateOfBirth(request.DateOfBirth);
-
             if (validDateOfBirthResult != Error.None)
                 errors.Add(validDateOfBirthResult);
-
 
             var validEmailResult = EmailValidator.ValidateEmail(request.Email);
             if (validEmailResult != Error.None)
@@ -42,7 +47,6 @@ namespace DVLD.Application.Persons.UpdatePerson
             if (validPhoneResult != Error.None)
                 errors.Add(validPhoneResult);
 
-
             var addressError = AddressValidator.ValidateAddress(
                 request.Street,
                 request.City,
@@ -51,11 +55,7 @@ namespace DVLD.Application.Persons.UpdatePerson
                 request.NationalityCountry);
             errors.AddRange(addressError);
 
-
-            if (errors.Count > 0)
-                return Result.Failure(errors);
-
-            return Result.Success();
+            return errors.Count > 0 ? Result.Failure(errors) : Result.Success();
         }
     }
 }

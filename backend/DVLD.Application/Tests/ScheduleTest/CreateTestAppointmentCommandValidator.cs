@@ -1,10 +1,5 @@
 using DVLD.Application.Abstractions;
 using DVLD.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Application.Tests.ScheduleTest
 {
@@ -16,16 +11,13 @@ namespace DVLD.Application.Tests.ScheduleTest
             if (request.LocalApplicationId <= 0)
                 errors.Add(DomainErrors.erLocalApplications.InvalidId);
 
-            if (request.AppointmentDate < DateTime.UtcNow)
+            if (request.AppointmentDate <= DateTime.UtcNow)
                 errors.Add(DomainErrors.erTestAppointment.InvalidAppointmentDate);
 
             if (!Enum.IsDefined(request.TestType))
                 errors.Add(DomainErrors.erTests.InvalidTestType);
 
-            if (errors.Count > 0)
-                return Result.Failure(errors);
-
-            return Result.Success();
+            return errors.Count > 0 ? Result.Failure(errors) : Result.Success();
         }
     }
 }

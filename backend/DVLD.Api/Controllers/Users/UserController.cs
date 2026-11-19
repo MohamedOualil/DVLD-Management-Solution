@@ -1,23 +1,15 @@
-using System.Security.Claims;
-using DVLD.Contracts.Common;
-using DVLD.Contracts.Enums;
-using DVLD.Contracts.Users;
 using DVLD.Api.Common;
-using DVLD.Api.Controllers.Drivers;
-using DVLD.Api.Controllers.Tests;
-using DVLD.Application.Abstractions;
-using DVLD.Application.Drivers.GetListOfDrivers;
-using DVLD.Application.Licenses.GetLicense;
-using DVLD.Application.Tests.ScheduleTest;
 using DVLD.Application.Users.AddUser;
 using DVLD.Application.Users.ChangePassword;
 using DVLD.Application.Users.GetUser;
 using DVLD.Application.Users.GetUsersList;
 using DVLD.Application.Users.UpdateUser;
+using DVLD.Contracts.Common;
+using DVLD.Contracts.Enums;
+using DVLD.Contracts.Users;
 using DVLD.Domain.Common;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 
@@ -25,20 +17,21 @@ namespace DVLD.Api.Controllers.Users
 {
     [Authorize]
     [EnableRateLimiting("UserLimiter")]
-    [Route("api/[controller]")]
+    [Route("api/users")]
     [ApiController]
     public class UserController : ApiController
     {
         private readonly ISender _sender;
+
         public UserController(ISender sender)
         {
             _sender = sender;
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet("All", Name = "GetUsersList")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet]
+        [ProducesResponseType(typeof(PagedList<UsersListResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<PagedList<UsersListResponse>>> GetUsersList(
             [FromQuery] UsersListRequest usersListRequest,
             CancellationToken cancellationToken)
@@ -50,65 +43,66 @@ namespace DVLD.Api.Controllers.Users
                 PersonId = usersListRequest.PersonId,
                 UserId = usersListRequest.UserId,
                 Name = usersListRequest.FullName,
-                IsAcitve = usersListRequest.IsActive ?? false
+                SearchTerm = usersListRequest.SearchTerm,
+                IsActive = usersListRequest.IsActive
             };
 
-            Result<PagedList<UsersListResponse>> result = await _sender.Send(
-                query,
-                cancellationToken);
+            Result<PagedList<UsersListResponse>> result = await _sender.Send(query, cancellationToken);
 
-            return result.IsSuccess ? Ok(result.Value) : NotFound(result.Errors);
+            return result.IsSuccess ? Ok(result.Value) : HandleFailure(result);
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet("{userId}", Name = "GetUser")]
+        [HttpGet("{userId:int}")]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetUser(
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        public async Task<ActionResult<UserResponse>> GetUser(
             [FromRoute] int userId,
             CancellationToken cancellationToken)
         {
-            var query = new GetUserQuery(userId);
-            Result<UserResponse> result = await _sender.Send(query, cancellationToken);
-
-            if (result.IsFailure)
-                return HandleFailure(result);
-
-            return Ok(result.Value);
+            Result<UserResponse> result = await _sender.Send(new GetUserQuery(userId), cancellationToken);
+            return result.IsFailure ? HandleFailure(result) : Ok(result.Value);
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost("Create", Name = "CreateUser")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [HttpPost]
+        [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<int>> CreateUser(CreateUserRequest request)
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public async Task<ActionResult<int>> CreateUser(
+            [FromBody] CreateUserRequest request,
+            CancellationToken cancellationToken)
         {
-            AddUserCommand command = new AddUserCommand
+            if (request.Roles is < 1 or > byte.MaxValue ||
+                !Enum.IsDefined(typeof(Role), (byte)request.Roles))
+            {
+                return HandleFailure(Result.Failure(DomainErrors.erUser.RolesRequired));
+            }
+
+            var command = new AddUserCommand
             {
                 PersonId = request.PersonId,
                 UserName = request.Username,
-                Roles = (Role)request.Roles,
+                Roles = (Role)(byte)request.Roles,
                 Password = request.Password,
                 IsActive = request.IsActive
             };
 
-            Result<int> result = await _sender.Send(command);
+            Result<int> result = await _sender.Send(command, cancellationToken);
 
             if (result.IsFailure)
-            {
                 return HandleFailure(result);
-            }
-            return Ok(result);
+
+            return CreatedAtAction(nameof(GetUser), new { userId = result.Value }, result.Value);
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPut("{userId}", Name = "UpdateUser")]
+        [HttpPut("{userId:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<IActionResult> UpdateUser(
             [FromRoute] int userId,
             [FromBody] UpdateUserRequest request,
@@ -117,35 +111,29 @@ namespace DVLD.Api.Controllers.Users
             var command = new UpdateUserCommand(userId, request.Role, request.IsActive);
             Result result = await _sender.Send(command, cancellationToken);
 
-            if (result.IsFailure)
-                return HandleFailure(result);
-
-            return NoContent();
+            return result.IsFailure ? HandleFailure(result) : NoContent();
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpPatch("{userId}/change-password", Name = "ChangePassword")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpPatch("{userId:int}/change-password")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ChangePassword(
             [FromRoute] int userId,
-            [FromBody] ChangePasswordRequest request)
+            [FromBody] ChangePasswordRequest request,
+            CancellationToken cancellationToken)
         {
-            ChangePasswordCommand command = new ChangePasswordCommand
+            var command = new ChangePasswordCommand
             {
                 UserId = userId,
                 CurrentPassword = request.CurrentPassword,
                 NewPassword = request.NewPassword
             };
 
-            Result result = await _sender.Send(command);
+            Result result = await _sender.Send(command, cancellationToken);
 
-            if (result.IsFailure)
-            {
-                return HandleFailure(result);
-            }
-            return Ok();
+            return result.IsFailure ? HandleFailure(result) : NoContent();
         }
     }
 }

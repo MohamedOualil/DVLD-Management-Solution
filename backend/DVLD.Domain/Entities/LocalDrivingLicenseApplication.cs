@@ -1,20 +1,14 @@
-using DVLD.Domain.Common;
 using DVLD.Contracts.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
+using DVLD.Domain.Common;
 
 namespace DVLD.Domain.Entities
 {
     public class LocalDrivingLicenseApplication : Entity
     {
         public int ApplicationId { get; private set; }
-        public Application Application { get; private set; }
+        public Application Application { get; private set; } = null!;
         public int LicenseClassId { get; private set; }
-        public LicenseClass LicenseClass { get; private set; }
+        public LicenseClass LicenseClass { get; private set; } = null!;
 
         public ICollection<TestAppointment> TestAppointments { get; private set; } = new List<TestAppointment>();
 
@@ -40,6 +34,12 @@ namespace DVLD.Domain.Entities
 
         public Result UpdateLicenseClass(LicenseClass licenseClass)
         {
+            if (Application.Status != ApplicationStatusEnum.New)
+                return Result.Failure(DomainErrors.erApplications.CannotUpdateProcessedApplication);
+
+            if (TestAppointments.Count > 0)
+                return Result.Failure(DomainErrors.erLocalApplications.CannotUpdateWithTests);
+
             if (Application.Person.Age < licenseClass.MinimumAllowedAge)
                 return Result.Failure(DomainErrors.erLicenseClass.MinimumAge);
 
@@ -48,9 +48,15 @@ namespace DVLD.Domain.Entities
             return Result.Success();
         }
 
-        public Result<TestAppointment> ScheduleTest(TestType testType, DateTime appointmentDate, int createdById,
+        public Result<TestAppointment> ScheduleTest(
+            TestType testType,
+            DateTime appointmentDate,
+            int createdById,
             ApplicationType? retakeApplicationType = null)
         {
+            if (appointmentDate <= DateTime.UtcNow)
+                return Result<TestAppointment>.Failure(DomainErrors.erTestAppointment.InvalidAppointmentDate);
+
             Result canScheduleResult = CanScheduleTest((TestTypeEnum)testType.Id);
             if (canScheduleResult.IsFailure)
                 return Result<TestAppointment>.Failure(canScheduleResult.Errors);
@@ -79,8 +85,8 @@ namespace DVLD.Domain.Entities
             TestAppointments.Add(newAppointment);
 
             return Result<TestAppointment>.Success(newAppointment);
-
         }
+
         private Result CanScheduleTest(TestTypeEnum testType)
         {
             if (Application.Status != ApplicationStatusEnum.New)
@@ -92,16 +98,13 @@ namespace DVLD.Domain.Entities
             if (hasActiveAppointment)
                 return Result.Failure(DomainErrors.erTests.TestAlreadyScheduled);
 
-
             bool passedTheTest = appointmentsForThisTest.Any(ta => ta.Test?.TestResult == TestResult.Success);
             if (passedTheTest)
                 return Result.Failure(DomainErrors.erTests.TestAlreadyPassed);
 
-            int passedTestCount = appointmentsForThisTest.Count(t => t.IsLocked);
-            if (passedTestCount >= 3)
+            int lockedAttemptsCount = appointmentsForThisTest.Count(t => t.IsLocked);
+            if (lockedAttemptsCount >= 3)
                 return Result.Failure(DomainErrors.erTests.TestAttempts);
-
-
 
             if (testType == TestTypeEnum.WrittenTest && !HasPassedTest(TestTypeEnum.VisionTest))
                 return Result.Failure(DomainErrors.erTests.VisionTestNotPassed);
@@ -110,45 +113,33 @@ namespace DVLD.Domain.Entities
                 return Result.Failure(DomainErrors.erTests.WrittenTestNotPassed);
 
             return Result.Success();
-
-
-
         }
 
         public bool HasPassedTest(TestTypeEnum testType)
         {
             return TestAppointments.Where(t => t.TestTypeEnum == testType)
-                    .Any(ts => ts.Test?.TestResult == TestResult.Success);
+                .Any(ts => ts.Test?.TestResult == TestResult.Success);
         }
 
         private Result AllTestPass()
         {
-            List<TestAppointment> passTests = TestAppointments.Where(ts => 
-                                ts.Test?.TestResult == TestResult.Success)
-                                .ToList();
+            List<TestAppointment> passTests = TestAppointments
+                .Where(ts => ts.Test?.TestResult == TestResult.Success)
+                .ToList();
 
-            bool passVisontest = passTests.Any(
-                t => t.TestTypeEnum == TestTypeEnum.VisionTest);
-
-            if (!passVisontest)
+            if (!passTests.Any(t => t.TestTypeEnum == TestTypeEnum.VisionTest))
                 return Result.Failure(DomainErrors.erTests.VisionTestNotPassed);
 
-            bool passWritingtest = passTests.Any(
-                t => t.TestTypeEnum == TestTypeEnum.WrittenTest);
-
-            if (!passWritingtest)
+            if (!passTests.Any(t => t.TestTypeEnum == TestTypeEnum.WrittenTest))
                 return Result.Failure(DomainErrors.erTests.WrittenTestNotPassed);
 
-            bool passStreettest = passTests.Any(
-                t => t.TestTypeEnum == TestTypeEnum.StreetTest);
-
-            if (!passStreettest)
-                return Result.Failure(new Error("Test.StreetTestNotPassed", "The street test must be passed before issuing a licence.", ErrorType.BadRequest));
+            if (!passTests.Any(t => t.TestTypeEnum == TestTypeEnum.StreetTest))
+                return Result.Failure(DomainErrors.erTests.StreetTestNotPassed);
 
             return Result.Success();
         }
 
-        public Result<DrivingLicense> IssueLicenseFirstTime(string? notes,int createdBy,Driver driver)
+        public Result<DrivingLicense> IssueLicenseFirstTime(string? notes, int createdBy, Driver driver)
         {
             if (Application.ApplicationTypeEnum != ApplicationTypeEnum.NewLocalDrivingLicenseService)
                 return Result<DrivingLicense>.Failure(DomainErrors.erLicense.ApplicationTypeNotAllowed);
@@ -161,21 +152,15 @@ namespace DVLD.Domain.Entities
                 return Result<DrivingLicense>.Failure(allTestsPassResult.Errors);
 
             DrivingLicense newLicense = DrivingLicense.IssueLicenseFirstTime(
-                Application, 
-                driver, 
-                LicenseClass, 
-                notes ?? string.Empty, 
+                Application,
+                driver,
+                LicenseClass,
+                notes ?? string.Empty,
                 createdBy);
 
             Application.MakeComplete(createdBy);
 
             return Result<DrivingLicense>.Success(newLicense);
-
         }
-
-        
-
-        
-
     }
 }

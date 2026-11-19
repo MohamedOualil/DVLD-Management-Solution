@@ -1,30 +1,21 @@
-﻿
-using DVLD.Domain.Entities;
-
-namespace DVLD.Domain.ValueObjects
+﻿namespace DVLD.Domain.ValueObjects
 {
     public sealed record Address
     {
-        public string Street { get; init; }
-        public string City { get; init; }
-        public string State { get; init; }
-        public string ZipCode { get; init; }
+        public string Street { get; init; } = string.Empty;
+        public string City { get; init; } = string.Empty;
+        public string State { get; init; } = string.Empty;
+        public string ZipCode { get; init; } = string.Empty;
 
-        private Address()
+        private Address() { }
+
+        public Address(string street, string city, string state, string zipCode)
         {
-            
+            Street = street?.Trim() ?? string.Empty;
+            City = city?.Trim() ?? string.Empty;
+            State = state?.Trim() ?? string.Empty;
+            ZipCode = zipCode?.Trim() ?? string.Empty;
         }
-
-        public Address(string street, string city,string state, string zipCode)
-        {
-            Street = street.Trim();
-            State = state.Trim();
-            City = city.Trim();
-            ZipCode = zipCode;
-
-            
-        }
-       
 
         public override string ToString()
         {

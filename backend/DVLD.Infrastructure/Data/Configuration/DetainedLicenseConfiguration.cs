@@ -15,6 +15,11 @@ namespace DVLD.Infrastructure.Data.Configuration
         {
             base.Configure(builder);
 
+            builder.HasIndex(d => d.LicenseId)
+                .IsUnique()
+                .HasFilter("[IsReleased] = 0")
+                .HasDatabaseName("UQ_DetainedLicenses_ActiveLicenseId");
+
             builder.HasIndex(d => d.ReleaseApplicationId)
                 .IsUnique()
                 .HasFilter("[ReleaseApplicationId] IS NOT NULL") 
@@ -74,7 +79,7 @@ namespace DVLD.Infrastructure.Data.Configuration
 
             builder.ToTable("DetainedLicenses", dl =>
             {
-                dl.HasCheckConstraint("CK_DetainedLicenses_ReleaseDate", "ReleaseDate > DetainDate");
+                dl.HasCheckConstraint("CK_DetainedLicenses_ReleaseDate", "ReleaseDate >= DetainDate");
                 dl.HasCheckConstraint("CK_DetainedLicenses_PaidFees", "PaidFees >= 0");
             });
         }

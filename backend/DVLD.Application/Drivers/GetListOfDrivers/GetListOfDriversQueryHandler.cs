@@ -1,29 +1,21 @@
-using DVLD.Contracts.Common;
-using DVLD.Contracts.Drivers;
-using Dapper;
 using DVLD.Application.Abstractions;
 using DVLD.Application.Abstractions.Interfaces;
 using DVLD.Application.Abstractions.Messaging;
-using DVLD.Application.LocalLicenseApplications.GetLocalApplication;
+using DVLD.Contracts.Common;
+using DVLD.Contracts.Drivers;
 using DVLD.Domain.Common;
-using DVLD.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Application.Drivers.GetListOfDrivers
 {
-    internal sealed class GetListOfDriversQueryHandler : IQueryHandler<GetListOfDriversQuery, PagedList<DriversListResponse>>
+    internal sealed class GetListOfDriversQueryHandler
+        : IQueryHandler<GetListOfDriversQuery, PagedList<DriversListResponse>>
     {
-
         private readonly IApplicationDbContext _dbContext;
         private readonly IValidate<GetListOfDriversQuery> _validator;
 
-        public GetListOfDriversQueryHandler(IApplicationDbContext dbContext,
+        public GetListOfDriversQueryHandler(
+            IApplicationDbContext dbContext,
             IValidate<GetListOfDriversQuery> validate)
         {
             _validator = validate;
@@ -31,34 +23,32 @@ namespace DVLD.Application.Drivers.GetListOfDrivers
         }
 
         public async Task<Result<PagedList<DriversListResponse>>> Handle(
-            GetListOfDriversQuery request, 
+            GetListOfDriversQuery request,
             CancellationToken cancellationToken)
         {
             Result validation = _validator.Validate(request);
             if (validation.IsFailure)
-                return Result<PagedList<DriversListResponse>>.Failure(validation.Errors); 
+                return Result<PagedList<DriversListResponse>>.Failure(validation.Errors);
 
-            int? personId = request.PersonId == 0 ? null : request.PersonId;
-            int? driverId = request.DriverId == 0 ? null : request.DriverId;
-            string? nationNo = string.IsNullOrWhiteSpace(request.NationNo) ? null : request.NationNo;
+            string? nationNo = string.IsNullOrWhiteSpace(request.NationNo) ? null : request.NationNo.Trim();
             string? fullName = string.IsNullOrWhiteSpace(request.Name) ? null : request.Name.Trim();
 
             var query = _dbContext.Drivers.AsNoTracking();
 
-
-            if (personId.HasValue)
+            if (request.PersonId.HasValue)
             {
-                query = query.Where(d => d.PersonId == personId);
+                query = query.Where(d => d.PersonId == request.PersonId.Value);
             }
 
-            if (driverId.HasValue)
+            if (request.DriverId.HasValue)
             {
-                query = query.Where(d => d.Id == driverId);
+                query = query.Where(d => d.Id == request.DriverId.Value);
             }
 
             if (fullName is not null)
             {
-                query = query.Where(d => (d.Person.FullName.FirstName + " " + d.Person.FullName.LastName).StartsWith(fullName));
+                query = query.Where(d =>
+                    (d.Person.FullName.FirstName + " " + d.Person.FullName.LastName).StartsWith(fullName));
             }
 
             if (nationNo is not null)
@@ -66,35 +56,50 @@ namespace DVLD.Application.Drivers.GetListOfDrivers
                 query = query.Where(d => d.Person.NationalNo.Number.StartsWith(nationNo));
             }
 
+            if (!string.IsNullOrWhiteSpace(request.SearchTerm))
+            {
+                string term = request.SearchTerm.Trim();
+                int? searchId = int.TryParse(term, out int parsedId) ? parsedId : null;
+                query = query.Where(d =>
+                    (searchId.HasValue && (d.Id == searchId.Value || d.PersonId == searchId.Value)) ||
+                    d.Person.NationalNo.Number.Contains(term) ||
+                    (d.Person.FullName.FirstName + " " + d.Person.FullName.LastName).Contains(term));
+            }
+
+            if (request.ActiveFilter == 1)
+            {
+                query = query.Where(d => d.Licenses.Any(l => l.IsActive));
+            }
+            else if (request.ActiveFilter == 2)
+            {
+                query = query.Where(d => !d.Licenses.Any(l => l.IsActive));
+            }
+
             var totalCount = await query.CountAsync(cancellationToken);
 
             var items = await query
-                 .OrderBy(d => d.CreateAt)
-                 .Skip((request.PageNumber - 1) * request.PageSize)
-                 .Take(request.PageSize)
-                 .Select(d => new DriversListResponse
-                 {
-                     DriverId = d.Id,
-                     CreateDate = d.CreateAt,
-                     FullName = d.Person.FullName.FirstName + " " + d.Person.FullName.LastName,
-                     NationNo = d.Person.NationalNo.Number,
-                     PersonId = d.PersonId,
-                     ActiveLicenses = d.Licenses.Count(l => l.IsActive)
-                    
-                 })
-                 .ToListAsync(cancellationToken);
+                .OrderBy(d => d.CreateAt)
+                .ThenBy(d => d.Id)
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .Select(d => new DriversListResponse
+                {
+                    DriverId = d.Id,
+                    CreateDate = d.CreateAt,
+                    FullName = d.Person.FullName.FirstName + " " + d.Person.FullName.LastName,
+                    NationNo = d.Person.NationalNo.Number,
+                    PersonId = d.PersonId,
+                    ActiveLicenses = d.Licenses.Count(l => l.IsActive)
+                })
+                .ToListAsync(cancellationToken);
 
-            PagedList<DriversListResponse> pageResutl = new PagedList<DriversListResponse>(
+            var pageResult = new PagedList<DriversListResponse>(
                 items,
+                totalCount,
                 request.PageNumber,
-                request.PageSize,
-                totalCount);
+                request.PageSize);
 
-            
-
-
-            return Result<PagedList<DriversListResponse>>.Success(pageResutl);
-
+            return Result<PagedList<DriversListResponse>>.Success(pageResult);
         }
     }
 }

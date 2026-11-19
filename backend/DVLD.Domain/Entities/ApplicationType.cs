@@ -33,5 +33,13 @@ namespace DVLD.Domain.Entities
             if (newfees != null)
                 ApplicationFees = newfees;
         }
+
+        public void Update(string title, Money newFees)
+        {
+            if (!string.IsNullOrWhiteSpace(title))
+                ApplicationTypeTitle = title.Trim();
+            if (newFees != null)
+                ApplicationFees = newFees;
+        }
     }
 }

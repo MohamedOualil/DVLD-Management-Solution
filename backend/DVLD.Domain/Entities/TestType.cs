@@ -31,5 +31,15 @@ namespace DVLD.Domain.Entities
             return new TestType(testName, testDescription, testFees);
         }
 
+        public void Update(string title, string description, Money newFees)
+        {
+            if (!string.IsNullOrWhiteSpace(title))
+                TestTypeTitle = title.Trim();
+            if (!string.IsNullOrWhiteSpace(description))
+                TestTypeDescrption = description.Trim();
+            if (newFees != null)
+                TestFees = newFees;
+        }
+
     }
 }

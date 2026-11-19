@@ -1,32 +1,25 @@
 using DVLD.Application.Abstractions;
+using DVLD.Application.Abstractions.Interfaces;
 using DVLD.Application.Abstractions.Messaging;
+using DVLD.Application.Common;
 using DVLD.Contracts.Users;
 using DVLD.Domain.Common;
-using DVLD.Domain.Entities;
-using DVLD.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace DVLD.Application.Users.GetUser
 {
     internal sealed class GetUserQueryHandler : IQueryHandler<GetUserQuery, UserResponse>
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IPersonRepository _personRepository;
+        private readonly IApplicationDbContext _dbContext;
         private readonly IValidate<GetUserQuery> _validator;
         private readonly ICurrentUserService _currentUser;
 
         public GetUserQueryHandler(
-            IUserRepository userRepository,
-            IPersonRepository personRepository,
+            IApplicationDbContext dbContext,
             IValidate<GetUserQuery> validator,
             ICurrentUserService currentUser)
         {
-            _userRepository = userRepository;
-            _personRepository = personRepository;
+            _dbContext = dbContext;
             _validator = validator;
             _currentUser = currentUser;
         }
@@ -42,25 +35,39 @@ namespace DVLD.Application.Users.GetUser
             if (validation.IsFailure)
                 return Result<UserResponse>.Failure(validation.Errors);
 
-            User? user = await _userRepository.GetByIdAsync(
-                request.UserId,
-                cancellationToken);
+            var data = await _dbContext.Users
+                .AsNoTracking()
+                .Where(u => u.Id == request.UserId)
+                .Select(u => new
+                {
+                    u.Id,
+                    u.PersonId,
+                    u.UserName,
+                    u.Person.FullName.FirstName,
+                    u.Person.FullName.SecondName,
+                    u.Person.FullName.ThirdName,
+                    u.Person.FullName.LastName,
+                    u.Role,
+                    u.IsActive,
+                    u.CreateAt,
+                    u.UpdateAt
+                })
+                .FirstOrDefaultAsync(cancellationToken);
 
-            if (user is null)
+            if (data is null)
                 return Result<UserResponse>.Failure(DomainErrors.erUser.NotFound);
 
-            Person? person = await _personRepository.GetByIdAsync(user.PersonId);
-
-            UserResponse response = new UserResponse
+            var response = new UserResponse
             {
-                UserId = user.Id,
-                PersonId = user.PersonId,
-                UserName = user.UserName,
-                FullName = person != null ? person.FullName.GetFullName() : string.Empty,
-                Role = user.Role,
-                IsActive = user.IsActive,
-                CreatedAt = user.CreateAt,
-                UpdatedAt = user.UpdateAt == default ? null : user.UpdateAt
+                UserId = data.Id,
+                PersonId = data.PersonId,
+                UserName = data.UserName,
+                FullName = QueryProjectionHelpers.FormatFullName(
+                    data.FirstName, data.SecondName, data.ThirdName, data.LastName),
+                Role = data.Role,
+                IsActive = data.IsActive,
+                CreatedAt = data.CreateAt,
+                UpdatedAt = data.UpdateAt > data.CreateAt ? data.UpdateAt : null
             };
 
             return Result<UserResponse>.Success(response);

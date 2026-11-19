@@ -37,19 +37,9 @@ namespace DVLD.Infrastructure.Data
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
 
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            try
-            {
-                int result = await base.SaveChangesAsync(cancellationToken);
-
-                return result;
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                throw new Exception("Concurrency exception occurred.", ex);
-            }
-            
+            return base.SaveChangesAsync(cancellationToken);
         }
     }
 }

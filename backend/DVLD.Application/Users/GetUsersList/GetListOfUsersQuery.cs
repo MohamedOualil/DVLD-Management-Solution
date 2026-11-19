@@ -17,7 +17,8 @@ namespace DVLD.Application.Users.GetUsersList
         public int PageNumber { get; init; } = 1;
         public int PageSize { get; init; } = 10;
         public string? Name { get; init; } = null;
-        public bool IsAcitve { get; init; }
+        public string? SearchTerm { get; init; } = null;
+        public bool? IsActive { get; init; } = null;
         public int? UserId { get; init; } 
     }
 }

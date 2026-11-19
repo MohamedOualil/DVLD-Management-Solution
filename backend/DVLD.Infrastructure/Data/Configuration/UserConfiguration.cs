@@ -41,7 +41,7 @@ namespace DVLD.Infrastructure.Data.Configuration
 
             builder.Property(p => p.UpdateAt)
                .HasDefaultValueSql("SYSUTCDATETIME()")
-               .ValueGeneratedOnAddOrUpdate();
+               .ValueGeneratedOnAdd();
 
             builder.HasOne(u => u.Person)
                 .WithOne()
@@ -49,7 +49,10 @@ namespace DVLD.Infrastructure.Data.Configuration
                 .HasConstraintName("FK_Users_Persons")
                 .OnDelete(DeleteBehavior.NoAction);
 
-            builder.ToTable("Users");
+            builder.ToTable("Users", t =>
+            {
+                t.HasCheckConstraint("CHK_Users_Role", "Role IN (1, 2)");
+            });
         }
     }
 }

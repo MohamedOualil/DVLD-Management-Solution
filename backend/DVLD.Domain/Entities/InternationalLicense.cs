@@ -1,35 +1,34 @@
-using DVLD.Domain.Common;
 using DVLD.Contracts.Enums;
+using DVLD.Domain.Common;
 
 namespace DVLD.Domain.Entities
 {
     public class InternationalLicense : Entity
     {
         public int ApplicationId { get; private set; }
-        public Application Application { get; private set; }
+        public Application Application { get; private set; } = null!;
         public int DriverId { get; private set; }
-        public Driver Driver { get; private set; }
+        public Driver Driver { get; private set; } = null!;
 
         public int IssuedUsingLocalLicenseId { get; private set; }
-        public DrivingLicense LocalLicense {  get; private set; }
+        public DrivingLicense LocalLicense { get; private set; } = null!;
         public DateTime IssueDate { get; private set; }
         public DateTime ExpirationDate { get; private set; }
-        
+
         public bool IsActive { get; private set; } = true;
         public bool IsDetained { get; private set; } = false;
         public IssueReasonEnum IssueReason { get; private set; }
 
         public int CreatedByUserId { get; private set; }
-        public User CreatedBy { get; private set; }
+        public User CreatedBy { get; private set; } = null!;
 
         private InternationalLicense() { }
-        
 
         private InternationalLicense(
-            Application applications, 
-            Driver driver, 
+            Application applications,
+            Driver driver,
             DrivingLicense license,
-            IssueReasonEnum issueReason, 
+            IssueReasonEnum issueReason,
             int createdBy)
         {
             ApplicationId = applications.Id;
@@ -39,40 +38,27 @@ namespace DVLD.Domain.Entities
             DriverId = driver.Id;
             Driver = driver;
             IssueDate = DateTime.UtcNow;
-            ExpirationDate = IssueDate.AddYears(3);
+            var maxExpiration = IssueDate.AddYears(1);
+            ExpirationDate = license.ExpirationDate < maxExpiration ? license.ExpirationDate : maxExpiration;
             IsActive = true;
             IsDetained = false;
             IssueReason = issueReason;
             CreatedByUserId = createdBy;
-
         }
 
-
-        public static InternationalLicense IssueLicense(Application applications, Driver driver,DrivingLicense license, 
-            IssueReasonEnum issueReason, int createdBy)
+        public static InternationalLicense IssueLicense(
+            Application applications,
+            Driver driver,
+            DrivingLicense license,
+            IssueReasonEnum issueReason,
+            int createdBy)
         {
-
-            return new InternationalLicense
-                            (applications, driver, license, issueReason, createdBy);
-
+            return new InternationalLicense(applications, driver, license, issueReason, createdBy);
         }
 
-
-        public void Activate()
-        {
-            IsActive = true;
-
-        }
-
-        public void Deactivate()
-        {
-            IsActive = false;
-
-        }
-
+        public void Activate() => IsActive = true;
+        public void Deactivate() => IsActive = false;
         public void MarkAsDetained() => IsDetained = true;
         public void MarkAsReleased() => IsDetained = false;
-
-        
     }
 }

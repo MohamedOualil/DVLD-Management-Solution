@@ -1,24 +1,13 @@
 ﻿using DVLD.Domain.Common;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Application.Abstractions.Messaging
 {
-    public interface IBaseCommand
+    public interface ICommand : IRequest<Result>
     {
-
-    }
-    public interface ICommand : IRequest<Result>,IBaseCommand
-    {
-
     }
 
-    public interface ICommand<TRespond> : IRequest<Result<TRespond>>,IBaseCommand 
+    public interface ICommand<TResponse> : IRequest<Result<TResponse>>
     {
-
     }
 }

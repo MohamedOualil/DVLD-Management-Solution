@@ -2,28 +2,23 @@
 using DVLD.Domain.Interfaces;
 using DVLD.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DVLD.Infrastructure.Repositorys
 {
-    internal sealed class InternationalLicenseRepository : BaseRepository<InternationalLicense>, IInternationalLicenseRepository
+    internal sealed class InternationalLicenseRepository
+        : BaseRepository<InternationalLicense>, IInternationalLicenseRepository
     {
-        private readonly AppDbContext _context;
         public InternationalLicenseRepository(AppDbContext appDbContext) : base(appDbContext)
         {
-            _context = appDbContext;
         }
 
-        public async Task<bool> HasActiveLicenseForLocalLicenseAsync(
-            int localLicenseId,
+        public async Task<bool> HasActiveLicenseForDriverAsync(
+            int driverId,
             CancellationToken cancellationToken = default)
         {
-            return await _context.InternationalLicenses
-                .AnyAsync(x => x.IssuedUsingLocalLicenseId == localLicenseId && x.IsActive, cancellationToken);
+            var now = DateTime.UtcNow;
+            return await DbContext.InternationalLicenses
+                .AnyAsync(x => x.DriverId == driverId && x.IsActive && x.ExpirationDate > now, cancellationToken);
         }
     }
 }

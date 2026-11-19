@@ -7,6 +7,7 @@ namespace DVLD.Contracts.Users
         public int? PersonId { get; init; } = null;
         public int? UserId { get; init; } = null;
         public string? FullName { get; init; } = null;
+        public string? SearchTerm { get; init; } = null;
         public bool? IsActive { get; init; } = null;
     }
 }

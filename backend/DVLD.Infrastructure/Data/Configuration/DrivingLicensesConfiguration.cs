@@ -26,7 +26,7 @@ namespace DVLD.Infrastructure.Data.Configuration
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(l => l.Driver)
-                .WithMany() // A Driver can have many licenses 
+                .WithMany(d => d.Licenses)
                 .HasForeignKey(l => l.DriverId)
                 .HasConstraintName("FK_DrivingLicenses_Drivers")
                 .OnDelete(DeleteBehavior.NoAction);

@@ -70,7 +70,7 @@ FROM (VALUES
 (1,4,1,1,-10,-10),(2,5,1,1,-10,-10),(3,6,1,1,-30,-30),(4,7,1,1,-20,-20),
 (5,8,1,1,-40,-40),(6,9,1,3,-400,-365),(7,10,1,3,-4000,-3900),
 (8,11,1,3,-220,-180),(9,12,1,1,-30,-30),(10,13,1,2,-20,-15),
-(11,9,6,3,-90,-90),(12,9,5,3,-100,-100)) v(Id,PersonId,TypeId,Status,StartDay,EndDay)
+(11,9,6,3,-90,-90),(12,9,5,3,-100,-100),(13,7,7,3,0,0)) v(Id,PersonId,TypeId,Status,StartDay,EndDay)
 JOIN ApplicationTypes t ON t.Id=v.TypeId;
 SET IDENTITY_INSERT Applications OFF;
 
@@ -80,17 +80,17 @@ SELECT Id,Id,3 FROM Applications WHERE Id<=10;
 SET IDENTITY_INSERT LocalDrivingLicenseApplications OFF;
 
 -- A NULL result is a future, unlocked appointment; 0/1 are completed attempts.
-DECLARE @appointments TABLE (Id int,LocalId int,TypeId int,DayOffset int,Result tinyint NULL);
+DECLARE @appointments TABLE (Id int,LocalId int,TypeId int,DayOffset int,Result tinyint NULL,RetakeAppId int NULL);
 INSERT @appointments VALUES
-(1,2,1,3,NULL),(2,3,1,-20,1),(3,3,2,4,NULL),(4,4,1,-10,0),(5,4,1,5,NULL),
-(6,5,1,-25,1),(7,5,2,-20,1),(8,5,3,6,NULL),
-(9,6,1,-395,1),(10,6,2,-390,1),(11,6,3,-380,1),
-(12,7,1,-3990,1),(13,7,2,-3980,1),(14,7,3,-3970,1),
-(15,8,1,-210,1),(16,8,2,-200,1),(17,8,3,-190,1),
-(18,9,1,-20,1),(19,9,2,-10,1),(20,9,3,-5,1);
+(1,2,1,3,NULL,NULL),(2,3,1,-20,1,NULL),(3,3,2,4,NULL,NULL),(4,4,1,-10,0,NULL),(5,4,1,5,NULL,13),
+(6,5,1,-25,1,NULL),(7,5,2,-20,1,NULL),(8,5,3,6,NULL,NULL),
+(9,6,1,-395,1,NULL),(10,6,2,-390,1,NULL),(11,6,3,-380,1,NULL),
+(12,7,1,-3990,1,NULL),(13,7,2,-3980,1,NULL),(14,7,3,-3970,1,NULL),
+(15,8,1,-210,1,NULL),(16,8,2,-200,1,NULL),(17,8,3,-190,1,NULL),
+(18,9,1,-20,1,NULL),(19,9,2,-10,1,NULL),(20,9,3,-5,1,NULL);
 SET IDENTITY_INSERT TestAppointments ON;
-INSERT TestAppointments (Id,TestTypeId,LocalDrivingLicenseApplicationId,AppointmentDate,PaidFees,CreatedByUserId,IsLocked,CreateAt)
-SELECT a.Id,a.TypeId,a.LocalId,DATEADD(day,a.DayOffset,@now),t.TestFees,2,
+INSERT TestAppointments (Id,TestTypeId,LocalDrivingLicenseApplicationId,RetakeTestApplicationId,AppointmentDate,PaidFees,CreatedByUserId,IsLocked,CreateAt)
+SELECT a.Id,a.TypeId,a.LocalId,a.RetakeAppId,DATEADD(day,a.DayOffset,@now),t.TestFees,2,
 CASE WHEN a.Result IS NULL THEN 0 ELSE 1 END,
 CASE WHEN a.DayOffset>0 THEN @now ELSE DATEADD(day,a.DayOffset-1,@now) END
 FROM @appointments a JOIN TestTypes t ON t.Id=a.TypeId;

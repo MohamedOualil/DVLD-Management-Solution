@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace DVLD.Domain.Common
 {
     public static class DomainErrors
@@ -21,13 +15,19 @@ namespace DVLD.Domain.Common
             public static readonly Error InvalidNationalId =
                 new("Person.InvalidNationalId", "The National ID format is invalid for this country.", ErrorType.BadRequest);
             public static readonly Error NationalNoAlreadyExists =
-                new("Person.NationalNoAlreadyExists", "A citizen with this National ID is already registered in the system.", ErrorType.BadRequest);
+                new("Person.NationalNoAlreadyExists", "A citizen with this National ID is already registered in the system.", ErrorType.Conflict);
+            public static readonly Error EmailAlreadyExists =
+                new("Person.EmailAlreadyExists", "A citizen with this email address is already registered in the system.", ErrorType.Conflict);
             public static readonly Error UnderAge =
                 new("Person.UnderAge", "The applicant must be at least 18 years old to proceed.", ErrorType.BadRequest);
             public static readonly Error NotFound =
                 new("Person.NotFound", "The specified person could not be found in the system.", ErrorType.NotFound);
             public static readonly Error DuplicateNationalId =
-                new("Person.DuplicateNationalId", "A citizen with this National ID is already registered in the system.", ErrorType.BadRequest);
+                new("Person.DuplicateNationalId", "A citizen with this National ID is already registered in the system.", ErrorType.Conflict);
+            public static readonly Error InvalidGender =
+                new("Person.InvalidGender", "Please select a valid gender.", ErrorType.BadRequest);
+            public static readonly Error FieldTooLong =
+                new("Person.FieldTooLong", "One or more entered fields exceed the maximum allowed length.", ErrorType.BadRequest);
             public static readonly Error StreetRequired =
                 new("Person.StreetRequired", "Street address is required.", ErrorType.BadRequest);
             public static readonly Error CityRequired =
@@ -52,10 +52,9 @@ namespace DVLD.Domain.Common
                 new("Person.DateOfBirthRequired", "Date of birth is required.", ErrorType.BadRequest);
             public static readonly Error InvalidBirth =
                 new("Person.InvalidDateOfBirth", "The entered date of birth is invalid.", ErrorType.BadRequest);
-
             public static readonly Error CannotDeleteLinkedRecord =
-               new("Person.CannotDeleteLinkedRecord",
-                   "This person cannot be deleted because they have active records (such as licenses or a user account) linked to them.", ErrorType.BadRequest);
+                new("Person.CannotDeleteLinkedRecord",
+                    "This person cannot be deleted because they have active records (such as licenses or a user account) linked to them.", ErrorType.Conflict);
         }
 
         public static class erCountry
@@ -83,7 +82,7 @@ namespace DVLD.Domain.Common
             public static readonly Error InvalidId =
                 new("ApplicationType.InvalidId", "Please select a valid application type.", ErrorType.BadRequest);
             public static readonly Error ApplicationTypeAlreadyExists =
-                new("ApplicationType.ApplicationTypeAlreadyExists", "An application type with this name already exists.", ErrorType.BadRequest);
+                new("ApplicationType.ApplicationTypeAlreadyExists", "An application type with this name already exists.", ErrorType.Conflict);
             public static readonly Error ApplicationTypeNameRequired =
                 new("ApplicationType.ApplicationTypeNameRequired", "The application type name is required.", ErrorType.BadRequest);
             public static readonly Error ApplicationTypeFeesRequired =
@@ -92,6 +91,8 @@ namespace DVLD.Domain.Common
 
         public static class erApplications
         {
+            public static readonly Error InvalidId =
+                new("Application.InvalidId", "The selected application could not be identified.", ErrorType.BadRequest);
             public static readonly Error NotFound =
                 new("Application.NotFound", "The specified application could not be found.", ErrorType.NotFound);
             public static readonly Error InvalidApplicationType =
@@ -105,7 +106,7 @@ namespace DVLD.Domain.Common
             public static readonly Error ApplicationFees =
                 new("Application.InvalidApplicationFees", "The payment provided does not match the required fees for this application type.", ErrorType.BadRequest);
             public static readonly Error ActiveApplicationExist =
-                new("Application.ActiveApplicationExist", "The applicant already has an active application of this type in progress.", ErrorType.BadRequest);
+                new("Application.ActiveApplicationExist", "The applicant already has an active application of this type in progress.", ErrorType.Conflict);
             public static readonly Error ApplicationAlreadyCancelled =
                 new("Application.ApplicationAlreadyCancelled", "This application has already been cancelled.", ErrorType.BadRequest);
             public static readonly Error ApplicationIsCompleted =
@@ -124,6 +125,10 @@ namespace DVLD.Domain.Common
                 new("LocalApplication.NotFound", "The local driving license application could not be found.", ErrorType.NotFound);
             public static readonly Error InvalidLicenseClassId =
                 new("LocalApplication.InvalidLicenseClassId", "The driving license class selected for this application is invalid.", ErrorType.BadRequest);
+            public static readonly Error CannotDeleteProcessedApplication =
+                new("LocalApplication.CannotDeleteProcessedApplication", "This local application cannot be deleted because it has test appointments, an issued license, or is no longer active.", ErrorType.BadRequest);
+            public static readonly Error CannotUpdateWithTests =
+                new("LocalApplication.CannotUpdateWithTests", "The license class cannot be changed after test appointments have been scheduled.", ErrorType.BadRequest);
         }
 
         public static class erUser
@@ -133,11 +138,11 @@ namespace DVLD.Domain.Common
             public static readonly Error InvalidId =
                 new("User.InvalidId", "The user identification is invalid.", ErrorType.BadRequest);
             public static readonly Error InvalidCredentials =
-                new("User.InvalidCredentials", "The username or password provided is incorrect.", ErrorType.BadRequest);
+                new("User.InvalidCredentials", "The username or password provided is incorrect.", ErrorType.Unauthorized);
             public static readonly Error UserAlreadyExists =
-                new("User.UserAlreadyExists", "A user with this username is already registered.", ErrorType.BadRequest);
+                new("User.UserAlreadyExists", "A user with this username is already registered.", ErrorType.Conflict);
             public static readonly Error Deactivated =
-                new("User.Deactivated", "This user account has been deactivated. Please contact an administrator.", ErrorType.BadRequest);
+                new("User.Deactivated", "This user account has been deactivated. Please contact an administrator.", ErrorType.Forbidden);
             public static readonly Error UserNameRequired =
                 new("User.UsernameRequired", "Username is required.", ErrorType.BadRequest);
             public static readonly Error PasswordTooShort =
@@ -145,17 +150,19 @@ namespace DVLD.Domain.Common
             public static readonly Error PasswordRequired =
                 new("User.PasswordRequired", "Password is required.", ErrorType.BadRequest);
             public static readonly Error PersonAlreadyHasUser =
-                new("User.PersonAlreadyHasUser", "This person is already linked to an existing user account.", ErrorType.BadRequest);
+                new("User.PersonAlreadyHasUser", "This person is already linked to an existing user account.", ErrorType.Conflict);
             public static readonly Error NewPassword =
                 new("User.NewPasswordRequired", "A new password is required.", ErrorType.BadRequest);
             public static readonly Error RolesRequired =
-                new("User.RolesRequired", "At least one system role must be assigned to the user.", ErrorType.BadRequest);
+                new("User.RolesRequired", "At least one valid system role must be assigned to the user.", ErrorType.BadRequest);
             public static readonly Error CurrentPassword =
                 new("User.CurrentPasswordRequired", "Your current password is required to make this change.", ErrorType.BadRequest);
             public static readonly Error PasswordMismatch =
                 new("User.PasswordMismatch", "The current password entered is incorrect.", ErrorType.BadRequest);
             public static readonly Error UsernameOrPasswordWrong =
-                new("User.UsernameOrPasswordWrong", "The username or password provided is incorrect.", ErrorType.BadRequest);
+                new("User.UsernameOrPasswordWrong", "The username or password provided is incorrect.", ErrorType.Unauthorized);
+            public static readonly Error CannotModifyOwnAccess =
+                new("User.CannotModifyOwnAccess", "Administrators cannot deactivate or demote their own account.", ErrorType.BadRequest);
         }
 
         public static class erAuth
@@ -163,7 +170,7 @@ namespace DVLD.Domain.Common
             public static readonly Error InvalidRefreshToken =
                 new("Auth.InvalidRefreshToken", "The refresh token is invalid.", ErrorType.Unauthorized);
             public static readonly Error Forbidden =
-                new("Auth.Forbidden", "Only administrators can perform this action.", ErrorType.Unauthorized);
+                new("Auth.Forbidden", "Only administrators can perform this action.", ErrorType.Forbidden);
         }
 
         public static class erTests
@@ -173,17 +180,21 @@ namespace DVLD.Domain.Common
             public static readonly Error InvalidId =
                 new("Test.InvalidId", "The test appointment could not be identified.", ErrorType.BadRequest);
             public static readonly Error TestAlreadyScheduled =
-                new("Test.TestAlreadyScheduled", "An active test appointment of this type is already scheduled.", ErrorType.BadRequest);
+                new("Test.TestAlreadyScheduled", "An active test appointment of this type is already scheduled.", ErrorType.Conflict);
             public static readonly Error VisionTestAlreadyScheduled =
-                new("Test.VisionTestAlreadyScheduled", "A vision test is already scheduled for this application.", ErrorType.BadRequest);
+                new("Test.VisionTestAlreadyScheduled", "A vision test is already scheduled for this application.", ErrorType.Conflict);
             public static readonly Error TestAlreadyPassed =
                 new("Test.TestAlreadyPassed", "The applicant has already passed this test.", ErrorType.BadRequest);
             public static readonly Error VisionTestNotPassed =
                 new("Test.VisionTestNotPassed", "The vision test must be passed before scheduling a written test.", ErrorType.BadRequest);
             public static readonly Error WrittenTestNotPassed =
                 new("Test.WrittenTestNotPassed", "The written test must be passed before scheduling a practical street test.", ErrorType.BadRequest);
+            public static readonly Error StreetTestNotPassed =
+                new("Test.StreetTestNotPassed", "The street test must be passed before issuing a license.", ErrorType.BadRequest);
             public static readonly Error InvalidTestType =
                 new("Test.InvalidTestType", "Please select a valid test type.", ErrorType.BadRequest);
+            public static readonly Error InvalidTestResult =
+                new("Test.InvalidTestResult", "Please select a valid test result.", ErrorType.BadRequest);
             public static readonly Error TestAttempts =
                 new("Test.TestAttempts", "The maximum number of retries for this test type has been reached.", ErrorType.BadRequest);
         }
@@ -215,17 +226,17 @@ namespace DVLD.Domain.Common
             public static readonly Error InvalidId =
                 new("License.InvalidId", "The driving license could not be identified.", ErrorType.BadRequest);
             public static readonly Error LicenseAlreadyIssued =
-                new("License.LicenseAlreadyIssued", "A driving license has already been issued for this application.", ErrorType.BadRequest);
+                new("License.LicenseAlreadyIssued", "A driving license has already been issued for this application.", ErrorType.Conflict);
             public static readonly Error ApplicationNotCompleted =
                 new("License.ApplicationNotCompleted", "The application process must be fully completed before a license can be issued.", ErrorType.BadRequest);
             public static readonly Error ApplicationTypeNotAllowed =
                 new("License.ApplicationTypeNotAllowed", "A license cannot be issued under this specific application type.", ErrorType.BadRequest);
             public static readonly Error ActiveLicenseExist =
-                new("License.ActiveLicenseExist", "The applicant already holds an active license for this driving class.", ErrorType.BadRequest);
+                new("License.ActiveLicenseExist", "The applicant already holds an active license for this driving class.", ErrorType.Conflict);
             public static readonly Error LicenseExpired =
                 new("License.LicenseExpired", "This license has expired.", ErrorType.BadRequest);
             public static readonly Error LicenseNotActive =
-                new("License.LicenseNotActive", "This license is currently inactive and cannot be renewed.", ErrorType.BadRequest);
+                new("License.LicenseNotActive", "This license is currently inactive and cannot perform this operation.", ErrorType.BadRequest);
             public static readonly Error LicenseNotExpired =
                 new("License.LicenseNotExpired", "This license has not yet expired and cannot be renewed at this time.", ErrorType.BadRequest);
             public static readonly Error LicenseIsDetained =
@@ -239,7 +250,7 @@ namespace DVLD.Domain.Common
             public static readonly Error InvalidId =
                 new("Driver.InvalidId", "The driver could not be identified.", ErrorType.BadRequest);
             public static readonly Error DriverAlreadyExists =
-                new("Driver.DriverAlreadyExists", "A driver record already exists for this citizen.", ErrorType.BadRequest);
+                new("Driver.DriverAlreadyExists", "A driver record already exists for this citizen.", ErrorType.Conflict);
         }
 
         public static class erInternationalLicense
@@ -249,9 +260,13 @@ namespace DVLD.Domain.Common
             public static readonly Error InvalidId =
                 new("InternationalLicense.InvalidId", "The international license could not be identified.", ErrorType.BadRequest);
             public static readonly Error LicenseAlreadyIssued =
-                new("InternationalLicense.LicenseAlreadyIssued", "An international license has already been issued based on this local license.", ErrorType.BadRequest);
+                new("InternationalLicense.LicenseAlreadyIssued", "An active international license already exists for this driver.", ErrorType.Conflict);
             public static readonly Error LocalLicenseNotActive =
                 new("InternationalLicense.LocalLicenseNotActive", "The local license used for this application is not active.", ErrorType.BadRequest);
+            public static readonly Error LocalLicenseExpired =
+                new("InternationalLicense.LocalLicenseExpired", "The local license used for this application has expired.", ErrorType.BadRequest);
+            public static readonly Error LocalLicenseDetained =
+                new("InternationalLicense.LocalLicenseDetained", "The local license used for this application is currently detained.", ErrorType.BadRequest);
         }
 
         public static class erDetainedLicense
@@ -261,7 +276,7 @@ namespace DVLD.Domain.Common
             public static readonly Error InvalidId =
                 new("DetainedLicense.InvalidId", "The detained record could not be identified.", ErrorType.BadRequest);
             public static readonly Error LicenseAlreadyDetained =
-                new("DetainedLicense.LicenseAlreadyDetained", "This license is already marked as detained in the system.", ErrorType.BadRequest);
+                new("DetainedLicense.LicenseAlreadyDetained", "This license is already marked as detained in the system.", ErrorType.Conflict);
             public static readonly Error LicenseNotDetained =
                 new("DetainedLicense.LicenseNotDetained", "This license is not currently detained.", ErrorType.BadRequest);
             public static readonly Error ReleaseFeeNotPaid =
@@ -281,7 +296,7 @@ namespace DVLD.Domain.Common
         public static class erMoney
         {
             public static readonly Error InvalidAmount =
-                new("Money.InvalidAmount", "The payment amount cannot be a negative value.", ErrorType.BadRequest);
+                new("Money.InvalidAmount", "The payment amount must be valid and cannot be negative.", ErrorType.BadRequest);
             public static readonly Error CurrencyRequired =
                 new("Money.CurrencyRequired", "Please specify the currency for this transaction.", ErrorType.BadRequest);
             public static readonly Error InvalidCurrency =

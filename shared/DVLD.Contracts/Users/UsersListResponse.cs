@@ -1,3 +1,4 @@
+using DVLD.Contracts.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace DVLD.Contracts.Users
         public int PersonId { get; init; }
         public string FullName { get; init; }
         public string UserName { get; init; }
+        public Role Role { get; init; }
         public bool IsActive { get; init; }
        
     }

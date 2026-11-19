@@ -41,8 +41,7 @@ namespace DVLD.Domain.Entities
             IsActive = isActive;
             Role = roles;
             CreateAt = DateTime.UtcNow;
-
-
+            UpdateAt = CreateAt;
         }
 
 

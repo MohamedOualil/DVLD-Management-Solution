@@ -1,19 +1,14 @@
-﻿
-namespace DVLD.Domain.ValueObjects
+﻿namespace DVLD.Domain.ValueObjects
 {
-    public record class Phone
+    public sealed record Phone
     {
-        public string PhoneNumber { get; init; }
+        public string PhoneNumber { get; init; } = string.Empty;
 
-        private Phone()
-        {
-            
-        }
+        private Phone() { }
 
         public Phone(string phonenumber)
         {
-
-            PhoneNumber = phonenumber.Trim().ToLowerInvariant();
+            PhoneNumber = phonenumber?.Trim() ?? string.Empty;
         }
 
         public override string ToString()

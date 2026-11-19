@@ -17,6 +17,8 @@ namespace DVLD.Application.Drivers.GetListOfDrivers
         public int? PersonId { get; init; } = null;
         public string? NationNo { get; init; } = null;
         public string? Name { get; init; } = null;
+        public string? SearchTerm { get; init; } = null;
+        public int ActiveFilter { get; init; } = 0;
         public int? DriverId { get; init; } = null;
     }
 }

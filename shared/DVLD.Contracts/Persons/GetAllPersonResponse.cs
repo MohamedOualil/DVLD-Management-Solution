@@ -14,6 +14,9 @@ namespace DVLD.Contracts.Persons
         public string? SecondName { get; init; }
         public string? ThirdName { get; init; }
         public required string LastName { get; init; }
+        public string FullName =>
+            string.Join(" ", new[] { FirstName, SecondName, ThirdName, LastName }
+                .Where(s => !string.IsNullOrWhiteSpace(s)));
         public required string NationalNo { get; init; }
         public int CountryId { get; init; }
         public DateTime DateOfBirth { get; init; }

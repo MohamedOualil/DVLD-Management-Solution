@@ -33,10 +33,28 @@ namespace DVLD.Application.Persons.GetAllPerson
             if (validation.IsFailure)
                 return Result<PagedList<GetAllPersonResponse>>.Failure(validation.Errors);
 
-            var totalCount = await _dbContext.Persons.CountAsync(cancellationToken);
+            var query = _dbContext.Persons.AsNoTracking();
 
-            var items = await _dbContext.Persons
-                .AsNoTracking()
+            if (request.Gender.HasValue && request.Gender.Value > 0)
+            {
+                query = query.Where(p => (short)p.Gender == request.Gender.Value);
+            }
+
+            if (!string.IsNullOrWhiteSpace(request.SearchTerm))
+            {
+                string term = request.SearchTerm.Trim();
+                int? searchId = int.TryParse(term, out int parsedId) ? parsedId : null;
+                query = query.Where(p =>
+                    (searchId.HasValue && p.Id == searchId.Value) ||
+                    p.NationalNo.Number.Contains(term) ||
+                    p.Phone.PhoneNumber.Contains(term) ||
+                    (p.Email != null && p.Email.Value != null && p.Email.Value.Contains(term)) ||
+                    (p.FullName.FirstName + " " + p.FullName.LastName).Contains(term));
+            }
+
+            var totalCount = await query.CountAsync(cancellationToken);
+
+            var items = await query
                 .OrderBy(p => p.Id)
                 .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
@@ -46,7 +64,7 @@ namespace DVLD.Application.Persons.GetAllPerson
 
                     CountryId = p.NationalityCountryId,
 
-                    Email = p.Email.Value,
+                    Email = p.Email != null ? p.Email.Value : null,
                     FirstName = p.FullName.FirstName,
                     LastName = p.FullName.LastName,
                     SecondName = p.FullName.SecondName,
@@ -63,9 +81,9 @@ namespace DVLD.Application.Persons.GetAllPerson
 
             PagedList<GetAllPersonResponse> response = new PagedList<GetAllPersonResponse>(
                 items,
+                totalCount,
                 request.PageNumber,
-                request.PageSize,
-                totalCount);
+                request.PageSize);
 
 
             return Result<PagedList<GetAllPersonResponse>>.Success(response);

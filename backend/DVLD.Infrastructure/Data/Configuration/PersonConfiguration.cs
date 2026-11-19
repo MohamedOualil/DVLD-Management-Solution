@@ -118,11 +118,11 @@ namespace DVLD.Infrastructure.Data.Configuration
 
             builder.Property(p => p.UpdateAt)
                .HasDefaultValueSql("SYSUTCDATETIME()")
-               .ValueGeneratedOnAddOrUpdate();
+               .ValueGeneratedOnAdd();
 
             builder.ToTable("Persons", t =>
             {
-                t.HasCheckConstraint("CHK_Persons_Gender", "Gender > 0");
+                t.HasCheckConstraint("CHK_Persons_Gender", "Gender IN (1, 2)");
             });
         }
     }

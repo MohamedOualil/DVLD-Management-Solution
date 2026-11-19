@@ -12,8 +12,9 @@ namespace DVLD.Application.Persons.GetAllPerson
 {
     public sealed record GetAllPersonQuery : IQuery<PagedList<GetAllPersonResponse>>
     {
-        public  int PageNumber { get; init; } = 1;
-        public  int PageSize { get; init; } = 10;
-
+        public int PageNumber { get; init; } = 1;
+        public int PageSize { get; init; } = 10;
+        public string? SearchTerm { get; init; }
+        public short? Gender { get; init; }
     }
 }

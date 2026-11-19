@@ -12,19 +12,12 @@ namespace DVLD.Application.InternationalDrivingLicenses.IssueInternationalLicens
     {
         public Result Validate(IssueInternationalLicenseCommand request)
         {
-            List<Error> errors = new(2);
+            List<Error> errors = new(1);
 
             if (request.LicenseId <= 0)
                 errors.Add(DomainErrors.erLicense.InvalidId);
-            if (request.CreatedBy <= 0)
-                errors.Add(DomainErrors.erUser.InvalidId);
 
-            if (errors.Count > 0)
-                return Result.Failure(errors);
-
-            return Result.Success();
-
-
+            return errors.Count > 0 ? Result.Failure(errors) : Result.Success();
         }
     }
 }
